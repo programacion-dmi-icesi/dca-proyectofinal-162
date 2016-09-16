@@ -29,8 +29,7 @@ public class Mundo extends Observable {
 				EcosistemaAbstracto ecosistema = (EcosistemaAbstracto) cons.newInstance();
 				ecosistemas.add(ecosistema);
 				this.addObserver(ecosistema);
-			} catch (NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
-				// TODO Auto-generated catch block
+			} catch (NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {				
 				e.printStackTrace();
 			}
 		}
