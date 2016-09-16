@@ -8,7 +8,7 @@ import programaciondmi.dca.ejecucion.Mundo;
 
 /**
  * @author David Andrés Manzano Herrera <damh24@gmail.com>
- *
+ * 
  */
 public abstract class EcosistemaAbstracto implements Observer{
 
