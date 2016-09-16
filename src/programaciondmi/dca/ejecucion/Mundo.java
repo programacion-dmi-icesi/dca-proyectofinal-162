@@ -48,8 +48,7 @@ public class Mundo extends Observable {
 	protected static Mundo construirInstancia(PApplet app){
 		if(ref == null){
 			ref = new Mundo(app);
-		}
-		
+		}		
 		return ref;
 	}
 	
