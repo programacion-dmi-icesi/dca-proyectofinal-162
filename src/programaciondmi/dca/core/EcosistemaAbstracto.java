@@ -20,8 +20,7 @@ public abstract class EcosistemaAbstracto implements Observer{
 	public EcosistemaAbstracto() {
 		// TODO Auto-generated constructor stub
 		especies = poblar();
-	}
-	
+	}	
 	
 	/**
 	 * <p>Este metodo se encargará de poblar los ecosistemas al inicio.</p>
@@ -30,6 +29,16 @@ public abstract class EcosistemaAbstracto implements Observer{
 	 */
 	protected abstract LinkedList<EspecieAbstracta> poblar();
 	
+	public LinkedList<EspecieAbstracta> getEspecies() {
+		return especies;
+	}
+	
+	public void agregarIndividuo(EspecieAbstracta e){
+		especies.add(e);
+	}
+	
 	public abstract void dibujar();
+	
+	
 	
 }
