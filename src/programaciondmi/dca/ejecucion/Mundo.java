@@ -12,7 +12,7 @@ import processing.core.PApplet;
 import programaciondmi.dca.core.EcosistemaAbstracto;
 
 public class Mundo extends Observable {
-	public static Mundo ref;
+	private static Mundo ref;
 	private PApplet app;
 	private Set<Class<? extends EcosistemaAbstracto>> clasesEcosistemas;
 	private Set<EcosistemaAbstracto> ecosistemas;

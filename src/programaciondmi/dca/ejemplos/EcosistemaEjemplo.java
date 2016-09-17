@@ -26,4 +26,10 @@ public class EcosistemaEjemplo extends EcosistemaAbstracto {
 		app.ellipse(10, 10, 50, 50);
 	}
 
+	@Override
+	public void poblar() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

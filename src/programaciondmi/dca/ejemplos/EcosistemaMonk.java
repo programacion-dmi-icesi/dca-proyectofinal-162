@@ -29,4 +29,11 @@ public class EcosistemaMonk extends EcosistemaAbstracto {
 		app.ellipse((int)(Math.random()*app.width), (int)(Math.random()*app.height), 50, 50);
 	}
 
+
+	@Override
+	public void poblar() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }
