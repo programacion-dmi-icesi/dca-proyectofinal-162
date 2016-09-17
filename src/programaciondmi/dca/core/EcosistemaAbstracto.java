@@ -1,5 +1,6 @@
 package programaciondmi.dca.core;
 
+import java.util.LinkedList;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -14,17 +15,20 @@ public abstract class EcosistemaAbstracto implements Observer{
 	
 	// TODO - Definir la estructura que contendrá a las especies, 2 opciones: mundo -> ecosistemas -> especies // mundo -> especies	
 	
+	private LinkedList<EspecieAbstracta> especies; //parte de la opcion 1
+	
 	public EcosistemaAbstracto() {
 		// TODO Auto-generated constructor stub
-		poblar();
+		especies = poblar();
 	}
 	
 	
 	/**
 	 * <p>Este metodo se encargará de poblar los ecosistemas al inicio.</p>
 	 * <p>Es llamado por el constructor por defecto, debe ser sobre escrito al crear la clase ecosistema concreta</p>
+	 * @return 
 	 */
-	public abstract void poblar();
+	protected abstract LinkedList<EspecieAbstracta> poblar();
 	
 	public abstract void dibujar();
 	
