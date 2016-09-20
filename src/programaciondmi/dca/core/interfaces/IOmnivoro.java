@@ -1,5 +1,5 @@
 package programaciondmi.dca.core.interfaces;
 
-public interface IOmnivoro {
-
+public interface IOmnivoro extends ICarnivoro, IHerbivoro{
+	
 }

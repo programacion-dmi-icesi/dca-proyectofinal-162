@@ -17,6 +17,8 @@ public class Mundo extends Observable {
 	private Set<Class<? extends EcosistemaAbstracto>> clasesEcosistemas;
 	private Set<EcosistemaAbstracto> ecosistemas;
 	
+	// TODO crear metodos sincronizados para manejar la concurrencia
+	
 	private Mundo(PApplet app){
 		this.app = app;
 		this.ecosistemas  = new HashSet<EcosistemaAbstracto>();
