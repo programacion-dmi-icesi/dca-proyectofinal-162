@@ -10,7 +10,7 @@ public abstract class EspecieAbstracta {
 	}
 	
 	public abstract void dibujar();
-	public abstract void mover();	
+	public abstract void mover();
 	
 
 }
