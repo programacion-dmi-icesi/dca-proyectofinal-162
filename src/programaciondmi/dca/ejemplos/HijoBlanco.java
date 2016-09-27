@@ -16,4 +16,10 @@ public class HijoBlanco extends EspecieAbstracta {
 
 	}
 
+	@Override
+	public void run() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

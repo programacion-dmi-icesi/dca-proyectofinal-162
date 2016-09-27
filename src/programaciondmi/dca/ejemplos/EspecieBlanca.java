@@ -45,4 +45,11 @@ public class EspecieBlanca extends EspecieAbstracta implements IApareable,
 		this.y+= 1;
 	}
 
+	@Override
+	public void run() {
+		while(vida>0){
+			mover();			
+		}
+	}
+
 }

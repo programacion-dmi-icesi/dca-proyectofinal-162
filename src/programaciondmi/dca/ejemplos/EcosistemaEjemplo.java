@@ -30,7 +30,7 @@ public class EcosistemaEjemplo extends EcosistemaAbstracto {
 		while(iteradorEspecies.hasNext()){
 			EspecieAbstracta actual = iteradorEspecies.next();
 			actual.dibujar();
-			actual.mover();
+			//actual.mover();
 		}
 	}
 
@@ -39,6 +39,8 @@ public class EcosistemaEjemplo extends EcosistemaAbstracto {
 		// TODO Auto-generated method stub
 		LinkedList<EspecieAbstracta> especies = new LinkedList<EspecieAbstracta>();
 		EspecieBlanca nueva = new EspecieBlanca();
+		Thread nt = new Thread(nueva);
+		nt.start();
 		especies.add(nueva);
 		
 		return especies;

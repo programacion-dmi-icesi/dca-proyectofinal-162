@@ -1,6 +1,6 @@
 package programaciondmi.dca.core;
 
-public abstract class EspecieAbstracta {
+public abstract class EspecieAbstracta implements Runnable{ // TODO verificar si se quiere interfaz o clase...
 	
 	protected int x;
 	protected int y;
