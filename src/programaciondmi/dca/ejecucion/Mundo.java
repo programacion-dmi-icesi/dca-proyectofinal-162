@@ -3,6 +3,7 @@ package programaciondmi.dca.ejecucion;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.Observable;
 import java.util.Set;
 
@@ -10,14 +11,13 @@ import org.reflections.Reflections;
 
 import processing.core.PApplet;
 import programaciondmi.dca.core.EcosistemaAbstracto;
+import programaciondmi.dca.core.EspecieAbstracta;
 
 public class Mundo extends Observable {
 	private static Mundo ref;
 	private PApplet app;
 	private Set<Class<? extends EcosistemaAbstracto>> clasesEcosistemas;
 	private Set<EcosistemaAbstracto> ecosistemas;
-	
-	// TODO crear metodos sincronizados para manejar la concurrencia
 	
 	private Mundo(PApplet app){
 		this.app = app;
@@ -38,16 +38,16 @@ public class Mundo extends Observable {
 	}
 	
 	/**
-	 * <p>Este método se encargará de construir el único mundo que puede existir en la aplicación.</p>
+	 * <p>Este mï¿½todo se encargarï¿½ de construir el ï¿½nico mundo que puede existir en la aplicaciï¿½n.</p>
 	 * <p>Si un Objeto de tipo Mundo ha sido creado previamente, 
 	 * se retorna una referencia a dicho mundo en lugar de construir uno nuevo 
 	 * </p>
-	 * <p>Este método es protegido para que sólo pueda ser usado desde la clase ejecutable</p>
+	 * <p>Este mï¿½todo es protegido para que sï¿½lo pueda ser usado desde la clase ejecutable</p>
 	 * 
 	 * @param app Un Objeto de tipo PApplet sobre el cual el mundo se dibujara.
 	 * @return El objeto Mundo sobre el que se crearan nuevos ecosistemas
 	 */
-	protected static Mundo construirInstancia(PApplet app){
+	protected static synchronized Mundo construirInstancia(PApplet app){
 		if(ref == null){
 			ref = new Mundo(app);
 		}		
@@ -55,28 +55,38 @@ public class Mundo extends Observable {
 	}
 	
 	/**
-	 * <p>Este método retorna una referencia al objeto Mundo sobre el que se crearan nuevos ecosistemas.</p>
-	 * <p>No debe utilizarse sin antes hacer un llamado al método construirInstancia(PApplet app)</p>
+	 * <p>Este mï¿½todo retorna una referencia al objeto Mundo sobre el que se crearan nuevos ecosistemas.</p>
+	 * <p>No debe utilizarse sin antes hacer un llamado al mï¿½todo construirInstancia(PApplet app)</p>
 	 * @return Una referencia al objeto Mundo sobre el que se crearan nuevos ecosistemas.
 	 */
-	public static Mundo ObtenerInstancia(){
+	public static synchronized Mundo ObtenerInstancia(){
 		return ref;
 	}
 	
 	/**
-	 * Este método se encarga de dibujar lo que ocurre en el mundo.
+	 * Este mï¿½todo se encarga de dibujar lo que ocurre en el mundo.
 	 */
 	protected void dibujar() {
-		app.rectMode(PApplet.CENTER);
-		app.text("Mi mundo vive", app.width/2, app.height/2);
+		//System.out.println("Pintando el mundo");
+		/**
+		 * TODO Reemplzar esta lÃ­nea por el background seleccionado por los estudiantes
+		 */
+		app.background(150);
 		
 		for (EcosistemaAbstracto ecosistema : ecosistemas) {
 			ecosistema.dibujar();
 		}
 	}
 
-	public PApplet getApp() {
+	public synchronized PApplet getApp() {
 		return app;
+	}
+	
+	public synchronized LinkedList<EspecieAbstracta> getEspecies(){
+		/**
+		 * TODO Recorrer los ecosistemas y retornar todas las especies.
+		 */
+		return null;
 	}
 	
 }
