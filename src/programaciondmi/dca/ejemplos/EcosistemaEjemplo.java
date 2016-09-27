@@ -1,5 +1,7 @@
 package programaciondmi.dca.ejemplos;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Observable;
 
@@ -12,7 +14,6 @@ public class EcosistemaEjemplo extends EcosistemaAbstracto {
 
 	public EcosistemaEjemplo() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
@@ -25,13 +26,22 @@ public class EcosistemaEjemplo extends EcosistemaAbstracto {
 	public void dibujar() {
 		// TODO Auto-generated method stub
 		PApplet app = Mundo.ObtenerInstancia().getApp();
-		app.ellipse(10, 10, 50, 50);
+		Iterator<EspecieAbstracta> iteradorEspecies = this.especies.iterator();
+		while(iteradorEspecies.hasNext()){
+			EspecieAbstracta actual = iteradorEspecies.next();
+			actual.dibujar();
+			actual.mover();
+		}
 	}
 
 	@Override
 	protected LinkedList<EspecieAbstracta> poblar() {
 		// TODO Auto-generated method stub
-		return null;
+		LinkedList<EspecieAbstracta> especies = new LinkedList<EspecieAbstracta>();
+		EspecieBlanca nueva = new EspecieBlanca();
+		especies.add(nueva);
+		
+		return especies;
 	}
 
 
