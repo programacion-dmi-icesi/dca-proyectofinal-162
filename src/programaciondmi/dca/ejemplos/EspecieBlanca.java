@@ -38,8 +38,9 @@ public class EspecieBlanca extends EspecieAbstracta implements IApareable, ICarn
 
 	@Override
 	public EspecieAbstracta aparear(IApareable apareable) {
-
-		return new HijoBlanco(ecosistema);
+		HijoBlanco hijo = new HijoBlanco(ecosistema);
+		ecosistema.agregarEspecie(hijo);
+		return hijo;
 	}
 
 	@Override
@@ -75,7 +76,7 @@ public class EspecieBlanca extends EspecieAbstracta implements IApareable, ICarn
 		while (vida > 0) {
 			mover();
 
-			buscarParejaCercana();
+			intentarAparear();
 			try{
 				Thread.sleep(100);
 			}catch (Exception e) {
@@ -116,6 +117,16 @@ public class EspecieBlanca extends EspecieAbstracta implements IApareable, ICarn
 
 	}
 
+	private void intentarAparear(){
+		buscarParejaCercana();
+		if(parejaCercana!=null){
+			float dist = PApplet.dist(x, y, parejaCercana.getX(), parejaCercana.getY());
+			if(dist<vida){
+				ecosistema.agregarEspecie(aparear((IApareable) parejaCercana));
+			}
+		}
+	}
+	
 	@Override
 	public String toString() {
 		return "EspecieBlanca [id=" + id + ", vida=" + vida + ", fuerza=" + fuerza + ", parejaCercana=" + parejaCercana + ", dir="
