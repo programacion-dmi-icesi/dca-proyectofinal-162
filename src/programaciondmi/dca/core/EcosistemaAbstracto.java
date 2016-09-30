@@ -11,7 +11,7 @@ import programaciondmi.dca.ejecucion.Mundo;
  * @author David Andr�s Manzano Herrera <damh24@gmail.com>
  * 
  */
-public abstract class EcosistemaAbstracto implements Observer{
+public abstract class EcosistemaAbstracto extends Observable{
 	
 	// TODO - Definir la estructura que contendr� a las especies, 2 opciones: mundo -> ecosistemas -> especies // mundo -> especies	
 	

@@ -19,12 +19,6 @@ public class EcosistemaMonk extends EcosistemaAbstracto {
 
 	
 	@Override
-	public void update(Observable arg0, Object arg1) {
-		System.out.println(""+this.getClass()+" : update : ");
-	}
-
-	
-	@Override
 	public void dibujar() {
 		PApplet app = Mundo.ObtenerInstancia().getApp();
 		app.fill(255,0,0);

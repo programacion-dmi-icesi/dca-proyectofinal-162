@@ -5,6 +5,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Observable;
+import java.util.Observer;
 import java.util.Set;
 
 import org.reflections.Reflections;
@@ -12,12 +13,15 @@ import org.reflections.Reflections;
 import processing.core.PApplet;
 import programaciondmi.dca.core.EcosistemaAbstracto;
 import programaciondmi.dca.core.EspecieAbstracta;
+import programaciondmi.dca.core.PlantaAbstracta;
 
-public class Mundo extends Observable {
+public class Mundo implements Observer {
 	private static Mundo ref;
 	private PApplet app;
 	private Set<Class<? extends EcosistemaAbstracto>> clasesEcosistemas;
 	private Set<EcosistemaAbstracto> ecosistemas;
+	private Set<EspecieAbstracta> especies;
+	private Set<PlantaAbstracta> platas;
 	
 	private Mundo(PApplet app){
 		this.app = app;
@@ -30,7 +34,7 @@ public class Mundo extends Observable {
 				Constructor<?> cons = clase.getConstructor();
 				EcosistemaAbstracto ecosistema = (EcosistemaAbstracto) cons.newInstance();
 				ecosistemas.add(ecosistema);
-				this.addObserver(ecosistema);
+				ecosistema.addObserver(this);
 			} catch (NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {				
 				e.printStackTrace();
 			}
@@ -88,5 +92,13 @@ public class Mundo extends Observable {
 		 */
 		return null;
 	}
+
+	@Override
+	public void update(Observable arg0, Object arg1) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	
 	
 }
