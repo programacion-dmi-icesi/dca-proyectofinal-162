@@ -4,6 +4,7 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashSet;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.Set;
@@ -20,14 +21,24 @@ public class Mundo implements Observer {
 	private PApplet app;
 	private Set<Class<? extends EcosistemaAbstracto>> clasesEcosistemas;
 	private Set<EcosistemaAbstracto> ecosistemas;
-	private Set<EspecieAbstracta> especies;
-	private Set<PlantaAbstracta> platas;
+	private List<EspecieAbstracta> especies;
+	private List<PlantaAbstracta> plantas;
 	
 	private Mundo(PApplet app){
 		this.app = app;
 		this.ecosistemas  = new HashSet<EcosistemaAbstracto>();
+		this.especies = new LinkedList<EspecieAbstracta>();
+		this.plantas = new LinkedList<PlantaAbstracta>();
+	}
+	
+	/**
+	 * Este método se encarga de buscar en todos los paquetes de la aplicación
+	 * todas las clases que hereden de EcosistemaAbstracto, generar una instancia
+	 * de las mismas y almacenar dicha instancia en una colección de tipo conjunto
+	 */
+	protected void cargarEcosistemas(){
 		Reflections reflections = new Reflections("programaciondmi.dca");    
-		clasesEcosistemas = reflections.getSubTypesOf(EcosistemaAbstracto.class);
+		this.clasesEcosistemas = reflections.getSubTypesOf(EcosistemaAbstracto.class);
 		
 		for (Class<? extends EcosistemaAbstracto> clase : clasesEcosistemas) {
 			try {
@@ -35,9 +46,33 @@ public class Mundo implements Observer {
 				EcosistemaAbstracto ecosistema = (EcosistemaAbstracto) cons.newInstance();
 				ecosistemas.add(ecosistema);
 				ecosistema.addObserver(this);
+				cargarEspecies(ecosistema);
+				cargarPlantas(ecosistema);
 			} catch (NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {				
 				e.printStackTrace();
 			}
+		}
+	}
+	
+	/**
+	 * Este método se encarga de agregar a la colección global de especies
+	 * la población inicial de especies de un ecosistema dado por parámetro
+	 * @param ecosistema
+	 */
+	private void cargarEspecies(EcosistemaAbstracto ecosistema){
+		if(ecosistema.getEspecies()!=null){
+			especies.addAll(ecosistema.getEspecies());
+		}
+	}
+	
+	/**
+	 * Este método se encarga de agregar a la colección global de plantas
+	 * la población inicial de plantas de un ecosistema dado por parámetro
+	 * @param ecosistema
+	 */
+	private void cargarPlantas(EcosistemaAbstracto ecosistema){
+		if(ecosistema.getPlantas()!=null){
+			plantas.addAll(ecosistema.getPlantas());
 		}
 	}
 	
@@ -86,17 +121,29 @@ public class Mundo implements Observer {
 		return app;
 	}
 	
-	public synchronized LinkedList<EspecieAbstracta> getEspecies(){
-		/**
-		 * TODO Recorrer los ecosistemas y retornar todas las especies.
-		 */
-		return null;
+	public synchronized List<EspecieAbstracta> getEspecies(){
+		return especies;
+	}
+	
+	public synchronized List<PlantaAbstracta> getPlantas(){
+		return plantas;
 	}
 
 	@Override
 	public void update(Observable arg0, Object arg1) {
 		// TODO Auto-generated method stub
+		System.out.println(" El ecosistema "+arg0+ " envió una notificaciíon");
+		if(arg1 instanceof EspecieAbstracta){
+			System.out.println("Se argrego una nueva especie "+arg1);
+			EspecieAbstracta nuevaEspecie = (EspecieAbstracta) arg1;
+			especies.add(nuevaEspecie);
+		}
 		
+		if(arg1 instanceof PlantaAbstracta){
+			System.out.println("Se argrego una nueva especie "+arg1);
+			PlantaAbstracta nuevaPlanta = (PlantaAbstracta) arg1;
+			plantas.add(nuevaPlanta);
+		}
 	}
 	
 	

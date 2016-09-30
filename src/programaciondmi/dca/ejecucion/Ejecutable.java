@@ -15,6 +15,7 @@ public class Ejecutable extends PApplet {
 	
 	public void setup(){
 		mundo = Mundo.construirInstancia(this);
+		mundo.cargarEcosistemas();
 	}
 	
 	public void draw(){

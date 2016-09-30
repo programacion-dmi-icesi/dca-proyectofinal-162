@@ -1,7 +1,10 @@
 package programaciondmi.dca.core;
 
+import java.util.UUID;
+
 public abstract class EspecieAbstracta implements Runnable{ // TODO verificar si se quiere interfaz o clase...
 	
+	protected UUID id;
 	protected int x;
 	protected int y;
 	public final int NORMAL = 0;
@@ -9,9 +12,10 @@ public abstract class EspecieAbstracta implements Runnable{ // TODO verificar si
 	public final int ENFERMO = 2;
 	public final int EXTASIS = 3;
 	public final int MUERTO = 4;
-	private int estado;
+	protected int estado;
 	 
 	public EspecieAbstracta() {
+		id = UUID.randomUUID();
 		estado = NORMAL;
 	}
 	
@@ -30,6 +34,21 @@ public abstract class EspecieAbstracta implements Runnable{ // TODO verificar si
 	
 	public abstract void dibujar();
 	public abstract void mover();
-	
 
+	public int getX() {
+		return x;
+	}
+
+	public void setX(int x) {
+		this.x = x;
+	}
+
+	public int getY() {
+		return y;
+	}
+
+	public void setY(int y) {
+		this.y = y;
+	}
+	
 }
