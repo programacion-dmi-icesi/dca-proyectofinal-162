@@ -1,17 +1,21 @@
 package programaciondmi.dca.ejemplos;
 
+import processing.core.PApplet;
+import programaciondmi.dca.core.EcosistemaAbstracto;
 import programaciondmi.dca.core.EspecieAbstracta;
+import programaciondmi.dca.ejecucion.Mundo;
 
 public class HijoBlanco extends EspecieAbstracta {
 
-	public HijoBlanco() {
-		super(null);
+	public HijoBlanco(EcosistemaAbstracto ecosistema) {
+		super(ecosistema);
 	}
 
 	@Override
 	public void dibujar() {
 		// TODO Auto-generated method stub
-
+		PApplet app = Mundo.ObtenerInstancia().getApp();
+		app.ellipse(x, y, 10, 10);
 	}
 
 	@Override

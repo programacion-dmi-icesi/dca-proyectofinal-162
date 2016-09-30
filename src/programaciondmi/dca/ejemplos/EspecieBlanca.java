@@ -39,7 +39,7 @@ public class EspecieBlanca extends EspecieAbstracta implements IApareable, ICarn
 	@Override
 	public EspecieAbstracta aparear(IApareable apareable) {
 
-		return new HijoBlanco();
+		return new HijoBlanco(ecosistema);
 	}
 
 	@Override
