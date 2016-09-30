@@ -6,6 +6,7 @@ import java.util.Random;
 
 import processing.core.PApplet;
 import processing.core.PVector;
+import programaciondmi.dca.core.EcosistemaAbstracto;
 import programaciondmi.dca.core.EspecieAbstracta;
 import programaciondmi.dca.core.interfaces.IApareable;
 import programaciondmi.dca.core.interfaces.ICarnivoro;
@@ -17,7 +18,8 @@ public class EspecieBlanca extends EspecieAbstracta implements IApareable, ICarn
 	private EspecieAbstracta parejaCercana;
 	private PVector dir;
 
-	public EspecieBlanca() {
+	public EspecieBlanca(EcosistemaAbstracto ecosistema) {
+		super(ecosistema);
 		Random random = new Random();
 		this.x = random.nextInt(Mundo.ObtenerInstancia().getApp().width);
 		this.y = random.nextInt(Mundo.ObtenerInstancia().getApp().height);

@@ -30,10 +30,10 @@ public class EcosistemaEjemplo extends EcosistemaAbstracto {
 	@Override
 	protected LinkedList<EspecieAbstracta> poblarEspecies() {
 		LinkedList<EspecieAbstracta> especies = new LinkedList<EspecieAbstracta>();
-		EspecieBlanca nueva = new EspecieBlanca();
+		EspecieBlanca nueva = new EspecieBlanca(this);
 		especies.add(nueva);
 		
-		nueva = new EspecieBlanca();
+		nueva = new EspecieBlanca(this);
 		especies.add(nueva);
 		
 		return especies;
