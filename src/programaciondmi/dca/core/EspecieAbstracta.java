@@ -5,6 +5,7 @@ import java.util.UUID;
 public abstract class EspecieAbstracta implements Runnable{ // TODO verificar si se quiere interfaz o clase...
 	
 	protected UUID id;
+	protected EcosistemaAbstracto ecosistema;
 	protected int x;
 	protected int y;
 	public final int NORMAL = 0;
@@ -14,9 +15,10 @@ public abstract class EspecieAbstracta implements Runnable{ // TODO verificar si
 	public final int MUERTO = 4;
 	protected int estado;
 	 
-	public EspecieAbstracta() {
-		id = UUID.randomUUID();
-		estado = NORMAL;
+	public EspecieAbstracta(EcosistemaAbstracto ecosistema) {
+		this.id = UUID.randomUUID();
+		this.ecosistema = ecosistema;
+		this.estado = NORMAL;
 	}
 	
 	public int getEstado() {
