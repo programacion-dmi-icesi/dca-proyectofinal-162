@@ -12,19 +12,33 @@ import programaciondmi.dca.core.interfaces.IApareable;
 import programaciondmi.dca.core.interfaces.ICarnivoro;
 import programaciondmi.dca.ejecucion.Mundo;
 
-public class EspecieBlanca extends EspecieAbstracta implements IApareable, ICarnivoro {
+public class EspecieBlanca extends EspecieAbstracta implements IApareable,
+		ICarnivoro {
 	private int vida;
 	private float fuerza;
+	private int velocidad;
+	/*
+	 * Se utiliza para definfir cuando el inidividuo puede realizar acciones:
+	 * moverse, aparearse, etc
+	 */
+	private float energia;
 	private EspecieAbstracta parejaCercana;
 	private PVector dir;
 
+	// Constantes
+	private final int LIMITE_APAREO = 100;
+	private Random random;
+
 	public EspecieBlanca(EcosistemaAbstracto ecosistema) {
 		super(ecosistema);
-		Random random = new Random();
+		this.random = new Random();
 		this.x = random.nextInt(Mundo.ObtenerInstancia().getApp().width);
 		this.y = random.nextInt(Mundo.ObtenerInstancia().getApp().height);
 		this.vida = 50;
-		this.fuerza = 250;
+		this.fuerza = 100;
+		this.energia = 250;
+		this.velocidad = 5;
+
 		System.out.println(this);
 		Thread nt = new Thread(this);
 		nt.start();
@@ -39,6 +53,8 @@ public class EspecieBlanca extends EspecieAbstracta implements IApareable, ICarn
 	@Override
 	public EspecieAbstracta aparear(IApareable apareable) {
 		HijoBlanco hijo = new HijoBlanco(ecosistema);
+		hijo.setX(this.x);
+		hijo.setY(this.y);
 		ecosistema.agregarEspecie(hijo);
 		return hijo;
 	}
@@ -53,22 +69,32 @@ public class EspecieBlanca extends EspecieAbstracta implements IApareable, ICarn
 
 	@Override
 	public void mover() {
-		if (fuerza > 0) {
-			
-			// Si hay una pareja cercana la prioridad es reproducirse
-			if (parejaCercana != null) {
-				dir = new PVector(parejaCercana.getX()-x, parejaCercana.getY()-y);
-			} else {
-				// ir hacia el centro
-				dir = new PVector(250-x,250-y);
+		if (energia > 0) {
+			System.out.println("[id=" + id + ", energia=" + energia + "]");
+
+			// Definir una direccion aleatoria
+			int targetX = random.nextInt();
+			int targetY = random.nextInt();
+			cambiarDireccion(new PVector(targetX, targetY));
+
+			// Si tengo buena energía para aparearme
+			if (energia > LIMITE_APAREO) {
+				System.out.println("Me puedo aparear");
+				buscarParejaCercana();
+				// Si hay una pareja cercana la prioridad es reproducirse
+				if (parejaCercana != null) {
+
+					intentarAparear();
+				}
 			}
-			
-			dir.normalize();
-			this.x += dir.x * fuerza * 0.005;
-			this.y += dir.y * fuerza * 0.005;
-			fuerza-=0.01;
+
+			// moverse en la dirección asignada actualmente
+			this.x += dir.x;
+			this.y += dir.y;
+			energia -= 0.01;
+
 		}
-		
+
 	}
 
 	@Override
@@ -76,10 +102,9 @@ public class EspecieBlanca extends EspecieAbstracta implements IApareable, ICarn
 		while (vida > 0) {
 			mover();
 
-			intentarAparear();
-			try{
+			try {
 				Thread.sleep(100);
-			}catch (Exception e) {
+			} catch (Exception e) {
 				// TODO: handle exception
 			}
 		}
@@ -87,51 +112,72 @@ public class EspecieBlanca extends EspecieAbstracta implements IApareable, ICarn
 
 	/**
 	 * <p>
-	 * Este m�todo busca a una especie apareable dentro del rango permitido por
-	 * la fuerza actual. las misma
+	 * Este método busca a una especie apareable dentro del rango permitido por
+	 * la fuerza actual.
 	 * </p>
 	 */
 	private void buscarParejaCercana() {
-		if (fuerza > 0) {
-			
-			List<EspecieAbstracta> todas = Mundo.ObtenerInstancia().getEspecies();
-			System.out.println("Buscando pareja entre "+todas.size()+" especies del mundo");
-			ListIterator<EspecieAbstracta> iterador = todas.listIterator();
-			boolean encontro = false;
-			while (!encontro && iterador.hasNext()) {
-				EspecieAbstracta e = iterador.next();
-				if ((e instanceof IApareable) && !e.equals(this)) {
-					float dist = PApplet.dist(x, y, e.getX(), e.getY());
-					System.out.println("encontr� apareable a "+dist);
-					if (dist < fuerza) {
-						System.out.println("Encontr� una pareja cercana");
-						encontro = true;
-						parejaCercana = e;
-					}
+
+		List<EspecieAbstracta> todas = Mundo.ObtenerInstancia().getEspecies();
+		System.out.println("Buscando pareja entre " + todas.size()
+				+ " especies del mundo");
+		ListIterator<EspecieAbstracta> iterador = todas.listIterator();
+		boolean encontro = false;
+		while (!encontro && iterador.hasNext()) {
+			EspecieAbstracta e = iterador.next();
+			if ((e instanceof IApareable) && !e.equals(this)) {
+				float dist = PApplet.dist(x, y, e.getX(), e.getY());
+				System.out.println("Encontró apareable a " + dist);
+				if (dist < energia) {
+					System.out.println("Encontró una pareja cercana");
+					encontro = true;
+					parejaCercana = e;
+					// Cambiar la dirección
+					cambiarDireccion(new PVector(parejaCercana.getX(),
+							parejaCercana.getY()));
 				}
 			}
-			System.out.println("No encontr� una pareja cercana");
-		}else{
-			System.out.println("Toy sin fuerza para buscar pareja");
+		}
+		// asegurarse de que la referencia sea null;
+		if (!encontro) {
+			parejaCercana = null;
+			System.out.println("No encontró una pareja cercana");
 		}
 
 	}
 
-	private void intentarAparear(){
-		buscarParejaCercana();
-		if(parejaCercana!=null){
-			float dist = PApplet.dist(x, y, parejaCercana.getX(), parejaCercana.getY());
-			if(dist<vida){
-				ecosistema.agregarEspecie(aparear((IApareable) parejaCercana));
-			}
+	/**
+	 * <p>
+	 * Este método valida que una pareja cercana este a la distancia adecuada y
+	 * genera un descendiente en caso de cumplirse la condición
+	 * </p>
+	 */
+	private void intentarAparear() {
+
+		float dist = PApplet.dist(x, y, parejaCercana.getX(),
+				parejaCercana.getY());
+		if (dist < vida) {
+			IApareable a = (IApareable) parejaCercana;
+			ecosistema.agregarEspecie(aparear(a));
+			// perder energia
+			energia -= 50;
 		}
+
 	}
-	
+
+	private void cambiarDireccion(PVector target) {
+		PVector location = new PVector(x, y);
+		dir = PVector.sub(target, location);
+		dir.normalize();
+		dir.mult(velocidad);
+		System.out.println("[id=" + id + ", direcion=" + dir + "]");
+	}
+
 	@Override
 	public String toString() {
-		return "EspecieBlanca [id=" + id + ", vida=" + vida + ", fuerza=" + fuerza + ", parejaCercana=" + parejaCercana + ", dir="
-				+ dir + ", x=" + x + ", y=" + y + ", estado=" + estado + "]";
+		return "EspecieBlanca [id=" + id + ", vida=" + vida + ", fuerza="
+				+ fuerza + ", parejaCercana=" + parejaCercana + ", dir=" + dir
+				+ ", x=" + x + ", y=" + y + ", estado=" + estado + "]";
 	}
 
-	
 }
