@@ -4,13 +4,10 @@
 package programaciondmi.dca.ejemplos;
 
 import java.util.LinkedList;
-import java.util.Observable;
-
-import processing.core.PApplet;
+import java.util.List;
 import programaciondmi.dca.core.EcosistemaAbstracto;
 import programaciondmi.dca.core.EspecieAbstracta;
 import programaciondmi.dca.core.PlantaAbstracta;
-import programaciondmi.dca.ejecucion.Mundo;
 
 /**
  * @author Monk
@@ -36,6 +33,20 @@ public class EcosistemaMonk extends EcosistemaAbstracto {
 
 	@Override
 	protected LinkedList<PlantaAbstracta> poblarPlantas() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	protected List<EspecieAbstracta> generarIndividuos() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	protected List<PlantaAbstracta> generarPlantas() {
 		// TODO Auto-generated method stub
 		return null;
 	}

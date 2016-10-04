@@ -180,4 +180,10 @@ public class EspecieBlanca extends EspecieAbstracta implements IApareable,
 				+ ", x=" + x + ", y=" + y + ", estado=" + estado + "]";
 	}
 
+	@Override
+	public boolean recibirDano(EspecieAbstracta lastimador) {
+		// TODO implementar metodo
+		return false;
+	}
+
 }

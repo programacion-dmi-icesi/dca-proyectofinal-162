@@ -30,4 +30,10 @@ public class HijoBlanco extends EspecieAbstracta {
 		
 	}
 
+	@Override
+	public boolean recibirDano(EspecieAbstracta lastimador) {
+		// TODO implementar metodo.
+		return false;
+	}
+
 }

@@ -3,6 +3,7 @@ package programaciondmi.dca.ejemplos;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Observable;
 
 import processing.core.PApplet;
@@ -42,6 +43,20 @@ public class EcosistemaEjemplo extends EcosistemaAbstracto {
 
 	@Override
 	protected LinkedList<PlantaAbstracta> poblarPlantas() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	protected List<EspecieAbstracta> generarIndividuos() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	protected List<PlantaAbstracta> generarPlantas() {
 		// TODO Auto-generated method stub
 		return null;
 	}
