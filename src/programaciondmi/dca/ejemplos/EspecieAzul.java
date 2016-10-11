@@ -18,14 +18,16 @@ public class EspecieAzul extends EspecieAbstracta implements IHerbivoro {
 	public EspecieAzul(EcosistemaAbstracto ecosistema) {
 		super(ecosistema);
 		this.vida = 20;
-		this.velocidad = 20;
+		this.velocidad = 5;
 		
-		Thread nt = new Thread(this);
-		nt.start();
+		
 
 		int targetX = (int) (Math.random()*500);
 		int targetY = (int) (Math.random()*500);
 		cambiarDireccion(new PVector(targetX, targetY));
+		
+		Thread nt = new Thread(this);
+		nt.start();
 	}
 
 	@Override
@@ -33,7 +35,7 @@ public class EspecieAzul extends EspecieAbstracta implements IHerbivoro {
 		while (vida > 0) {
 			mover();
 			try {
-				Thread.sleep(100);
+				Thread.sleep(33);
 				ciclo++;
 			} catch (Exception e) {
 				// TODO: handle exception
@@ -64,6 +66,9 @@ public class EspecieAzul extends EspecieAbstracta implements IHerbivoro {
 			cambiarDireccion(new PVector(targetX, targetY));
 			System.out.println("CAMBIO DIRECCION!");
 		}
+		
+		x+=dir.x;
+		y+=dir.y;
 
 	}
 

@@ -38,17 +38,19 @@ public class EspecieBlanca extends EspecieAbstracta implements IApareable, ICarn
 		this.vida = 50;
 		this.fuerza = 100;
 		this.energia = 250;
-		this.velocidad = 5;
+		this.velocidad = 2;
 
-		System.out.println(this);
-		Thread nt = new Thread(this);
-		nt.start();
 
 		int targetX = random.nextInt();
 		int targetY = random.nextInt();
 		cambiarDireccion(new PVector(targetX, targetY));
 
 		ciclo = 0;
+		
+
+		System.out.println(this);
+		Thread nt = new Thread(this);
+		nt.start();
 	}
 
 	@Override
@@ -121,7 +123,7 @@ public class EspecieBlanca extends EspecieAbstracta implements IApareable, ICarn
 		while (vida > 0) {
 			mover();
 			try {
-				Thread.sleep(100);
+				Thread.sleep(33);
 				ciclo++;
 			} catch (Exception e) {
 				// TODO: handle exception
