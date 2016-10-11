@@ -37,6 +37,9 @@ public class EcosistemaEjemplo extends EcosistemaAbstracto {
 		nueva = new EspecieBlanca(this);
 		especies.add(nueva);
 		
+		EspecieAzul azul = new EspecieAzul(this);
+		especies.add(azul);
+		
 		return especies;
 	}
 

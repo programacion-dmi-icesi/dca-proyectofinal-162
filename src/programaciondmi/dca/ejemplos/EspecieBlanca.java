@@ -1,5 +1,6 @@
 package programaciondmi.dca.ejemplos;
 
+import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Random;
@@ -53,7 +54,11 @@ public class EspecieBlanca extends EspecieAbstracta implements IApareable, ICarn
 	@Override
 	public void comer(EspecieAbstracta victima) {
 		// TODO Auto-generated method stub
-
+		if (!victima.getClass().toString().equals(this.getClass().toString())) {
+			if(victima.recibirDano(this)){
+				energia+=5;
+			}
+		}	
 	}
 
 	@Override
@@ -79,13 +84,13 @@ public class EspecieBlanca extends EspecieAbstracta implements IApareable, ICarn
 			System.out.println("[id=" + id + ", energia=" + energia + "]");			
 				// Si tengo buena energía para aparearme
 				if (energia > LIMITE_APAREO) {
-					System.out.println("Me puedo aparear");
 					buscarParejaCercana();
 					// Si hay una pareja cercana la prioridad es reproducirse
 					if (parejaCercana != null) {
 						intentarAparear();
 					}
 				} else {
+					buscarComida();
 					if (ciclo % 30 == 0) {
 					// Definir una direccion aleatoria cada 3 segundos
 					int targetX = random.nextInt();
@@ -94,6 +99,7 @@ public class EspecieBlanca extends EspecieAbstracta implements IApareable, ICarn
 					System.out.println("CAMBIO DIRECCION!");
 					}
 				}
+				
 			// moverse en la dirección asignada actualmente
 			this.x += dir.x;
 			this.y += dir.y;
@@ -174,7 +180,20 @@ public class EspecieBlanca extends EspecieAbstracta implements IApareable, ICarn
 		}
 
 	}
-
+	
+	/**
+	 * <p>
+	 * Este método valida recorre el arreglo de especies del mundo e intenta
+	 * comerse a cada una de las especies
+	 * </p>
+	 */
+	private void buscarComida() {
+		List<EspecieAbstracta> todas = Mundo.ObtenerInstancia().getEspecies();
+		for (int i = 0; i < todas.size(); i++) {
+			comer(todas.get(i));
+		}
+	}
+	
 	private void cambiarDireccion(PVector target) {
 		PVector location = new PVector(x, y);
 		dir = PVector.sub(target, location);

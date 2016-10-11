@@ -38,11 +38,11 @@ public abstract class EspecieAbstracta implements Runnable{ // TODO verificar si
 	public abstract void mover();
 	
 	/**
-	 * Metodo encargadado de recibir el da�o ocasionado por el ataque de otra especie abstracta
-	 * el metodo deber�a validar su posicion respecto a la otra especie para saber si se lastima o no.
+	 * Método encargadado de recibir el daño ocasionado por el ataque de otra especie abstracta
+	 * el metodo deberá validar su posicion respecto a la otra especie para saber si se lastima o no.
 	 * 
-	 * @param lastimador quien hace da�o a la especie actual
-	 * @return true si pudo hacer da�o y false si no puedo da�ar a la especie actual 
+	 * @param lastimador quien hace daño a la especie actual
+	 * @return true si pudo hacer daño y false si no puedo dañar a la especie actual 
 	 */
 	public abstract boolean recibirDano(EspecieAbstracta lastimador);
 
