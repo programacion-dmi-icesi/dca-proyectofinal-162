@@ -32,9 +32,9 @@ public class Mundo implements Observer {
 	}
 	
 	/**
-	 * Este método se encarga de buscar en todos los paquetes de la aplicación
+	 * Este mÃ©todo se encarga de buscar en todos los paquetes de la aplicaciï¿½n
 	 * todas las clases que hereden de EcosistemaAbstracto, generar una instancia
-	 * de las mismas y almacenar dicha instancia en una colección de tipo conjunto
+	 * de las mismas y almacenar dicha instancia en una colecciï¿½n de tipo conjunto
 	 */
 	protected void cargarEcosistemas(){
 		Reflections reflections = new Reflections("programaciondmi.dca");    
@@ -55,9 +55,9 @@ public class Mundo implements Observer {
 	}
 	
 	/**
-	 * Este método se encarga de agregar a la colección global de especies
-	 * la población inicial de especies de un ecosistema dado por parámetro
-	 * @param ecosistema
+	 * Este mÃ©todo se encarga de agregar a la colecciÃ³n global de especies
+	 * la poblaciÃ³n inicial de especies de un ecosistema dado por parÃ¡metro
+	 * @param ecosistema al que se le sacarÃ¡ las especies
 	 */
 	private void cargarEspecies(EcosistemaAbstracto ecosistema){
 		if(ecosistema.getEspecies()!=null){
@@ -66,9 +66,9 @@ public class Mundo implements Observer {
 	}
 	
 	/**
-	 * Este método se encarga de agregar a la colección global de plantas
-	 * la población inicial de plantas de un ecosistema dado por parámetro
-	 * @param ecosistema
+	 * Este mÃ©todo se encarga de agregar a la colecciÃ³n global de plantas
+	 * la poblaciÃ³n inicial de plantas de un ecosistema dado por parÃ¡metro
+	 * @param ecosistema al que se le sacarÃ¡ las plantas
 	 */
 	private void cargarPlantas(EcosistemaAbstracto ecosistema){
 		if(ecosistema.getPlantas()!=null){
@@ -103,10 +103,9 @@ public class Mundo implements Observer {
 	}
 	
 	/**
-	 * Este mï¿½todo se encarga de dibujar lo que ocurre en el mundo.
+	 * Este mÃ©todo se encarga de dibujar lo que ocurre en el mundo.
 	 */
 	protected void dibujar() {
-		//System.out.println("Pintando el mundo");
 		/**
 		 * TODO Reemplzar esta lÃ­nea por el background seleccionado por los estudiantes
 		 */
@@ -131,8 +130,7 @@ public class Mundo implements Observer {
 
 	@Override
 	public void update(Observable arg0, Object arg1) {
-		// TODO Auto-generated method stub
-		System.out.println(" El ecosistema "+arg0+ " envió una notificaciíon");
+		System.out.println(" El ecosistema "+arg0+ " envia una notificaciÃ³n");
 		if(arg1 instanceof EspecieAbstracta){
 			System.out.println("Se argrego una nueva especie "+arg1);
 			EspecieAbstracta nuevaEspecie = (EspecieAbstracta) arg1;

@@ -7,7 +7,9 @@ import programaciondmi.dca.core.exceptions.EcosistemaException;
 
 
 /**
- * @author David Andrés Manzano Herrera <damh24@gmail.com>
+ * @author Damanzano
+ * 
+ * Esta es la clase base de los ecosistemas contempla los metodos necesarios para la construccion de cada uno.
  * 
  */
 
@@ -26,8 +28,8 @@ public abstract class EcosistemaAbstracto extends Observable implements Runnable
 	
 	/**
 	 * Metodo plantilla llamado cada 5 segundos por el ecosistema para la creacion de nuevos individuos,
-	 * depende de la sobreescritura de los metodos {@link generarIndividuo():List} y {@link generarPlantas():List}
-	 * @throws EcosistemaException 
+	 * depende de la sobreescritura de los metodos generarIndividuo():List y generarPlantas():List
+	 * @throws EcosistemaException se lanza si los metodos generarIndividuos() o generarPlantas() no estan implementados correctamente
 	 * 
 	 */
 	
@@ -40,6 +42,11 @@ public abstract class EcosistemaAbstracto extends Observable implements Runnable
 		especies.addAll(espTemp);
 		plantas.addAll(plaTemp);		
 	}
+	
+	/**
+	 * el run de la clase est� encargado de llamar al metodo repoblar cada 5 segundos para ir llamando nuevos elementos. 
+	 * 
+	 */
 	
 	@Override
 	public void run() {
@@ -70,23 +77,42 @@ public abstract class EcosistemaAbstracto extends Observable implements Runnable
 	protected abstract LinkedList<PlantaAbstracta> poblarPlantas();
 	
 	/**
-	 * Actualiza la lista de especiepara agregar nuevos.
+	 * Actualiza la lista de especie para agregar nuevos.
+	 * @return lista de los individuos de {@link EspecieAbstracta} o jerarquia a generar
 	 */
 	protected abstract List<EspecieAbstracta> generarIndividuos();
 	
 	/**
-	 * Actualiza la lista de plantas para agregar nuevas. 
+	 * Actualiza la lista de plantas para agregar nuevas.
+	 * @return lista de los individuos de {@link PlantaAbstracta} o jerarquia a generar 
 	 */	
 	protected abstract List<PlantaAbstracta> generarPlantas();
-		
+	
+	
+	
+	/**
+	 * Metodo encargado de la visualizacion de los elementos del ecosistema, debe ser sobreescrito por el ecosistema concreto 
+	 */
 	public abstract void dibujar();
 	
+	
+	/**
+	 * Metodo para agregar nuevas especies al ecosistema, notifica a los observadores.  
+	 * 
+	 * @param e {@link EspecieAbstracta} o culquiera de la jerarquia 
+	 */
 	public void agregarEspecie(EspecieAbstracta e){
 		especies.add(e);
 		setChanged();
 		notifyObservers(e);
 		clearChanged();
 	}
+	
+	/**
+	 * Metodo para agregar nuevas plantas al ecosistema, notifica a los observadores.  
+	 * 
+	 * @param p {@link PlantaAbstracta} o culquiera de la jerarquia 
+	 */
 	
 	public void agregarPlanta(PlantaAbstracta p){
 		plantas.add(p);
@@ -95,13 +121,24 @@ public abstract class EcosistemaAbstracto extends Observable implements Runnable
 		clearChanged();
 	}
 	
+	/**
+	 * Metodo para obtener las especies que tiene un ecosistema 
+	 * 
+	 * @return retorna un {@link LinkedList} de {@link EspecieAbstracta} que contiene los elementos que han sido agregados.  
+	 */
+	
 	public LinkedList<EspecieAbstracta> getEspecies() {
 		return this.especies;
 	}
 	
-	public LinkedList<PlantaAbstracta> getPlantas() {
-		// TODO Auto-generated method stub
-		return null;
+	/**
+	 * Metodo para obtener las plantas que tiene un ecosistema  
+	 * 
+	 * @return retorna un {@link LinkedList} de {@link PlantaAbstracta} que contiene los elementos que han sido agregados.  
+	 */
+	
+	public LinkedList<PlantaAbstracta> getPlantas() {		
+		return plantas;
 	}
 	
 	/*private void comenzar(){

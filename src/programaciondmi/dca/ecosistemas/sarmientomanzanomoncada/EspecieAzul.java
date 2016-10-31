@@ -1,4 +1,4 @@
-package programaciondmi.dca.ejemplos;
+package programaciondmi.dca.ecosistemas.sarmientomanzanomoncada;
 
 import processing.core.PApplet;
 import processing.core.PVector;
@@ -19,8 +19,6 @@ public class EspecieAzul extends EspecieAbstracta implements IHerbivoro {
 		super(ecosistema);
 		this.vida = 20;
 		this.velocidad = 5;
-		
-		
 
 		int targetX = (int) (Math.random()*500);
 		int targetY = (int) (Math.random()*500);
@@ -45,7 +43,6 @@ public class EspecieAzul extends EspecieAbstracta implements IHerbivoro {
 
 	@Override
 	public void comerPlanta(PlantaAbstracta victima) {
-		// TODO Auto-generated method stub
 
 	}
 
@@ -64,7 +61,7 @@ public class EspecieAzul extends EspecieAbstracta implements IHerbivoro {
 			int targetX = (int) (Math.random() * 500);
 			int targetY = (int) (Math.random() * 500);
 			cambiarDireccion(new PVector(targetX, targetY));
-			System.out.println("CAMBIO DIRECCION!");
+			//System.out.println("CAMBIO DIRECCION!");
 		}
 		
 		x+=dir.x;
@@ -79,7 +76,6 @@ public class EspecieAzul extends EspecieAbstracta implements IHerbivoro {
 			try {
 				lastimador.setEstado(EXTASIS);
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			return true;
@@ -93,7 +89,7 @@ public class EspecieAzul extends EspecieAbstracta implements IHerbivoro {
 		dir = PVector.sub(target, location);
 		dir.normalize();
 		dir.mult(velocidad);
-		System.out.println("[id=" + id + ", direcion=" + dir + "]");
+		//System.out.println("[id=" + id + ", direcion=" + dir + "]");
 	}
 	
 	

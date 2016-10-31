@@ -1,4 +1,4 @@
-package programaciondmi.dca.ejemplos;
+package programaciondmi.dca.ecosistemas.sarmientomanzanomoncada;
 
 import java.util.Iterator;
 import java.util.List;
@@ -18,7 +18,7 @@ public class EspecieBlanca extends EspecieAbstracta implements IApareable, ICarn
 	private float fuerza;
 	private int velocidad;
 	/*
-	 * Se utiliza para definfir cuando el inidividuo puede realizar acciones:
+	 * Se utiliza para definfir cuando el individuo puede realizar acciones:
 	 * moverse, aparearse, etc
 	 */
 	private float energia;
@@ -48,7 +48,7 @@ public class EspecieBlanca extends EspecieAbstracta implements IApareable, ICarn
 		ciclo = 0;
 		
 
-		System.out.println(this);
+		//System.out.println(this);
 		Thread nt = new Thread(this);
 		nt.start();
 	}
@@ -83,7 +83,7 @@ public class EspecieBlanca extends EspecieAbstracta implements IApareable, ICarn
 	@Override
 	public void mover() {
 		if (energia > 0) {
-			System.out.println("[id=" + id + ", energia=" + energia + "]");			
+			//System.out.println("[id=" + id + ", energia=" + energia + "]");			
 				// Si tengo buena energía para aparearme
 				if (energia > LIMITE_APAREO) {
 					buscarParejaCercana();
@@ -140,16 +140,16 @@ public class EspecieBlanca extends EspecieAbstracta implements IApareable, ICarn
 	private void buscarParejaCercana() {
 
 		List<EspecieAbstracta> todas = Mundo.ObtenerInstancia().getEspecies();
-		System.out.println("Buscando pareja entre " + todas.size() + " especies del mundo");
+		//System.out.println("Buscando pareja entre " + todas.size() + " especies del mundo");
 		ListIterator<EspecieAbstracta> iterador = todas.listIterator();
 		boolean encontro = false;
 		while (!encontro && iterador.hasNext()) {
 			EspecieAbstracta e = iterador.next();
 			if ((e instanceof IApareable) && !e.equals(this)) {
 				float dist = PApplet.dist(x, y, e.getX(), e.getY());
-				System.out.println("Encontró apareable a " + dist);
+				//System.out.println("Encontró apareable a " + dist);
 				if (dist < energia) {
-					System.out.println("Encontró una pareja cercana");
+					//System.out.println("Encontró una pareja cercana");
 					encontro = true;
 					parejaCercana = e;
 					// Cambiar la dirección
@@ -160,7 +160,7 @@ public class EspecieBlanca extends EspecieAbstracta implements IApareable, ICarn
 		// asegurarse de que la referencia sea null;
 		if (!encontro) {
 			parejaCercana = null;
-			System.out.println("No encontró una pareja cercana");
+			//System.out.println("No encontró una pareja cercana");
 		}
 
 	}
@@ -201,7 +201,7 @@ public class EspecieBlanca extends EspecieAbstracta implements IApareable, ICarn
 		dir = PVector.sub(target, location);
 		dir.normalize();
 		dir.mult(velocidad);
-		System.out.println("[id=" + id + ", direcion=" + dir + "]");
+		//System.out.println("[id=" + id + ", direcion=" + dir + "]");
 	}
 
 	@Override

@@ -1,4 +1,4 @@
-package programaciondmi.dca.ejemplos;
+package programaciondmi.dca.ecosistemas.sarmientomanzanomoncada;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -54,6 +54,13 @@ public class EcosistemaEjemplo extends EcosistemaAbstracto {
 	@Override
 	protected List<EspecieAbstracta> generarIndividuos() {
 		// TODO Auto-generated method stub
+		
+		EspecieBlanca nueva = new EspecieBlanca(this);
+		especies.add(nueva);
+		
+		EspecieAzul azul = new EspecieAzul(this);
+		especies.add(azul);
+		
 		return null;
 	}
 
