@@ -21,6 +21,7 @@ public class EcosistemaEjemplo extends EcosistemaAbstracto {
 
 	@Override
 	public void dibujar() {
+		System.out.println("dibujando");
 		Iterator<EspecieAbstracta> iteradorEspecies = this.especies.iterator();
 		while(iteradorEspecies.hasNext()){
 			EspecieAbstracta actual = iteradorEspecies.next();
