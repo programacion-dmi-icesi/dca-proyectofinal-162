@@ -14,6 +14,7 @@ public class EspecieAzul extends EspecieAbstracta implements IHerbivoro {
 	private int velocidad;
 	private PVector dir;
 	private int ciclo;
+	private int otro;
 
 	public EspecieAzul(EcosistemaAbstracto ecosistema) {
 		super(ecosistema);
