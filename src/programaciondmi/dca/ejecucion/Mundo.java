@@ -184,7 +184,7 @@ public class Mundo implements Observer {
 		if (app.mouseY < app.height / 4) {
 			camY++;
 		}
-		if (app.mouseX < 3 * app.height / 4) {
+		if (app.mouseX > 3 * app.height / 4) {
 			camY--;
 		}
 		
