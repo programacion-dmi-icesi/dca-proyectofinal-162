@@ -21,10 +21,12 @@ public class EcosistemaEjemplo extends EcosistemaAbstracto {
 
 	@Override
 	public void dibujar() {
-		Iterator<EspecieAbstracta> iteradorEspecies = this.especies.iterator();
-		while(iteradorEspecies.hasNext()){
-			EspecieAbstracta actual = iteradorEspecies.next();
-			actual.dibujar();
+		synchronized (especies) {
+			Iterator<EspecieAbstracta> iteradorEspecies = especies.iterator();
+			while(iteradorEspecies.hasNext()){
+				EspecieAbstracta actual = iteradorEspecies.next();
+				actual.dibujar();
+			}
 		}
 	}
 
@@ -46,8 +48,9 @@ public class EcosistemaEjemplo extends EcosistemaAbstracto {
 
 	@Override
 	protected LinkedList<PlantaAbstracta> poblarPlantas() {
-		// TODO Auto-generated method stub
-		return null;
+		LinkedList<PlantaAbstracta> plantas = new LinkedList<PlantaAbstracta>();
+		// TODO LLenar las lista de plantas iniciales
+		return plantas;
 	}
 
 
@@ -67,7 +70,6 @@ public class EcosistemaEjemplo extends EcosistemaAbstracto {
 
 	@Override
 	protected List<PlantaAbstracta> generarPlantas() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 

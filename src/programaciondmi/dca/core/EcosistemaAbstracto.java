@@ -1,5 +1,6 @@
 package programaciondmi.dca.core;
 
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Observable;
@@ -15,13 +16,13 @@ import programaciondmi.dca.core.exceptions.EcosistemaException;
 
 public abstract class EcosistemaAbstracto extends Observable implements Runnable{
 	
-	protected LinkedList<EspecieAbstracta> especies;
-	protected LinkedList<PlantaAbstracta> plantas;
+	protected List<EspecieAbstracta> especies;
+	protected List<PlantaAbstracta> plantas;
 	
 	public EcosistemaAbstracto() {
 		// TODO Auto-generated constructor stub
-		especies = poblarEspecies();
-		plantas = poblarPlantas();
+		especies = Collections.synchronizedList(poblarEspecies());
+		plantas = Collections.synchronizedList(poblarPlantas());
 		Thread t =  new Thread(this);
 		t.start();
 	}
@@ -127,7 +128,7 @@ public abstract class EcosistemaAbstracto extends Observable implements Runnable
 	 * @return retorna un {@link LinkedList} de {@link EspecieAbstracta} que contiene los elementos que han sido agregados.  
 	 */
 	
-	public LinkedList<EspecieAbstracta> getEspecies() {
+	public List<EspecieAbstracta> getEspecies() {
 		return this.especies;
 	}
 	
@@ -137,7 +138,7 @@ public abstract class EcosistemaAbstracto extends Observable implements Runnable
 	 * @return retorna un {@link LinkedList} de {@link PlantaAbstracta} que contiene los elementos que han sido agregados.  
 	 */
 	
-	public LinkedList<PlantaAbstracta> getPlantas() {		
+	public List<PlantaAbstracta> getPlantas() {		
 		return plantas;
 	}
 	
