@@ -59,6 +59,7 @@ public class Mundo implements Observer {
 			}
 		}
 	}
+	//holi
 
 	/**
 	 * Este método se encarga de agregar a la colección global de especies la
