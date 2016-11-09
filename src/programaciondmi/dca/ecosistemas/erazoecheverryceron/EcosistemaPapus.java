@@ -11,10 +11,12 @@ import programaciondmi.dca.ejecucion.Ejecutable;
 import programaciondmi.dca.ejecucion.Mundo;
 
 public class EcosistemaPapus extends EcosistemaAbstracto {
-// Para utilizar el app de forma rapida en cualquier clase y que no haya sido llamado se debe escribir app = EcosistemaPapu.app;
+	// Para utilizar el app de forma rapida en cualquier clase y que no haya
+	// sido llamado se debe escribir app = EcosistemaPapu.app;
 	public static PApplet app;
 	private Mundo mundo;
 	private CargaDatos datos;
+
 	public EcosistemaPapus() {
 		super();
 		mundo = Mundo.ObtenerInstancia();
@@ -25,7 +27,7 @@ public class EcosistemaPapus extends EcosistemaAbstracto {
 	@Override
 	public void dibujar() {
 		app.ellipse(50, 50, 50, 50);
-		
+
 	}
 
 	@Override
@@ -50,6 +52,12 @@ public class EcosistemaPapus extends EcosistemaAbstracto {
 	protected List<PlantaAbstracta> generarPlantas() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	public static boolean validar(float XUno, float YUno, float XDos, float YDos, float distancia){
+		if(PApplet.dist(XUno, YUno, XDos, YDos)<= distancia)
+			return true;
+	return false;	
 	}
 
 }
