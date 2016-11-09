@@ -10,5 +10,6 @@ public class Canibal extends Personaje implements ICanibal {
 		// TODO Auto-generated method stub
 		
 	}
+	// hola esto es para borrar
 
 }
