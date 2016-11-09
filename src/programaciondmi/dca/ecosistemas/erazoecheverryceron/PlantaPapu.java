@@ -12,9 +12,10 @@ public abstract class PlantaPapu extends PlantaAbstracta {
 	protected PVector pos;
 	protected float vida;
 	protected boolean murio;
-	private PApplet app;
+	protected PApplet app;
 	
 	public PlantaPapu() {
+		app = EcosistemaPapus.app;
 		pos = new PVector(x,y);
 	}
 	

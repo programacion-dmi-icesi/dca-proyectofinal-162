@@ -5,12 +5,10 @@ import processing.core.PImage;
 
 public class PBuena extends PlantaPapu {
 
-	private PApplet app;
 	private PImage plantaBuena;
 	
 	public PBuena() {
 	
-		app = EcosistemaPapus.app;
 		plantaBuena = CargaDatos.PBuena;
 		
 	}

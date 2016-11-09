@@ -5,12 +5,10 @@ import processing.core.PImage;
 
 public class PMala extends PlantaPapu {
 
-	private PApplet app;
 	private PImage plantaMala;
 	
 	public PMala() {
 
-		app = EcosistemaPapus.app;
 		plantaMala = CargaDatos.PMala;
 		
 	}
