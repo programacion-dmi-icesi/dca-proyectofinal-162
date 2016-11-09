@@ -5,10 +5,18 @@ import programaciondmi.dca.core.EspecieAbstracta;
 import programaciondmi.dca.core.interfaces.ICarnivoro;
 
 public class Carnivoro extends EspecieAbstracta implements ICarnivoro{
+	
+	// JUAN DAVID PIEDRAHITA SE ENCARGA DE ESTO 
+	
 
 	public Carnivoro(EcosistemaAbstracto ecosistema) {
 		super(ecosistema);
 		// TODO Auto-generated constructor stub
+	}
+	
+	public void yolo() {
+		
+		
 	}
 
 	@Override
