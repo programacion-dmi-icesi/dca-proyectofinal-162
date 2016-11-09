@@ -17,7 +17,7 @@ public class PMala extends PlantaPapu {
 	
 	public void dibujar() {
 		
-		app.image(plantaMala, x, y);
+		app.image(plantaMala, x, y); 
 		
 	}
 }
