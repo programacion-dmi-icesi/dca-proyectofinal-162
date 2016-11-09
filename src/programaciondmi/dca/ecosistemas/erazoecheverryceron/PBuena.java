@@ -15,7 +15,7 @@ public class PBuena extends PlantaPapu {
 		
 	}
 	
-	public void pintar() {
+	public void dibujar() {
 		
 		app.image(plantaBuena, x, y);
 		
