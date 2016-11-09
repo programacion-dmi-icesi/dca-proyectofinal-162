@@ -17,6 +17,8 @@ public class EspecieBlanca extends EspecieAbstracta implements IApareable, ICarn
 	private int vida;
 	private float fuerza;
 	private int velocidad;
+	
+	
 	/*
 	 * Se utiliza para definfir cuando el individuo puede realizar acciones:
 	 * moverse, aparearse, etc
