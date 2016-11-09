@@ -11,7 +11,7 @@ import programaciondmi.dca.ejecucion.Ejecutable;
 import programaciondmi.dca.ejecucion.Mundo;
 
 public class EcosistemaPapus extends EcosistemaAbstracto {
-
+// Para utilizar el app de forma rapida en cualquier clase y que no haya sido llamado se debe escribir app = EcosistemaPapu.app;
 	public static PApplet app;
 	private Mundo mundo;
 	private CargaDatos datos;
