@@ -12,7 +12,7 @@ public abstract class PlantaPapu extends PlantaAbstracta {
 	protected boolean murio;
 	
 	public PlantaPapu() {
-		
+		pos = new PVector(x,y);
 		
 	}
 	
@@ -23,8 +23,9 @@ public abstract class PlantaPapu extends PlantaAbstracta {
 	}
 
 	
-	public void mover(){
-		
+	public void mover(float x, float y){
+		pos.x = x;
+		pos.y = y;
 		
 	}
 	
