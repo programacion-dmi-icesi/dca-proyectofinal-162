@@ -10,7 +10,14 @@ public class PBuena extends PlantaPapu {
 	
 	public PBuena() {
 	
+		app = EcosistemaPapus.app;
 		plantaBuena = CargaDatos.PBuena;
+		
+	}
+	
+	public void pintar() {
+		
+		app.image(plantaBuena, x, y);
 		
 	}
 }

@@ -10,13 +10,14 @@ public class PMala extends PlantaPapu {
 	
 	public PMala() {
 
-		
+		app = EcosistemaPapus.app;
 		plantaMala = CargaDatos.PMala;
 		
 	}
 	
 	public void pintar() {
-		app.image(plantaMala, 50, 50);
+		
+		app.image(plantaMala, x, y);
 		
 	}
 }
