@@ -12,13 +12,14 @@ import programaciondmi.dca.ejecucion.Mundo;
 
 public class EcosistemaPapus extends EcosistemaAbstracto {
 
-	private PApplet app;
+	public static PApplet app;
 	private Mundo mundo;
-	
+	private CargaDatos datos;
 	public EcosistemaPapus() {
 		super();
 		mundo = Mundo.ObtenerInstancia();
 		app = mundo.getApp();
+		datos = new CargaDatos();
 	}
 
 	@Override
@@ -50,6 +51,5 @@ public class EcosistemaPapus extends EcosistemaAbstracto {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
 
 }
