@@ -12,13 +12,10 @@ public abstract class PlantaPapu extends PlantaAbstracta {
 	protected PVector pos;
 	protected float vida;
 	protected boolean murio;
-	protected PImage plantaBuena, plantaMala;
 	private PApplet app;
 	
 	public PlantaPapu() {
 		pos = new PVector(x,y);
-		plantaBuena = app.loadImage("plantaBuena.png");
-		plantaMala = app.loadImage("plantaMala.png");
 	}
 	
 	
