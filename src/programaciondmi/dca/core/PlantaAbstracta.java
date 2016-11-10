@@ -22,6 +22,24 @@ public abstract class PlantaAbstracta implements Runnable{
 		
 	public abstract void dibujar();
 	
+	
+	
+	public int getX() {
+		return x;
+	}
+
+	public void setX(int x) {
+		this.x = x;
+	}
+
+	public int getY() {
+		return y;
+	}
+
+	public void setY(int y) {
+		this.y = y;
+	}
+
 	/**
 	 * Método encargadado de recibir el daño ocasionado por el ataque una especie abstracta
 	 * el método deberá validar su posicion respecto a la especie para saber si se lastima o no.

@@ -12,6 +12,7 @@ import java.util.Set;
 import org.reflections.Reflections;
 
 import processing.core.PApplet;
+import processing.core.PShape;
 import programaciondmi.dca.core.EcosistemaAbstracto;
 import programaciondmi.dca.core.EspecieAbstracta;
 import programaciondmi.dca.core.PlantaAbstracta;
@@ -25,6 +26,7 @@ public class Mundo implements Observer {
 	private Set<EcosistemaAbstracto> ecosistemas;
 	private List<EspecieAbstracta> especies;
 	private List<PlantaAbstracta> plantas;
+	private PShape fondo;
 
 	private Mundo(PApplet app) {
 		this.app = app;
@@ -33,6 +35,7 @@ public class Mundo implements Observer {
 		this.ecosistemas = new HashSet<EcosistemaAbstracto>();
 		this.especies = new LinkedList<EspecieAbstracta>();
 		this.plantas = new LinkedList<PlantaAbstracta>();
+		this.fondo = app.loadShape("mapa.svg");
 	}
 
 	/**
@@ -136,7 +139,7 @@ public class Mundo implements Observer {
 		 * TODO Reemplzar esta línea por el background seleccionado por los
 		 * estudiantes
 		 */
-		app.background(150);
+		app.shape(fondo);
 		moverCamara();
 		synchronized (ecosistemas) {
 			for (EcosistemaAbstracto ecosistema : ecosistemas) {
