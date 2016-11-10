@@ -31,7 +31,7 @@ public class Mundo implements Observer {
 	private PShape mapa;
 	private PShape botones_base;
 	private ArrayList<PShape> botones;
-
+	
 	private Mundo(PApplet app) {
 		this.app = app;
 		this.camX = app.width / 2;
@@ -42,6 +42,9 @@ public class Mundo implements Observer {
 		
 		this.mapa = this.app.loadShape("global_data/mapa.svg");
 		this.botones_base = this.app.loadShape("global_data/botones.svg");
+		
+		botones = new ArrayList<>();
+	
 	}
 
 	/**
@@ -168,7 +171,7 @@ public class Mundo implements Observer {
 		app.shape(botones_base, app.width/2,app.height-60);
 		app.shapeMode(PApplet.CORNER);
 		
-		dibujarBotones();
+		dibujarBotones();				
 
 	}
 
@@ -202,6 +205,7 @@ public class Mundo implements Observer {
 			PlantaAbstracta nuevaPlanta = (PlantaAbstracta) arg1;
 			plantas.add(nuevaPlanta);
 		}
+		
 	}
 
 	private void moverCamara() {
@@ -225,13 +229,15 @@ public class Mundo implements Observer {
 	}
 	
 	private void dibujarBotones(){
-		for(int i = 0; i < botones. size();i++){
-			PShape boton  = botones.get(i);
-			
-			app.shapeMode(PApplet.CENTER);
-			app.shape(boton, 60, 60, app.width/2,app.height-60);
-			app.shapeMode(PApplet.CORNER);
-			
+		int offSetX = 0;
+		for(int i = 0; i < botones.size();i++){		
+			PShape boton  = botones.get(i);			
+			app.shapeMode(PApplet.CENTER);			
+			app.shape(boton, (app.width/2) + (i%2==0?offSetX:-offSetX) , app.height-70, 60, 60);			
+			app.shapeMode(PApplet.CORNER);			
+			if(i%2==0){
+				offSetX+=60;
+			}						
 		}
 	}
 	
