@@ -32,25 +32,31 @@ public class SaberBot extends EspecieAbstracta implements ICarnivoro{
 		this.movSaberBot= (int) (Math.random()*4+1);
 
 
-		Thread nt = new Thread(this);
-		nt.start();
+		
 	
 		// PERSONAJE ASPECTO
 		PApplet app = Mundo.ObtenerInstancia().getApp();
-		pjcarnivoro[0] = app.loadImage("../DataTikiBots/saberbot/sA01.png");
-		pjcarnivoro[1] = app.loadImage("../DataTikiBots/saberbot/sA02.png");
-		pjcarnivoro[2] = app.loadImage("../DataTikiBots/saberbot/sA03.png");
-		pjcarnivoro[3] = app.loadImage("../DataTikiBots/saberbot/sA04.png");
-		pjcarnivoro[4] = app.loadImage("../DataTikiBots/saberbot/sD01.png");
-		pjcarnivoro[5] = app.loadImage("../DataTikiBots/saberbot/sD02.png");
-		pjcarnivoro[6] = app.loadImage("../DataTikiBots/saberbot/sD03.png");
-		pjcarnivoro[7] = app.loadImage("../DataTikiBots/saberbot/sF01.png");
-		pjcarnivoro[8] = app.loadImage("../DataTikiBots/saberbot/sF02.png");
-		pjcarnivoro[9] = app.loadImage("../DataTikiBots/saberbot/sF03.png");
-		pjcarnivoro[10] = app.loadImage("../DataTikiBots/saberbot/sF04.png");
-		pjcarnivoro[11] = app.loadImage("../DataTikiBots/saberbot/sZ01.png");
-		pjcarnivoro[12] = app.loadImage("../DataTikiBots/saberbot/sZ02.png");
-		pjcarnivoro[13] = app.loadImage("../DataTikiBots/saberbot/sZ03.png");
+		//espalda del magobot
+		pjcarnivoro[0] = app.loadImage("DataTikiBots/saberbot/sA01.png");
+		pjcarnivoro[1] = app.loadImage("DataTikiBots/saberbot/sA02.png");
+		pjcarnivoro[2] = app.loadImage("DataTikiBots/saberbot/sA03.png");
+		pjcarnivoro[3] = app.loadImage("DataTikiBots/saberbot/sA04.png");
+		//perfil derecho del magobot
+		pjcarnivoro[4] = app.loadImage("DataTikiBots/saberbot/sD01.png");
+		pjcarnivoro[5] = app.loadImage("DataTikiBots/saberbot/sD02.png");
+		pjcarnivoro[6] = app.loadImage("DataTikiBots/saberbot/sD03.png");
+		//frente del magobot
+		pjcarnivoro[7] = app.loadImage("DataTikiBots/saberbot/sF01.png");
+		pjcarnivoro[8] = app.loadImage("DataTikiBots/saberbot/sF02.png");
+		pjcarnivoro[9] = app.loadImage("DataTikiBots/saberbot/sF03.png");
+		pjcarnivoro[10] = app.loadImage("DataTikiBots/saberbot/sF04.png");
+		//perfil izquierdo del magobot
+		pjcarnivoro[11] = app.loadImage("DataTikiBots/saberbot/sZ01.png");
+		pjcarnivoro[12] = app.loadImage("DataTikiBots/saberbot/sZ02.png");
+		pjcarnivoro[13] = app.loadImage("DataTikiBots/saberbot/sZ03.png");
+		
+		Thread nt = new Thread(this);
+		nt.start();
 		
 	}
 	

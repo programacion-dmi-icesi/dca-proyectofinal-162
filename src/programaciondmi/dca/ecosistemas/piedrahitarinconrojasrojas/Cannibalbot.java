@@ -2,21 +2,21 @@ package programaciondmi.dca.ecosistemas.piedrahitarinconrojasrojas;
 
 import programaciondmi.dca.core.EcosistemaAbstracto;
 import programaciondmi.dca.core.EspecieAbstracta;
-import programaciondmi.dca.core.PlantaAbstracta;
-import programaciondmi.dca.core.interfaces.IHerbivoro;
+import programaciondmi.dca.core.interfaces.ICanibal;
 
-public class Herbivoro extends EspecieAbstracta implements IHerbivoro {
+public class Cannibalbot extends EspecieAbstracta implements ICanibal {
 
-	public Herbivoro(EcosistemaAbstracto ecosistema) {
+	public Cannibalbot(EcosistemaAbstracto ecosistema) {
 		super(ecosistema);
 		// TODO Auto-generated constructor stub
 	}
 
 	@Override
-	public void comerPlanta(PlantaAbstracta victima) {
+	public void comer(EspecieAbstracta victima) {
 		// TODO Auto-generated method stub
 		
 	}
+	// hola esto es para borrar
 
 	@Override
 	public void run() {

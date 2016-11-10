@@ -10,7 +10,7 @@ import programaciondmi.dca.core.EcosistemaAbstracto;
 import programaciondmi.dca.core.EspecieAbstracta;
 import programaciondmi.dca.core.PlantaAbstracta;
 import programaciondmi.dca.ecosistemas.piedrahitarinconrojasrojas.SaberBot;
-import programaciondmi.dca.ecosistemas.piedrahitarinconrojasrojas.Herbivoro;
+import programaciondmi.dca.ecosistemas.piedrahitarinconrojasrojas.Birdbot;
 import programaciondmi.dca.ejecucion.Mundo;
 
 
@@ -43,7 +43,7 @@ public class EcosistemaTikiBots extends EcosistemaAbstracto {
 		nueva = new SaberBot(this);
 		especies.add(nueva);
 		
-		Herbivoro planta = new Herbivoro(this);
+		Birdbot planta = new Birdbot(this);
 		especies.add(planta);
 		
 		return especies;
@@ -65,7 +65,7 @@ public class EcosistemaTikiBots extends EcosistemaAbstracto {
 		SaberBot nueva = new SaberBot(this);
 		especies.add(nueva);
 		
-		Herbivoro planta = new Herbivoro(this);
+		Birdbot planta = new Birdbot(this);
 		especies.add(planta);
 		
 		return null;
