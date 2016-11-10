@@ -3,6 +3,7 @@ package programaciondmi.dca.ecosistemas.erazoecheverryceron;
 import java.util.ArrayList;
 
 import processing.core.PApplet;
+import processing.core.PImage;
 import processing.core.PVector;
 import programaciondmi.dca.core.PlantaAbstracta;
 
@@ -10,8 +11,9 @@ public abstract class PlantaPapu extends PlantaAbstracta {
 
 	protected PVector pos;
 	protected float vida;
-	protected boolean murio;
+	protected boolean vive;
 	protected PApplet app;
+	protected PImage image;
 
 	public PlantaPapu() {
 		app = EcosistemaPapus.app;
@@ -23,8 +25,14 @@ public abstract class PlantaPapu extends PlantaAbstracta {
 
 	@Override
 	public void run() {
-		// TODO Auto-generated method stub
-
+while (vive) {
+	try {
+		crecer();
+		Thread.sleep(10000);
+	} catch (Exception e) {
+		// TODO: handle exception
+	}
+}
 	}
 
 	public void botones() {

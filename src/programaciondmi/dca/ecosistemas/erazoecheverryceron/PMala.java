@@ -1,20 +1,17 @@
 package programaciondmi.dca.ecosistemas.erazoecheverryceron;
 
-import processing.core.PImage;
-
 public class PMala extends PlantaPapu {
 
-	private PImage plantaMala;
 	
 	public PMala() {
 
-		plantaMala = CargaDatos.PMala;
+		image = CargaDatos.PMala;
 		
 	}
 	
 	public void dibujar() {
 		
-		app.image(plantaMala, x, y); 
+		app.image(image, x, y); 
 		
 	}
 }
