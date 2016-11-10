@@ -15,8 +15,8 @@ public class CargaDatos {
 		app = EcosistemaPapus.app;
 		PBuena = app.loadImage("../data/plantaBuena.png");
 		PMala = app.loadImage("../data/plantaMala.png");
-		botonPlantaMala = app.loadImage("../data/botonPlantaBuena.png");
-		botonPlantaBuena = app.loadImage("../data/botonPlantaMala.png");
+		botonPlantaBuena = app.loadImage("../data/botonPlantaBuena.png");
+		botonPlantaMala = app.loadImage("../data/botonPlantaMala.png");
 
 	}
 }

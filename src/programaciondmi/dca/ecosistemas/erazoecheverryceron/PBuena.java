@@ -4,9 +4,12 @@ public class PBuena extends PlantaPapu {
 
 	
 	public PBuena() {
-	
 		image = CargaDatos.PBuena;
+//		oWith = image.width;
+//		oHeight = image.height;
 		
+		Thread plantita = new Thread(this);
+		plantita.start();
 	}
 	
 	public void dibujar() {
@@ -14,4 +17,5 @@ public class PBuena extends PlantaPapu {
 		app.image(image, x, y);
 		
 	}
+
 }

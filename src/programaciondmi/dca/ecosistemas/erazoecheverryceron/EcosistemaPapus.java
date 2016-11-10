@@ -4,6 +4,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import processing.core.PApplet;
+import processing.core.PImage;
 import programaciondmi.dca.core.EcosistemaAbstracto;
 import programaciondmi.dca.core.EspecieAbstracta;
 import programaciondmi.dca.core.PlantaAbstracta;
@@ -28,6 +29,8 @@ public class EcosistemaPapus extends EcosistemaAbstracto {
 		for (PlantaAbstracta planta : plantasIniciales) {
 			planta.dibujar();
 		}
+		
+		botones();
 	}
 
 	@Override
@@ -39,12 +42,10 @@ public class EcosistemaPapus extends EcosistemaAbstracto {
 	@Override
 	protected LinkedList<PlantaAbstracta> poblarPlantas() {
 		plantasIniciales = new LinkedList<PlantaAbstracta>();
-		for (int i = 0; i < 6; i++) {
-			if (i < 3) {
+		for (int i = 0; i < 3; i++) {
 				plantasIniciales.add(new PMala());
-			} else {
-				plantasIniciales.add(new PMala());
-			}
+				plantasIniciales.add(new PBuena());
+			
 		}
 		return plantasIniciales;
 	}
@@ -59,6 +60,15 @@ public class EcosistemaPapus extends EcosistemaAbstracto {
 	protected List<PlantaAbstracta> generarPlantas() {
 		// TODO Auto-generated met hod stub
 		return null;
+	}
+	
+	private void botones() {
+		PImage buena = CargaDatos.botonPlantaBuena;
+		PImage mala = CargaDatos.botonPlantaMala;
+
+		app.image(buena, 0, 0);
+		app.image(mala, -150, 0);
+
 	}
 
 	public static boolean validar(float XUno, float YUno, float XDos, float YDos, float distancia) {

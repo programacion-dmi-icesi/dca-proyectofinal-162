@@ -14,30 +14,33 @@ public abstract class PlantaPapu extends PlantaAbstracta {
 	protected boolean vive;
 	protected PApplet app;
 	protected PImage image;
+	protected float contCrecer;
+	protected int oWith;
+	protected int oHeight;
+	protected long sleeping;
 
 	public PlantaPapu() {
 		app = EcosistemaPapus.app;
-		x = 300;
-		y = 0;
-
+		x = (int) (Math.random() * 600);
+		y = (int) (Math.random() * 400);
+		sleeping = 2000;
 		pos = new PVector(x, y);
+		contCrecer = 1;
+		vive = true;
+
 	}
 
 	@Override
 	public void run() {
-while (vive) {
-	try {
-		crecer();
-		Thread.sleep(10000);
-	} catch (Exception e) {
-		// TODO: handle exception
-	}
-}
-	}
-
-	public void botones() {
-
-
+		while (vive) {
+			try {
+				crecer();
+				Thread.sleep(sleeping);
+				contCrecer += 0.5f;
+			} catch (Exception e) {
+				// TODO: handle exception
+			}
+		}
 	}
 
 	public void mover(float x, float y) {
@@ -46,8 +49,11 @@ while (vive) {
 
 	}
 
-	public void crecer() {
+	protected void crecer() {
 
+		if (image.width >= oWith && image.height >= oHeight) {
+			image.resize((int) ((oWith / 2) * contCrecer), (int) ((oHeight / 2) * contCrecer));
+		}
 	}
 
 	public void muerto(ArrayList<PlantaAbstracta> list, PlantaAbstracta planta) {
