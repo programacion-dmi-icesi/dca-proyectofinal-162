@@ -43,8 +43,8 @@ public class EcosistemaTikiBots extends EcosistemaAbstracto {
 		nueva = new SaberBot(this);
 		especies.add(nueva);
 		
-		Birdbot planta = new Birdbot(this);
-		especies.add(planta);
+		Birdbot azul = new Birdbot(this);
+		especies.add(azul);
 		
 		return especies;
 	}
