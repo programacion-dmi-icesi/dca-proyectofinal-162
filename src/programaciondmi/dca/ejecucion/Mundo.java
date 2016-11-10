@@ -12,6 +12,7 @@ import java.util.Set;
 import org.reflections.Reflections;
 
 import processing.core.PApplet;
+import processing.core.PShape;
 import programaciondmi.dca.core.EcosistemaAbstracto;
 import programaciondmi.dca.core.EspecieAbstracta;
 import programaciondmi.dca.core.PlantaAbstracta;
@@ -25,6 +26,8 @@ public class Mundo implements Observer {
 	private Set<EcosistemaAbstracto> ecosistemas;
 	private List<EspecieAbstracta> especies;
 	private List<PlantaAbstracta> plantas;
+	private PShape mapa;
+	private PShape botones;
 
 	private Mundo(PApplet app) {
 		this.app = app;
@@ -33,6 +36,9 @@ public class Mundo implements Observer {
 		this.ecosistemas = new HashSet<EcosistemaAbstracto>();
 		this.especies = new LinkedList<EspecieAbstracta>();
 		this.plantas = new LinkedList<PlantaAbstracta>();
+		
+		this.mapa = this.app.loadShape("global_data/mapa.svg");
+		this.botones = this.app.loadShape("global_data/botones.svg");
 	}
 
 	/**
@@ -137,12 +143,27 @@ public class Mundo implements Observer {
 		 * estudiantes
 		 */
 		app.background(150);
+		app.pushMatrix();
+		// Moverse en el escenario
 		moverCamara();
+		
+		// dibujar el mapa
+		app.shapeMode(PApplet.CENTER);
+		app.shape(mapa, 0, 0);
+		app.shapeMode(PApplet.CORNER);
+		
+		// dibujar los ecosistemas
 		synchronized (ecosistemas) {
 			for (EcosistemaAbstracto ecosistema : ecosistemas) {
 				ecosistema.dibujar();
 			}
 		}
+		app.popMatrix();
+		
+		// dibujar los botones
+		app.shapeMode(PApplet.CENTER);
+		app.shape(botones, app.width/2,app.height-60);
+		app.shapeMode(PApplet.CORNER);
 
 	}
 
