@@ -14,20 +14,20 @@ public class EcosistemaPapus extends EcosistemaAbstracto {
 	// Para utilizar el app de forma rapida en cualquier clase y que no haya
 	// sido llamado se debe escribir app = EcosistemaPapu.app;
 	public static PApplet app;
-	private Mundo mundo;
 	private CargaDatos datos;
+	private LinkedList<PlantaAbstracta> plantasIniciales;
 
 	public EcosistemaPapus() {
-		super();
-		mundo = Mundo.ObtenerInstancia();
-		app = mundo.getApp();
+		app = Mundo.ObtenerInstancia().getApp();
 		datos = new CargaDatos();
+		poblarPlantas();
 	}
 
 	@Override
 	public void dibujar() {
-		app.ellipse(50, 50, 50, 50);
-
+		for (PlantaAbstracta planta : plantasIniciales) {
+			planta.dibujar();
+		}
 	}
 
 	@Override
@@ -38,8 +38,15 @@ public class EcosistemaPapus extends EcosistemaAbstracto {
 
 	@Override
 	protected LinkedList<PlantaAbstracta> poblarPlantas() {
-		// TODO Auto-generated method stub
-		return null;
+		plantasIniciales = new LinkedList<PlantaAbstracta>();
+		for (int i = 0; i < 6; i++) {
+			if (i < 3) {
+				plantasIniciales.add(new PMala());
+			} else {
+				plantasIniciales.add(new PMala());
+			}
+		}
+		return plantasIniciales;
 	}
 
 	@Override
@@ -50,14 +57,14 @@ public class EcosistemaPapus extends EcosistemaAbstracto {
 
 	@Override
 	protected List<PlantaAbstracta> generarPlantas() {
-		// TODO Auto-generated met	hod stub
+		// TODO Auto-generated met hod stub
 		return null;
 	}
 
-	public static boolean validar(float XUno, float YUno, float XDos, float YDos, float distancia){
-		if(PApplet.dist(XUno, YUno, XDos, YDos)<= distancia)
+	public static boolean validar(float XUno, float YUno, float XDos, float YDos, float distancia) {
+		if (PApplet.dist(XUno, YUno, XDos, YDos) <= distancia)
 			return true;
-	return false;	
+		return false;
 	}
 
 }

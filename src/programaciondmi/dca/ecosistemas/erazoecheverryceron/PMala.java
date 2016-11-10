@@ -1,6 +1,5 @@
 package programaciondmi.dca.ecosistemas.erazoecheverryceron;
 
-import processing.core.PApplet;
 import processing.core.PImage;
 
 public class PMala extends PlantaPapu {

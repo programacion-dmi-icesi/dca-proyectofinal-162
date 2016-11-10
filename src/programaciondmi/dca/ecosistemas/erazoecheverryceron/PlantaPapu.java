@@ -3,7 +3,6 @@ package programaciondmi.dca.ecosistemas.erazoecheverryceron;
 import java.util.ArrayList;
 
 import processing.core.PApplet;
-import processing.core.PImage;
 import processing.core.PVector;
 import programaciondmi.dca.core.PlantaAbstracta;
 
@@ -16,6 +15,9 @@ public abstract class PlantaPapu extends PlantaAbstracta {
 	
 	public PlantaPapu() {
 		app = EcosistemaPapus.app;
+		x = 300;
+		y = 0;
+
 		pos = new PVector(x,y);
 	}
 	
