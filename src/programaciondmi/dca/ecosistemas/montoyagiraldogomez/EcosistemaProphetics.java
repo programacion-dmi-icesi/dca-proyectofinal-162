@@ -4,14 +4,33 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
+import processing.core.PApplet;
+import processing.core.PImage;
 import programaciondmi.dca.core.EcosistemaAbstracto;
 import programaciondmi.dca.core.EspecieAbstracta;
 import programaciondmi.dca.core.PlantaAbstracta;
+import programaciondmi.dca.ejecucion.Mundo;
 
 public class EcosistemaProphetics extends EcosistemaAbstracto {
 
+	protected PImage[] display,plants;
+
 	public EcosistemaProphetics() {
 		super();
+
+		PApplet app = Mundo.ObtenerInstancia().getApp();
+		this.display = new PImage[5];
+		this.plants = new PImage[2];
+
+		this.display[0] = app.loadImage("Canibal.png");
+		this.display[1] = app.loadImage("Depredador.png");
+		this.display[2] = app.loadImage("Herb.png");
+		this.display[3] = app.loadImage("Hijo.png");
+		this.display[4] = app.loadImage("Murcielago.png");
+		
+		this.plants[0] = app.loadImage("carnivora1.png");
+		this.plants[1] = app.loadImage("normal1.png");
+		
 	}
 
 	@Override
@@ -20,9 +39,12 @@ public class EcosistemaProphetics extends EcosistemaAbstracto {
 
 		BuhoApareable apareable = new BuhoApareable(this);
 		especies.add(apareable);
-		
+
 		BuhoCanibal canibal = new BuhoCanibal(this);
 		especies.add(canibal);
+
+		MurHerbivoro murcielago = new MurHerbivoro(this);
+		especies.add(murcielago);
 
 		return especies;
 	}
@@ -32,8 +54,11 @@ public class EcosistemaProphetics extends EcosistemaAbstracto {
 
 		LinkedList<PlantaAbstracta> plantas = new LinkedList<PlantaAbstracta>();
 
-		Venenosa nueva = new Venenosa();
-		plantas.add(nueva);
+		Venenosa veneno = new Venenosa();
+		plantas.add(veneno);
+		
+		Hojas buena = new Hojas();
+		plantas.add(buena);
 
 		return plantas;
 	}
@@ -41,11 +66,14 @@ public class EcosistemaProphetics extends EcosistemaAbstracto {
 	@Override
 	protected List<EspecieAbstracta> generarIndividuos() {
 
+		BuhoCanibal canibal = new BuhoCanibal(this);
+		especies.add(canibal);
+
 		BuhoApareable apareable = new BuhoApareable(this);
 		especies.add(apareable);
 		
-		BuhoCanibal canibal = new BuhoCanibal(this);
-		especies.add(canibal);
+		MurHerbivoro murcielago = new MurHerbivoro(this);
+		especies.add(murcielago);
 
 		return null;
 	}
@@ -53,8 +81,11 @@ public class EcosistemaProphetics extends EcosistemaAbstracto {
 	@Override
 	protected List<PlantaAbstracta> generarPlantas() {
 
-		Venenosa nueva = new Venenosa();
-		plantas.add(nueva);
+		Venenosa veneno = new Venenosa();
+		plantas.add(veneno);
+		
+		Hojas buena = new Hojas();
+		plantas.add(buena);
 		return null;
 	}
 
@@ -68,7 +99,7 @@ public class EcosistemaProphetics extends EcosistemaAbstracto {
 				actual.dibujar();
 				if (actual instanceof Venenosa) {
 					if (((Venenosa) actual).getRecursos() <= 0) {
-//						plantas.remove(actual);
+						// plantas.remove(actual);
 					}
 				}
 			}

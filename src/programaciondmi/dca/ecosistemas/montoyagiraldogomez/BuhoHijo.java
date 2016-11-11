@@ -24,11 +24,10 @@ public class BuhoHijo extends EspecieAbstracta {
 
 	private Random random;
 
-	public BuhoHijo(EcosistemaAbstracto ecosistema) {
+	public BuhoHijo(EcosistemaAbstracto ecosistema,PImage bird) {
 		super(ecosistema);
 		this.random = new Random();
-		PApplet app = Mundo.ObtenerInstancia().getApp();
-		bird = app.loadImage("Hijo.png");
+		this.bird = bird;
 		pos = new PVector(x, y);
 		vida = 20;
 		energia = 100;

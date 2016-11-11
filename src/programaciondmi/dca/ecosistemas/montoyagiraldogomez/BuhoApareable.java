@@ -15,9 +15,9 @@ import programaciondmi.dca.ejecucion.Mundo;
 
 public class BuhoApareable extends EspecieAbstracta implements IApareable {
 
-	private PImage bird;
-	private int vida, vel;
-	private float energia;
+	private PImage bird,nino;
+	private int vida;
+	private float energia,vel;
 	private EspecieAbstracta parejaCerca;
 	private PlantaAbstracta plantaCerca;
 	private PVector pos;
@@ -39,9 +39,9 @@ public class BuhoApareable extends EspecieAbstracta implements IApareable {
 		this.vel = 3;
 
 		ciclo = 0;
-
 		PApplet app = Mundo.ObtenerInstancia().getApp();
 		this.bird = app.loadImage("Herb.png");
+		this.nino = app.loadImage("Hijo.png");
 
 		int targetX = random.nextInt();
 		int targetY = random.nextInt();
@@ -69,7 +69,7 @@ public class BuhoApareable extends EspecieAbstracta implements IApareable {
 
 	@Override
 	public EspecieAbstracta aparear(IApareable apareable) {
-		BuhoHijo kid = new BuhoHijo(ecosistema);
+		BuhoHijo kid = new BuhoHijo(ecosistema,nino);
 		kid.setX(this.x);
 		kid.setY(this.y);
 		ecosistema.agregarEspecie(kid);
@@ -209,12 +209,13 @@ public class BuhoApareable extends EspecieAbstracta implements IApareable {
 	private void alimentar(PlantaAbstracta planta) {
 		if (planta != null) {
 			float d = PApplet.dist(x, y, planta.getX(), planta.getY());
-			if (d < 80) {
+			if (d < 80 && puedeComer) {
 				if ((planta instanceof Venenosa) && estadoVeneno == 0) {
 					estado = ENVENENADO;
 					estadoVeneno = 1;
 				}
-				planta.recibirDano((EspecieAbstracta) this);
+				planta.recibirDano(this);
+				puedeComer=false;
 			}
 		}
 	}

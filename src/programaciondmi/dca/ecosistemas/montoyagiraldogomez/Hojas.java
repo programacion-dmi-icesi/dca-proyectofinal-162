@@ -8,33 +8,37 @@ import programaciondmi.dca.core.EspecieAbstracta;
 import programaciondmi.dca.core.PlantaAbstracta;
 import programaciondmi.dca.ejecucion.Mundo;
 
-public class Venenosa extends PlantaAbstracta {
+public class Hojas extends PlantaAbstracta {
 
 	private int recursos;
 	private Random random;
 	private PImage plant;
 
-	public Venenosa() {
+	public Hojas() {
 		super();
 		PApplet app = Mundo.ObtenerInstancia().getApp();
-		this.plant=app.loadImage("carnivora1.png");
-		recursos = 3;
+		this.plant = app.loadImage("normal1.png");
 		this.random = new Random();
+
+		this.recursos = 3;
+
 		x = random.nextInt(Mundo.ObtenerInstancia().getApp().width);
 		y = random.nextInt(Mundo.ObtenerInstancia().getApp().height);
 
 		Thread nt = new Thread(this);
 		nt.start();
-
 	}
 
 	@Override
 	public void run() {
-		try {
-
-		} catch (Exception e) {
-			// TODO: handle exception
+		while(recursos > 0){
+			try {
+				
+			} catch (Exception e) {
+				// TODO: handle exception
+			}
 		}
+		
 	}
 
 	@Override
@@ -42,6 +46,7 @@ public class Venenosa extends PlantaAbstracta {
 		PApplet app = Mundo.ObtenerInstancia().getApp();
 		app.imageMode(3);
 		app.image(plant, x, y);
+
 	}
 
 	@Override
@@ -61,5 +66,4 @@ public class Venenosa extends PlantaAbstracta {
 	public void setRecursos(int recursos) {
 		this.recursos = recursos;
 	}
-
 }
