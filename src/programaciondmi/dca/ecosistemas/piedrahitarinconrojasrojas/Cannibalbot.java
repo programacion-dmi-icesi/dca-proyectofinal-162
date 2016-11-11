@@ -21,7 +21,7 @@ public class Cannibalbot extends EspecieAbstracta implements ICanibal {
 	private PVector dir;
 	PImage[] cannibal = new PImage[20];
 	int posicionpj = 0;
-	int contador=15;
+	int contador=5;
 	int movCannibalbot=0;
 	private Random random;
 	public Cannibalbot(EcosistemaAbstracto ecosistema) {
