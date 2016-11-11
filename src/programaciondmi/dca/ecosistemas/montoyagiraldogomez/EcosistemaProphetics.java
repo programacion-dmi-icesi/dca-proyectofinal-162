@@ -18,11 +18,11 @@ public class EcosistemaProphetics extends EcosistemaAbstracto {
 	protected LinkedList<EspecieAbstracta> poblarEspecies() {
 		LinkedList<EspecieAbstracta> especies = new LinkedList<EspecieAbstracta>();
 
-		BuhoApareable nueva = new BuhoApareable(this);
-		especies.add(nueva);
-
-		nueva = new BuhoApareable(this);
-		especies.add(nueva);
+		BuhoApareable apareable = new BuhoApareable(this);
+		especies.add(apareable);
+		
+		BuhoCanibal canibal = new BuhoCanibal(this);
+		especies.add(canibal);
 
 		return especies;
 	}
@@ -41,8 +41,11 @@ public class EcosistemaProphetics extends EcosistemaAbstracto {
 	@Override
 	protected List<EspecieAbstracta> generarIndividuos() {
 
-		BuhoApareable nueva = new BuhoApareable(this);
-		especies.add(nueva);
+		BuhoApareable apareable = new BuhoApareable(this);
+		especies.add(apareable);
+		
+		BuhoCanibal canibal = new BuhoCanibal(this);
+		especies.add(canibal);
 
 		return null;
 	}
