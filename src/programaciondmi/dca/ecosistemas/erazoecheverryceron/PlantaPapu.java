@@ -1,6 +1,7 @@
 package programaciondmi.dca.ecosistemas.erazoecheverryceron;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 import processing.core.PApplet;
 import processing.core.PImage;
@@ -29,6 +30,18 @@ public abstract class PlantaPapu extends PlantaAbstracta {
 		vive = true;
 
 	}
+	
+	public PlantaPapu(int x, int y) {
+		super(x, y);
+		app = EcosistemaPapus.app;
+		this.x = x;
+		this.y = y;
+		sleeping = 2000;
+		pos = new PVector(x, y);
+		contCrecer = 1;
+		vive = true;
+
+	}
 
 	@Override
 	public void run() {
@@ -43,17 +56,16 @@ public abstract class PlantaPapu extends PlantaAbstracta {
 		}
 	}
 
-	public void mover(float x, float y) {
-		pos.x = x;
-		pos.y = y;
-
-	}
-
 	protected void crecer() {
 
 		if (image.width >= oWith && image.height >= oHeight) {
 			image.resize((int) ((oWith / 2) * contCrecer), (int) ((oHeight / 2) * contCrecer));
 		}
+	}
+	
+	protected void muerto(LinkedList<PlantaAbstracta> lista, PlantaAbstracta planta){
+		
+		
 	}
 
 	public void muerto(ArrayList<PlantaAbstracta> list, PlantaAbstracta planta) {
@@ -61,3 +73,4 @@ public abstract class PlantaPapu extends PlantaAbstracta {
 	}
 
 }
+ 

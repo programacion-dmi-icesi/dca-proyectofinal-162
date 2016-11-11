@@ -8,8 +8,14 @@ public class PBuena extends PlantaPapu {
 //		oWith = image.width;
 //		oHeight = image.height;
 		
-		Thread plantita = new Thread(this);
-		plantita.start();
+	}
+	
+	public PBuena(int x, int y) {
+		super(x, y);
+		image = CargaDatos.PBuena;
+//		oWith = image.width;
+//		oHeight = image.height;
+		
 	}
 	
 	public void dibujar() {

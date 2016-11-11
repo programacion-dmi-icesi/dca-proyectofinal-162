@@ -8,8 +8,14 @@ public class PMala extends PlantaPapu {
 //		oWith = image.width;
 //		oHeight = image.height;
 		
-		Thread plantita = new Thread(this);
-		plantita.start();
+	}
+	
+	public PMala(int x, int y) {
+		super(x, y);
+		image = CargaDatos.PMala;
+//		oWith = image.width;
+//		oHeight = image.height;
+		
 	}
 	
 	public void dibujar() {
