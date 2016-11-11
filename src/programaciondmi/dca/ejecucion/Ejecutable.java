@@ -9,11 +9,8 @@ public class Ejecutable extends PApplet {
 	}
 	
 	public void settings(){
-<<<<<<< HEAD
 		//fullScreen();
-=======
 //		fullScreen();
->>>>>>> branch 'master' of https://github.com/LuanErazo/dca-proyectofinal-162.git
 		size(500, 500);
 	}
 	
