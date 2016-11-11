@@ -9,8 +9,9 @@ public class Ejecutable extends PApplet {
 	}
 	
 	public void settings(){
-		fullScreen();
-		//size(500, 500);
+		//fullScreen();
+//		fullScreen();
+		size(500, 500);
 	}
 	
 	public void setup(){
