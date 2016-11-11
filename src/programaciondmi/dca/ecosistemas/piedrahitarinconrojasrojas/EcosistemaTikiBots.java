@@ -6,6 +6,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Observable;
 
+import processing.core.PApplet;
 import programaciondmi.dca.core.EcosistemaAbstracto;
 import programaciondmi.dca.core.EspecieAbstracta;
 import programaciondmi.dca.core.PlantaAbstracta;
@@ -56,8 +57,8 @@ public class EcosistemaTikiBots extends EcosistemaAbstracto {
 		cani = new Cannibalbot(this);
 		especies.add(cani);
 		
-		Birdbot azul = new Birdbot(this);
-		especies.add(azul);
+		Birdbot ave = new Birdbot(this);
+		especies.add(ave);
 		
 		return especies;
 	}
@@ -66,10 +67,23 @@ public class EcosistemaTikiBots extends EcosistemaAbstracto {
 	@Override
 	protected LinkedList<PlantaAbstracta> poblarPlantas() {
 		LinkedList<PlantaAbstracta> plantas = new LinkedList<PlantaAbstracta>();
+		
+
+	GoodPlanta buena = new GoodPlanta(this);
+	PApplet app = Mundo.ObtenerInstancia().getApp();
+	if (app.mousePressed==true){
+		if (app.mouseButton==app.LEFT)
+		{
+		plantas.add(buena);	
+	}
+	}
+	
 	
 		
 		return plantas;
 	}
+
+
 
 
 	@Override
@@ -85,8 +99,8 @@ public class EcosistemaTikiBots extends EcosistemaAbstracto {
 		Cannibalbot cani = new Cannibalbot(this);
 		especies.add(cani);
 		
-		Birdbot planta = new Birdbot(this);
-		especies.add(planta);
+		Birdbot ave = new Birdbot(this);
+		especies.add(ave);
 		
 		return null;
 	}
@@ -94,6 +108,7 @@ public class EcosistemaTikiBots extends EcosistemaAbstracto {
 
 	@Override
 	protected List<PlantaAbstracta> generarPlantas() {
+		
 		return null;
 	}
 
