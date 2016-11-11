@@ -4,6 +4,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import processing.core.PApplet;
+import processing.core.PConstants;
 import processing.core.PImage;
 import programaciondmi.dca.core.EcosistemaAbstracto;
 import programaciondmi.dca.core.EspecieAbstracta;
@@ -16,20 +17,34 @@ public class EcosistemaPapus extends EcosistemaAbstracto {
 	// sido llamado se debe escribir app = EcosistemaPapu.app;
 	public static PApplet app;
 	private CargaDatos datos;
+	private int camX;
+	private int camY;
 	private LinkedList<PlantaAbstracta> plantasIniciales;
-
+	private LinkedList<PlantaAbstracta> agregarPlantas;
+	
 	public EcosistemaPapus() {
 		app = Mundo.ObtenerInstancia().getApp();
 		datos = new CargaDatos();
+		app.imageMode(PConstants.CENTER);	
+		agregarPlantas = new LinkedList<PlantaAbstracta>();
 		poblarPlantas();
+		CargaHilos();
+		
 	}
+	private void CargaHilos() {
+		for (PlantaAbstracta plantaAbstracta : plantasIniciales) {
+			Thread plantita = new Thread(plantaAbstracta);
+			plantita.start();
+		}
 
+	}
+	
 	@Override
 	public void dibujar() {
 		for (PlantaAbstracta planta : plantasIniciales) {
 			planta.dibujar();
 		}
-		
+
 		botones();
 	}
 
@@ -43,9 +58,9 @@ public class EcosistemaPapus extends EcosistemaAbstracto {
 	protected LinkedList<PlantaAbstracta> poblarPlantas() {
 		plantasIniciales = new LinkedList<PlantaAbstracta>();
 		for (int i = 0; i < 3; i++) {
-				plantasIniciales.add(new PMala());
-				plantasIniciales.add(new PBuena());
-			
+			plantasIniciales.add(new PMala());
+			plantasIniciales.add(new PBuena());
+
 		}
 		return plantasIniciales;
 	}
@@ -61,14 +76,38 @@ public class EcosistemaPapus extends EcosistemaAbstracto {
 		// TODO Auto-generated met hod stub
 		return null;
 	}
-	
+
+	private void antiCamMov() {
+
+		if (app.mouseX < app.width / 4) {
+			camX--;
+		}
+		if (app.mouseX > 3 * app.width / 4) {
+			camX++;
+
+		}
+		if (app.mouseY < app.height / 4) {
+			camY--;
+
+		}
+		if (app.mouseX < 3 * app.height / 4) {
+			camY++;
+
+		}
+	}
+
 	private void botones() {
 		PImage buena = CargaDatos.botonPlantaBuena;
 		PImage mala = CargaDatos.botonPlantaMala;
-
-		app.image(buena, 0, 0);
-		app.image(mala, -150, 0);
-
+		antiCamMov();
+		int desfasesX = 225;
+		float desfaceY = app.height/3;
+		int pMalaX = camX-desfasesX;
+		float pMalaY = camY + desfaceY;
+		int pBuenaX = camX+ desfasesX;
+		float pBuenaY = camY + desfaceY;
+		app.image(buena, pBuenaX, pBuenaY);
+		app.image(mala, pMalaX, pMalaY);
 	}
 
 	public static boolean validar(float XUno, float YUno, float XDos, float YDos, float distancia) {

@@ -1,6 +1,7 @@
 package programaciondmi.dca.ecosistemas.erazoecheverryceron;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 import processing.core.PApplet;
 import processing.core.PImage;
@@ -55,9 +56,15 @@ public abstract class PlantaPapu extends PlantaAbstracta {
 			image.resize((int) ((oWith / 2) * contCrecer), (int) ((oHeight / 2) * contCrecer));
 		}
 	}
+	
+	protected void muerto(LinkedList<PlantaAbstracta> lista, PlantaAbstracta planta){
+		
+		
+	}
 
 	public void muerto(ArrayList<PlantaAbstracta> list, PlantaAbstracta planta) {
 
 	}
 
 }
+ 
