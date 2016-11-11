@@ -22,7 +22,7 @@ public class EspecieAzul extends EspecieAbstracta implements IHerbivoro {
 
 		int targetX = (int) (Math.random()*500);
 		int targetY = (int) (Math.random()*500);
-		cambiarDireccion(new PVector(targetX, targetY));
+		
 		
 		Thread nt = new Thread(this);
 		nt.start();
