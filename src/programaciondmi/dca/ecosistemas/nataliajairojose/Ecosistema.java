@@ -16,9 +16,9 @@ public class Ecosistema extends EcosistemaAbstracto {
 
 	public Ecosistema() {
 		super();
-		
 		Mundo ref = Mundo.ObtenerInstancia();
 		LogoEjemplo boton= new LogoEjemplo("global_data/bot1.svg", this);
+		System.out.println("elbot:"+boton);
 		ref.agregarBoton(boton);
 	}
 
@@ -41,8 +41,8 @@ public class Ecosistema extends EcosistemaAbstracto {
 		especies.add(nueva);		
 		nueva = new EspecieBlanca(this);
 		especies.add(nueva);		
-		EspecieAzul azul = new EspecieAzul(this);
-		especies.add(azul);		
+		Coconita coco = new Coconita(this);
+		especies.add(coco);		
 		return especies;
 	}
 
@@ -59,15 +59,15 @@ public class Ecosistema extends EcosistemaAbstracto {
 	protected List<EspecieAbstracta> generarIndividuos() {
 		EspecieBlanca nueva = new EspecieBlanca(this);
 		especies.add(nueva);		
-		EspecieAzul azul = new EspecieAzul(this);
-		especies.add(azul);		
-		return null;
+		Coconita coco = new Coconita(this);
+		especies.add(coco);		
+		return especies;
 	}
 	
 
 	@Override
 	protected List<PlantaAbstracta> generarPlantas() {
-		return null;
+		return plantas;
 	}
 	
 }

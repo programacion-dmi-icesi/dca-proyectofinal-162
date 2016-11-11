@@ -1,6 +1,7 @@
 package programaciondmi.dca.ecosistemas.nataliajairojose;
 
 import processing.core.PApplet;
+import processing.core.PImage;
 import processing.core.PVector;
 import programaciondmi.dca.core.EcosistemaAbstracto;
 import programaciondmi.dca.core.EspecieAbstracta;
@@ -8,30 +9,45 @@ import programaciondmi.dca.core.PlantaAbstracta;
 import programaciondmi.dca.core.interfaces.IHerbivoro;
 import programaciondmi.dca.ejecucion.Mundo;
 
-public class EspecieAzul extends EspecieAbstracta implements IHerbivoro {
-
+public class Coconita extends EspecieAbstracta implements IHerbivoro {
+	
+	private PApplet app;
 	private int vida;
 	private int velocidad;
 	private PVector dir;
 	private int ciclo;
-
-	public EspecieAzul(EcosistemaAbstracto ecosistema) {
+	private PImage[] coconitaF;
+	private int index = 0;
+	
+	public Coconita(EcosistemaAbstracto ecosistema) {
 		super(ecosistema);
+		//SIEMPRE HAGAN ESTO CON EL APP
+		this.app = Mundo.ObtenerInstancia().getApp();
+		coconitaF = new PImage[7];
+		imagenes();
 		this.vida = 20;
 		this.velocidad = 5;
-
+		
 		int targetX = (int) (Math.random()*500);
 		int targetY = (int) (Math.random()*500);
 		cambiarDireccion(new PVector(targetX, targetY));
 		
 		Thread nt = new Thread(this);
 		nt.start();
+		
 	}
 
 	@Override
 	public void run() {
 		while (vida > 0) {
 			mover();
+			if (app.frameCount % 6 == 0) {
+				index++;
+				if (index > 6) {
+					index = 0;
+				}
+			}
+			System.out.println();
 			try {
 				Thread.sleep(33);
 				ciclo++;
@@ -39,6 +55,7 @@ public class EspecieAzul extends EspecieAbstracta implements IHerbivoro {
 				// TODO: handle exception
 			}
 		}
+		
 	}
 
 	@Override
@@ -49,8 +66,7 @@ public class EspecieAzul extends EspecieAbstracta implements IHerbivoro {
 	@Override
 	public void dibujar() {
 		PApplet app = Mundo.ObtenerInstancia().getApp();
-		app.fill(0,0,255);
-		app.ellipse(x, y, vida, vida);
+		app.image(coconitaF[index],x,y,68,100);
 
 	}
 
@@ -90,6 +106,17 @@ public class EspecieAzul extends EspecieAbstracta implements IHerbivoro {
 		dir.normalize();
 		dir.mult(velocidad);
 		//System.out.println("[id=" + id + ", direcion=" + dir + "]");
+	}
+	
+	public void imagenes() {
+		
+		coconitaF[0] = app.loadImage("../data/presetacionPersonajes-08.png");
+			coconitaF[1] = app.loadImage("../data/presetacionPersonajes-09.png");
+		coconitaF[2] = app.loadImage("../data/presetacionPersonajes-10.png");
+		coconitaF[3] = app.loadImage("../data/presetacionPersonajes-11.png");
+		coconitaF[4] = app.loadImage("../data/presetacionPersonajes-12.png");
+		coconitaF[5] = app.loadImage("../data/presetacionPersonajes-13.png");
+		coconitaF[6] = app.loadImage("../data/presetacionPersonajes-14.png");
 	}
 	
 	

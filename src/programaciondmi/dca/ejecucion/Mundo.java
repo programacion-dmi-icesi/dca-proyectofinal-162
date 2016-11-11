@@ -61,7 +61,9 @@ public class Mundo implements Observer {
 		for (Class<? extends EcosistemaAbstracto> clase : clasesEcosistemas) {
 			try {
 				Constructor<?> cons = clase.getConstructor();
+				System.out.println(".........."+cons.toString());
 				EcosistemaAbstracto ecosistema = (EcosistemaAbstracto) cons.newInstance();
+				System.out.println("despues dle constructor");
 				ecosistemas.add(ecosistema);
 				ecosistema.addObserver(this);
 				cargarEspecies(ecosistema);
