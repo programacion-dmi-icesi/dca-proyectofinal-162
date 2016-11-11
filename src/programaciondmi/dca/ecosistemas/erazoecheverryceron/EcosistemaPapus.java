@@ -113,7 +113,7 @@ public class EcosistemaPapus extends EcosistemaAbstracto {
 	private void crearPlantas(){
 		if (app.mousePressed) {
 			System.out.println("entra");
-			agregarPlantas.add(new PBuena(app.mouseX,app.mouseY));
+			agregarPlantas.add(new PBuena(app.mouseX-((app.width/2)-camX), app.mouseY-((app.height/2))-camY));
 		}
 	}
 	private void botones() {
@@ -128,7 +128,7 @@ public class EcosistemaPapus extends EcosistemaAbstracto {
 		float pBuenaY = camY + desfaceY;
 		app.image(buena, pBuenaX, pBuenaY);
 		app.image(mala, pMalaX, pMalaY);
-		app.line(pBuenaX, pBuenaY, (app.mouseX/2)-camX, (app.mouseY/2)-camY);
+		app.line(pBuenaX, pBuenaY, app.mouseX-((app.width/2)-camX), app.mouseY-((app.height/2))-camY);
 	}
 
 	public static boolean validar(float XUno, float YUno, float XDos, float YDos, float distancia) {
