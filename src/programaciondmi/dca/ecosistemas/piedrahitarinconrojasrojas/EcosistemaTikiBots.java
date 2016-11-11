@@ -37,11 +37,24 @@ public class EcosistemaTikiBots extends EcosistemaAbstracto {
 	@Override
 	protected LinkedList<EspecieAbstracta> poblarEspecies() {
 		LinkedList<EspecieAbstracta> especies = new LinkedList<EspecieAbstracta>();
+		
 		SaberBot nueva = new SaberBot(this);
 		especies.add(nueva);
 		
 		nueva = new SaberBot(this);
 		especies.add(nueva);
+		
+		Magusbot mago = new Magusbot(this);
+		especies.add(mago);
+		
+		mago = new Magusbot(this);
+		especies.add(mago);
+		
+		Cannibalbot cani = new Cannibalbot(this);
+		especies.add(cani);
+		
+		cani = new Cannibalbot(this);
+		especies.add(cani);
 		
 		Birdbot azul = new Birdbot(this);
 		especies.add(azul);
@@ -53,7 +66,8 @@ public class EcosistemaTikiBots extends EcosistemaAbstracto {
 	@Override
 	protected LinkedList<PlantaAbstracta> poblarPlantas() {
 		LinkedList<PlantaAbstracta> plantas = new LinkedList<PlantaAbstracta>();
-
+	
+		
 		return plantas;
 	}
 
@@ -63,7 +77,13 @@ public class EcosistemaTikiBots extends EcosistemaAbstracto {
 		// TODO Auto-generated method stub
 		
 		SaberBot nueva = new SaberBot(this);
-		especies.add(nueva);
+		especies.add(nueva);	
+
+		Magusbot mago = new Magusbot(this);
+		especies.add(mago);
+		
+		Cannibalbot cani = new Cannibalbot(this);
+		especies.add(cani);
 		
 		Birdbot planta = new Birdbot(this);
 		especies.add(planta);
