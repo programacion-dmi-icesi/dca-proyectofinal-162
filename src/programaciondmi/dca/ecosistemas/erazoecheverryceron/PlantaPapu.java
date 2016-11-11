@@ -30,6 +30,18 @@ public abstract class PlantaPapu extends PlantaAbstracta {
 		vive = true;
 
 	}
+	
+	public PlantaPapu(int x, int y) {
+		super(x, y);
+		app = EcosistemaPapus.app;
+		this.x = x;
+		this.y = y;
+		sleeping = 2000;
+		pos = new PVector(x, y);
+		contCrecer = 1;
+		vive = true;
+
+	}
 
 	@Override
 	public void run() {
@@ -42,12 +54,6 @@ public abstract class PlantaPapu extends PlantaAbstracta {
 				// TODO: handle exception
 			}
 		}
-	}
-
-	public void mover(float x, float y) {
-		pos.x = x;
-		pos.y = y;
-
 	}
 
 	protected void crecer() {

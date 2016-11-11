@@ -5,8 +5,16 @@ public class PBuena extends PlantaPapu {
 	
 	public PBuena() {
 		image = CargaDatos.PBuena;
-		oWith = image.width;
-		oHeight = image.height;
+//		oWith = image.width;
+//		oHeight = image.height;
+		
+	}
+	
+	public PBuena(int x, int y) {
+		super(x, y);
+		image = CargaDatos.PBuena;
+//		oWith = image.width;
+//		oHeight = image.height;
 		
 	}
 	

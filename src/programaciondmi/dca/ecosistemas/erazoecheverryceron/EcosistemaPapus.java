@@ -21,30 +21,41 @@ public class EcosistemaPapus extends EcosistemaAbstracto {
 	private int camY;
 	private LinkedList<PlantaAbstracta> plantasIniciales;
 	private LinkedList<PlantaAbstracta> agregarPlantas;
-	
+
 	public EcosistemaPapus() {
 		app = Mundo.ObtenerInstancia().getApp();
 		datos = new CargaDatos();
-		app.imageMode(PConstants.CENTER);	
+		app.imageMode(PConstants.CENTER);
 		agregarPlantas = new LinkedList<PlantaAbstracta>();
 		poblarPlantas();
-		CargaHilos();
-		
+		CargaHilosPrimeros();
 	}
-	private void CargaHilos() {
+
+	private void CargaHilosPrimeros() {
 		for (PlantaAbstracta plantaAbstracta : plantasIniciales) {
 			Thread plantita = new Thread(plantaAbstracta);
 			plantita.start();
 		}
-
 	}
 	
+	 private void CargaHIlosSegundos(){
+			for (PlantaAbstracta plantaAbstracta : agregarPlantas) {
+				Thread plantita = new Thread(plantaAbstracta);
+				plantita.start();
+			}
+
+
+	 }
+
 	@Override
 	public void dibujar() {
 		for (PlantaAbstracta planta : plantasIniciales) {
 			planta.dibujar();
 		}
-
+		for (PlantaAbstracta planta : agregarPlantas) {
+			planta.dibujar();
+		}
+		generarPlantas();
 		botones();
 	}
 
@@ -73,8 +84,11 @@ public class EcosistemaPapus extends EcosistemaAbstracto {
 
 	@Override
 	protected List<PlantaAbstracta> generarPlantas() {
-		// TODO Auto-generated met hod stub
-		return null;
+		if (app.mousePressed) {
+			antiCamMov();			
+			agregarPlantas.add(new PBuena(app.mouseX-camX,app.mouseY-camY));
+		}
+		return agregarPlantas;
 	}
 
 	private void antiCamMov() {
@@ -96,18 +110,25 @@ public class EcosistemaPapus extends EcosistemaAbstracto {
 		}
 	}
 
+	private void crearPlantas(){
+		if (app.mousePressed) {
+			System.out.println("entra");
+			agregarPlantas.add(new PBuena(app.mouseX,app.mouseY));
+		}
+	}
 	private void botones() {
 		PImage buena = CargaDatos.botonPlantaBuena;
 		PImage mala = CargaDatos.botonPlantaMala;
 		antiCamMov();
 		int desfasesX = 225;
-		float desfaceY = app.height/3;
-		int pMalaX = camX-desfasesX;
+		float desfaceY = app.height / 3;
+		int pMalaX = camX - desfasesX;
 		float pMalaY = camY + desfaceY;
-		int pBuenaX = camX+ desfasesX;
+		int pBuenaX = camX + desfasesX;
 		float pBuenaY = camY + desfaceY;
 		app.image(buena, pBuenaX, pBuenaY);
 		app.image(mala, pMalaX, pMalaY);
+		app.line(pBuenaX, pBuenaY, (app.mouseX/2)-camX, (app.mouseY/2)-camY);
 	}
 
 	public static boolean validar(float XUno, float YUno, float XDos, float YDos, float distancia) {
