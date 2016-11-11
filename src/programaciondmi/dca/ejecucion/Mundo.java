@@ -17,6 +17,7 @@ import processing.core.PApplet;
 import processing.core.PShape;
 import programaciondmi.dca.core.EcosistemaAbstracto;
 import programaciondmi.dca.core.EspecieAbstracta;
+import programaciondmi.dca.core.LogoAbstracto;
 import programaciondmi.dca.core.PlantaAbstracta;
 
 public class Mundo implements Observer {
@@ -30,7 +31,7 @@ public class Mundo implements Observer {
 	private List<PlantaAbstracta> plantas;
 	private PShape mapa;
 	private PShape botones_base;
-	private ArrayList<PShape> botones;
+	private ArrayList<LogoAbstracto> botones;
 	
 	private Mundo(PApplet app) {
 		this.app = app;
@@ -43,7 +44,7 @@ public class Mundo implements Observer {
 		this.mapa = this.app.loadShape("global_data/mapa.svg");
 		this.botones_base = this.app.loadShape("global_data/botones.svg");
 		
-		botones = new ArrayList<>();
+		botones = new ArrayList<LogoAbstracto>();
 	
 	}
 
@@ -187,7 +188,7 @@ public class Mundo implements Observer {
 		return plantas;
 	}
 	
-	public synchronized void agregarBoton(PShape boton){
+	public synchronized void agregarBoton(LogoAbstracto boton){
 		botones.add(boton);
 	}
 	
@@ -230,15 +231,32 @@ public class Mundo implements Observer {
 	
 	private void dibujarBotones(){
 		int offSetX = 0;
-		for(int i = 0; i < botones.size();i++){		
-			PShape boton  = botones.get(i);			
-			app.shapeMode(PApplet.CENTER);			
-			app.shape(boton, (app.width/2) + (i%2==0?offSetX:-offSetX) , app.height-70, 60, 60);			
-			app.shapeMode(PApplet.CORNER);			
+		for(int i = 0; i < botones.size();i++){
+			
+			// Definir la posición del Logo
+			int posicionX = (app.width/2) + (i%2==0?offSetX:-offSetX);
+			int posicionY = app.height-70;
+			
+			LogoAbstracto logo = botones.get(i);
+			logo.setX(posicionX);
+			logo.setY(posicionY);
+			logo.dibujar();
+				
 			if(i%2==0){
 				offSetX+=60;
 			}						
 		}
+	}
+
+	public void click() {
+		for(int i = 0; i < botones.size();i++){
+			LogoAbstracto logo = botones.get(i);
+			
+			if(PApplet.dist(app.mouseX, app.mouseY, logo.getX(), logo.getY()) < 30){
+				logo.click();
+			}
+		}
+		
 	}
 	
 }
