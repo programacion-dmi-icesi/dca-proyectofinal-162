@@ -45,6 +45,9 @@ public class EcosistemaProphetics extends EcosistemaAbstracto {
 
 		MurHerbivoro murcielago = new MurHerbivoro(this);
 		especies.add(murcielago);
+		
+		BuhoDepredador depredador = new BuhoDepredador(this);
+		especies.add(depredador);
 
 		return especies;
 	}
@@ -74,6 +77,9 @@ public class EcosistemaProphetics extends EcosistemaAbstracto {
 		
 		MurHerbivoro murcielago = new MurHerbivoro(this);
 		especies.add(murcielago);
+		
+		BuhoDepredador depredador = new BuhoDepredador(this);
+		especies.add(depredador);
 
 		return null;
 	}
