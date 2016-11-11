@@ -16,8 +16,10 @@ public class EcosistemaEjemplo extends EcosistemaAbstracto {
 
 	public EcosistemaEjemplo() {
 		super();
+		
 		Mundo ref = Mundo.ObtenerInstancia();
-		ref.agregarBoton(ref.getApp().loadShape("global_data/bot1.svg"));
+		LogoEjemplo boton= new LogoEjemplo("global_data/bot1.svg", this);
+		ref.agregarBoton(boton);
 	}
 
 
