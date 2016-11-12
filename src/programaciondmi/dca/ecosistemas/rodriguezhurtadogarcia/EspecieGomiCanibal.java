@@ -18,7 +18,7 @@ import programaciondmi.dca.ejecucion.Mundo;
 public class EspecieGomiCanibal extends EspecieAbstracta implements ICanibal {
 	private int vida;
 	private float fuerza;
-	private int velocidad, vista;
+	private int velocidad, vista, moverX, moverY, mover=0;
 	private PImage[] canibalFrente = new PImage[4];
 	private PApplet app;
 
@@ -49,7 +49,6 @@ public class EspecieGomiCanibal extends EspecieAbstracta implements ICanibal {
 
 		int targetX = random.nextInt();
 		int targetY = random.nextInt();
-		cambiarDireccion(new PVector(targetX, targetY));
 
 		ciclo = 0;
 
@@ -79,42 +78,48 @@ public class EspecieGomiCanibal extends EspecieAbstracta implements ICanibal {
 		// TODO Auto-generated method stub
 		PApplet app = Mundo.ObtenerInstancia().getApp();
 
-		app.image(canibalFrente[vista], x, y);
+		app.image(canibalFrente[vista], x+moverX, y+moverY);
 	}
 
 	@Override
 	public void mover() {
 		if (energia > 0) {
-			// System.out.println("[id=" + id + ", energia=" + energia + "]");
-			// Si tengo buena energía para aparearme
-			if (energia > LIMITE_APAREO) {
-				buscarParejaCercana();
-				// Si hay una pareja cercana la prioridad es reproducirse
-				if (parejaCercana != null) {
-					intentarAparear();
-				}
-			} else {
-				buscarComida();
-				if (ciclo % 30 == 0) {
-					// Definir una direccion aleatoria cada 3 segundos
-					int targetX = random.nextInt();
-					int targetY = random.nextInt();
-					cambiarDireccion(new PVector(targetX, targetY));
-					System.out.println("CAMBIO DIRECCION!");
-				}
-			}
+		
+			  switch(mover) {
 
-			// moverse en la dirección asignada actualmente
-			this.x += dir.x;
-			this.y += dir.y;
-			energia -= 0.01;
-		}
+			    case 0:
+			      moverX++;
+			      break;
+			    case 1:
+			      moverX--;
+			      break;
+			    case 2:
+			      moverY++;
+			      break;
+			    case 3:
+			      moverY--;
+			    }//termina switch mover
 
-		if (this.x > Mundo.ObtenerInstancia().getApp().width || this.x < 0) {
-			this.dir.x *= -1;
-		}
-		if (this.y > Mundo.ObtenerInstancia().getApp().height || this.y < 0) {
-			this.dir.y *= -1;
+			    if (moverX>=500) {
+			      mover=1;
+			    }
+
+			    if (moverX<=0) {
+			      moverX=1;
+			      mover=2;
+			    }
+
+
+			    if (moverY>=500) {
+			      mover=3;
+			    }
+
+			    if (moverY<=-1) {
+			      moverY=0;
+			      mover=0;
+			    }
+			
+			
 		}
 
 	}
@@ -125,19 +130,13 @@ public class EspecieGomiCanibal extends EspecieAbstracta implements ICanibal {
 			mover();
 			try {
 				Thread.sleep(33);
-				ciclo++;
 			} catch (Exception e) {
 				// TODO: handle exception
 			}
 		}
 	}
 
-	/**
-	 * <p>
-	 * Este método busca a una especie apareable dentro del rango permitido por
-	 * la fuerza actual.
-	 * </p>
-	 */
+	
 	private void buscarParejaCercana() {
 
 		List<EspecieAbstracta> todas = Mundo.ObtenerInstancia().getEspecies();
@@ -155,7 +154,6 @@ public class EspecieGomiCanibal extends EspecieAbstracta implements ICanibal {
 					encontro = true;
 					parejaCercana = e;
 					// Cambiar la dirección
-					cambiarDireccion(new PVector(parejaCercana.getX(), parejaCercana.getY()));
 				}
 			}
 		}
@@ -167,22 +165,12 @@ public class EspecieGomiCanibal extends EspecieAbstracta implements ICanibal {
 
 	}
 
-	/**
-	 * <p>
-	 * Este método valida que una pareja cercana este a la distancia adecuada y
-	 * genera un descendiente en caso de cumplirse la condición
-	 * </p>
-	 */
+
 	private void intentarAparear() {
 
 	}
 
-	/**
-	 * <p>
-	 * Este método valida recorre el arreglo de especies del mundo e intenta
-	 * comerse a cada una de las especies
-	 * </p>
-	 */
+	
 	private void buscarComida() {
 		List<EspecieAbstracta> todas = Mundo.ObtenerInstancia().getEspecies();
 		for (int i = 0; i < todas.size(); i++) {
@@ -190,14 +178,7 @@ public class EspecieGomiCanibal extends EspecieAbstracta implements ICanibal {
 		}
 	}
 
-	private void cambiarDireccion(PVector target) {
-		PVector location = new PVector(x, y);
-		dir = PVector.sub(target, location);
-		dir.normalize();
-		dir.mult(velocidad);
 
-		// System.out.println("[id=" + id + ", direcion=" + dir + "]");
-	}
 
 	@Override
 	public String toString() {

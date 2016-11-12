@@ -17,22 +17,25 @@ import programaciondmi.dca.core.interfaces.ICarnivoro;
 import programaciondmi.dca.core.interfaces.IOmnivoro;
 import programaciondmi.dca.ejecucion.Mundo;
 
+/*VISTAS
+1=delante
+2=atras
+3=izquierda
+4=derecha
+*/
+
 public class EspecieGomiOmnivoro extends EspecieAbstracta implements IOmnivoro {
 	private int vida;
 	private float fuerza;
-	private int velocidad;
+	private int velocidad, vista, moverX, moverY, mover = 0, direccion = 1;
 	private PImage omnivoroFrente;
 	private PApplet app;
-
-	/*
-	 * Se utiliza para definfir cuando el individuo puede realizar acciones:
-	 * moverse, aparearse, etc
-	 */
-
 	private float energia;
 	private EspecieAbstracta parejaCercana;
 	private PVector dir;
 	private int ciclo;
+	private PImage[] omnivoroIzquierda = new PImage[11];
+	private PImage[] omnivoroDerecha = new PImage[11];
 
 	// Constantes
 	private final int LIMITE_APAREO = 100;
@@ -50,12 +53,37 @@ public class EspecieGomiOmnivoro extends EspecieAbstracta implements IOmnivoro {
 
 		int targetX = random.nextInt();
 		int targetY = random.nextInt();
-		cambiarDireccion(new PVector(targetX, targetY));
-
-		ciclo = 0;
 
 		app = Mundo.ObtenerInstancia().getApp();
-		omnivoroFrente = app.loadImage("../data/omnivoroFrente.png"); 
+
+		// CARGO IMAGENES
+		omnivoroFrente = app.loadImage("../data/omnivoro/omnivoroFrente.png");
+
+		// OMNIVORO IZQUIERDO
+		omnivoroIzquierda[0] = app.loadImage("../data/omnivoro/omnivoroIzquierda/1.png");
+		omnivoroIzquierda[1] = app.loadImage("../data/omnivoro/omnivoroIzquierda/2.png");
+		omnivoroIzquierda[2] = app.loadImage("../data/omnivoro/omnivoroIzquierda/3.png");
+		omnivoroIzquierda[3] = app.loadImage("../data/omnivoro/omnivoroIzquierda/4.png");
+		omnivoroIzquierda[4] = app.loadImage("../data/omnivoro/omnivoroIzquierda/5.png");
+		omnivoroIzquierda[5] = app.loadImage("../data/omnivoro/omnivoroIzquierda/6.png");
+		omnivoroIzquierda[6] = app.loadImage("../data/omnivoro/omnivoroIzquierda/7.png");
+		omnivoroIzquierda[7] = app.loadImage("../data/omnivoro/omnivoroIzquierda/8.png");
+		omnivoroIzquierda[8] = app.loadImage("../data/omnivoro/omnivoroIzquierda/9.png");
+		omnivoroIzquierda[9] = app.loadImage("../data/omnivoro/omnivoroIzquierda/10.png");
+		omnivoroIzquierda[10] = app.loadImage("../data/omnivoro/omnivoroIzquierda/11.png");
+
+		// OMNIVORO IZQUIERDO
+		omnivoroDerecha[0] = app.loadImage("../data/omnivoro/omnivoroDerecha/1.png");
+		omnivoroDerecha[1] = app.loadImage("../data/omnivoro/omnivoroDerecha/2.png");
+		omnivoroDerecha[2] = app.loadImage("../data/omnivoro/omnivoroDerecha/3.png");
+		omnivoroDerecha[3] = app.loadImage("../data/omnivoro/omnivoroDerecha/4.png");
+		omnivoroDerecha[4] = app.loadImage("../data/omnivoro/omnivoroDerecha/5.png");
+		omnivoroDerecha[5] = app.loadImage("../data/omnivoro/omnivoroDerecha/6.png");
+		omnivoroDerecha[6] = app.loadImage("../data/omnivoro/omnivoroDerecha/7.png");
+		omnivoroDerecha[7] = app.loadImage("../data/omnivoro/omnivoroDerecha/8.png");
+		omnivoroDerecha[8] = app.loadImage("../data/omnivoro/omnivoroDerecha/9.png");
+		omnivoroDerecha[9] = app.loadImage("../data/omnivoro/omnivoroDerecha/10.png");
+		omnivoroDerecha[10] = app.loadImage("../data/omnivoro/omnivoroDerecha/11.png");
 
 		Thread nt = new Thread(this);
 		nt.start();
@@ -75,42 +103,58 @@ public class EspecieGomiOmnivoro extends EspecieAbstracta implements IOmnivoro {
 	public void dibujar() {
 
 		PApplet app = Mundo.ObtenerInstancia().getApp();
-		app.image(omnivoroFrente, x, y);
+
+		if (direccion == 3) {
+			app.image(omnivoroIzquierda[vista], x + moverX, y + moverY);
+		} else if (direccion == 4) {
+			app.image(omnivoroDerecha[vista], x + moverX, y + moverY);
+		} else {
+			app.image(omnivoroFrente, x + moverX, y + moverY);
+		}
+
 	}
 
 	@Override
 	public void mover() {
 		if (energia > 0) {
-			// System.out.println("[id=" + id + ", energia=" + energia + "]");
-			// Si tengo buena energía para aparearme
-			if (energia > LIMITE_APAREO) {
-				buscarParejaCercana();
-				// Si hay una pareja cercana la prioridad es reproducirse
-				if (parejaCercana != null) {
-					intentarAparear();
-				}
-			} else {
-				buscarComida();
-				if (ciclo % 30 == 0) {
-					// Definir una direccion aleatoria cada 3 segundos
-					int targetX = random.nextInt();
-					int targetY = random.nextInt();
-					cambiarDireccion(new PVector(targetX, targetY));
-					System.out.println("CAMBIO DIRECCION!");
-				}
+
+			switch (mover) {
+
+			case 0:
+				moverX++;
+				direccion = 4;
+				break;
+			case 1:
+				moverX--;
+				direccion = 3;
+				break;
+			case 2:
+				moverY++;
+				direccion = 1;
+				break;
+			case 3:
+				moverY--;
+				direccion = 2;
+			}// termina switch mover
+
+			if (moverX >= 500) {
+				mover = 1;
 			}
 
-			// moverse en la dirección asignada actualmente
-			this.x += dir.x;
-			this.y += dir.y;
-			energia -= 0.01;
-		}
+			if (moverX <= 0) {
+				moverX = 1;
+				mover = 2;
+			}
 
-		if (this.x > Mundo.ObtenerInstancia().getApp().width || this.x < 0) {
-			this.dir.x *= -1;
-		}
-		if (this.y > Mundo.ObtenerInstancia().getApp().height || this.y < 0) {
-			this.dir.y *= -1;
+			if (moverY >= 500) {
+				mover = 3;
+			}
+
+			if (moverY <= -1) {
+				moverY = 0;
+				mover = 0;
+			}
+
 		}
 
 	}
@@ -121,19 +165,18 @@ public class EspecieGomiOmnivoro extends EspecieAbstracta implements IOmnivoro {
 			mover();
 			try {
 				Thread.sleep(33);
-				ciclo++;
+				vista++;
+
+				if (vista == 10) {
+					vista = 0;
+				}
+
 			} catch (Exception e) {
 				// TODO: handle exception
 			}
 		}
 	}
 
-	/**
-	 * <p>
-	 * Este metodo busca a una especie apareable dentro del rango permitido por
-	 * la fuerza actual.
-	 * </p>
-	 */
 	private void buscarParejaCercana() {
 
 		List<EspecieAbstracta> todas = Mundo.ObtenerInstancia().getEspecies();
@@ -151,7 +194,6 @@ public class EspecieGomiOmnivoro extends EspecieAbstracta implements IOmnivoro {
 					encontro = true;
 					parejaCercana = e;
 					// Cambiar la dirección
-					cambiarDireccion(new PVector(parejaCercana.getX(), parejaCercana.getY()));
 				}
 			}
 		}
@@ -163,35 +205,15 @@ public class EspecieGomiOmnivoro extends EspecieAbstracta implements IOmnivoro {
 
 	}
 
-	/**
-	 * <p>
-	 * Este metodo valida que una pareja cercana este a la distancia adecuada y
-	 * genera un descendiente en caso de cumplirse la condición
-	 * </p>
-	 */
 	private void intentarAparear() {
 
 	}
 
-	/**
-	 * <p>
-	 * Este metodo valida recorre el arreglo de especies del mundo e intenta
-	 * comerse a cada una de las especies
-	 * </p>
-	 */
 	private void buscarComida() {
 		List<EspecieAbstracta> todas = Mundo.ObtenerInstancia().getEspecies();
 		for (int i = 0; i < todas.size(); i++) {
 			comer(todas.get(i));
 		}
-	}
-
-	private void cambiarDireccion(PVector target) {
-		PVector location = new PVector(x, y);
-		dir = PVector.sub(target, location);
-		dir.normalize();
-		dir.mult(velocidad);
-		// System.out.println("[id=" + id + ", direcion=" + dir + "]");
 	}
 
 	@Override

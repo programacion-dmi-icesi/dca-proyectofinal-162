@@ -10,6 +10,7 @@ import processing.core.PApplet;
 import programaciondmi.dca.core.EcosistemaAbstracto;
 import programaciondmi.dca.core.EspecieAbstracta;
 import programaciondmi.dca.core.PlantaAbstracta;
+import programaciondmi.dca.ecosistemas.sarmientomanzanomoncada.LogoEjemplo;
 import programaciondmi.dca.ejecucion.Mundo;
 
 public class EcosistemaGomiCabra extends EcosistemaAbstracto {
@@ -20,6 +21,10 @@ public class EcosistemaGomiCabra extends EcosistemaAbstracto {
 
 	public EcosistemaGomiCabra() {
 		super();
+
+		Mundo logoGomi = Mundo.ObtenerInstancia();
+		LogoGomiCabra boton = new LogoGomiCabra("./data/icono.svg", this);
+		logoGomi.agregarBoton(boton);
 	}
 
 	@Override
