@@ -182,7 +182,7 @@ public class EspecieGomiOmnivoro extends EspecieAbstracta implements IOmnivoro {
 				}
 
 				if (direccion == 1 || direccion == 2) {
-					if (vista == 4) {
+					if (vista == 3) {
 						vista = 0;
 					}
 				}

@@ -39,9 +39,7 @@ public class EspecieBlanca extends EspecieAbstracta implements IApareable, ICarn
 		this.fuerza = 100;
 		this.energia = 250;
 		this.velocidad = 2;
-
-
-		int targetX = random.nextInt();
+int targetX = random.nextInt();
 		int targetY = random.nextInt();
 		cambiarDireccion(new PVector(targetX, targetY));
 

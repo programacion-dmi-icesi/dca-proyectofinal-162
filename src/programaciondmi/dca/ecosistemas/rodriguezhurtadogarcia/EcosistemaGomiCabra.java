@@ -78,7 +78,7 @@ public class EcosistemaGomiCabra extends EcosistemaAbstracto {
 
 		EspecieGomiOmnivoro gomiOmnivoro = new EspecieGomiOmnivoro(this);
 		especies.add(gomiOmnivoro);
-
+		
 		gomiHerbivoro = new EspecieGomiHerbivoro(this, vista);
 		especies.add(gomiHerbivoro);
 
@@ -123,7 +123,7 @@ public class EcosistemaGomiCabra extends EcosistemaAbstracto {
 
 		EspecieGomiOmnivoro gomiOmnivoro = new EspecieGomiOmnivoro(this);
 		especies.add(gomiOmnivoro);
-
+		
 		return null;
 	}
 

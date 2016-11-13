@@ -157,7 +157,7 @@ public class EspecieGomiCanibal extends EspecieAbstracta implements ICanibal {
 
 				vista++;
 
-				if (vista == 4) {
+				if (vista == 3) {
 					vista = 0;
 				}
 

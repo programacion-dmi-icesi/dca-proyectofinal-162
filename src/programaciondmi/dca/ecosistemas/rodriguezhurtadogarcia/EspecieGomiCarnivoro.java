@@ -159,7 +159,7 @@ public class EspecieGomiCarnivoro extends EspecieAbstracta implements ICarnivoro
 				
 				vista++;
 
-				if (vista == 4) {
+				if (vista == 3) {
 					vista = 0;
 				}
 				

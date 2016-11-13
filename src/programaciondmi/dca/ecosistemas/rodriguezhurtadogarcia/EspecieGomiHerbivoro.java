@@ -12,6 +12,7 @@ import programaciondmi.dca.core.EspecieAbstracta;
 import programaciondmi.dca.core.PlantaAbstracta;
 import programaciondmi.dca.core.interfaces.IApareable;
 import programaciondmi.dca.core.interfaces.IHerbivoro;
+import programaciondmi.dca.ecosistemas.sarmientomanzanomoncada.HijoBlanco;
 import programaciondmi.dca.ejecucion.Mundo;
 
 public class EspecieGomiHerbivoro extends EspecieAbstracta implements IApareable, IHerbivoro {
@@ -49,32 +50,30 @@ public class EspecieGomiHerbivoro extends EspecieAbstracta implements IApareable
 		ciclo = 0;
 
 		app = Mundo.ObtenerInstancia().getApp();
-		
-		//FRENTE
+
+		// FRENTE
 		herbivoroFrente[0] = app.loadImage("../data/herbivoro/herbivoroFrente/1.png");
 		herbivoroFrente[1] = app.loadImage("../data/herbivoro/herbivoroFrente/2.png");
-		herbivoroFrente[2]= app.loadImage("../data/herbivoro/herbivoroFrente/3.png");
+		herbivoroFrente[2] = app.loadImage("../data/herbivoro/herbivoroFrente/3.png");
 		herbivoroFrente[3] = app.loadImage("../data/herbivoro/herbivoroFrente/4.png");
-		
-		
-		//ATRAS
+
+		// ATRAS
 		herbivoroAtras[0] = app.loadImage("../data/herbivoro/herbivoroAtras/1.png");
 		herbivoroAtras[1] = app.loadImage("../data/herbivoro/herbivoroAtras/2.png");
 		herbivoroAtras[2] = app.loadImage("../data/herbivoro/herbivoroAtras/3.png");
 		herbivoroAtras[3] = app.loadImage("../data/herbivoro/herbivoroAtras/4.png");
-		
-		//DERECHA
+
+		// DERECHA
 		herbivoroDerecha[0] = app.loadImage("../data/herbivoro/herbivoroDerecha/1.png");
 		herbivoroDerecha[1] = app.loadImage("../data/herbivoro/herbivoroDerecha/2.png");
 		herbivoroDerecha[2] = app.loadImage("../data/herbivoro/herbivoroDerecha/3.png");
 		herbivoroDerecha[3] = app.loadImage("../data/herbivoro/herbivoroDerecha/4.png");
 
-		//IZQUIERDA
+		// IZQUIERDA
 		herbivoroIzquierda[0] = app.loadImage("../data/herbivoro/herbivoroIzquierda/1.png");
 		herbivoroIzquierda[1] = app.loadImage("../data/herbivoro/herbivoroIzquierda/2.png");
 		herbivoroIzquierda[2] = app.loadImage("../data/herbivoro/herbivoroIzquierda/3.png");
 		herbivoroIzquierda[3] = app.loadImage("../data/herbivoro/herbivoroIzquierda/4.png");
-		
 
 		Thread nt = new Thread(this);
 		nt.start();
@@ -94,7 +93,7 @@ public class EspecieGomiHerbivoro extends EspecieAbstracta implements IApareable
 		} else if (direccion == 2) {
 			app.image(herbivoroAtras[vista], x + moverX, y + moverY);
 		}
-		
+
 	}
 
 	@Override
@@ -150,7 +149,7 @@ public class EspecieGomiHerbivoro extends EspecieAbstracta implements IApareable
 				Thread.sleep(33);
 				vista++;
 
-				if (vista == 4) {
+				if (vista == 3) {
 					vista = 0;
 				}
 
@@ -160,37 +159,16 @@ public class EspecieGomiHerbivoro extends EspecieAbstracta implements IApareable
 		}
 	}
 
-	private void buscarParejaCercana() {
-
-		List<EspecieAbstracta> todas = Mundo.ObtenerInstancia().getEspecies();
-		// System.out.println("Buscando pareja entre " + todas.size() + "
-		// especies del mundo");
-		ListIterator<EspecieAbstracta> iterador = todas.listIterator();
-		boolean encontro = false;
-		while (!encontro && iterador.hasNext()) {
-			EspecieAbstracta e = iterador.next();
-			if ((e instanceof IApareable) && !e.equals(this)) {
-				float dist = PApplet.dist(x, y, e.getX(), e.getY());
-				// System.out.println("Encontró apareable a " + dist);
-				if (dist < energia) {
-					// System.out.println("Encontró una pareja cercana");
-					encontro = true;
-					parejaCercana = e;
-					// Cambiar la dirección
-
-				}
-			}
-		}
-		// asegurarse de que la referencia sea null;
-		if (!encontro) {
-			parejaCercana = null;
-			// System.out.println("No encontró una pareja cercana");
-		}
-
-	}
-
 	private void intentarAparear() {
-
+		float dist = PApplet.dist(x, y, parejaCercana.getX(), parejaCercana.getY());
+		if (dist < vida) {
+			IApareable a = (IApareable) parejaCercana;
+			ecosistema.agregarEspecie(aparear(a));
+			// perder energia
+			energia -= 50;
+			app.fill(255,0,0);
+			app.ellipse(parejaCercana.getX(), parejaCercana.getY(), 300, 300);
+		}
 	}
 
 	private void buscarComida() {
@@ -223,7 +201,11 @@ public class EspecieGomiHerbivoro extends EspecieAbstracta implements IApareable
 	@Override
 	public EspecieAbstracta aparear(IApareable apareable) {
 		// TODO Auto-generated method stub
-		return null;
+		HijoGomiCabra hijo = new HijoGomiCabra(ecosistema);
+		hijo.setX(this.x);
+		hijo.setY(this.y);
+		ecosistema.agregarEspecie(hijo);
+		return hijo;
 	}
 
 }
