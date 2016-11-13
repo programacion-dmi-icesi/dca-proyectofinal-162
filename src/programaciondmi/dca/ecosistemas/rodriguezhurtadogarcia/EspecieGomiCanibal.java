@@ -18,15 +18,12 @@ import programaciondmi.dca.ejecucion.Mundo;
 public class EspecieGomiCanibal extends EspecieAbstracta implements ICanibal {
 	private int vida;
 	private float fuerza;
-	private int velocidad, vista, moverX, moverY, mover=0;
+	private int velocidad, vista, moverX, moverY, mover = 3, direccion = 4;
 	private PImage[] canibalFrente = new PImage[4];
+	private PImage[] canibalAtras = new PImage[4];
+	private PImage[] canibalIzquierda = new PImage[4];
+	private PImage[] canibalDerecha = new PImage[4];
 	private PApplet app;
-
-	/*
-	 * Se utiliza para definfir cuando el individuo puede realizar acciones:
-	 * moverse, aparearse, etc
-	 */
-
 	private float energia;
 	private EspecieAbstracta parejaCercana;
 	private PVector dir;
@@ -50,13 +47,31 @@ public class EspecieGomiCanibal extends EspecieAbstracta implements ICanibal {
 		int targetX = random.nextInt();
 		int targetY = random.nextInt();
 
-		ciclo = 0;
-
 		app = Mundo.ObtenerInstancia().getApp();
-		canibalFrente[0] = app.loadImage("../data/canibalFrente.png");
-		canibalFrente[1] = app.loadImage("../data/canibalFrenteE1.png");
-		canibalFrente[2] = app.loadImage("../data/canibalFrenteE2.png");
-		canibalFrente[3] = app.loadImage("../data/canibalFrenteE3.png");
+
+		// FRENTE
+		canibalFrente[0] = app.loadImage("../data/canibal/canibalFrente/1.png");
+		canibalFrente[1] = app.loadImage("../data/canibal/canibalFrente/2.png");
+		canibalFrente[2] = app.loadImage("../data/canibal/canibalFrente/3.png");
+		canibalFrente[3] = app.loadImage("../data/canibal/canibalFrente/4.png");
+
+		// ATRAS
+		canibalAtras[0] = app.loadImage("../data/canibal/canibalAtras/1.png");
+		canibalAtras[1] = app.loadImage("../data/canibal/canibalAtras/2.png");
+		canibalAtras[2] = app.loadImage("../data/canibal/canibalAtras/3.png");
+		canibalAtras[3] = app.loadImage("../data/canibal/canibalAtras/4.png");
+
+		// IZQUIERDA
+		canibalIzquierda[0] = app.loadImage("../data/canibal/canibalIzquierda/1.png");
+		canibalIzquierda[1] = app.loadImage("../data/canibal/canibalIzquierda/2.png");
+		canibalIzquierda[2] = app.loadImage("../data/canibal/canibalIzquierda/3.png");
+		canibalIzquierda[3] = app.loadImage("../data/canibal/canibalIzquierda/4.png");
+
+		// DERECHA
+		canibalDerecha[0] = app.loadImage("../data/canibal/canibalDerecha/1.png");
+		canibalDerecha[1] = app.loadImage("../data/canibal/canibalDerecha/2.png");
+		canibalDerecha[2] = app.loadImage("../data/canibal/canibalDerecha/3.png");
+		canibalDerecha[3] = app.loadImage("../data/canibal/canibalDerecha/4.png");
 
 		// System.out.println(this);
 		Thread nt = new Thread(this);
@@ -77,49 +92,58 @@ public class EspecieGomiCanibal extends EspecieAbstracta implements ICanibal {
 	public void dibujar() {
 		// TODO Auto-generated method stub
 		PApplet app = Mundo.ObtenerInstancia().getApp();
-
-		app.image(canibalFrente[vista], x+moverX, y+moverY);
+		if (direccion == 3) {
+			app.image(canibalIzquierda[vista], x + moverX, y + moverY);
+		} else if (direccion == 4) {
+			app.image(canibalDerecha[vista], x + moverX, y + moverY);
+		} else if (direccion == 1) {
+			app.image(canibalFrente[vista], x + moverX, y + moverY);
+		} else if (direccion == 2) {
+			app.image(canibalAtras[vista], x + moverX, y + moverY);
+		}
 	}
 
 	@Override
 	public void mover() {
 		if (energia > 0) {
-		
-			  switch(mover) {
 
-			    case 0:
-			      moverX++;
-			      break;
-			    case 1:
-			      moverX--;
-			      break;
-			    case 2:
-			      moverY++;
-			      break;
-			    case 3:
-			      moverY--;
-			    }//termina switch mover
+			switch (mover) {
 
-			    if (moverX>=500) {
-			      mover=1;
-			    }
+			case 0:
+				moverX++;
+				direccion = 4;
+				break;
+			case 1:
+				moverX--;
+				direccion = 3;
+				break;
+			case 2:
+				moverY++;
+				direccion = 1;
+				break;
+			case 3:
+				moverY--;
+				direccion = 2;
+			}// termina switch mover
 
-			    if (moverX<=0) {
-			      moverX=1;
-			      mover=2;
-			    }
+			if (moverX >= 500) {
+				mover = 1;
+			}
 
+			if (moverX <= 0) {
+				moverX = 1;
+				mover = 2;
+			}
 
-			    if (moverY>=500) {
-			      mover=3;
-			    }
+			if (moverY >= 500) {
+				mover = 3;
+			}
 
-			    if (moverY<=-1) {
-			      moverY=0;
-			      mover=0;
-			    }
-			
-			
+			if (moverY <= -1) {
+				moverY = 0;
+				mover = 0;
+			}
+
 		}
 
 	}
@@ -130,13 +154,19 @@ public class EspecieGomiCanibal extends EspecieAbstracta implements ICanibal {
 			mover();
 			try {
 				Thread.sleep(33);
+
+				vista++;
+
+				if (vista == 4) {
+					vista = 0;
+				}
+
 			} catch (Exception e) {
 				// TODO: handle exception
 			}
 		}
 	}
 
-	
 	private void buscarParejaCercana() {
 
 		List<EspecieAbstracta> todas = Mundo.ObtenerInstancia().getEspecies();
@@ -165,20 +195,16 @@ public class EspecieGomiCanibal extends EspecieAbstracta implements ICanibal {
 
 	}
 
-
 	private void intentarAparear() {
 
 	}
 
-	
 	private void buscarComida() {
 		List<EspecieAbstracta> todas = Mundo.ObtenerInstancia().getEspecies();
 		for (int i = 0; i < todas.size(); i++) {
 			comer(todas.get(i));
 		}
 	}
-
-
 
 	@Override
 	public String toString() {

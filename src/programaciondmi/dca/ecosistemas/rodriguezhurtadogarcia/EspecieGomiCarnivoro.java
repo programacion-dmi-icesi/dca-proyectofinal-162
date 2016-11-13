@@ -18,15 +18,12 @@ import programaciondmi.dca.ejecucion.Mundo;
 public class EspecieGomiCarnivoro extends EspecieAbstracta implements ICarnivoro {
 	private int vida;
 	private float fuerza;
-	private int velocidad, vista, moverX, moverY, mover = 0;
-	private PImage carnivoroFrente;
+	private int velocidad, vista, moverX, moverY, mover = 0, direccion = 1;
+	private PImage[] carnivoroFrente = new PImage[4];
+	private PImage[] carnivoroAtras = new PImage[4];
+	private PImage[] carnivoroIzquierda = new PImage[4];
+	private PImage[] carnivoroDerecha = new PImage[4];
 	private PApplet app;
-
-	/*
-	 * Se utiliza para definfir cuando el individuo puede realizar acciones:
-	 * moverse, aparearse, etc
-	 */
-
 	private float energia;
 	private EspecieAbstracta parejaCercana;
 	private PVector dir;
@@ -52,7 +49,30 @@ public class EspecieGomiCarnivoro extends EspecieAbstracta implements ICarnivoro
 		ciclo = 0;
 
 		app = Mundo.ObtenerInstancia().getApp();
-		carnivoroFrente = app.loadImage("../data/carnivoroFrente.png"); 
+
+		// FRENTE
+		carnivoroFrente[0] = app.loadImage("../data/carnivoro/carnivoroFrente/1.png");
+		carnivoroFrente[1] = app.loadImage("../data/carnivoro/carnivoroFrente/2.png");
+		carnivoroFrente[2] = app.loadImage("../data/carnivoro/carnivoroFrente/3.png");
+		carnivoroFrente[3] = app.loadImage("../data/carnivoro/carnivoroFrente/4.png");
+
+		// ATRAS
+		carnivoroAtras[0] = app.loadImage("../data/carnivoro/carnivoroAtras/1.png");
+		carnivoroAtras[1] = app.loadImage("../data/carnivoro/carnivoroAtras/2.png");
+		carnivoroAtras[2] = app.loadImage("../data/carnivoro/carnivoroAtras/3.png");
+		carnivoroAtras[3] = app.loadImage("../data/carnivoro/carnivoroAtras/4.png");
+
+		// IZQUIERDA
+		carnivoroIzquierda[0] = app.loadImage("../data/carnivoro/carnivoroIzquierda/1.png");
+		carnivoroIzquierda[1] = app.loadImage("../data/carnivoro/carnivoroIzquierda/2.png");
+		carnivoroIzquierda[2] = app.loadImage("../data/carnivoro/carnivoroIzquierda/3.png");
+		carnivoroIzquierda[3] = app.loadImage("../data/carnivoro/carnivoroIzquierda/4.png");
+
+		// DERECHA
+		carnivoroDerecha[0] = app.loadImage("../data/carnivoro/carnivoroDerecha/1.png");
+		carnivoroDerecha[1] = app.loadImage("../data/carnivoro/carnivoroDerecha/2.png");
+		carnivoroDerecha[2] = app.loadImage("../data/carnivoro/carnivoroDerecha/3.png");
+		carnivoroDerecha[3] = app.loadImage("../data/carnivoro/carnivoroDerecha/4.png");
 
 		// System.out.println(this);
 		Thread nt = new Thread(this);
@@ -73,7 +93,16 @@ public class EspecieGomiCarnivoro extends EspecieAbstracta implements ICarnivoro
 	public void dibujar() {
 		// TODO Auto-generated method stub
 		PApplet app = Mundo.ObtenerInstancia().getApp();
-		app.image(carnivoroFrente, x+moverX, y+moverY);
+
+		if (direccion == 3) {
+			app.image(carnivoroIzquierda[vista], x + moverX, y + moverY);
+		} else if (direccion == 4) {
+			app.image(carnivoroDerecha[vista], x + moverX, y + moverY);
+		} else if (direccion == 1) {
+			app.image(carnivoroFrente[vista], x + moverX, y + moverY);
+		} else if (direccion == 2) {
+			app.image(carnivoroAtras[vista], x + moverX, y + moverY);
+		}
 	}
 
 	@Override
@@ -84,15 +113,19 @@ public class EspecieGomiCarnivoro extends EspecieAbstracta implements ICarnivoro
 
 			case 0:
 				moverX++;
+				direccion = 4;
 				break;
 			case 1:
 				moverX--;
+				direccion = 3;
 				break;
 			case 2:
 				moverY++;
+				direccion = 1;
 				break;
 			case 3:
 				moverY--;
+				direccion = 2;
 			}// termina switch mover
 
 			if (moverX >= 500) {
@@ -123,13 +156,19 @@ public class EspecieGomiCarnivoro extends EspecieAbstracta implements ICarnivoro
 			mover();
 			try {
 				Thread.sleep(33);
+				
+				vista++;
+
+				if (vista == 4) {
+					vista = 0;
+				}
+				
 			} catch (Exception e) {
 				// TODO: handle exception
 			}
 		}
 	}
 
-	
 	private void buscarParejaCercana() {
 
 		List<EspecieAbstracta> todas = Mundo.ObtenerInstancia().getEspecies();

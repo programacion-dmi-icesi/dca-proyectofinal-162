@@ -1,6 +1,5 @@
 package programaciondmi.dca.ecosistemas.rodriguezhurtadogarcia;
 
-import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Random;
@@ -12,8 +11,6 @@ import programaciondmi.dca.core.EcosistemaAbstracto;
 import programaciondmi.dca.core.EspecieAbstracta;
 import programaciondmi.dca.core.PlantaAbstracta;
 import programaciondmi.dca.core.interfaces.IApareable;
-import programaciondmi.dca.core.interfaces.ICanibal;
-import programaciondmi.dca.core.interfaces.ICarnivoro;
 import programaciondmi.dca.core.interfaces.IOmnivoro;
 import programaciondmi.dca.ejecucion.Mundo;
 
@@ -27,8 +24,7 @@ import programaciondmi.dca.ejecucion.Mundo;
 public class EspecieGomiOmnivoro extends EspecieAbstracta implements IOmnivoro {
 	private int vida;
 	private float fuerza;
-	private int velocidad, vista, moverX, moverY, mover = 0, direccion = 1;
-	private PImage omnivoroFrente;
+	private int velocidad, vista, moverX, moverY, mover = 2, direccion = 3;
 	private PApplet app;
 	private float energia;
 	private EspecieAbstracta parejaCercana;
@@ -36,6 +32,8 @@ public class EspecieGomiOmnivoro extends EspecieAbstracta implements IOmnivoro {
 	private int ciclo;
 	private PImage[] omnivoroIzquierda = new PImage[11];
 	private PImage[] omnivoroDerecha = new PImage[11];
+	private PImage[] omnivoroFrente = new PImage[4];
+	private PImage[] omnivoroAtras = new PImage[4];
 
 	// Constantes
 	private final int LIMITE_APAREO = 100;
@@ -55,9 +53,6 @@ public class EspecieGomiOmnivoro extends EspecieAbstracta implements IOmnivoro {
 		int targetY = random.nextInt();
 
 		app = Mundo.ObtenerInstancia().getApp();
-
-		// CARGO IMAGENES
-		omnivoroFrente = app.loadImage("../data/omnivoro/omnivoroFrente.png");
 
 		// OMNIVORO IZQUIERDO
 		omnivoroIzquierda[0] = app.loadImage("../data/omnivoro/omnivoroIzquierda/1.png");
@@ -85,6 +80,18 @@ public class EspecieGomiOmnivoro extends EspecieAbstracta implements IOmnivoro {
 		omnivoroDerecha[9] = app.loadImage("../data/omnivoro/omnivoroDerecha/10.png");
 		omnivoroDerecha[10] = app.loadImage("../data/omnivoro/omnivoroDerecha/11.png");
 
+		// OMNIVORO FRENTE
+		omnivoroFrente[0] = app.loadImage("../data/omnivoro/omnivoroFrente/1.png");
+		omnivoroFrente[1] = app.loadImage("../data/omnivoro/omnivoroFrente/2.png");
+		omnivoroFrente[2] = app.loadImage("../data/omnivoro/omnivoroFrente/3.png");
+		omnivoroFrente[3] = app.loadImage("../data/omnivoro/omnivoroFrente/4.png");
+
+		// OMNIVORO ATRAS
+		omnivoroAtras[0] = app.loadImage("../data/omnivoro/omnivoroAtras/1.png");
+		omnivoroAtras[1] = app.loadImage("../data/omnivoro/omnivoroAtras/2.png");
+		omnivoroAtras[2] = app.loadImage("../data/omnivoro/omnivoroAtras/3.png");
+		omnivoroAtras[3] = app.loadImage("../data/omnivoro/omnivoroAtras/4.png");
+
 		Thread nt = new Thread(this);
 		nt.start();
 	}
@@ -108,8 +115,10 @@ public class EspecieGomiOmnivoro extends EspecieAbstracta implements IOmnivoro {
 			app.image(omnivoroIzquierda[vista], x + moverX, y + moverY);
 		} else if (direccion == 4) {
 			app.image(omnivoroDerecha[vista], x + moverX, y + moverY);
-		} else {
-			app.image(omnivoroFrente, x + moverX, y + moverY);
+		} else if (direccion == 1) {
+			app.image(omnivoroFrente[vista], x + moverX, y + moverY);
+		} else if (direccion == 2) {
+			app.image(omnivoroAtras[vista], x + moverX, y + moverY);
 		}
 
 	}
@@ -166,11 +175,17 @@ public class EspecieGomiOmnivoro extends EspecieAbstracta implements IOmnivoro {
 			try {
 				Thread.sleep(33);
 				vista++;
-
-				if (vista == 10) {
-					vista = 0;
+				if (direccion == 3 || direccion == 4) {
+					if (vista == 10) {
+						vista = 0;
+					}
 				}
 
+				if (direccion == 1 || direccion == 2) {
+					if (vista == 4) {
+						vista = 0;
+					}
+				}
 			} catch (Exception e) {
 				// TODO: handle exception
 			}
