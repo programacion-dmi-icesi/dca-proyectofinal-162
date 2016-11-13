@@ -31,47 +31,44 @@ public class EspecieGomiCanibal extends EspecieAbstracta implements ICanibal {
 
 	// Constantes
 	private final int LIMITE_APAREO = 100;
-	private Random random;
 
 	public EspecieGomiCanibal(EcosistemaGomiCabra ecosistema, int vista) {
 		super(ecosistema);
-		this.random = new Random();
-		this.x = random.nextInt(Mundo.ObtenerInstancia().getApp().width);
-		this.y = random.nextInt(Mundo.ObtenerInstancia().getApp().height);
+		app = Mundo.ObtenerInstancia().getApp();
+		this.x = (int) app.random(-app.width, app.width);
+		this.y =(int) app.random(-app.height, app.height);
 		this.vida = 50;
 		this.fuerza = 100;
 		this.energia = 250;
 		this.velocidad = 2;
 		this.vista = vista;
 
-		int targetX = random.nextInt();
-		int targetY = random.nextInt();
 
 		app = Mundo.ObtenerInstancia().getApp();
 
 		// FRENTE
-		canibalFrente[0] = app.loadImage("../data/canibal/canibalFrente/1.png");
-		canibalFrente[1] = app.loadImage("../data/canibal/canibalFrente/2.png");
-		canibalFrente[2] = app.loadImage("../data/canibal/canibalFrente/3.png");
-		canibalFrente[3] = app.loadImage("../data/canibal/canibalFrente/4.png");
+		canibalFrente[0] = app.loadImage("../dataGomiCabra/canibal/canibalFrente/1.png");
+		canibalFrente[1] = app.loadImage("../dataGomiCabra/canibal/canibalFrente/2.png");
+		canibalFrente[2] = app.loadImage("../dataGomiCabra/canibal/canibalFrente/3.png");
+		canibalFrente[3] = app.loadImage("../dataGomiCabra/canibal/canibalFrente/4.png");
 
 		// ATRAS
-		canibalAtras[0] = app.loadImage("../data/canibal/canibalAtras/1.png");
-		canibalAtras[1] = app.loadImage("../data/canibal/canibalAtras/2.png");
-		canibalAtras[2] = app.loadImage("../data/canibal/canibalAtras/3.png");
-		canibalAtras[3] = app.loadImage("../data/canibal/canibalAtras/4.png");
+		canibalAtras[0] = app.loadImage("../dataGomiCabra/canibal/canibalAtras/1.png");
+		canibalAtras[1] = app.loadImage("../dataGomiCabra/canibal/canibalAtras/2.png");
+		canibalAtras[2] = app.loadImage("../dataGomiCabra/canibal/canibalAtras/3.png");
+		canibalAtras[3] = app.loadImage("../dataGomiCabra/canibal/canibalAtras/4.png");
 
 		// IZQUIERDA
-		canibalIzquierda[0] = app.loadImage("../data/canibal/canibalIzquierda/1.png");
-		canibalIzquierda[1] = app.loadImage("../data/canibal/canibalIzquierda/2.png");
-		canibalIzquierda[2] = app.loadImage("../data/canibal/canibalIzquierda/3.png");
-		canibalIzquierda[3] = app.loadImage("../data/canibal/canibalIzquierda/4.png");
+		canibalIzquierda[0] = app.loadImage("../dataGomiCabra/canibal/canibalIzquierda/1.png");
+		canibalIzquierda[1] = app.loadImage("../dataGomiCabra/canibal/canibalIzquierda/2.png");
+		canibalIzquierda[2] = app.loadImage("../dataGomiCabra/canibal/canibalIzquierda/3.png");
+		canibalIzquierda[3] = app.loadImage("../dataGomiCabra/canibal/canibalIzquierda/4.png");
 
 		// DERECHA
-		canibalDerecha[0] = app.loadImage("../data/canibal/canibalDerecha/1.png");
-		canibalDerecha[1] = app.loadImage("../data/canibal/canibalDerecha/2.png");
-		canibalDerecha[2] = app.loadImage("../data/canibal/canibalDerecha/3.png");
-		canibalDerecha[3] = app.loadImage("../data/canibal/canibalDerecha/4.png");
+		canibalDerecha[0] = app.loadImage("../dataGomiCabra/canibal/canibalDerecha/1.png");
+		canibalDerecha[1] = app.loadImage("../dataGomiCabra/canibal/canibalDerecha/2.png");
+		canibalDerecha[2] = app.loadImage("../dataGomiCabra/canibal/canibalDerecha/3.png");
+		canibalDerecha[3] = app.loadImage("../dataGomiCabra/canibal/canibalDerecha/4.png");
 
 		// System.out.println(this);
 		Thread nt = new Thread(this);

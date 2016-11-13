@@ -5,6 +5,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Observable;
+import java.util.Random;
 
 import processing.core.PApplet;
 import programaciondmi.dca.core.EcosistemaAbstracto;
@@ -15,15 +16,16 @@ import programaciondmi.dca.ejecucion.Mundo;
 
 public class EcosistemaGomiCabra extends EcosistemaAbstracto {
 
-	private int cambio = 1, id, x, y, vista;
+	private int id, x, y, vista;
 	private ArrayList<PlantaGomiCabra> plantas = new ArrayList<PlantaGomiCabra>();
 	private EspecieAbstracta actual;
+	private LogoGomiCabra boton;
 
 	public EcosistemaGomiCabra() {
 		super();
 
 		Mundo logoGomi = Mundo.ObtenerInstancia();
-		LogoGomiCabra boton = new LogoGomiCabra("./data/icono.svg", this);
+		boton = new LogoGomiCabra("./dataGomiCabra/icono.svg", this);
 		logoGomi.agregarBoton(boton);
 	}
 
@@ -38,23 +40,20 @@ public class EcosistemaGomiCabra extends EcosistemaAbstracto {
 			}
 		}
 
-		x = Mundo.ObtenerInstancia().getApp().mouseX;
-		y = Mundo.ObtenerInstancia().getApp().mouseY;
-
-		if (Mundo.ObtenerInstancia().getApp().mousePressed == true) {
-			if (Mundo.ObtenerInstancia().getApp().frameCount % 20 == 0) {
-				cambio++;
-			}
-			plantas.add(new PlantaGomiCabra(this, id, x, y));
-		}
-
 		// dice si es mala o buena
 
-		if (cambio % 2 == 0) {
+		if (boton.getCrearB() == true) {
 			id = 0;// buena
-		} else {
+		}
+		if (boton.getCrearM() == true) {
 			id = 1; // mala
 		}
+
+		if (Mundo.ObtenerInstancia().getApp().mousePressed == true) {
+			plantas.add(new PlantaGomiCabra(this, id));
+		}
+
+		System.out.println(boton.getCrearM());
 
 		for (int i = 0; i < plantas.size(); i++) {
 			PlantaGomiCabra planti = plantas.get(i);
@@ -78,7 +77,7 @@ public class EcosistemaGomiCabra extends EcosistemaAbstracto {
 
 		EspecieGomiOmnivoro gomiOmnivoro = new EspecieGomiOmnivoro(this);
 		especies.add(gomiOmnivoro);
-		
+
 		gomiHerbivoro = new EspecieGomiHerbivoro(this, vista);
 		especies.add(gomiHerbivoro);
 
@@ -99,12 +98,6 @@ public class EcosistemaGomiCabra extends EcosistemaAbstracto {
 		LinkedList<PlantaAbstracta> plantas = new LinkedList<PlantaAbstracta>();
 		// TODO LLenar las lista de plantas iniciales
 
-		PlantaGomiCabra plantaBuena = new PlantaGomiCabra(this, id, x, y);
-		plantas.add(plantaBuena);
-
-		plantaBuena = new PlantaGomiCabra(this, id, x, y);
-		plantas.add(plantaBuena);
-
 		return plantas;
 	}
 
@@ -123,16 +116,12 @@ public class EcosistemaGomiCabra extends EcosistemaAbstracto {
 
 		EspecieGomiOmnivoro gomiOmnivoro = new EspecieGomiOmnivoro(this);
 		especies.add(gomiOmnivoro);
-		
+
 		return null;
 	}
 
 	@Override
 	protected List<PlantaAbstracta> generarPlantas() {
-
-		PlantaGomiCabra plantaBuena = new PlantaGomiCabra(this, id, x, y);
-		plantas.add(plantaBuena);
-
 		return null;
 	}
 

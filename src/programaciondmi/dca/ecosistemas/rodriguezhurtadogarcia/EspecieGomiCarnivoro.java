@@ -31,48 +31,45 @@ public class EspecieGomiCarnivoro extends EspecieAbstracta implements ICarnivoro
 
 	// Constantes
 	private final int LIMITE_APAREO = 100;
-	private Random random;
 
 	public EspecieGomiCarnivoro(EcosistemaAbstracto ecosistema) {
 		super(ecosistema);
-		this.random = new Random();
-		this.x = random.nextInt(Mundo.ObtenerInstancia().getApp().width);
-		this.y = random.nextInt(Mundo.ObtenerInstancia().getApp().height);
+		app = Mundo.ObtenerInstancia().getApp();
+		this.x = (int) app.random(-app.width, app.width);
+		this.y =(int) app.random(-app.height, app.height);
 		this.vida = 50;
 		this.fuerza = 100;
 		this.energia = 250;
 		this.velocidad = 2;
 
-		int targetX = random.nextInt();
-		int targetY = random.nextInt();
 
 		ciclo = 0;
 
 		app = Mundo.ObtenerInstancia().getApp();
 
 		// FRENTE
-		carnivoroFrente[0] = app.loadImage("../data/carnivoro/carnivoroFrente/1.png");
-		carnivoroFrente[1] = app.loadImage("../data/carnivoro/carnivoroFrente/2.png");
-		carnivoroFrente[2] = app.loadImage("../data/carnivoro/carnivoroFrente/3.png");
-		carnivoroFrente[3] = app.loadImage("../data/carnivoro/carnivoroFrente/4.png");
+		carnivoroFrente[0] = app.loadImage("../dataGomiCabra/carnivoro/carnivoroFrente/1.png");
+		carnivoroFrente[1] = app.loadImage("../dataGomiCabra/carnivoro/carnivoroFrente/2.png");
+		carnivoroFrente[2] = app.loadImage("../dataGomiCabra/carnivoro/carnivoroFrente/3.png");
+		carnivoroFrente[3] = app.loadImage("../dataGomiCabra/carnivoro/carnivoroFrente/4.png");
 
 		// ATRAS
-		carnivoroAtras[0] = app.loadImage("../data/carnivoro/carnivoroAtras/1.png");
-		carnivoroAtras[1] = app.loadImage("../data/carnivoro/carnivoroAtras/2.png");
-		carnivoroAtras[2] = app.loadImage("../data/carnivoro/carnivoroAtras/3.png");
-		carnivoroAtras[3] = app.loadImage("../data/carnivoro/carnivoroAtras/4.png");
+		carnivoroAtras[0] = app.loadImage("../dataGomiCabra/carnivoro/carnivoroAtras/1.png");
+		carnivoroAtras[1] = app.loadImage("../dataGomiCabra/carnivoro/carnivoroAtras/2.png");
+		carnivoroAtras[2] = app.loadImage("../dataGomiCabra/carnivoro/carnivoroAtras/3.png");
+		carnivoroAtras[3] = app.loadImage("../dataGomiCabra/carnivoro/carnivoroAtras/4.png");
 
 		// IZQUIERDA
-		carnivoroIzquierda[0] = app.loadImage("../data/carnivoro/carnivoroIzquierda/1.png");
-		carnivoroIzquierda[1] = app.loadImage("../data/carnivoro/carnivoroIzquierda/2.png");
-		carnivoroIzquierda[2] = app.loadImage("../data/carnivoro/carnivoroIzquierda/3.png");
-		carnivoroIzquierda[3] = app.loadImage("../data/carnivoro/carnivoroIzquierda/4.png");
+		carnivoroIzquierda[0] = app.loadImage("../dataGomiCabra/carnivoro/carnivoroIzquierda/1.png");
+		carnivoroIzquierda[1] = app.loadImage("../dataGomiCabra/carnivoro/carnivoroIzquierda/2.png");
+		carnivoroIzquierda[2] = app.loadImage("../dataGomiCabra/carnivoro/carnivoroIzquierda/3.png");
+		carnivoroIzquierda[3] = app.loadImage("../dataGomiCabra/carnivoro/carnivoroIzquierda/4.png");
 
 		// DERECHA
-		carnivoroDerecha[0] = app.loadImage("../data/carnivoro/carnivoroDerecha/1.png");
-		carnivoroDerecha[1] = app.loadImage("../data/carnivoro/carnivoroDerecha/2.png");
-		carnivoroDerecha[2] = app.loadImage("../data/carnivoro/carnivoroDerecha/3.png");
-		carnivoroDerecha[3] = app.loadImage("../data/carnivoro/carnivoroDerecha/4.png");
+		carnivoroDerecha[0] = app.loadImage("../dataGomiCabra/carnivoro/carnivoroDerecha/1.png");
+		carnivoroDerecha[1] = app.loadImage("../dataGomiCabra/carnivoro/carnivoroDerecha/2.png");
+		carnivoroDerecha[2] = app.loadImage("../dataGomiCabra/carnivoro/carnivoroDerecha/3.png");
+		carnivoroDerecha[3] = app.loadImage("../dataGomiCabra/carnivoro/carnivoroDerecha/4.png");
 
 		// System.out.println(this);
 		Thread nt = new Thread(this);

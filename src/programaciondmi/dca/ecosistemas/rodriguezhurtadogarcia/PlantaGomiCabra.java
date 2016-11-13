@@ -1,5 +1,7 @@
 package programaciondmi.dca.ecosistemas.rodriguezhurtadogarcia;
 
+import java.util.Random;
+
 import processing.core.PApplet;
 import processing.core.PImage;
 import programaciondmi.dca.core.EcosistemaAbstracto;
@@ -15,25 +17,22 @@ public class PlantaGomiCabra extends PlantaAbstracta {
 	private PApplet app;
 	private int id; // esta variable dice si es mala o buena
 
-	public PlantaGomiCabra(EcosistemaGomiCabra ecosistema, int id, int x, int y) {
+	public PlantaGomiCabra(EcosistemaGomiCabra ecosistema, int id) {
 		super();
 
-		camX=Mundo.ObtenerInstancia().getApp().width/2;
-		camY=Mundo.ObtenerInstancia().getApp().height/2;
-		
 		app = Mundo.ObtenerInstancia().getApp();
+		this.x = (int) app.random(-app.width, app.width);
+		this.y = (int) app.random(-app.height, app.height);
 
-		this.x = x;
-		this.y = y;
-		plantaBuena[0] = app.loadImage("../data/plantaBuena1.png");
-		plantaBuena[1] = app.loadImage("../data/plantaBuena2.png");
-		plantaBuena[2] = app.loadImage("../data/plantaBuena3.png");
-		plantaBuena[3] = app.loadImage("../data/plantaBuena4.png");
+		plantaBuena[0] = app.loadImage("../dataGomiCabra/plantaBuena/plantaBuena1.png");
+		plantaBuena[1] = app.loadImage("../dataGomiCabra/plantaBuena/plantaBuena2.png");
+		plantaBuena[2] = app.loadImage("../dataGomiCabra/plantaBuena/plantaBuena3.png");
+		plantaBuena[3] = app.loadImage("../dataGomiCabra/plantaBuena/plantaBuena4.png");
 
-		plantaMala[0] = app.loadImage("../data/plantaMala1.png");
-		plantaMala[1] = app.loadImage("../data/plantaMala2.png");
-		plantaMala[2] = app.loadImage("../data/plantaMala3.png");
-		plantaMala[3] = app.loadImage("../data/plantaMala4.png");
+		plantaMala[0] = app.loadImage("../dataGomiCabra/plantaMala/plantaMala1.png");
+		plantaMala[1] = app.loadImage("../dataGomiCabra/plantaMala/plantaMala2.png");
+		plantaMala[2] = app.loadImage("../dataGomiCabra/plantaMala/plantaMala3.png");
+		plantaMala[3] = app.loadImage("../dataGomiCabra/plantaMala/plantaMala4.png");
 		this.id = id;
 
 	}
@@ -50,10 +49,10 @@ public class PlantaGomiCabra extends PlantaAbstracta {
 
 		switch (id) {
 		case 0:
-			app.image(plantaBuena[0], x-camX, y-camY);
+			app.image(plantaBuena[0], x, y);
 			break;
 		case 1:
-			app.image(plantaMala[0], x-camX, y-camY);
+			app.image(plantaMala[0], x, y);
 			break;
 		}
 
@@ -85,6 +84,4 @@ public class PlantaGomiCabra extends PlantaAbstracta {
 		return false;
 	}
 
-	
-	
 }

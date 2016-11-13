@@ -37,60 +37,56 @@ public class EspecieGomiOmnivoro extends EspecieAbstracta implements IOmnivoro {
 
 	// Constantes
 	private final int LIMITE_APAREO = 100;
-	private Random random;
 
 	public EspecieGomiOmnivoro(EcosistemaAbstracto ecosistema) {
 		super(ecosistema);
-		this.random = new Random();
-		this.x = random.nextInt(Mundo.ObtenerInstancia().getApp().width);
-		this.y = random.nextInt(Mundo.ObtenerInstancia().getApp().height);
+		app = Mundo.ObtenerInstancia().getApp();
+		this.x = (int) app.random(-app.width, app.width);
+		this.y =(int) app.random(-app.height, app.height);
 		this.vida = 50;
 		this.fuerza = 100;
 		this.energia = 250;
 		this.velocidad = 2;
 
-		int targetX = random.nextInt();
-		int targetY = random.nextInt();
-
 		app = Mundo.ObtenerInstancia().getApp();
 
 		// OMNIVORO IZQUIERDO
-		omnivoroIzquierda[0] = app.loadImage("../data/omnivoro/omnivoroIzquierda/1.png");
-		omnivoroIzquierda[1] = app.loadImage("../data/omnivoro/omnivoroIzquierda/2.png");
-		omnivoroIzquierda[2] = app.loadImage("../data/omnivoro/omnivoroIzquierda/3.png");
-		omnivoroIzquierda[3] = app.loadImage("../data/omnivoro/omnivoroIzquierda/4.png");
-		omnivoroIzquierda[4] = app.loadImage("../data/omnivoro/omnivoroIzquierda/5.png");
-		omnivoroIzquierda[5] = app.loadImage("../data/omnivoro/omnivoroIzquierda/6.png");
-		omnivoroIzquierda[6] = app.loadImage("../data/omnivoro/omnivoroIzquierda/7.png");
-		omnivoroIzquierda[7] = app.loadImage("../data/omnivoro/omnivoroIzquierda/8.png");
-		omnivoroIzquierda[8] = app.loadImage("../data/omnivoro/omnivoroIzquierda/9.png");
-		omnivoroIzquierda[9] = app.loadImage("../data/omnivoro/omnivoroIzquierda/10.png");
-		omnivoroIzquierda[10] = app.loadImage("../data/omnivoro/omnivoroIzquierda/11.png");
+		omnivoroIzquierda[0] = app.loadImage("../dataGomiCabra/omnivoro/omnivoroIzquierda/1.png");
+		omnivoroIzquierda[1] = app.loadImage("../dataGomiCabra/omnivoro/omnivoroIzquierda/2.png");
+		omnivoroIzquierda[2] = app.loadImage("../dataGomiCabra/omnivoro/omnivoroIzquierda/3.png");
+		omnivoroIzquierda[3] = app.loadImage("../dataGomiCabra/omnivoro/omnivoroIzquierda/4.png");
+		omnivoroIzquierda[4] = app.loadImage("../dataGomiCabra/omnivoro/omnivoroIzquierda/5.png");
+		omnivoroIzquierda[5] = app.loadImage("../dataGomiCabra/omnivoro/omnivoroIzquierda/6.png");
+		omnivoroIzquierda[6] = app.loadImage("../dataGomiCabra/omnivoro/omnivoroIzquierda/7.png");
+		omnivoroIzquierda[7] = app.loadImage("../dataGomiCabra/omnivoro/omnivoroIzquierda/8.png");
+		omnivoroIzquierda[8] = app.loadImage("../dataGomiCabra/omnivoro/omnivoroIzquierda/9.png");
+		omnivoroIzquierda[9] = app.loadImage("../dataGomiCabra/omnivoro/omnivoroIzquierda/10.png");
+		omnivoroIzquierda[10] = app.loadImage("../dataGomiCabra/omnivoro/omnivoroIzquierda/11.png");
 
 		// OMNIVORO IZQUIERDO
-		omnivoroDerecha[0] = app.loadImage("../data/omnivoro/omnivoroDerecha/1.png");
-		omnivoroDerecha[1] = app.loadImage("../data/omnivoro/omnivoroDerecha/2.png");
-		omnivoroDerecha[2] = app.loadImage("../data/omnivoro/omnivoroDerecha/3.png");
-		omnivoroDerecha[3] = app.loadImage("../data/omnivoro/omnivoroDerecha/4.png");
-		omnivoroDerecha[4] = app.loadImage("../data/omnivoro/omnivoroDerecha/5.png");
-		omnivoroDerecha[5] = app.loadImage("../data/omnivoro/omnivoroDerecha/6.png");
-		omnivoroDerecha[6] = app.loadImage("../data/omnivoro/omnivoroDerecha/7.png");
-		omnivoroDerecha[7] = app.loadImage("../data/omnivoro/omnivoroDerecha/8.png");
-		omnivoroDerecha[8] = app.loadImage("../data/omnivoro/omnivoroDerecha/9.png");
-		omnivoroDerecha[9] = app.loadImage("../data/omnivoro/omnivoroDerecha/10.png");
-		omnivoroDerecha[10] = app.loadImage("../data/omnivoro/omnivoroDerecha/11.png");
+		omnivoroDerecha[0] = app.loadImage("../dataGomiCabra/omnivoro/omnivoroDerecha/1.png");
+		omnivoroDerecha[1] = app.loadImage("../dataGomiCabra/omnivoro/omnivoroDerecha/2.png");
+		omnivoroDerecha[2] = app.loadImage("../dataGomiCabra/omnivoro/omnivoroDerecha/3.png");
+		omnivoroDerecha[3] = app.loadImage("../dataGomiCabra/omnivoro/omnivoroDerecha/4.png");
+		omnivoroDerecha[4] = app.loadImage("../dataGomiCabra/omnivoro/omnivoroDerecha/5.png");
+		omnivoroDerecha[5] = app.loadImage("../dataGomiCabra/omnivoro/omnivoroDerecha/6.png");
+		omnivoroDerecha[6] = app.loadImage("../dataGomiCabra/omnivoro/omnivoroDerecha/7.png");
+		omnivoroDerecha[7] = app.loadImage("../dataGomiCabra/omnivoro/omnivoroDerecha/8.png");
+		omnivoroDerecha[8] = app.loadImage("../dataGomiCabra/omnivoro/omnivoroDerecha/9.png");
+		omnivoroDerecha[9] = app.loadImage("../dataGomiCabra/omnivoro/omnivoroDerecha/10.png");
+		omnivoroDerecha[10] = app.loadImage("../dataGomiCabra/omnivoro/omnivoroDerecha/11.png");
 
 		// OMNIVORO FRENTE
-		omnivoroFrente[0] = app.loadImage("../data/omnivoro/omnivoroFrente/1.png");
-		omnivoroFrente[1] = app.loadImage("../data/omnivoro/omnivoroFrente/2.png");
-		omnivoroFrente[2] = app.loadImage("../data/omnivoro/omnivoroFrente/3.png");
-		omnivoroFrente[3] = app.loadImage("../data/omnivoro/omnivoroFrente/4.png");
+		omnivoroFrente[0] = app.loadImage("../dataGomiCabra/omnivoro/omnivoroFrente/1.png");
+		omnivoroFrente[1] = app.loadImage("../dataGomiCabra/omnivoro/omnivoroFrente/2.png");
+		omnivoroFrente[2] = app.loadImage("../dataGomiCabra/omnivoro/omnivoroFrente/3.png");
+		omnivoroFrente[3] = app.loadImage("../dataGomiCabra/omnivoro/omnivoroFrente/4.png");
 
 		// OMNIVORO ATRAS
-		omnivoroAtras[0] = app.loadImage("../data/omnivoro/omnivoroAtras/1.png");
-		omnivoroAtras[1] = app.loadImage("../data/omnivoro/omnivoroAtras/2.png");
-		omnivoroAtras[2] = app.loadImage("../data/omnivoro/omnivoroAtras/3.png");
-		omnivoroAtras[3] = app.loadImage("../data/omnivoro/omnivoroAtras/4.png");
+		omnivoroAtras[0] = app.loadImage("../dataGomiCabra/omnivoro/omnivoroAtras/1.png");
+		omnivoroAtras[1] = app.loadImage("../dataGomiCabra/omnivoro/omnivoroAtras/2.png");
+		omnivoroAtras[2] = app.loadImage("../dataGomiCabra/omnivoro/omnivoroAtras/3.png");
+		omnivoroAtras[3] = app.loadImage("../dataGomiCabra/omnivoro/omnivoroAtras/4.png");
 
 		Thread nt = new Thread(this);
 		nt.start();

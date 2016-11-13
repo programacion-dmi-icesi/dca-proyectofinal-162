@@ -22,34 +22,33 @@ public class HijoGomiCabra extends EspecieAbstracta  implements Runnable{
 		super(ecosistema);
 		// TODO Auto-generated constructor stub
 		this.random = new Random();
-		this.x = random.nextInt(Mundo.ObtenerInstancia().getApp().width);
-		this.y = random.nextInt(Mundo.ObtenerInstancia().getApp().height);
-
 		app = Mundo.ObtenerInstancia().getApp();
+		this.x = (int) app.random(-app.width, app.width);
+		this.y =(int) app.random(-app.height, app.height);
 
 		// FRENTE
-		hijoFrente[0] = app.loadImage("../data/hijo/hijoFrente/1.png");
-		hijoFrente[1] = app.loadImage("../data/hijo/hijoFrente/2.png");
-		hijoFrente[2] = app.loadImage("../data/hijo/hijoFrente/3.png");
-		hijoFrente[3] = app.loadImage("../data/hijo/hijoFrente/4.png");
+		hijoFrente[0] = app.loadImage("../dataGomiCabra/hijo/hijoFrente/1.png");
+		hijoFrente[1] = app.loadImage("../dataGomiCabra/hijo/hijoFrente/2.png");
+		hijoFrente[2] = app.loadImage("../dataGomiCabra/hijo/hijoFrente/3.png");
+		hijoFrente[3] = app.loadImage("../dataGomiCabra/hijo/hijoFrente/4.png");
 
 		// ATRAS
-		hijoAtras[0] = app.loadImage("../data/hijo/hijoAtras/1.png");
-		hijoAtras[1] = app.loadImage("../data/hijo/hijoAtras/2.png");
-		hijoAtras[2] = app.loadImage("../data/hijo/hijoAtras/3.png");
-		hijoAtras[3] = app.loadImage("../data/hijo/hijoAtras/4.png");
+		hijoAtras[0] = app.loadImage("../dataGomiCabra/hijo/hijoAtras/1.png");
+		hijoAtras[1] = app.loadImage("../dataGomiCabra/hijo/hijoAtras/2.png");
+		hijoAtras[2] = app.loadImage("../dataGomiCabra/hijo/hijoAtras/3.png");
+		hijoAtras[3] = app.loadImage("../dataGomiCabra/hijo/hijoAtras/4.png");
 
 		// IZQUIERDA
-		hijoIzquierda[0] = app.loadImage("../data/hijo/hijoIzquierda/1.png");
-		hijoIzquierda[1] = app.loadImage("../data/hijo/hijoIzquierda/2.png");
-		hijoIzquierda[2] = app.loadImage("../data/hijo/hijoIzquierda/3.png");
-		hijoIzquierda[3] = app.loadImage("../data/hijo/hijoIzquierda/4.png");
+		hijoIzquierda[0] = app.loadImage("../dataGomiCabra/hijo/hijoIzquierda/1.png");
+		hijoIzquierda[1] = app.loadImage("../dataGomiCabra/hijo/hijoIzquierda/2.png");
+		hijoIzquierda[2] = app.loadImage("../dataGomiCabra/hijo/hijoIzquierda/3.png");
+		hijoIzquierda[3] = app.loadImage("../dataGomiCabra/hijo/hijoIzquierda/4.png");
 
 		// DERECHA
-		hijoDerecha[0] = app.loadImage("../data/hijo/hijoDerecha/1.png");
-		hijoDerecha[1] = app.loadImage("../data/hijo/hijoDerecha/2.png");
-		hijoDerecha[2] = app.loadImage("../data/hijo/hijoDerecha/3.png");
-		hijoDerecha[3] = app.loadImage("../data/hijo/hijoDerecha/4.png");
+		hijoDerecha[0] = app.loadImage("../dataGomiCabra/hijo/hijoDerecha/1.png");
+		hijoDerecha[1] = app.loadImage("../dataGomiCabra/hijo/hijoDerecha/2.png");
+		hijoDerecha[2] = app.loadImage("../dataGomiCabra/hijo/hijoDerecha/3.png");
+		hijoDerecha[3] = app.loadImage("../dataGomiCabra/hijo/hijoDerecha/4.png");
 		
 		Thread nt = new Thread(this);
 		nt.start();
