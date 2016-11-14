@@ -20,6 +20,7 @@ private PApplet app;
 	public Hervivoro(EcosistemaAbstracto ecosistema) {
 		super(ecosistema);
 		app=Mundo.ObtenerInstancia().getApp();
+		personaje= app.loadImage("personaje.png");
 	}
 
 	@Override
@@ -29,7 +30,8 @@ private PApplet app;
 		while(vida>0){
 			mover();
 			try{
-				
+				Thread.sleep(33);
+				ciclo++;
 			}catch(Exception e){
 				
 			}
@@ -39,13 +41,21 @@ private PApplet app;
 	@Override
 	public void dibujar() {
 		// TODO Auto-generated method stub
-		
+		app.image(personaje, x, y);
 	}
 
 	@Override
 	public void mover() {
-		// TODO Auto-generated method stub
+		if (ciclo % 30 == 0) {
+			// Definir una direccion aleatoria cada 3 segundos
+			int targetX = (int) (Math.random() * 500);
+			int targetY = (int) (Math.random() * 500);
+			//System.out.println("CAMBIO DIRECCION!");
+		}
 		
+		x+=dir.x;
+		y+=dir.y;
+
 	}
 
 	@Override
