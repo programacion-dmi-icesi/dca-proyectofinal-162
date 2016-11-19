@@ -12,7 +12,7 @@ private int vida=3;
 private PImage plantaB;
 private PApplet app;
 
-public void plantaBuena(){
+public PlantaBuena(){
 	app= Mundo.ObtenerInstancia().getApp();
 	plantaB= app.loadImage("plantab.png");
 }

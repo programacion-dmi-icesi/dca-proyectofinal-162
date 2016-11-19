@@ -11,27 +11,35 @@ public class PlantaMala extends PlantaAbstracta {
 	private float posY;
 	private PImage plantaM;
 	private PApplet app;
-	
-	public void PlantaMala(){
-		app= Mundo.ObtenerInstancia().getApp();
+
+	public PlantaMala() {
+		app = Mundo.ObtenerInstancia().getApp();
 	}
-	
+
 	@Override
 	public void run() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void dibujar() {
 		// TODO Auto-generated method stub
-		
+		app.image(plantaM, posX, posY);
 	}
 
 	@Override
 	public boolean recibirDano(EspecieAbstracta lastimador) {
 		// TODO Auto-generated method stub
 		return false;
+	}
+
+	public float getposX() {
+		return posX;
+	}
+
+	public float getposY() {
+		return posY;
 	}
 
 }
