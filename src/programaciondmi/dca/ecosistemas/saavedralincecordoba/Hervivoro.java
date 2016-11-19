@@ -22,6 +22,13 @@ private PApplet app;
 		app=Mundo.ObtenerInstancia().getApp();
 		personaje= app.loadImage("personaje.png");
 		vida=3;
+		ciclo=0;
+		energia=200;
+		this.velocidad=20;
+		Thread nt = new Thread(this);
+		nt.start();
+		int targetX = (int) (Math.random()*500);
+		int targetY = (int) (Math.random()*500);
 	}
 
 	@Override
@@ -48,10 +55,9 @@ private PApplet app;
 	@Override
 	public void mover() {
 		if (ciclo % 30 == 0) {
-			// Definir una direccion aleatoria cada 3 segundos
 			int targetX = (int) (Math.random() * 500);
 			int targetY = (int) (Math.random() * 500);
-			//System.out.println("CAMBIO DIRECCION!");
+			cambiarDireccion(new PVector(targetX, targetY));
 		}
 		
 		x+=dir.x;
@@ -69,6 +75,13 @@ private PApplet app;
 	public void comerPlanta(PlantaAbstracta victima) {
 		// TODO Auto-generated method stub
 		
+	}
+	private void cambiarDireccion(PVector target) {
+		PVector location = new PVector(x, y);
+		dir = PVector.sub(target, location);
+		dir.normalize();
+		dir.mult(velocidad);
+		//System.out.println("[id=" + id + ", direcion=" + dir + "]");
 	}
 
 }

@@ -1,5 +1,6 @@
 package programaciondmi.dca.ecosistemas.saavedralincecordoba;
 
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -18,8 +19,10 @@ public PApplet app;
 	}
 	@Override
 	protected LinkedList<EspecieAbstracta> poblarEspecies() {
-		// TODO Auto-generated method stub
-		return null;
+		LinkedList<EspecieAbstracta> especies = new LinkedList<EspecieAbstracta>();
+		Hervivoro hervivoro= new Hervivoro(this);
+		especies.add(hervivoro);
+		return especies;
 	}
 
 	@Override
@@ -30,7 +33,8 @@ public PApplet app;
 
 	@Override
 	protected List<EspecieAbstracta> generarIndividuos() {
-		// TODO Auto-generated method stub
+		Hervivoro hervivoro= new Hervivoro(this);
+		especies.add(hervivoro);
 		return null;
 	}
 
@@ -42,7 +46,13 @@ public PApplet app;
 
 	@Override
 	public void dibujar() {
-		// TODO Auto-generated method stub
+		synchronized (especies) {
+			Iterator<EspecieAbstracta> iteradorEspecies = especies.iterator();
+			while (iteradorEspecies.hasNext()) {
+				EspecieAbstracta actual = iteradorEspecies.next();
+				actual.dibujar();
+			}
+		}
 		
 	}
 
