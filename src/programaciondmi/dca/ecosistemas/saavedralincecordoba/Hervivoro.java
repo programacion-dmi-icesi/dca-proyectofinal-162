@@ -21,6 +21,7 @@ private PApplet app;
 		super(ecosistema);
 		app=Mundo.ObtenerInstancia().getApp();
 		personaje= app.loadImage("personaje.png");
+		vida=3;
 	}
 
 	@Override

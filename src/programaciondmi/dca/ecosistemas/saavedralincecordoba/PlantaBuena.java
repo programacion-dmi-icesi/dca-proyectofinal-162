@@ -8,13 +8,14 @@ import processing.core.PApplet;
 public class PlantaBuena extends PlantaAbstracta{
 private float posX;
 private float posY;
-private int vida=3;
+private int vida;
 private PImage plantaB;
 private PApplet app;
 
 public PlantaBuena(){
 	app= Mundo.ObtenerInstancia().getApp();
 	plantaB= app.loadImage("plantab.png");
+	vida=3;
 }
 
 public float getposX(){

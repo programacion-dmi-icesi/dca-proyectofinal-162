@@ -11,9 +11,11 @@ public class PlantaMala extends PlantaAbstracta {
 	private float posY;
 	private PImage plantaM;
 	private PApplet app;
+	private int vida;
 
 	public PlantaMala() {
 		app = Mundo.ObtenerInstancia().getApp();
+		vida=3;
 	}
 
 	@Override
