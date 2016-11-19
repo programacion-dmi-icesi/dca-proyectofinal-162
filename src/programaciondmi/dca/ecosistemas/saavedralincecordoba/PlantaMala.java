@@ -54,5 +54,11 @@ public class PlantaMala extends PlantaAbstracta {
 	public float getposY() {
 		return posY;
 	}
+	public int getVida(){
+		return vida;
+	}
+	public void setVida(){
+		this.vida=vida;
+	}
 
 }
