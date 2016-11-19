@@ -69,12 +69,12 @@ public class EcosistemaTikiBots extends EcosistemaAbstracto {
 		LinkedList<PlantaAbstracta> plantas = new LinkedList<PlantaAbstracta>();
 		
 
-	GoodPlanta buena = new GoodPlanta(this);
+	//GoodPlanta buena = new GoodPlanta(this);
 	PApplet app = Mundo.ObtenerInstancia().getApp();
 	if (app.mousePressed==true){
 		if (app.mouseButton==app.LEFT)
 		{
-		plantas.add(buena);	
+		//plantas.add(buena);	
 	}
 	}
 	
