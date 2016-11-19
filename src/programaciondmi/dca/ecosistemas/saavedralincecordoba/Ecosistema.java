@@ -11,8 +11,10 @@ import programaciondmi.dca.ejecucion.Mundo;
 
 public class Ecosistema extends EcosistemaAbstracto {
 public PApplet app;
-	public Ecosistema(){
-	app= Mundo.ObtenerInstancia().getApp();
+
+	public Ecosistema() {
+		super();
+		app = Mundo.ObtenerInstancia().getApp();
 	}
 	@Override
 	protected LinkedList<EspecieAbstracta> poblarEspecies() {
@@ -46,8 +48,6 @@ public PApplet app;
 	public void drag(){
 		
 	}
-	public void click(){
-		
-	}
+	
 
 }

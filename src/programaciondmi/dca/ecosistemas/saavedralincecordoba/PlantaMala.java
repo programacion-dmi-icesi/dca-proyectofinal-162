@@ -15,13 +15,19 @@ public class PlantaMala extends PlantaAbstracta {
 
 	public PlantaMala() {
 		app = Mundo.ObtenerInstancia().getApp();
-		vida=3;
+		vida = 3;
 	}
 
 	@Override
 	public void run() {
 		// TODO Auto-generated method stub
+		while (vida > 0) {
+			try {
 
+			} catch (Exception e) {
+
+			}
+		}
 	}
 
 	@Override
@@ -33,6 +39,11 @@ public class PlantaMala extends PlantaAbstracta {
 	@Override
 	public boolean recibirDano(EspecieAbstracta lastimador) {
 		// TODO Auto-generated method stub
+		if (vida > 0) {
+			vida--;
+			System.out.println("mordido" + vida);
+			return true;
+		}
 		return false;
 	}
 
