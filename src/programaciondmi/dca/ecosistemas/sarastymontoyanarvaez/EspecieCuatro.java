@@ -74,7 +74,7 @@ public class EspecieCuatro extends EspecieAbstracta implements ICanibal{
 
 	@Override
 	public boolean recibirDano(EspecieAbstracta lastimador) {
-		if(PApplet.dist(x, y, lastimador.getX(), lastimador.getY()) <= (vida/2)){
+		if(PApplet.dist(x, y, lastimador.getX(), lastimador.getY()) <= 30){
 			vida -= 5;
 			try {
 				lastimador.setEstado(EXTASIS);

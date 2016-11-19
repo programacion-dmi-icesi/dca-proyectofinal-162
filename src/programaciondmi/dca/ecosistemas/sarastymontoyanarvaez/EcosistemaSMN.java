@@ -10,12 +10,17 @@ import processing.core.PApplet;
 import programaciondmi.dca.core.EcosistemaAbstracto;
 import programaciondmi.dca.core.EspecieAbstracta;
 import programaciondmi.dca.core.PlantaAbstracta;
+import programaciondmi.dca.ecosistemas.sarmientomanzanomoncada.LogoEjemplo;
 import programaciondmi.dca.ejecucion.Mundo;
 
 public class EcosistemaSMN extends EcosistemaAbstracto {
 
 	public EcosistemaSMN() {
 		super();
+		
+		Mundo ref = Mundo.ObtenerInstancia();
+		//LogoEjemplo boton= new LogoEjemplo("global_data/bot1.svg", this);
+		//ref.agregarBoton(boton);
 	}
 
 
@@ -28,16 +33,23 @@ public class EcosistemaSMN extends EcosistemaAbstracto {
 				actual.dibujar();		
 				}
 		}
+		synchronized (plantas) {
+			Iterator<PlantaAbstracta> iteradorPlantas = plantas.iterator();
+			while(iteradorPlantas.hasNext()){
+				PlantaAbstracta actual = iteradorPlantas.next();
+				actual.dibujar();		
+				}
+		}
 	}
 
 	@Override
 	protected LinkedList<EspecieAbstracta> poblarEspecies() {
 		LinkedList<EspecieAbstracta> especies = new LinkedList<EspecieAbstracta>();
 		
-		EspecieUno herb = new EspecieUno(this);
+		Herviboro herb = new Herviboro(this);
 		especies.add(herb);
 		
-		EspecieDos carn = new EspecieDos(this);
+		Carnivoro carn = new Carnivoro(this);
 		especies.add(carn);
 		
 		EspecieTres rep = new EspecieTres(this);
@@ -54,19 +66,23 @@ public class EcosistemaSMN extends EcosistemaAbstracto {
 	@Override
 	protected LinkedList<PlantaAbstracta> poblarPlantas() {
 		LinkedList<PlantaAbstracta> plantas = new LinkedList<PlantaAbstracta>();
-		// TODO LLenar las lista de plantas iniciales
+		PlantaMala plantaVerde = new PlantaMala(50,90);
+		plantas.add(plantaVerde);
+
+		PlantaBuena plantaRoja = new PlantaBuena(80,90);
+		plantas.add(plantaRoja);
 		return plantas;
 	}
 
 
 	@Override
 	protected List<EspecieAbstracta> generarIndividuos() {
-		// TODO Auto-generated method stub
+		LinkedList<EspecieAbstracta> especies = new LinkedList<EspecieAbstracta>();
 		
-		EspecieUno azul = new EspecieUno(this);
-		especies.add(azul);
+		Herviboro herb = new Herviboro(this);
+		especies.add(herb);
 		
-		EspecieDos carn = new EspecieDos(this);
+		Carnivoro carn = new Carnivoro(this);
 		especies.add(carn);
 		
 		EspecieTres rep = new EspecieTres(this);
@@ -81,9 +97,18 @@ public class EcosistemaSMN extends EcosistemaAbstracto {
 
 	@Override
 	protected List<PlantaAbstracta> generarPlantas() {
+		LinkedList<PlantaAbstracta> plantas = new LinkedList<PlantaAbstracta>();
+		PlantaMala plantaVerde = new PlantaMala(this);
+		plantas.add(plantaVerde);
+		PlantaBuena plantaRoja = new PlantaBuena(this);
+		plantas.add(plantaRoja);
 		return null;
 	}
 
-
+	@Override
+	public void agregarEspecie(EspecieAbstracta e) {
+		// TODO Auto-generated method stub
+		super.agregarEspecie(e);
+	}
 
 }

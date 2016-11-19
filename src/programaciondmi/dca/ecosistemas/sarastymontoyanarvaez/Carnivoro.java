@@ -1,5 +1,7 @@
 package programaciondmi.dca.ecosistemas.sarastymontoyanarvaez;
 
+import java.util.List;
+
 import processing.core.PApplet;
 import processing.core.PImage;
 import processing.core.PVector;
@@ -9,16 +11,19 @@ import programaciondmi.dca.core.PlantaAbstracta;
 import programaciondmi.dca.core.interfaces.ICarnivoro;
 import programaciondmi.dca.ejecucion.Mundo;
 
-public class EspecieDos extends EspecieAbstracta implements ICarnivoro{
+public class Carnivoro extends EspecieAbstracta implements ICarnivoro{
 	
 	private int vida;
 	private int velocidad;
 	private PVector dir;
 	private int ciclo;
-	PImage personaje;
+	private PImage personaje;
+	PApplet app = Mundo.ObtenerInstancia().getApp();
 
-	public EspecieDos(EcosistemaAbstracto ecosistema) {
+	public Carnivoro(EcosistemaAbstracto ecosistema) {
 		super(ecosistema);
+		
+		personaje=app.loadImage("../img/carn.png");
 		this.vida = 20;
 		this.velocidad = 7;
 
@@ -52,14 +57,36 @@ public class EspecieDos extends EspecieAbstracta implements ICarnivoro{
 
 	@Override
 	public void comer(EspecieAbstracta victima) {
-		// TODO Auto-generated method stub
+		if (!victima.getClass().toString().equals(this.getClass().toString())) {
+			if (victima.recibirDano(this)) {
+				
+				try {
+					if (victima.getClass() == Herviboro.class) {
+						Herviboro h = (Herviboro)victima;
+						Mundo.ObtenerInstancia().getEspecies().remove(h);
+						velocidad = 1;
+						h.setMostrar(false);
+					}
+					if (victima.getClass() == EspecieCuatro.class) {
+						
+						velocidad = 5;
+					}
+					System.out.println("Se lo comio");
+					//Mundo.ObtenerInstancia().getEspecies().remove(victima);
+					
+					
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
 		
 	}
 
 	@Override
 	public void dibujar() {
-		PApplet app = Mundo.ObtenerInstancia().getApp();
-		personaje=app.loadImage("../img/carn.png");
+		
 		app.image(personaje,x, y);
 	}
 
@@ -75,6 +102,8 @@ public class EspecieDos extends EspecieAbstracta implements ICarnivoro{
 		
 		x+=dir.x;
 		y+=dir.y;
+		
+		buscarComida();
 	}
 
 	@Override
@@ -91,6 +120,13 @@ public class EspecieDos extends EspecieAbstracta implements ICarnivoro{
 		
 		return false;
 	}
-
+	
+	public void buscarComida() {
+		
+		List<EspecieAbstracta> todas = Mundo.ObtenerInstancia().getEspecies();
+		for (int i = 0; i < todas.size(); i++) {
+			comer(todas.get(i));
+		}
+	}
 
 }
