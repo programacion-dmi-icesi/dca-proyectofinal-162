@@ -31,8 +31,7 @@ private PApplet app;
 		int targetY = (int) (Math.random()*500);
 	}
 
-	@Override
-	//SE CREA UN HILO CON LA CONDICION DE QUE MUEVA AL PERSONAJE SOLO SI SU VIDA ES MAYOR A 0
+	//se crea un hila que solo corre cuando la vida del personaje es mayor a 0 de lo contratio se detiene
 	public void run() {
 		// TODO Auto-generated method stub
 		while(vida>0){
@@ -48,7 +47,7 @@ private PApplet app;
 
 	@Override
 	public void dibujar() {
-		// TODO Auto-generated method stub
+		// metodo pintar del personaje, dandole la imagen y sus posiciones en el X y Y
 		app.image(personaje, x, y);
 	}
 

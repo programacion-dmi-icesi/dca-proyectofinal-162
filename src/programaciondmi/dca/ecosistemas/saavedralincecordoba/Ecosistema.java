@@ -17,7 +17,7 @@ public PApplet app;
 		super();
 		app = Mundo.ObtenerInstancia().getApp();
 	}
-	@Override
+	// se llena la lista encargada de poblar la especies en el mundo 
 	protected LinkedList<EspecieAbstracta> poblarEspecies() {
 		LinkedList<EspecieAbstracta> especies = new LinkedList<EspecieAbstracta>();
 		Hervivoro hervivoro= new Hervivoro(this);
@@ -31,7 +31,7 @@ public PApplet app;
 		return null;
 	}
 
-	@Override
+	// se crea el generador de individuos 
 	protected List<EspecieAbstracta> generarIndividuos() {
 		Hervivoro hervivoro= new Hervivoro(this);
 		especies.add(hervivoro);
@@ -44,7 +44,7 @@ public PApplet app;
 		return null;
 	}
 
-	@Override
+	//mediante el itrador se recorre la linked list y se dibuja en el mapa
 	public void dibujar() {
 		synchronized (especies) {
 			Iterator<EspecieAbstracta> iteradorEspecies = especies.iterator();
