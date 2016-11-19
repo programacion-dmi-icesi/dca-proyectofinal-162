@@ -14,11 +14,11 @@ import programaciondmi.dca.ecosistemas.piedrahitarinconrojasrojas.SaberBot;
 import programaciondmi.dca.ecosistemas.piedrahitarinconrojasrojas.Birdbot;
 import programaciondmi.dca.ejecucion.Mundo;
 
-
-
-
 public class EcosistemaTikiBots extends EcosistemaAbstracto {
-
+	PApplet app = Mundo.ObtenerInstancia().getApp();
+	int tipoPlanta = 0;
+	
+	
 	public EcosistemaTikiBots() {
 		super();
 	}
@@ -33,13 +33,38 @@ public class EcosistemaTikiBots extends EcosistemaAbstracto {
 				actual.dibujar();
 			}
 		}
+		
+		synchronized (plantas) {
+			Iterator<PlantaAbstracta> iteradorPlantas = plantas.iterator();
+			while(iteradorPlantas.hasNext()){
+				System.out.println("aja.. dibuja");
+				PlantaAbstracta actual = iteradorPlantas.next();
+				actual.dibujar();
+			}
+		}
+		
+		if (app.mousePressed == true){
+			if (app.mouseButton==app.LEFT){
+				// clic derecho agrega plantas buenas
+				tipoPlanta = 1;
+				poblarPlantas();
+				
+			}
+			
+			if(app.mouseButton==app.RIGHT){
+				// clic derecho agrega plantas malas
+				tipoPlanta = 2;
+				poblarPlantas();
+			}
+		}
+		
 	}
 
 	@Override
 	protected LinkedList<EspecieAbstracta> poblarEspecies() {
 		LinkedList<EspecieAbstracta> especies = new LinkedList<EspecieAbstracta>();
 		
-		SaberBot nueva = new SaberBot(this);
+		/*SaberBot nueva = new SaberBot(this);
 		especies.add(nueva);
 		
 		nueva = new SaberBot(this);
@@ -58,7 +83,7 @@ public class EcosistemaTikiBots extends EcosistemaAbstracto {
 		especies.add(cani);
 		
 		Birdbot ave = new Birdbot(this);
-		especies.add(ave);
+		especies.add(ave);*/
 		
 		return especies;
 	}
@@ -66,20 +91,22 @@ public class EcosistemaTikiBots extends EcosistemaAbstracto {
 
 	@Override
 	protected LinkedList<PlantaAbstracta> poblarPlantas() {
-		LinkedList<PlantaAbstracta> plantas = new LinkedList<PlantaAbstracta>();
-		
-
-	//GoodPlanta buena = new GoodPlanta(this);
-	PApplet app = Mundo.ObtenerInstancia().getApp();
-	if (app.mousePressed==true){
-		if (app.mouseButton==app.LEFT)
-		{
-		//plantas.add(buena);	
-	}
-	}
+	LinkedList<PlantaAbstracta> plantas = new LinkedList<PlantaAbstracta>();
 	
-	
+		if(tipoPlanta == 1){
+			System.out.println("planta buena");
+			//GoodPlanta buena = new GoodPlanta(this);
+			//plantas.add(buena);
+			tipoPlanta = 0;
+		}
 		
+		if(tipoPlanta == 2){
+			System.out.println("planta mala");
+			PlantaMala mala = new PlantaMala(this);
+			plantas.add(mala);
+			tipoPlanta = 0;
+		}
+	
 		return plantas;
 	}
 
@@ -90,7 +117,7 @@ public class EcosistemaTikiBots extends EcosistemaAbstracto {
 	protected List<EspecieAbstracta> generarIndividuos() {
 		// TODO Auto-generated method stub
 		
-		SaberBot nueva = new SaberBot(this);
+		/*SaberBot nueva = new SaberBot(this);
 		especies.add(nueva);	
 
 		Magusbot mago = new Magusbot(this);
@@ -100,7 +127,7 @@ public class EcosistemaTikiBots extends EcosistemaAbstracto {
 		especies.add(cani);
 		
 		Birdbot ave = new Birdbot(this);
-		especies.add(ave);
+		especies.add(ave);*/
 		
 		return null;
 	}
@@ -108,6 +135,10 @@ public class EcosistemaTikiBots extends EcosistemaAbstracto {
 
 	@Override
 	protected List<PlantaAbstracta> generarPlantas() {
+		System.out.println("generar plantas");
+		
+		PlantaMala mala = new PlantaMala(this);
+		plantas.add(mala);
 		
 		return null;
 	}
