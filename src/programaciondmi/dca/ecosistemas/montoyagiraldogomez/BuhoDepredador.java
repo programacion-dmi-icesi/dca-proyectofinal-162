@@ -13,21 +13,21 @@ import programaciondmi.dca.core.PlantaAbstracta;
 import programaciondmi.dca.core.interfaces.ICarnivoro;
 import programaciondmi.dca.ejecucion.Mundo;
 
-public class BuhoDepredador extends EspecieAbstracta implements ICarnivoro{
+public class BuhoDepredador extends EspecieAbstracta implements ICarnivoro {
 
 	private PImage bird;
 	private int vida;
-	private float energia,vel;
+	private float energia, vel;
 	private PlantaAbstracta plantaCerca;
 	private EspecieAbstracta comestible;
 	private PVector pos;
 	private int ciclo;
-	private int estadoVeneno,tiempoEnvenenado;
-	private boolean puedeComer,puedeAtacar;
-	
+	private int estadoVeneno, tiempoEnvenenado;
+	private boolean puedeComer, puedeAtacar;
+
 	private final int LIMITE_COMER = 100;
 	private Random random;
-	
+
 	public BuhoDepredador(EcosistemaAbstracto ecosistema) {
 		super(ecosistema);
 		this.random = new Random();
@@ -36,7 +36,7 @@ public class BuhoDepredador extends EspecieAbstracta implements ICarnivoro{
 		this.vida = 70;
 		this.energia = 200;
 		this.vel = (float) 3.5;
-		
+
 		ciclo = 0;
 
 		int targetX = random.nextInt();
@@ -45,7 +45,7 @@ public class BuhoDepredador extends EspecieAbstracta implements ICarnivoro{
 
 		PApplet app = Mundo.ObtenerInstancia().getApp();
 		this.bird = app.loadImage("Depredador.png");
-		
+
 		Thread nt = new Thread(this);
 		nt.start();
 	}
@@ -61,7 +61,7 @@ public class BuhoDepredador extends EspecieAbstracta implements ICarnivoro{
 				// TODO: handle exception
 			}
 
-		}		
+		}
 	}
 
 	@Override
@@ -71,7 +71,7 @@ public class BuhoDepredador extends EspecieAbstracta implements ICarnivoro{
 				energia += 10;
 				System.out.println("ME COMI UNA SALCHIPAPA");
 			}
-		}		
+		}
 	}
 
 	@Override
@@ -122,12 +122,12 @@ public class BuhoDepredador extends EspecieAbstracta implements ICarnivoro{
 		}
 
 		PApplet app = Mundo.ObtenerInstancia().getApp();
-		if (app.frameCount % 60 == 0) {
+		if (ciclo % 300 == 0) {
 			puedeComer = true;
 			puedeAtacar = true;
 		}
 	}
-	
+
 	private void buscarComida() {
 		List<EspecieAbstracta> all = Mundo.ObtenerInstancia().getEspecies();
 		ListIterator<EspecieAbstracta> iterador = all.listIterator();
@@ -137,7 +137,7 @@ public class BuhoDepredador extends EspecieAbstracta implements ICarnivoro{
 			if (!com.equals(this)) {
 				if (!(com instanceof BuhoApareable) && !(com instanceof BuhoCanibal) && !(com instanceof BuhoHijo)) {
 					float d = PApplet.dist(x, y, com.getX(), com.getY());
-					if (d < energia * 2 && puedeAtacar == true) {
+					if (d < energia * 2 && puedeAtacar) {
 						encontro = true;
 						comestible = com;
 						redireccionar(new PVector(comestible.getX(), comestible.getY()));
@@ -150,7 +150,7 @@ public class BuhoDepredador extends EspecieAbstracta implements ICarnivoro{
 			comestible = null;
 		}
 	}
-	
+
 	private void buscarPlanta() {
 		List<PlantaAbstracta> all = Mundo.ObtenerInstancia().getPlantas();
 		ListIterator<PlantaAbstracta> iterador = all.listIterator();
@@ -158,10 +158,11 @@ public class BuhoDepredador extends EspecieAbstracta implements ICarnivoro{
 		while (!encontro && iterador.hasNext()) {
 			PlantaAbstracta p = iterador.next();
 			float d = PApplet.dist(x, y, p.getX(), p.getY());
-			if (d < energia * 2) {
+			if (d < energia * 2 && puedeComer) {
 				encontro = true;
 				plantaCerca = p;
 				redireccionar(new PVector(plantaCerca.getX(), plantaCerca.getY()));
+				puedeComer = false;
 			}
 		}
 
@@ -169,7 +170,7 @@ public class BuhoDepredador extends EspecieAbstracta implements ICarnivoro{
 			plantaCerca = null;
 		}
 	}
-	
+
 	private void alimentar(PlantaAbstracta planta) {
 		if (planta != null) {
 			float d = PApplet.dist(x, y, planta.getX(), planta.getY());
@@ -182,7 +183,7 @@ public class BuhoDepredador extends EspecieAbstracta implements ICarnivoro{
 			}
 		}
 	}
-	
+
 	private void veneno() {
 		PApplet app = Mundo.ObtenerInstancia().getApp();
 		app.fill(0, 255, 0);
@@ -219,7 +220,7 @@ public class BuhoDepredador extends EspecieAbstracta implements ICarnivoro{
 			}
 		}
 	}
-	
+
 	private void redireccionar(PVector target) {
 		PVector location = new PVector(x, y);
 		pos = PVector.sub(target, location);

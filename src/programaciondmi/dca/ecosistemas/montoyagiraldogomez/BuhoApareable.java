@@ -87,7 +87,7 @@ public class BuhoApareable extends EspecieAbstracta implements IApareable {
 	@Override
 	public void mover() {
 		if (energia > 0) {
-			if (energia > LIMITE_APAREO) {
+			if (energia > LIMITE_APAREO && tenerHijo) {
 				buscarPareja();
 				if (parejaCerca != null) {
 					intentarAparear();
@@ -125,7 +125,7 @@ public class BuhoApareable extends EspecieAbstracta implements IApareable {
 		}
 
 		PApplet app = Mundo.ObtenerInstancia().getApp();
-		if (app.frameCount % 60 == 0) {
+		if (ciclo % 600 == 0) {
 			tenerHijo = true;
 			puedeComer = true;
 		}
@@ -227,10 +227,11 @@ public class BuhoApareable extends EspecieAbstracta implements IApareable {
 		while (!encontro && iterador.hasNext()) {
 			PlantaAbstracta p = iterador.next();
 			float d = PApplet.dist(x, y, p.getX(), p.getY());
-			if (d < energia * 2) {
+			if (d < energia * 2 && puedeComer) {
 				encontro = true;
 				plantaCerca = p;
 				redireccionar(new PVector(plantaCerca.getX(), plantaCerca.getY()));
+				puedeComer=false;
 			}
 		}
 

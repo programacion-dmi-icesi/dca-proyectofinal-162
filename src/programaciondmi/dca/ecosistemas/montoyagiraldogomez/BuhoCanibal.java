@@ -57,6 +57,7 @@ public class BuhoCanibal extends EspecieAbstracta implements ICanibal {
 		if (!victima.getClass().toString().equals(this.getClass().toString())) {
 			if (victima.recibirDano(this)) {
 				energia += 10;
+				victima.recibirDano(this);
 				System.out.println("ME COMI UNA SALCHIPAPA");
 			}
 		}
@@ -83,7 +84,7 @@ public class BuhoCanibal extends EspecieAbstracta implements ICanibal {
 		PApplet app = Mundo.ObtenerInstancia().getApp();
 		app.imageMode(3);
 		app.image(bird, x, y);
-
+		veneno();
 	}
 
 	@Override
@@ -127,7 +128,7 @@ public class BuhoCanibal extends EspecieAbstracta implements ICanibal {
 		}
 
 		PApplet app = Mundo.ObtenerInstancia().getApp();
-		if (app.frameCount % 60 == 0) {
+		if (ciclo % 240 == 0) {
 			puedeCanibalizar = true;
 		}
 	}

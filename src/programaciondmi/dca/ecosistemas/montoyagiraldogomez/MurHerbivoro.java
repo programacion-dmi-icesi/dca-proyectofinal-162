@@ -44,7 +44,7 @@ public class MurHerbivoro extends EspecieAbstracta implements IHerbivoro {
 
 		PApplet app = Mundo.ObtenerInstancia().getApp();
 		this.bat = app.loadImage("Murcielago.png");
-		
+
 		Thread nt = new Thread(this);
 		nt.start();
 	}
@@ -66,13 +66,13 @@ public class MurHerbivoro extends EspecieAbstracta implements IHerbivoro {
 	public void comerPlanta(PlantaAbstracta victima) {
 		if (victima != null) {
 			float d = PApplet.dist(x, y, victima.getX(), victima.getY());
-			if(d<80 && puedeComer){
+			if (d < 80 && puedeComer) {
 				if ((victima instanceof Venenosa) && estadoVeneno == 0) {
 					estado = ENVENENADO;
 					estadoVeneno = 1;
 				}
 				victima.recibirDano(this);
-				puedeComer=false;
+				puedeComer = false;
 			}
 		}
 
@@ -122,7 +122,7 @@ public class MurHerbivoro extends EspecieAbstracta implements IHerbivoro {
 		}
 
 		PApplet app = Mundo.ObtenerInstancia().getApp();
-		if (app.frameCount % 60 == 0) {
+		if (ciclo % 300 == 0) {
 			puedeComer = true;
 		}
 
@@ -135,10 +135,11 @@ public class MurHerbivoro extends EspecieAbstracta implements IHerbivoro {
 		while (!encontro && iterador.hasNext()) {
 			PlantaAbstracta p = iterador.next();
 			float d = PApplet.dist(x, y, p.getX(), p.getY());
-			if (d < energia * 2) {
+			if (d < energia * 2 && puedeComer) {
 				encontro = true;
 				plantaCerca = p;
 				redireccionar(new PVector(plantaCerca.getX(), plantaCerca.getY()));
+				puedeComer = false;
 			}
 		}
 

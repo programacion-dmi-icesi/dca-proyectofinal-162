@@ -81,7 +81,7 @@ public class EcosistemaProphetics extends EcosistemaAbstracto {
 		BuhoDepredador depredador = new BuhoDepredador(this);
 		especies.add(depredador);
 
-		return null;
+		return especies;
 	}
 
 	@Override
