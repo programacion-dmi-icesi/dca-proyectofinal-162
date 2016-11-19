@@ -38,5 +38,11 @@ public class Ecosistema extends EcosistemaAbstracto {
 		// TODO Auto-generated method stub
 		
 	}
+	public void drag(){
+		
+	}
+	public void click(){
+		
+	}
 
 }
