@@ -6,16 +6,19 @@ import processing.core.PApplet;
 public class PlantaBuena extends Thread{
 private float posX;
 private float posY;
-private int vida;
+private int vida=3;
 private PImage plantaB;
 private PApplet app;
 
 public void plantaBuena(){
 	app= Mundo.ObtenerInstancia().getApp();
-	plantaB= app.loadImage("");
+	plantaB= app.loadImage("plantab.png");
 }
 public void run(){
 	
+}
+public void pintar(){
+	app.image(plantaB, posX, posY);
 }
 
 }
