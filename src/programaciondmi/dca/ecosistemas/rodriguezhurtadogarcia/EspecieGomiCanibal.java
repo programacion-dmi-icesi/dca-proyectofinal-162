@@ -89,33 +89,7 @@ public class EspecieGomiCanibal extends GomiCabra implements ICanibal {
 		}
 	}
 
-	private void buscarParejaCercana() {
 
-		List<EspecieAbstracta> todas = Mundo.ObtenerInstancia().getEspecies();
-		// System.out.println("Buscando pareja entre " + todas.size() + "
-		// especies del mundo");
-		ListIterator<EspecieAbstracta> iterador = todas.listIterator();
-		boolean encontro = false;
-		while (!encontro && iterador.hasNext()) {
-			EspecieAbstracta e = iterador.next();
-			if ((e instanceof IApareable) && !e.equals(this)) {
-				float dist = PApplet.dist(x, y, e.getX(), e.getY());
-				// System.out.println("Encontró apareable a " + dist);
-				if (dist < energia) {
-					// System.out.println("Encontró una pareja cercana");
-					encontro = true;
-					parejaCercana = e;
-					// Cambiar la dirección
-				}
-			}
-		}
-		// asegurarse de que la referencia sea null;
-		if (!encontro) {
-			parejaCercana = null;
-			// System.out.println("No encontró una pareja cercana");
-		}
-
-	}
 
 	private void buscarComida() {
 		List<EspecieAbstracta> todas = Mundo.ObtenerInstancia().getEspecies();

@@ -39,48 +39,16 @@ public class EspecieGomiOmnivoro extends GomiCabra implements IOmnivoro {
 		app = Mundo.ObtenerInstancia().getApp();
 
 		// OMNIVORO IZQUIERDO
-
-		// PImage[] izquierda = new PImage[11];
-		// PImage[] derecha = new PImage[11];
-
 		izquierda[0] = app.loadImage("../dataGomiCabra/omnivoro/omnivoroIzquierda/1.png");
 		izquierda[1] = app.loadImage("../dataGomiCabra/omnivoro/omnivoroIzquierda/2.png");
 		izquierda[2] = app.loadImage("../dataGomiCabra/omnivoro/omnivoroIzquierda/3.png");
 		izquierda[3] = app.loadImage("../dataGomiCabra/omnivoro/omnivoroIzquierda/4.png");
-		// izquierda[4] =
-		// app.loadImage("../dataGomiCabra/omnivoro/omnivoroIzquierda/5.png");
-		// izquierda[5] =
-		// app.loadImage("../dataGomiCabra/omnivoro/omnivoroIzquierda/6.png");
-		// izquierda[6] =
-		// app.loadImage("../dataGomiCabra/omnivoro/omnivoroIzquierda/7.png");
-		// izquierda[7] =
-		// app.loadImage("../dataGomiCabra/omnivoro/omnivoroIzquierda/8.png");
-		// izquierda[8] =
-		// app.loadImage("../dataGomiCabra/omnivoro/omnivoroIzquierda/9.png");
-		// izquierda[9] =
-		// app.loadImage("../dataGomiCabra/omnivoro/omnivoroIzquierda/10.png");
-		// izquierda[10] =
-		// app.loadImage("../dataGomiCabra/omnivoro/omnivoroIzquierda/11.png");
 
 		// OMNIVORO IZQUIERDO
 		derecha[0] = app.loadImage("../dataGomiCabra/omnivoro/omnivoroDerecha/1.png");
 		derecha[1] = app.loadImage("../dataGomiCabra/omnivoro/omnivoroDerecha/2.png");
 		derecha[2] = app.loadImage("../dataGomiCabra/omnivoro/omnivoroDerecha/3.png");
 		derecha[3] = app.loadImage("../dataGomiCabra/omnivoro/omnivoroDerecha/4.png");
-		// derecha[4] =
-		// app.loadImage("../dataGomiCabra/omnivoro/omnivoroDerecha/5.png");
-		// derecha[5] =
-		// app.loadImage("../dataGomiCabra/omnivoro/omnivoroDerecha/6.png");
-		// derecha[6] =
-		// app.loadImage("../dataGomiCabra/omnivoro/omnivoroDerecha/7.png");
-		// derecha[7] =
-		// app.loadImage("../dataGomiCabra/omnivoro/omnivoroDerecha/8.png");
-		// derecha[8] =
-		// app.loadImage("../dataGomiCabra/omnivoro/omnivoroDerecha/9.png");
-		// derecha[9] =
-		// app.loadImage("../dataGomiCabra/omnivoro/omnivoroDerecha/10.png");
-		// derecha[10] =
-		// app.loadImage("../dataGomiCabra/omnivoro/omnivoroDerecha/11.png");
 
 		// OMNIVORO FRENTE
 		frente[0] = app.loadImage("../dataGomiCabra/omnivoro/omnivoroFrente/1.png");
@@ -125,37 +93,6 @@ public class EspecieGomiOmnivoro extends GomiCabra implements IOmnivoro {
 		}
 	}
 
-	private void buscarParejaCercana() {
-
-		List<EspecieAbstracta> todas = Mundo.ObtenerInstancia().getEspecies();
-		// System.out.println("Buscando pareja entre " + todas.size() + "
-		// especies del mundo");
-		ListIterator<EspecieAbstracta> iterador = todas.listIterator();
-		boolean encontro = false;
-		while (!encontro && iterador.hasNext()) {
-			EspecieAbstracta e = iterador.next();
-			if ((e instanceof IApareable) && !e.equals(this)) {
-				float dist = PApplet.dist(x, y, e.getX(), e.getY());
-				// System.out.println("Encontr贸 apareable a " + dist);
-				if (dist < energia) {
-					// System.out.println("Encontr贸 una pareja cercana");
-					encontro = true;
-					parejaCercana = e;
-					// Cambiar la direcci贸n
-				}
-			}
-		}
-		// asegurarse de que la referencia sea null;
-		if (!encontro) {
-			parejaCercana = null;
-			// System.out.println("No encontr贸 una pareja cercana");
-		}
-
-	}
-
-	private void intentarAparear() {
-
-	}
 
 	private void buscarComida() {
 		List<EspecieAbstracta> todas = Mundo.ObtenerInstancia().getEspecies();
@@ -172,8 +109,31 @@ public class EspecieGomiOmnivoro extends GomiCabra implements IOmnivoro {
 
 	@Override
 	public void comerPlanta(PlantaAbstracta victima) {
-		// TODO Auto-generated method stub
+
+		System.out.println("se come una planta ");
+		if (puedeComer && victima instanceof PlantaGomiCabra) {
+			PlantaGomiCabra p = (PlantaGomiCabra) victima;
+
+			switch (p.getId()) {
+			case 0:
+				vida += 15;
+				if (vida > maxVida)
+					vida = maxVida;
+				break;
+			case 1:
+				vida -= 15;
+				if (vida < 0) {
+
+					// condici髇 de morir
+				}
+				break;
+			}
+			p.mordisco();
+			puedeComer = false;
+
+		}
 
 	}
+
 
 }
