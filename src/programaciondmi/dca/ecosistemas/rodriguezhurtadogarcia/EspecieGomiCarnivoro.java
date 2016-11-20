@@ -17,6 +17,7 @@ import programaciondmi.dca.ejecucion.Mundo;
 
 public class EspecieGomiCarnivoro extends GomiCabra implements ICarnivoro {
 
+	// ========================================================================================================================================
 	public EspecieGomiCarnivoro(EcosistemaAbstracto ecosistema) {
 		super(ecosistema);
 		app = Mundo.ObtenerInstancia().getApp();
@@ -27,7 +28,6 @@ public class EspecieGomiCarnivoro extends GomiCabra implements ICarnivoro {
 		this.energia = 250;
 		this.velocidad = 2;
 		ciclo = 0;
-
 		app = Mundo.ObtenerInstancia().getApp();
 
 		// FRENTE
@@ -60,6 +60,7 @@ public class EspecieGomiCarnivoro extends GomiCabra implements ICarnivoro {
 		nt.start();
 	}
 
+	// ========================================================================================================================================
 	@Override
 	public void comer(EspecieAbstracta victima) {
 		// TODO Auto-generated method stub
@@ -70,26 +71,23 @@ public class EspecieGomiCarnivoro extends GomiCabra implements ICarnivoro {
 		}
 	}
 
+	// ========================================================================================================================================
 	@Override
 	public void run() {
 		while (vida > 0) {
 			mover();
 			try {
 				Thread.sleep(33);
-
 				vista++;
-
 				if (vista == 3) {
 					vista = 0;
 				}
-
 			} catch (Exception e) {
-				// TODO: handle exception
 			}
 		}
 	}
 
-
+	// ========================================================================================================================================
 	private void buscarComida() {
 		List<EspecieAbstracta> todas = Mundo.ObtenerInstancia().getEspecies();
 		for (int i = 0; i < todas.size(); i++) {
@@ -97,6 +95,7 @@ public class EspecieGomiCarnivoro extends GomiCabra implements ICarnivoro {
 		}
 	}
 
+	// ========================================================================================================================================
 	@Override
 	public boolean recibirDano(EspecieAbstracta lastimador) {
 		// TODO implementar metodo

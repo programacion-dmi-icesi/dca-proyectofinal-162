@@ -48,9 +48,9 @@ public class HijoGomiCabra extends GomiCabra {
 		maxVida = vida;
 		Thread nt = new Thread(this);
 		nt.start();
-
 	}
 
+	// ========================================================================================================================================
 	@Override
 	public void run() {
 		// TODO Auto-generated method stub
@@ -58,19 +58,16 @@ public class HijoGomiCabra extends GomiCabra {
 			mover();
 			try {
 				Thread.sleep(33);
-
 				vista++;
-
 				if (vista == 3) {
 					vista = 0;
 				}
-
 			} catch (Exception e) {
-				// TODO: handle exception
 			}
 		}
 	}
 
+	// ========================================================================================================================================
 	@Override
 	public boolean recibirDano(EspecieAbstracta lastimador) {
 		// TODO Auto-generated method stub

@@ -32,6 +32,7 @@ public abstract class GomiCabra extends EspecieAbstracta {
 	protected int salud = maxSalud;
 	protected Random random;
 
+	// ========================================================================================================================================
 	public GomiCabra(EcosistemaAbstracto ecosistema) {
 		super(ecosistema);
 		this.random = new Random();
@@ -40,6 +41,7 @@ public abstract class GomiCabra extends EspecieAbstracta {
 		this.y = (int) app.random(-app.height - 2000, app.height + 2000);
 	}
 
+	// ========================================================================================================================================
 	@Override
 	public void dibujar() {
 
@@ -56,19 +58,17 @@ public abstract class GomiCabra extends EspecieAbstracta {
 		} else if (direccion == 2) {
 			app.image(atras[vista], x, y);
 		}
-
 		app.colorMode(app.RGB);
 		app.noTint();
 	}
 
+	// ========================================================================================================================================
 	@Override
 	public void mover() {
 		// causa el movimiento
-
 		if (app.frameCount % (int) (app.random(60, 100)) == 0) {
 			mover = (int) app.random(0, 4);
 		}
-
 		if (energia > 0) {
 			switch (mover) {
 			case 0:
@@ -102,17 +102,18 @@ public abstract class GomiCabra extends EspecieAbstracta {
 				mover = 0;
 			}
 		}
-
 		if (vida < 0)
 			muerto = true;
 	}
 
+	// ========================================================================================================================================
 	@Override
 	public String toString() {
 		return "EspecieBlanca [id=" + id + ", vida=" + vida + ", fuerza=" + fuerza + ", parejaCercana=" + parejaCercana
 				+ ", dir=" + dir + ", x=" + x + ", y=" + y + ", estado=" + estado + "]";
 	}
 
+	// ========================================================================================================================================
 	@Override
 	public boolean recibirDano(EspecieAbstracta lastimador) {
 		return false;

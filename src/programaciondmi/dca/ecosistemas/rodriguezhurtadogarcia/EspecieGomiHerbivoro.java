@@ -16,7 +16,7 @@ import programaciondmi.dca.ecosistemas.sarmientomanzanomoncada.HijoBlanco;
 import programaciondmi.dca.ejecucion.Mundo;
 
 public class EspecieGomiHerbivoro extends GomiCabra implements IApareable, IHerbivoro {
-
+	// ========================================================================================================================================
 	public EspecieGomiHerbivoro(EcosistemaAbstracto ecosistema, int vista) {
 		super(ecosistema);
 		app = Mundo.ObtenerInstancia().getApp();
@@ -27,9 +27,7 @@ public class EspecieGomiHerbivoro extends GomiCabra implements IApareable, IHerb
 		this.energia = 250;
 		this.velocidad = 2;
 		this.vista = vista;
-
 		ciclo = 0;
-
 		app = Mundo.ObtenerInstancia().getApp();
 
 		// FRENTE
@@ -60,6 +58,7 @@ public class EspecieGomiHerbivoro extends GomiCabra implements IApareable, IHerb
 		nt.start();
 	}
 
+	// ========================================================================================================================================
 	@Override
 	public EspecieAbstracta aparear(IApareable apareable) {
 		HijoGomiCabra hijo = new HijoGomiCabra(ecosistema);
@@ -87,6 +86,7 @@ public class EspecieGomiHerbivoro extends GomiCabra implements IApareable, IHerb
 		return hijo;
 	}
 
+	// ========================================================================================================================================
 	@Override
 	public void run() {
 		while (vida > 0) {
@@ -113,6 +113,7 @@ public class EspecieGomiHerbivoro extends GomiCabra implements IApareable, IHerb
 		}
 	}
 
+	// ========================================================================================================================================
 	private void buscarParejaCercana() {
 		List<EspecieAbstracta> todas = Mundo.ObtenerInstancia().getEspecies();
 		ListIterator<EspecieAbstracta> iterador = todas.listIterator();
@@ -134,12 +135,14 @@ public class EspecieGomiHerbivoro extends GomiCabra implements IApareable, IHerb
 		}
 	}
 
+	// ========================================================================================================================================
 	@Override
 	public boolean recibirDano(EspecieAbstracta lastimador) {
 		// TODO implementar metodo
 		return false;
 	}
 
+	// ========================================================================================================================================
 	@Override
 	public void comerPlanta(PlantaAbstracta victima) {
 
@@ -163,9 +166,7 @@ public class EspecieGomiHerbivoro extends GomiCabra implements IApareable, IHerb
 			}
 			p.mordisco();
 			puedeComer = false;
-
 		}
-
 	}
 
 }

@@ -25,25 +25,23 @@ public class EcosistemaGomiCabra extends EcosistemaAbstracto {
 	private PApplet app = Mundo.ObtenerInstancia().getApp();
 	private LogoGomiCabra boton;
 
+	// ========================================================================================================================================
 	public EcosistemaGomiCabra() {
 		super();
-
 		Mundo logoGomi = Mundo.ObtenerInstancia();
 		boton = new LogoGomiCabra("./dataGomiCabra/icono.svg", this);
 		logoGomi.agregarBoton(boton);
 	}
 
+	// ========================================================================================================================================
 	@Override
 	public void dibujar() {
-		//
 		synchronized (especies) {
 			Iterator<EspecieAbstracta> iteradorEspecies = especies.iterator();
 			while (iteradorEspecies.hasNext()) {
-
 				actual = iteradorEspecies.next();
 				actual.dibujar();
 			}
-
 			synchronized (plantas) {
 				if (Mundo.ObtenerInstancia().getApp().mousePressed == true) {
 					if (app.mouseButton == app.LEFT) {
@@ -58,16 +56,12 @@ public class EcosistemaGomiCabra extends EcosistemaAbstracto {
 					actualPlanta.dibujar();
 				}
 			}
-
 			for (EspecieAbstracta es : especies) {
 				for (PlantaAbstracta planta : plantas) {
-
 					if (es instanceof IHerbivoro) {
-						float d = app.dist(((PlantaGomiCabra) planta).getX(), ((PlantaGomiCabra) planta).getY(), es.getX(), es.getY());
-
-						if (d < 100) {
+						float d = app.dist(((PlantaGomiCabra) planta).getX(), ((PlantaGomiCabra) planta).getY(),es.getX(), es.getY());
+						if (d < 50) {
 							((IHerbivoro) es).comerPlanta(planta);
-
 							PlantaGomiCabra p = (PlantaGomiCabra) planta;
 							if (p.isMuerto())
 								plantas.remove(planta);
@@ -82,11 +76,10 @@ public class EcosistemaGomiCabra extends EcosistemaAbstracto {
 		}
 	}
 
+	// ========================================================================================================================================
 	@Override
 	protected LinkedList<EspecieAbstracta> poblarEspecies() {
 		LinkedList<EspecieAbstracta> especies = new LinkedList<EspecieAbstracta>();
-		// EspecieGomiHerbivoro gomiHerbivoro = new EspecieGomiHerbivoro(this,
-		// vista);
 
 		especies.add(new EspecieGomiHerbivoro(this, vista));
 		especies.add(new EspecieGomiHerbivoro(this, vista));
@@ -106,12 +99,14 @@ public class EcosistemaGomiCabra extends EcosistemaAbstracto {
 		return especies;
 	}
 
+	// ========================================================================================================================================
 	@Override
 	protected LinkedList<PlantaAbstracta> poblarPlantas() {
 		LinkedList<PlantaAbstracta> plantas = new LinkedList<PlantaAbstracta>();
 		return plantas;
 	}
 
+	// ========================================================================================================================================
 	@Override
 	protected List<EspecieAbstracta> generarIndividuos() {
 		LinkedList<EspecieAbstracta> especies = new LinkedList<EspecieAbstracta>();
@@ -128,6 +123,7 @@ public class EcosistemaGomiCabra extends EcosistemaAbstracto {
 		return especies;
 	}
 
+	// ========================================================================================================================================
 	@Override
 	protected List<PlantaAbstracta> generarPlantas() {
 		return null;

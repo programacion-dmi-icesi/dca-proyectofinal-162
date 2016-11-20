@@ -17,6 +17,7 @@ import programaciondmi.dca.ejecucion.Mundo;
 
 public class EspecieGomiCanibal extends GomiCabra implements ICanibal {
 
+	// ========================================================================================================================================
 	public EspecieGomiCanibal(EcosistemaGomiCabra ecosistema, int vista) {
 		super(ecosistema);
 		app = Mundo.ObtenerInstancia().getApp();
@@ -27,7 +28,6 @@ public class EspecieGomiCanibal extends GomiCabra implements ICanibal {
 		this.energia = 250;
 		this.velocidad = 2;
 		this.vista = vista;
-
 		app = Mundo.ObtenerInstancia().getApp();
 
 		// FRENTE
@@ -57,9 +57,9 @@ public class EspecieGomiCanibal extends GomiCabra implements ICanibal {
 
 		Thread nt = new Thread(this);
 		nt.start();
-
 	}
 
+	// ========================================================================================================================================
 	@Override
 	public void comer(EspecieAbstracta victima) {
 		// TODO Auto-generated method stub
@@ -70,6 +70,7 @@ public class EspecieGomiCanibal extends GomiCabra implements ICanibal {
 		}
 	}
 
+	// ========================================================================================================================================
 	@Override
 	public void run() {
 		while (vida > 0) {
@@ -89,8 +90,7 @@ public class EspecieGomiCanibal extends GomiCabra implements ICanibal {
 		}
 	}
 
-
-
+	// ========================================================================================================================================
 	private void buscarComida() {
 		List<EspecieAbstracta> todas = Mundo.ObtenerInstancia().getEspecies();
 		for (int i = 0; i < todas.size(); i++) {
@@ -98,6 +98,7 @@ public class EspecieGomiCanibal extends GomiCabra implements ICanibal {
 		}
 	}
 
+	// ========================================================================================================================================
 	@Override
 	public boolean recibirDano(EspecieAbstracta lastimador) {
 		// TODO implementar metodo
