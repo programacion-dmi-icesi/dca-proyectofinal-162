@@ -4,26 +4,27 @@ import processing.core.PApplet;
 
 public class Ejecutable extends PApplet {
 	private Mundo mundo;
+
 	public static void main(String[] args) {
 		PApplet.main("programaciondmi.dca.ejecucion.Ejecutable", args);
 	}
-	
-	public void settings(){
+
+	public void settings() {
 		fullScreen();
-		//size(500, 500);
+		// size(1200, 700);
 	}
-	
-	public void setup(){
+
+	public void setup() {
 		mundo = Mundo.construirInstancia(this);
 		mundo.cargarEcosistemas();
 	}
-	
-	public void draw(){
+
+	public void draw() {
 		background(255);
 		mundo.dibujar();
 	}
-	
-	public void mousePressed(){
+
+	public void mousePressed() {
 		mundo.click();
 	}
 }

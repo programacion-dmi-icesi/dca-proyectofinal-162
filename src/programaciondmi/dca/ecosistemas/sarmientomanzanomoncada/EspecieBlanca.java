@@ -39,16 +39,13 @@ public class EspecieBlanca extends EspecieAbstracta implements IApareable, ICarn
 		this.fuerza = 100;
 		this.energia = 250;
 		this.velocidad = 2;
-
-
 		int targetX = random.nextInt();
 		int targetY = random.nextInt();
 		cambiarDireccion(new PVector(targetX, targetY));
 
 		ciclo = 0;
-		
 
-		//System.out.println(this);
+		// System.out.println(this);
 		Thread nt = new Thread(this);
 		nt.start();
 	}
@@ -57,10 +54,10 @@ public class EspecieBlanca extends EspecieAbstracta implements IApareable, ICarn
 	public void comer(EspecieAbstracta victima) {
 		// TODO Auto-generated method stub
 		if (!victima.getClass().toString().equals(this.getClass().toString())) {
-			if(victima.recibirDano(this)){
-				energia+=5;
+			if (victima.recibirDano(this)) {
+				energia += 5;
 			}
-		}	
+		}
 	}
 
 	@Override
@@ -83,38 +80,37 @@ public class EspecieBlanca extends EspecieAbstracta implements IApareable, ICarn
 	@Override
 	public void mover() {
 		if (energia > 0) {
-			//System.out.println("[id=" + id + ", energia=" + energia + "]");			
-				// Si tengo buena energía para aparearme
-				if (energia > LIMITE_APAREO) {
-					buscarParejaCercana();
-					// Si hay una pareja cercana la prioridad es reproducirse
-					if (parejaCercana != null) {
-						intentarAparear();
-					}
-				} else {
-					buscarComida();
-					if (ciclo % 30 == 0) {
+			// System.out.println("[id=" + id + ", energia=" + energia + "]");
+			// Si tengo buena energía para aparearme
+			if (energia > LIMITE_APAREO) {
+				buscarParejaCercana();
+				// Si hay una pareja cercana la prioridad es reproducirse
+				if (parejaCercana != null) {
+					intentarAparear();
+				}
+			} else {
+				buscarComida();
+				if (ciclo % 30 == 0) {
 					// Definir una direccion aleatoria cada 3 segundos
 					int targetX = random.nextInt();
 					int targetY = random.nextInt();
 					cambiarDireccion(new PVector(targetX, targetY));
 					System.out.println("CAMBIO DIRECCION!");
-					}
 				}
-				
+			}
+
 			// moverse en la dirección asignada actualmente
 			this.x += dir.x;
 			this.y += dir.y;
 			energia -= 0.01;
 		}
-		
-		if(this.x > Mundo.ObtenerInstancia().getApp().width || this.x < 0){
-			this.dir.x*=-1;			
+
+		if (this.x > Mundo.ObtenerInstancia().getApp().width || this.x < 0) {
+			this.dir.x *= -1;
 		}
-		if(this.y > Mundo.ObtenerInstancia().getApp().height || this.y < 0){
-			this.dir.y *= -1;			
+		if (this.y > Mundo.ObtenerInstancia().getApp().height || this.y < 0) {
+			this.dir.y *= -1;
 		}
-		
 
 	}
 
@@ -140,16 +136,17 @@ public class EspecieBlanca extends EspecieAbstracta implements IApareable, ICarn
 	private void buscarParejaCercana() {
 
 		List<EspecieAbstracta> todas = Mundo.ObtenerInstancia().getEspecies();
-		//System.out.println("Buscando pareja entre " + todas.size() + " especies del mundo");
+		// System.out.println("Buscando pareja entre " + todas.size() + "
+		// especies del mundo");
 		ListIterator<EspecieAbstracta> iterador = todas.listIterator();
 		boolean encontro = false;
 		while (!encontro && iterador.hasNext()) {
 			EspecieAbstracta e = iterador.next();
 			if ((e instanceof IApareable) && !e.equals(this)) {
 				float dist = PApplet.dist(x, y, e.getX(), e.getY());
-				//System.out.println("Encontró apareable a " + dist);
+				// System.out.println("Encontró apareable a " + dist);
 				if (dist < energia) {
-					//System.out.println("Encontró una pareja cercana");
+					// System.out.println("Encontró una pareja cercana");
 					encontro = true;
 					parejaCercana = e;
 					// Cambiar la dirección
@@ -160,7 +157,7 @@ public class EspecieBlanca extends EspecieAbstracta implements IApareable, ICarn
 		// asegurarse de que la referencia sea null;
 		if (!encontro) {
 			parejaCercana = null;
-			//System.out.println("No encontró una pareja cercana");
+			// System.out.println("No encontró una pareja cercana");
 		}
 
 	}
@@ -182,7 +179,7 @@ public class EspecieBlanca extends EspecieAbstracta implements IApareable, ICarn
 		}
 
 	}
-	
+
 	/**
 	 * <p>
 	 * Este método valida recorre el arreglo de especies del mundo e intenta
@@ -195,13 +192,13 @@ public class EspecieBlanca extends EspecieAbstracta implements IApareable, ICarn
 			comer(todas.get(i));
 		}
 	}
-	
+
 	private void cambiarDireccion(PVector target) {
 		PVector location = new PVector(x, y);
 		dir = PVector.sub(target, location);
 		dir.normalize();
 		dir.mult(velocidad);
-		//System.out.println("[id=" + id + ", direcion=" + dir + "]");
+		// System.out.println("[id=" + id + ", direcion=" + dir + "]");
 	}
 
 	@Override
