@@ -133,6 +133,9 @@ public class BuhoCanibal extends EspecieAbstracta implements ICanibal {
 		}
 	}
 
+	/**
+	 * Metodo para buscar una de las especies de su ecosistema y perseguirla para atacarla
+	 */
 	private void buscarComida() {
 		List<EspecieAbstracta> all = Mundo.ObtenerInstancia().getEspecies();
 		ListIterator<EspecieAbstracta> iterador = all.listIterator();
@@ -156,6 +159,10 @@ public class BuhoCanibal extends EspecieAbstracta implements ICanibal {
 		}
 	}
 
+	/**
+	 * Metodo para alimentarse de las plantas
+	 * @param planta
+	 */
 	private void alimentar(PlantaAbstracta planta) {
 		if (planta != null) {
 			float d = PApplet.dist(x, y, planta.getX(), planta.getY());
@@ -169,6 +176,9 @@ public class BuhoCanibal extends EspecieAbstracta implements ICanibal {
 		}
 	}
 
+	/**
+	 * Metodo para buscar planta cerca e ir hacia esta para consumirla
+	 */
 	private void buscarPlanta() {
 		List<PlantaAbstracta> all = Mundo.ObtenerInstancia().getPlantas();
 		ListIterator<PlantaAbstracta> iterador = all.listIterator();
@@ -188,6 +198,9 @@ public class BuhoCanibal extends EspecieAbstracta implements ICanibal {
 		}
 	}
 
+	/**
+	 * Metodo para demostrar tanto visualmente como en datos, el estado de Veneno de el personaje
+	 */
 	private void veneno() {
 		PApplet app = Mundo.ObtenerInstancia().getApp();
 		app.fill(0, 255, 0);
@@ -225,6 +238,10 @@ public class BuhoCanibal extends EspecieAbstracta implements ICanibal {
 		}
 	}
 
+	/**
+	 * Metodo para direccionar el organismo a una posicion especifica
+	 * @param target
+	 */
 	private void redireccionar(PVector target) {
 		PVector location = new PVector(x, y);
 		pos = PVector.sub(target, location);

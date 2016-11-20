@@ -16,7 +16,7 @@ public class BuhoHijo extends EspecieAbstracta {
 
 	private PImage bird;
 	private PVector pos;
-	private int vel, vida,cambio;
+	private int vel, vida, cambio;
 	private float energia;
 	private PlantaAbstracta plantaCerca;
 	private int estadoVeneno, tiempoEnvenenado;
@@ -24,7 +24,7 @@ public class BuhoHijo extends EspecieAbstracta {
 
 	private Random random;
 
-	public BuhoHijo(EcosistemaAbstracto ecosistema,PImage bird) {
+	public BuhoHijo(EcosistemaAbstracto ecosistema, PImage bird) {
 		super(ecosistema);
 		this.random = new Random();
 		this.bird = bird;
@@ -76,7 +76,7 @@ public class BuhoHijo extends EspecieAbstracta {
 				if (plantaCerca != null) {
 					alimentar(plantaCerca);
 				}
-				if(cambio%30==0){
+				if (cambio % 30 == 0) {
 					int targetX = random.nextInt();
 					int targetY = random.nextInt();
 					redireccionar(new PVector(targetX, targetY));
@@ -94,13 +94,17 @@ public class BuhoHijo extends EspecieAbstracta {
 		if (this.y > Mundo.ObtenerInstancia().getApp().height || this.y < 0) {
 			this.pos.y *= -1;
 		}
-		
+
 		PApplet app = Mundo.ObtenerInstancia().getApp();
-		if(app.frameCount%60==0){
-			comer=true;
+		if (app.frameCount % 60 == 0) {
+			comer = true;
 		}
 	}
 
+	/**
+	 * Metodo para buscar una planta que se encuentre cerca y que la energia del
+	 * organismo determine el rango
+	 */
 	private void buscarPlanta() {
 		List<PlantaAbstracta> all = Mundo.ObtenerInstancia().getPlantas();
 		ListIterator<PlantaAbstracta> iterador = all.listIterator();
@@ -108,7 +112,7 @@ public class BuhoHijo extends EspecieAbstracta {
 		while (!encontro && iterador.hasNext()) {
 			PlantaAbstracta p = iterador.next();
 			float d = PApplet.dist(x, y, p.getX(), p.getY());
-			if (d < energia*2) {
+			if (d < energia * 2) {
 				encontro = true;
 				plantaCerca = p;
 				redireccionar(new PVector(plantaCerca.getX(), plantaCerca.getY()));
@@ -120,23 +124,32 @@ public class BuhoHijo extends EspecieAbstracta {
 		}
 	}
 
+	/**
+	 * Metodo para alimentarse de la planta más cerca
+	 * 
+	 * @param planta
+	 */
 	private void alimentar(PlantaAbstracta planta) {
 		if (planta != null) {
 			float d = PApplet.dist(x, y, planta.getX(), planta.getY());
-			if (d < 80 && comer==true) {
+			if (d < 80 && comer == true) {
 				if ((planta instanceof Venenosa) && estadoVeneno == 0) {
 					estado = ENVENENADO;
 					estadoVeneno = 1;
-					comer=false;
+					comer = false;
 				} else {
-					energia+=20;
-					comer=false;
+					energia += 20;
+					comer = false;
 				}
 				planta.recibirDano((EspecieAbstracta) this);
 			}
 		}
 	}
 
+	/**
+	 * Metodo para demostrar tanto visualmente como en datos, el estado de
+	 * Veneno de el personaje
+	 */
 	private void veneno() {
 		PApplet app = Mundo.ObtenerInstancia().getApp();
 		app.fill(0, 255, 0);
@@ -166,6 +179,11 @@ public class BuhoHijo extends EspecieAbstracta {
 		}
 	}
 
+	/**
+	 * Metodo para direccionar el organismo a una posicion especifica
+	 * 
+	 * @param target
+	 */
 	private void redireccionar(PVector target) {
 		PVector location = new PVector(x, y);
 		pos = PVector.sub(target, location);

@@ -132,6 +132,9 @@ public class BuhoApareable extends EspecieAbstracta implements IApareable {
 
 	}
 
+	/**
+	 * Metodo para demostrar tanto visualmente como en datos, el estado de Veneno de el personaje
+	 */
 	private void veneno() {
 		PApplet app = Mundo.ObtenerInstancia().getApp();
 		app.fill(0, 255, 0);
@@ -169,6 +172,10 @@ public class BuhoApareable extends EspecieAbstracta implements IApareable {
 		}
 	}
 
+	/**
+	 * Metodo par buscar otro apareable cercano con el que puede copular
+	 * Mide si el otro apareable también posee la suficiente energía para copular
+	 */
 	private void buscarPareja() {
 		List<EspecieAbstracta> all = Mundo.ObtenerInstancia().getEspecies();
 		ListIterator<EspecieAbstracta> iterador = all.listIterator();
@@ -194,7 +201,11 @@ public class BuhoApareable extends EspecieAbstracta implements IApareable {
 			parejaCerca = null;
 		}
 	}
+	
 
+	/**
+	 * Creación de nuevo hijo cuando la distancia entre los apareables sea menor a su vida actual
+	 */
 	private void intentarAparear() {
 		float d = PApplet.dist(x, y, parejaCerca.getX(), parejaCerca.getY());
 		if ((d < vida) && tenerHijo && energia > 0) {
@@ -206,6 +217,10 @@ public class BuhoApareable extends EspecieAbstracta implements IApareable {
 		}
 	}
 
+	/**
+	 * Metodo para alimentarse de las plantas a las que se acerque
+	 * @param planta
+	 */
 	private void alimentar(PlantaAbstracta planta) {
 		if (planta != null) {
 			float d = PApplet.dist(x, y, planta.getX(), planta.getY());
@@ -220,6 +235,9 @@ public class BuhoApareable extends EspecieAbstracta implements IApareable {
 		}
 	}
 
+	/**
+	 * Metodo para rastrear plantas cercanas e ir a la posicion de estas
+	 */
 	private void buscarPlanta() {
 		List<PlantaAbstracta> all = Mundo.ObtenerInstancia().getPlantas();
 		ListIterator<PlantaAbstracta> iterador = all.listIterator();
@@ -240,6 +258,10 @@ public class BuhoApareable extends EspecieAbstracta implements IApareable {
 		}
 	}
 
+	/**
+	 * Metodo para direccionar el organismo a una posicion especifica
+	 * @param target
+	 */
 	private void redireccionar(PVector target) {
 		PVector location = new PVector(x, y);
 		pos = PVector.sub(target, location);
@@ -247,6 +269,10 @@ public class BuhoApareable extends EspecieAbstracta implements IApareable {
 		pos.mult(vel);
 	}
 
+	/**
+	 * Metodo para calcular la perspectiva en la que se debe colocar al personaje
+	 * @param target
+	 */
 	private void calculcarImg(PVector target) {
 		float xO = target.x;
 		float yO = target.y;

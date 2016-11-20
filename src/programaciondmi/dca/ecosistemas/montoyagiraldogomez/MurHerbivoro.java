@@ -128,6 +128,10 @@ public class MurHerbivoro extends EspecieAbstracta implements IHerbivoro {
 
 	}
 
+	/**
+	 * Metodo para buscar una planta que se encuentre cerca y que la energia del
+	 * organismo determine el rango
+	 */
 	private void buscarPlanta() {
 		List<PlantaAbstracta> all = Mundo.ObtenerInstancia().getPlantas();
 		ListIterator<PlantaAbstracta> iterador = all.listIterator();
@@ -148,6 +152,9 @@ public class MurHerbivoro extends EspecieAbstracta implements IHerbivoro {
 		}
 	}
 
+	/**
+	 * Metodo para demostrar tanto visualmente como en datos, el estado de Veneno de el personaje
+	 */
 	private void veneno() {
 		PApplet app = Mundo.ObtenerInstancia().getApp();
 		app.fill(0, 255, 0);
@@ -185,6 +192,10 @@ public class MurHerbivoro extends EspecieAbstracta implements IHerbivoro {
 		}
 	}
 
+	/**
+	 * Metodo para direccionar el organismo a una posicion especifica
+	 * @param target
+	 */
 	private void redireccionar(PVector target) {
 		PVector location = new PVector(x, y);
 		pos = PVector.sub(target, location);

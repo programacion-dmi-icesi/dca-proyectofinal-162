@@ -128,6 +128,9 @@ public class BuhoDepredador extends EspecieAbstracta implements ICarnivoro {
 		}
 	}
 
+	/**
+	 * Metodo para buscar un organismo distinto al de los de su ecosistema para ser comido
+	 */
 	private void buscarComida() {
 		List<EspecieAbstracta> all = Mundo.ObtenerInstancia().getEspecies();
 		ListIterator<EspecieAbstracta> iterador = all.listIterator();
@@ -151,6 +154,10 @@ public class BuhoDepredador extends EspecieAbstracta implements ICarnivoro {
 		}
 	}
 
+	/**
+	 * Metodo para buscar una planta que se encuentre cerca y que la energia del
+	 * organismo determine el rango
+	 */
 	private void buscarPlanta() {
 		List<PlantaAbstracta> all = Mundo.ObtenerInstancia().getPlantas();
 		ListIterator<PlantaAbstracta> iterador = all.listIterator();
@@ -171,6 +178,11 @@ public class BuhoDepredador extends EspecieAbstracta implements ICarnivoro {
 		}
 	}
 
+	/**
+	 * Metodo para alimentarse de la planta más cerca
+	 * 
+	 * @param planta
+	 */
 	private void alimentar(PlantaAbstracta planta) {
 		if (planta != null) {
 			float d = PApplet.dist(x, y, planta.getX(), planta.getY());
@@ -184,6 +196,10 @@ public class BuhoDepredador extends EspecieAbstracta implements ICarnivoro {
 		}
 	}
 
+	/**
+	 * Metodo para demostrar tanto visualmente como en datos, el estado de
+	 * Veneno de el personaje
+	 */
 	private void veneno() {
 		PApplet app = Mundo.ObtenerInstancia().getApp();
 		app.fill(0, 255, 0);
@@ -221,6 +237,11 @@ public class BuhoDepredador extends EspecieAbstracta implements ICarnivoro {
 		}
 	}
 
+	/**
+	 * Metodo para direccionar el organismo a una posicion especifica
+	 * 
+	 * @param target
+	 */
 	private void redireccionar(PVector target) {
 		PVector location = new PVector(x, y);
 		pos = PVector.sub(target, location);
