@@ -15,28 +15,13 @@ import programaciondmi.dca.core.interfaces.IHerbivoro;
 import programaciondmi.dca.ecosistemas.sarmientomanzanomoncada.HijoBlanco;
 import programaciondmi.dca.ejecucion.Mundo;
 
-public class EspecieGomiHerbivoro extends EspecieAbstracta implements IApareable, IHerbivoro {
-	private int vida;
-	private float fuerza;
-	private int velocidad, vista, moverX, moverY, mover = 1, direccion = 2;
-	private PImage[] herbivoroFrente = new PImage[4];
-	private PImage[] herbivoroAtras = new PImage[4];
-	private PImage[] herbivoroIzquierda = new PImage[4];
-	private PImage[] herbivoroDerecha = new PImage[4];
-	private PApplet app;
-	private float energia;
-	private EspecieAbstracta parejaCercana;
-	private PVector dir;
-	private int ciclo;
-
-	// Constantes
-	private final int LIMITE_APAREO = 100;
+public class EspecieGomiHerbivoro extends GomiCabra implements IApareable, IHerbivoro {
 
 	public EspecieGomiHerbivoro(EcosistemaAbstracto ecosistema, int vista) {
 		super(ecosistema);
 		app = Mundo.ObtenerInstancia().getApp();
 		this.x = (int) app.random(-app.width, app.width);
-		this.y =(int) app.random(-app.height, app.height);
+		this.y = (int) app.random(-app.height, app.height);
 		this.vida = 50;
 		this.fuerza = 100;
 		this.energia = 250;
@@ -48,48 +33,31 @@ public class EspecieGomiHerbivoro extends EspecieAbstracta implements IApareable
 		app = Mundo.ObtenerInstancia().getApp();
 
 		// FRENTE
-		herbivoroFrente[0] = app.loadImage("../dataGomiCabra/herbivoro/herbivoroFrente/1.png");
-		herbivoroFrente[1] = app.loadImage("../dataGomiCabra/herbivoro/herbivoroFrente/2.png");
-		herbivoroFrente[2] = app.loadImage("../dataGomiCabra/herbivoro/herbivoroFrente/3.png");
-		herbivoroFrente[3] = app.loadImage("../dataGomiCabra/herbivoro/herbivoroFrente/4.png");
+		frente[0] = app.loadImage("../dataGomiCabra/herbivoro/herbivoroFrente/1.png");
+		frente[1] = app.loadImage("../dataGomiCabra/herbivoro/herbivoroFrente/2.png");
+		frente[2] = app.loadImage("../dataGomiCabra/herbivoro/herbivoroFrente/3.png");
+		frente[3] = app.loadImage("../dataGomiCabra/herbivoro/herbivoroFrente/4.png");
 
 		// ATRAS
-		herbivoroAtras[0] = app.loadImage("../dataGomiCabra/herbivoro/herbivoroAtras/1.png");
-		herbivoroAtras[1] = app.loadImage("../dataGomiCabra/herbivoro/herbivoroAtras/2.png");
-		herbivoroAtras[2] = app.loadImage("../dataGomiCabra/herbivoro/herbivoroAtras/3.png");
-		herbivoroAtras[3] = app.loadImage("../dataGomiCabra/herbivoro/herbivoroAtras/4.png");
+		atras[0] = app.loadImage("../dataGomiCabra/herbivoro/herbivoroAtras/1.png");
+		atras[1] = app.loadImage("../dataGomiCabra/herbivoro/herbivoroAtras/2.png");
+		atras[2] = app.loadImage("../dataGomiCabra/herbivoro/herbivoroAtras/3.png");
+		atras[3] = app.loadImage("../dataGomiCabra/herbivoro/herbivoroAtras/4.png");
 
 		// DERECHA
-		herbivoroDerecha[0] = app.loadImage("../dataGomiCabra/herbivoro/herbivoroDerecha/1.png");
-		herbivoroDerecha[1] = app.loadImage("../dataGomiCabra/herbivoro/herbivoroDerecha/2.png");
-		herbivoroDerecha[2] = app.loadImage("../dataGomiCabra/herbivoro/herbivoroDerecha/3.png");
-		herbivoroDerecha[3] = app.loadImage("../dataGomiCabra/herbivoro/herbivoroDerecha/4.png");
+		derecha[0] = app.loadImage("../dataGomiCabra/herbivoro/herbivoroDerecha/1.png");
+		derecha[1] = app.loadImage("../dataGomiCabra/herbivoro/herbivoroDerecha/2.png");
+		derecha[2] = app.loadImage("../dataGomiCabra/herbivoro/herbivoroDerecha/3.png");
+		derecha[3] = app.loadImage("../dataGomiCabra/herbivoro/herbivoroDerecha/4.png");
 
 		// IZQUIERDA
-		herbivoroIzquierda[0] = app.loadImage("../dataGomiCabra/herbivoro/herbivoroIzquierda/1.png");
-		herbivoroIzquierda[1] = app.loadImage("../dataGomiCabra/herbivoro/herbivoroIzquierda/2.png");
-		herbivoroIzquierda[2] = app.loadImage("../dataGomiCabra/herbivoro/herbivoroIzquierda/3.png");
-		herbivoroIzquierda[3] = app.loadImage("../dataGomiCabra/herbivoro/herbivoroIzquierda/4.png");
-
+		izquierda[0] = app.loadImage("../dataGomiCabra/herbivoro/herbivoroIzquierda/1.png");
+		izquierda[1] = app.loadImage("../dataGomiCabra/herbivoro/herbivoroIzquierda/2.png");
+		izquierda[2] = app.loadImage("../dataGomiCabra/herbivoro/herbivoroIzquierda/3.png");
+		izquierda[3] = app.loadImage("../dataGomiCabra/herbivoro/herbivoroIzquierda/4.png");
+		maxVida = vida;
 		Thread nt = new Thread(this);
 		nt.start();
-	}
-
-	@Override
-	public void dibujar() {
-		// TODO Auto-generated method stub
-		PApplet app = Mundo.ObtenerInstancia().getApp();
-
-		if (direccion == 3) {
-			app.image(herbivoroIzquierda[vista], x + moverX, y + moverY);
-		} else if (direccion == 4) {
-			app.image(herbivoroDerecha[vista], x + moverX, y + moverY);
-		} else if (direccion == 1) {
-			app.image(herbivoroFrente[vista], x + moverX, y + moverY);
-		} else if (direccion == 2) {
-			app.image(herbivoroAtras[vista], x + moverX, y + moverY);
-		}
-
 	}
 
 	@Override
@@ -100,6 +68,7 @@ public class EspecieGomiHerbivoro extends EspecieAbstracta implements IApareable
 		List<EspecieAbstracta> todas = Mundo.ObtenerInstancia().getEspecies();
 		ListIterator<EspecieAbstracta> iterador = todas.listIterator();
 		boolean encontro = false;
+
 		while (iterador.hasNext()) {
 			EspecieAbstracta e = iterador.next();
 			if (e instanceof IApareable && !e.equals(this)) {
@@ -119,49 +88,6 @@ public class EspecieGomiHerbivoro extends EspecieAbstracta implements IApareable
 	}
 
 	@Override
-	public void mover() {
-		if (energia > 0) {
-			switch (mover) {
-			case 0:
-				moverX++;
-				direccion = 4;
-				break;
-			case 1:
-				moverX--;
-				direccion = 3;
-				break;
-			case 2:
-				moverY++;
-				direccion = 1;
-				break;
-			case 3:
-				moverY--;
-				direccion = 2;
-			}// termina switch mover
-
-			if (moverX >= 500) {
-				mover = 1;
-			}
-
-			if (moverX <= 0) {
-				moverX = 1;
-				mover = 2;
-			}
-
-			if (moverY >= 500) {
-				mover = 3;
-			}
-
-			if (moverY <= -1) {
-				moverY = 0;
-				mover = 0;
-			}
-
-		}
-
-	}
-
-	@Override
 	public void run() {
 		while (vida > 0) {
 			mover();
@@ -172,6 +98,14 @@ public class EspecieGomiHerbivoro extends EspecieAbstracta implements IApareable
 				if (vista == 3) {
 					vista = 0;
 				}
+				// condición para que coma una planta cada cierto tiempo t
+				if (!puedeComer) {
+					t++;
+					if (t > 500) {
+						puedeComer = true;
+						t = 0;
+					}
+				}
 
 			} catch (Exception e) {
 				// TODO: handle exception
@@ -180,10 +114,10 @@ public class EspecieGomiHerbivoro extends EspecieAbstracta implements IApareable
 	}
 
 	private void buscarParejaCercana() {
-
 		List<EspecieAbstracta> todas = Mundo.ObtenerInstancia().getEspecies();
 		ListIterator<EspecieAbstracta> iterador = todas.listIterator();
 		boolean encontro = false;
+
 		while (!encontro && iterador.hasNext()) {
 			EspecieAbstracta e = iterador.next();
 			if ((e instanceof IApareable) && !e.equals(this)) {
@@ -194,20 +128,10 @@ public class EspecieGomiHerbivoro extends EspecieAbstracta implements IApareable
 				}
 			}
 		}
+
 		if (!encontro) {
 			parejaCercana = null;
 		}
-
-	}
-
-	private void buscarComida() {
-
-	}
-
-	@Override
-	public String toString() {
-		return "EspecieBlanca [id=" + id + ", vida=" + vida + ", fuerza=" + fuerza + ", parejaCercana=" + parejaCercana
-				+ ", dir=" + dir + ", x=" + x + ", y=" + y + ", estado=" + estado + "]";
 	}
 
 	@Override
@@ -218,10 +142,28 @@ public class EspecieGomiHerbivoro extends EspecieAbstracta implements IApareable
 
 	@Override
 	public void comerPlanta(PlantaAbstracta victima) {
-		// TODO Auto-generated method stub
 
-		if (!victima.getClass().toString().equals(this.getClass().toString())) {
-			System.out.println("oie siiiiiiiiiiiiiii");
+		System.out.println("se come una planta ");
+		if (puedeComer && victima instanceof PlantaGomiCabra) {
+			PlantaGomiCabra p = (PlantaGomiCabra) victima;
+
+			switch (p.getId()) {
+			case 0:
+				vida += 15;
+				if (vida > maxVida)
+					vida = maxVida;
+				break;
+			case 1:
+				vida -= 15;
+				if (vida < 0) {
+
+					// condición de morir
+				}
+				break;
+			}
+			p.mordisco();
+			puedeComer = false;
+
 		}
 
 	}

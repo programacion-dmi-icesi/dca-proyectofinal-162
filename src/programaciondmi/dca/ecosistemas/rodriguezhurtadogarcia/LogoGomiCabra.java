@@ -24,12 +24,12 @@ public class LogoGomiCabra extends LogoAbstracto {
 
 		if (app.mouseButton == app.LEFT) {
 			crearM = true;
-			crearB=false;
+			crearB = false;
 		}
 
 		if (app.mouseButton == app.RIGHT) {
 			crearB = true;
-			crearM=false;
+			crearM = false;
 		}
 
 	}

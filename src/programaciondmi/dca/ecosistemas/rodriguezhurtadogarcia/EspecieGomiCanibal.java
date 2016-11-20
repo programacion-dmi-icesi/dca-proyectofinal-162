@@ -15,64 +15,49 @@ import programaciondmi.dca.core.interfaces.ICanibal;
 import programaciondmi.dca.core.interfaces.ICarnivoro;
 import programaciondmi.dca.ejecucion.Mundo;
 
-public class EspecieGomiCanibal extends EspecieAbstracta implements ICanibal {
-	private int vida;
-	private float fuerza;
-	private int velocidad, vista, moverX, moverY, mover = 3, direccion = 4;
-	private PImage[] canibalFrente = new PImage[4];
-	private PImage[] canibalAtras = new PImage[4];
-	private PImage[] canibalIzquierda = new PImage[4];
-	private PImage[] canibalDerecha = new PImage[4];
-	private PApplet app;
-	private float energia;
-	private EspecieAbstracta parejaCercana;
-	private PVector dir;
-	private int ciclo;
-
-	// Constantes
-	private final int LIMITE_APAREO = 100;
+public class EspecieGomiCanibal extends GomiCabra implements ICanibal {
 
 	public EspecieGomiCanibal(EcosistemaGomiCabra ecosistema, int vista) {
 		super(ecosistema);
 		app = Mundo.ObtenerInstancia().getApp();
 		this.x = (int) app.random(-app.width, app.width);
-		this.y =(int) app.random(-app.height, app.height);
+		this.y = (int) app.random(-app.height, app.height);
 		this.vida = 50;
 		this.fuerza = 100;
 		this.energia = 250;
 		this.velocidad = 2;
 		this.vista = vista;
 
-
 		app = Mundo.ObtenerInstancia().getApp();
 
 		// FRENTE
-		canibalFrente[0] = app.loadImage("../dataGomiCabra/canibal/canibalFrente/1.png");
-		canibalFrente[1] = app.loadImage("../dataGomiCabra/canibal/canibalFrente/2.png");
-		canibalFrente[2] = app.loadImage("../dataGomiCabra/canibal/canibalFrente/3.png");
-		canibalFrente[3] = app.loadImage("../dataGomiCabra/canibal/canibalFrente/4.png");
+		frente[0] = app.loadImage("../dataGomiCabra/canibal/canibalFrente/1.png");
+		frente[1] = app.loadImage("../dataGomiCabra/canibal/canibalFrente/2.png");
+		frente[2] = app.loadImage("../dataGomiCabra/canibal/canibalFrente/3.png");
+		frente[3] = app.loadImage("../dataGomiCabra/canibal/canibalFrente/4.png");
 
 		// ATRAS
-		canibalAtras[0] = app.loadImage("../dataGomiCabra/canibal/canibalAtras/1.png");
-		canibalAtras[1] = app.loadImage("../dataGomiCabra/canibal/canibalAtras/2.png");
-		canibalAtras[2] = app.loadImage("../dataGomiCabra/canibal/canibalAtras/3.png");
-		canibalAtras[3] = app.loadImage("../dataGomiCabra/canibal/canibalAtras/4.png");
+		atras[0] = app.loadImage("../dataGomiCabra/canibal/canibalAtras/1.png");
+		atras[1] = app.loadImage("../dataGomiCabra/canibal/canibalAtras/2.png");
+		atras[2] = app.loadImage("../dataGomiCabra/canibal/canibalAtras/3.png");
+		atras[3] = app.loadImage("../dataGomiCabra/canibal/canibalAtras/4.png");
 
 		// IZQUIERDA
-		canibalIzquierda[0] = app.loadImage("../dataGomiCabra/canibal/canibalIzquierda/1.png");
-		canibalIzquierda[1] = app.loadImage("../dataGomiCabra/canibal/canibalIzquierda/2.png");
-		canibalIzquierda[2] = app.loadImage("../dataGomiCabra/canibal/canibalIzquierda/3.png");
-		canibalIzquierda[3] = app.loadImage("../dataGomiCabra/canibal/canibalIzquierda/4.png");
+		izquierda[0] = app.loadImage("../dataGomiCabra/canibal/canibalIzquierda/1.png");
+		izquierda[1] = app.loadImage("../dataGomiCabra/canibal/canibalIzquierda/2.png");
+		izquierda[2] = app.loadImage("../dataGomiCabra/canibal/canibalIzquierda/3.png");
+		izquierda[3] = app.loadImage("../dataGomiCabra/canibal/canibalIzquierda/4.png");
 
 		// DERECHA
-		canibalDerecha[0] = app.loadImage("../dataGomiCabra/canibal/canibalDerecha/1.png");
-		canibalDerecha[1] = app.loadImage("../dataGomiCabra/canibal/canibalDerecha/2.png");
-		canibalDerecha[2] = app.loadImage("../dataGomiCabra/canibal/canibalDerecha/3.png");
-		canibalDerecha[3] = app.loadImage("../dataGomiCabra/canibal/canibalDerecha/4.png");
+		derecha[0] = app.loadImage("../dataGomiCabra/canibal/canibalDerecha/1.png");
+		derecha[1] = app.loadImage("../dataGomiCabra/canibal/canibalDerecha/2.png");
+		derecha[2] = app.loadImage("../dataGomiCabra/canibal/canibalDerecha/3.png");
+		derecha[3] = app.loadImage("../dataGomiCabra/canibal/canibalDerecha/4.png");
+		maxVida = vida;
 
-		// System.out.println(this);
 		Thread nt = new Thread(this);
 		nt.start();
+
 	}
 
 	@Override
@@ -86,66 +71,6 @@ public class EspecieGomiCanibal extends EspecieAbstracta implements ICanibal {
 	}
 
 	@Override
-	public void dibujar() {
-		// TODO Auto-generated method stub
-		PApplet app = Mundo.ObtenerInstancia().getApp();
-		if (direccion == 3) {
-			app.image(canibalIzquierda[vista], x + moverX, y + moverY);
-		} else if (direccion == 4) {
-			app.image(canibalDerecha[vista], x + moverX, y + moverY);
-		} else if (direccion == 1) {
-			app.image(canibalFrente[vista], x + moverX, y + moverY);
-		} else if (direccion == 2) {
-			app.image(canibalAtras[vista], x + moverX, y + moverY);
-		}
-	}
-
-	@Override
-	public void mover() {
-		if (energia > 0) {
-
-			switch (mover) {
-
-			case 0:
-				moverX++;
-				direccion = 4;
-				break;
-			case 1:
-				moverX--;
-				direccion = 3;
-				break;
-			case 2:
-				moverY++;
-				direccion = 1;
-				break;
-			case 3:
-				moverY--;
-				direccion = 2;
-			}// termina switch mover
-
-			if (moverX >= 500) {
-				mover = 1;
-			}
-
-			if (moverX <= 0) {
-				moverX = 1;
-				mover = 2;
-			}
-
-			if (moverY >= 500) {
-				mover = 3;
-			}
-
-			if (moverY <= -1) {
-				moverY = 0;
-				mover = 0;
-			}
-
-		}
-
-	}
-
-	@Override
 	public void run() {
 		while (vida > 0) {
 			mover();
@@ -153,13 +78,13 @@ public class EspecieGomiCanibal extends EspecieAbstracta implements ICanibal {
 				Thread.sleep(33);
 
 				vista++;
-
 				if (vista == 3) {
 					vista = 0;
 				}
 
 			} catch (Exception e) {
-				// TODO: handle exception
+
+				System.err.println("se ha muerto!");
 			}
 		}
 	}
@@ -192,21 +117,11 @@ public class EspecieGomiCanibal extends EspecieAbstracta implements ICanibal {
 
 	}
 
-	private void intentarAparear() {
-
-	}
-
 	private void buscarComida() {
 		List<EspecieAbstracta> todas = Mundo.ObtenerInstancia().getEspecies();
 		for (int i = 0; i < todas.size(); i++) {
 			comer(todas.get(i));
 		}
-	}
-
-	@Override
-	public String toString() {
-		return "EspecieBlanca [id=" + id + ", vida=" + vida + ", fuerza=" + fuerza + ", parejaCercana=" + parejaCercana
-				+ ", dir=" + dir + ", x=" + x + ", y=" + y + ", estado=" + estado + "]";
 	}
 
 	@Override

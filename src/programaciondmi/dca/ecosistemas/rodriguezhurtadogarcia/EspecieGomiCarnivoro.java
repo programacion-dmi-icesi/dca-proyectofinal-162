@@ -15,61 +15,45 @@ import programaciondmi.dca.core.interfaces.ICanibal;
 import programaciondmi.dca.core.interfaces.ICarnivoro;
 import programaciondmi.dca.ejecucion.Mundo;
 
-public class EspecieGomiCarnivoro extends EspecieAbstracta implements ICarnivoro {
-	private int vida;
-	private float fuerza;
-	private int velocidad, vista, moverX, moverY, mover = 0, direccion = 1;
-	private PImage[] carnivoroFrente = new PImage[4];
-	private PImage[] carnivoroAtras = new PImage[4];
-	private PImage[] carnivoroIzquierda = new PImage[4];
-	private PImage[] carnivoroDerecha = new PImage[4];
-	private PApplet app;
-	private float energia;
-	private EspecieAbstracta parejaCercana;
-	private PVector dir;
-	private int ciclo;
-
-	// Constantes
-	private final int LIMITE_APAREO = 100;
+public class EspecieGomiCarnivoro extends GomiCabra implements ICarnivoro {
 
 	public EspecieGomiCarnivoro(EcosistemaAbstracto ecosistema) {
 		super(ecosistema);
 		app = Mundo.ObtenerInstancia().getApp();
 		this.x = (int) app.random(-app.width, app.width);
-		this.y =(int) app.random(-app.height, app.height);
+		this.y = (int) app.random(-app.height, app.height);
 		this.vida = 50;
 		this.fuerza = 100;
 		this.energia = 250;
 		this.velocidad = 2;
-
-
 		ciclo = 0;
 
 		app = Mundo.ObtenerInstancia().getApp();
 
 		// FRENTE
-		carnivoroFrente[0] = app.loadImage("../dataGomiCabra/carnivoro/carnivoroFrente/1.png");
-		carnivoroFrente[1] = app.loadImage("../dataGomiCabra/carnivoro/carnivoroFrente/2.png");
-		carnivoroFrente[2] = app.loadImage("../dataGomiCabra/carnivoro/carnivoroFrente/3.png");
-		carnivoroFrente[3] = app.loadImage("../dataGomiCabra/carnivoro/carnivoroFrente/4.png");
+		frente[0] = app.loadImage("../dataGomiCabra/carnivoro/carnivoroFrente/1.png");
+		frente[1] = app.loadImage("../dataGomiCabra/carnivoro/carnivoroFrente/2.png");
+		frente[2] = app.loadImage("../dataGomiCabra/carnivoro/carnivoroFrente/3.png");
+		frente[3] = app.loadImage("../dataGomiCabra/carnivoro/carnivoroFrente/4.png");
 
 		// ATRAS
-		carnivoroAtras[0] = app.loadImage("../dataGomiCabra/carnivoro/carnivoroAtras/1.png");
-		carnivoroAtras[1] = app.loadImage("../dataGomiCabra/carnivoro/carnivoroAtras/2.png");
-		carnivoroAtras[2] = app.loadImage("../dataGomiCabra/carnivoro/carnivoroAtras/3.png");
-		carnivoroAtras[3] = app.loadImage("../dataGomiCabra/carnivoro/carnivoroAtras/4.png");
+		atras[0] = app.loadImage("../dataGomiCabra/carnivoro/carnivoroAtras/1.png");
+		atras[1] = app.loadImage("../dataGomiCabra/carnivoro/carnivoroAtras/2.png");
+		atras[2] = app.loadImage("../dataGomiCabra/carnivoro/carnivoroAtras/3.png");
+		atras[3] = app.loadImage("../dataGomiCabra/carnivoro/carnivoroAtras/4.png");
 
 		// IZQUIERDA
-		carnivoroIzquierda[0] = app.loadImage("../dataGomiCabra/carnivoro/carnivoroIzquierda/1.png");
-		carnivoroIzquierda[1] = app.loadImage("../dataGomiCabra/carnivoro/carnivoroIzquierda/2.png");
-		carnivoroIzquierda[2] = app.loadImage("../dataGomiCabra/carnivoro/carnivoroIzquierda/3.png");
-		carnivoroIzquierda[3] = app.loadImage("../dataGomiCabra/carnivoro/carnivoroIzquierda/4.png");
+		izquierda[0] = app.loadImage("../dataGomiCabra/carnivoro/carnivoroIzquierda/1.png");
+		izquierda[1] = app.loadImage("../dataGomiCabra/carnivoro/carnivoroIzquierda/2.png");
+		izquierda[2] = app.loadImage("../dataGomiCabra/carnivoro/carnivoroIzquierda/3.png");
+		izquierda[3] = app.loadImage("../dataGomiCabra/carnivoro/carnivoroIzquierda/4.png");
 
 		// DERECHA
-		carnivoroDerecha[0] = app.loadImage("../dataGomiCabra/carnivoro/carnivoroDerecha/1.png");
-		carnivoroDerecha[1] = app.loadImage("../dataGomiCabra/carnivoro/carnivoroDerecha/2.png");
-		carnivoroDerecha[2] = app.loadImage("../dataGomiCabra/carnivoro/carnivoroDerecha/3.png");
-		carnivoroDerecha[3] = app.loadImage("../dataGomiCabra/carnivoro/carnivoroDerecha/4.png");
+		derecha[0] = app.loadImage("../dataGomiCabra/carnivoro/carnivoroDerecha/1.png");
+		derecha[1] = app.loadImage("../dataGomiCabra/carnivoro/carnivoroDerecha/2.png");
+		derecha[2] = app.loadImage("../dataGomiCabra/carnivoro/carnivoroDerecha/3.png");
+		derecha[3] = app.loadImage("../dataGomiCabra/carnivoro/carnivoroDerecha/4.png");
+		maxVida = vida;
 
 		// System.out.println(this);
 		Thread nt = new Thread(this);
@@ -87,79 +71,18 @@ public class EspecieGomiCarnivoro extends EspecieAbstracta implements ICarnivoro
 	}
 
 	@Override
-	public void dibujar() {
-		// TODO Auto-generated method stub
-		PApplet app = Mundo.ObtenerInstancia().getApp();
-
-		if (direccion == 3) {
-			app.image(carnivoroIzquierda[vista], x + moverX, y + moverY);
-		} else if (direccion == 4) {
-			app.image(carnivoroDerecha[vista], x + moverX, y + moverY);
-		} else if (direccion == 1) {
-			app.image(carnivoroFrente[vista], x + moverX, y + moverY);
-		} else if (direccion == 2) {
-			app.image(carnivoroAtras[vista], x + moverX, y + moverY);
-		}
-	}
-
-	@Override
-	public void mover() {
-		if (energia > 0) {
-
-			switch (mover) {
-
-			case 0:
-				moverX++;
-				direccion = 4;
-				break;
-			case 1:
-				moverX--;
-				direccion = 3;
-				break;
-			case 2:
-				moverY++;
-				direccion = 1;
-				break;
-			case 3:
-				moverY--;
-				direccion = 2;
-			}// termina switch mover
-
-			if (moverX >= 500) {
-				mover = 1;
-			}
-
-			if (moverX <= 0) {
-				moverX = 1;
-				mover = 2;
-			}
-
-			if (moverY >= 500) {
-				mover = 3;
-			}
-
-			if (moverY <= -1) {
-				moverY = 0;
-				mover = 0;
-			}
-
-		}
-
-	}
-
-	@Override
 	public void run() {
 		while (vida > 0) {
 			mover();
 			try {
 				Thread.sleep(33);
-				
+
 				vista++;
 
 				if (vista == 3) {
 					vista = 0;
 				}
-				
+
 			} catch (Exception e) {
 				// TODO: handle exception
 			}
@@ -167,7 +90,6 @@ public class EspecieGomiCarnivoro extends EspecieAbstracta implements ICarnivoro
 	}
 
 	private void buscarParejaCercana() {
-
 		List<EspecieAbstracta> todas = Mundo.ObtenerInstancia().getEspecies();
 		// System.out.println("Buscando pareja entre " + todas.size() + "
 		// especies del mundo");
@@ -203,12 +125,6 @@ public class EspecieGomiCarnivoro extends EspecieAbstracta implements ICarnivoro
 		for (int i = 0; i < todas.size(); i++) {
 			comer(todas.get(i));
 		}
-	}
-
-	@Override
-	public String toString() {
-		return "EspecieBlanca [id=" + id + ", vida=" + vida + ", fuerza=" + fuerza + ", parejaCercana=" + parejaCercana
-				+ ", dir=" + dir + ", x=" + x + ", y=" + y + ", estado=" + estado + "]";
 	}
 
 	@Override

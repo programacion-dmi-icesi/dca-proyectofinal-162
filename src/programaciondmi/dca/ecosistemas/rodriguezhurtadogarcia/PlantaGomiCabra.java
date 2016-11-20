@@ -17,6 +17,9 @@ public class PlantaGomiCabra extends PlantaAbstracta {
 	private PApplet app;
 	private int id; // esta variable dice si es mala o buena
 
+	private int estado = 0;
+	private boolean muerto = false;
+
 	public PlantaGomiCabra(EcosistemaGomiCabra ecosistema, int id) {
 		super();
 
@@ -49,13 +52,12 @@ public class PlantaGomiCabra extends PlantaAbstracta {
 
 		switch (id) {
 		case 0:
-			app.image(plantaBuena[0], x, y);
+			app.image(plantaBuena[estado], x, y);
 			break;
 		case 1:
-			app.image(plantaMala[0], x, y);
+			app.image(plantaMala[estado], x, y);
 			break;
 		}
-
 	}
 
 	public void setX(int x) {
@@ -82,6 +84,22 @@ public class PlantaGomiCabra extends PlantaAbstracta {
 	public boolean recibirDano(EspecieAbstracta lastimador) {
 		// TODO Auto-generated method stub
 		return false;
+	}
+
+	public void mordisco() {
+		estado++;
+
+		if (estado > 3) {
+			muerto = true;
+		}
+	}
+
+	public boolean isMuerto() {
+		return muerto;
+	}
+
+	public void setMuerto(boolean muerto) {
+		this.muerto = muerto;
 	}
 
 }
