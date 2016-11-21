@@ -16,7 +16,7 @@ import programaciondmi.dca.ejecucion.Mundo;
 
 public class EcosistemaTikiBots extends EcosistemaAbstracto {
 	PApplet app = Mundo.ObtenerInstancia().getApp();
-	int tipoPlanta = (int) app.random(1,2);
+	int tipoPlanta = 0;
 	
 	
 	public EcosistemaTikiBots() {
@@ -42,7 +42,9 @@ public class EcosistemaTikiBots extends EcosistemaAbstracto {
 			}
 		}
 		
-		if (app.mousePressed == true){
+	System.out.println(tipoPlanta);
+		
+		if (app.mousePressed== true){
 			if (app.mouseButton==app.LEFT){
 				// clic derecho agrega plantas buenas
 				tipoPlanta = 1;
@@ -96,7 +98,7 @@ public class EcosistemaTikiBots extends EcosistemaAbstracto {
 		//	System.out.println("planta buena");
 			PlantaBuena buena = new PlantaBuena(this);
 			plantas.add(buena);
-			tipoPlanta = 0;
+		
 		}
 		
 		if(tipoPlanta == 2){
@@ -106,6 +108,8 @@ public class EcosistemaTikiBots extends EcosistemaAbstracto {
 			tipoPlanta = 0;
 		}
 		
+		PlantaBuena buena = new PlantaBuena(this);
+		plantas.add(buena);
 		
 	
 		return plantas;
@@ -141,12 +145,7 @@ public class EcosistemaTikiBots extends EcosistemaAbstracto {
 		LinkedList<PlantaAbstracta> plantas = new LinkedList<PlantaAbstracta>();
 		
 		
-			
-
-		PlantaBuena buena = new PlantaBuena(this);
-		plantas.add(buena);
-		PlantaMala mala = new PlantaMala(this);
-		plantas.add(mala);
+	
 		
 		return plantas;
 	}
