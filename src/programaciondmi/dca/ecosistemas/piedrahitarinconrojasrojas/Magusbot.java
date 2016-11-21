@@ -98,15 +98,14 @@ if (energia > 0) {
 			
 			buscarComida();
 			
-					if (ciclo % 30 == 0) {
-					// Definir una direccion aleatoria cada 3 segundos
+					if (ciclo % 50 == 0) {
+					// Definir una direccion aleatoria cada 5 segundos
 					int targetX = random.nextInt();
 					int targetY = random.nextInt();
 					cambiarDireccion(new PVector(targetX, targetY));
 					System.out.println("CAMBIO DIRECCION!");
 					}
 		
-				
 			// moverse en la direcciÃ³n asignada actualmente
 			this.x += dir.x;
 			this.y += dir.y;
@@ -118,6 +117,12 @@ if (energia > 0) {
 		}
 		if(this.y > Mundo.ObtenerInstancia().getApp().height || this.y < 0){
 			this.dir.y *= -1;			
+		}
+		if(this.x < Mundo.ObtenerInstancia().getApp().width || this.x > 0){
+			this.dir.x*=+1;			
+		}
+		if(this.y < Mundo.ObtenerInstancia().getApp().height || this.y > 0){
+			this.dir.y *= +1;			
 		}
 	}
 	
@@ -136,13 +141,10 @@ if (energia > 0) {
 		}
 	}
 
-	
-	
 	@Override
 	public void dibujar() {
 				PApplet app = Mundo.ObtenerInstancia().getApp();
-			
-
+		
 		// Image Personaje
 		
 		app.image(magobot[contador], x, y, 100,100);
@@ -157,10 +159,6 @@ if (energia > 0) {
 		dir.mult(velocidad);
 		//System.out.println("[id=" + id + ", direcion=" + dir + "]");
 	}
-	
-	
-	
-	
 	
 	@Override
 	public boolean recibirDano(EspecieAbstracta lastimador) {
@@ -183,6 +181,4 @@ if (energia > 0) {
 			comer(todas.get(i));
 		}
 	}
-
-
 }
