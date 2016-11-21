@@ -23,7 +23,6 @@ public class EcosistemaTikiBots extends EcosistemaAbstracto {
 		super();
 	}
 
-
 	@Override
 	public void dibujar() {
 		synchronized (especies) {
@@ -37,7 +36,7 @@ public class EcosistemaTikiBots extends EcosistemaAbstracto {
 		synchronized (plantas) {
 			Iterator<PlantaAbstracta> iteradorPlantas = plantas.iterator();
 			while(iteradorPlantas.hasNext()){
-				System.out.println("aja.. dibuja");
+				//System.out.println("aja.. dibuja");
 				PlantaAbstracta actual = iteradorPlantas.next();
 				actual.dibujar();
 			}
@@ -94,14 +93,14 @@ public class EcosistemaTikiBots extends EcosistemaAbstracto {
 	LinkedList<PlantaAbstracta> plantas = new LinkedList<PlantaAbstracta>();
 	
 		if(tipoPlanta == 1){
-			System.out.println("planta buena");
+			//System.out.println("planta buena");
 			//GoodPlanta buena = new GoodPlanta(this);
 			//plantas.add(buena);
 			tipoPlanta = 0;
 		}
 		
 		if(tipoPlanta == 2){
-			System.out.println("planta mala");
+			//System.out.println("planta mala");
 			PlantaMala mala = new PlantaMala(this);
 			plantas.add(mala);
 			tipoPlanta = 0;
@@ -115,6 +114,7 @@ public class EcosistemaTikiBots extends EcosistemaAbstracto {
 
 	@Override
 	protected List<EspecieAbstracta> generarIndividuos() {
+		LinkedList<EspecieAbstracta> especies = new LinkedList<EspecieAbstracta>();
 		// TODO Auto-generated method stub
 		
 		SaberBot nueva = new SaberBot(this);
@@ -129,18 +129,19 @@ public class EcosistemaTikiBots extends EcosistemaAbstracto {
 		Birdbot ave = new Birdbot(this);
 		especies.add(ave);
 		
-		return null;
+		return especies;
 	}
 
 
 	@Override
 	protected List<PlantaAbstracta> generarPlantas() {
-		System.out.println("generar plantas");
+		//System.out.println("generar plantas");
+		LinkedList<PlantaAbstracta> plantas = new LinkedList<PlantaAbstracta>();
 		
 		PlantaMala mala = new PlantaMala(this);
 		plantas.add(mala);
 		
-		return null;
+		return plantas;
 	}
 
 

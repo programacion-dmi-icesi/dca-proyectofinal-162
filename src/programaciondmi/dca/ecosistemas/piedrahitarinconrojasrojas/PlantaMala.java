@@ -36,7 +36,7 @@ public class PlantaMala extends PlantaAbstracta {
 
 	@Override
 	public void dibujar() {
-		System.out.println("imagen planta mala");
+		//System.out.println("imagen planta mala");
 		app.image(Mplanta[0],x,y);
 	}
 
