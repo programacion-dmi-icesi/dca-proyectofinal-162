@@ -64,13 +64,13 @@ public class EcosistemaEjemplo extends EcosistemaAbstracto {
 		EspecieAzul azul = new EspecieAzul(this);
 		especies.add(azul);
 		
-		return null;
+		return especies;
 	}
 
 
 	@Override
 	protected List<PlantaAbstracta> generarPlantas() {
-		return null;
+		return plantas;
 	}
 
 

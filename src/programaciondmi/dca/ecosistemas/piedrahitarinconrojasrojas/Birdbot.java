@@ -24,6 +24,7 @@ public class Birdbot extends EspecieAbstracta implements IApareable, ICarnivoro 
 	 * Se utiliza para definfir cuando el individuo puede realizar acciones:
 	 * moverse, aparearse, etc
 	 */
+	
 	private float energia;
 	private EspecieAbstracta parejaCercana;
 	private PVector dir;
@@ -48,7 +49,7 @@ public class Birdbot extends EspecieAbstracta implements IApareable, ICarnivoro 
 		int targetX = random.nextInt();
 		int targetY = random.nextInt();
 		cambiarDireccion(new PVector(targetX, targetY));
-contador= 8;
+		contador= 8;
 		ciclo = 0;
 		
 		PApplet app = Mundo.ObtenerInstancia().getApp();
@@ -122,8 +123,29 @@ contador= 8;
 					// Definir una direccion aleatoria cada 3 segundos
 					int targetX = random.nextInt();
 					int targetY = random.nextInt();
+					
+					if(targetX>0){
+						System.out.println("va hacia derecha");
+					}
+					
+					if(targetY>0){
+						System.out.println("va hacia abajo");
+					}
+					
+					if(targetX<0){
+						System.out.println("va hacia izquierda");
+						for (int i = 13; i < pjBirdbot.length; i++) {
+							contador = i;
+							System.out.println(contador);
+						}
+					}
+					if(targetY<0){
+						System.out.println("va hacia arriba");
+					}
+					
 					cambiarDireccion(new PVector(targetX, targetY));
-					System.out.println("CAMBIO DIRECCION!");
+					System.out.println(targetX+" "+targetY);
+					//System.out.println("CAMBIO DIRECCION!");
 					}
 				}
 				
@@ -157,10 +179,10 @@ contador= 8;
 	}
 
 	/**
-	 * <p>
+	 * 
 	 * Este método busca a una especie apareable dentro del rango permitido por
 	 * la fuerza actual.
-	 * </p>
+	 * 
 	 */
 	private void buscarParejaCercana() {
 
