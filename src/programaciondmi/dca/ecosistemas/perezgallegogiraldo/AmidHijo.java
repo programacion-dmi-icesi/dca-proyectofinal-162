@@ -51,13 +51,13 @@ public class AmidHijo extends EspecieAbstracta implements IApareable, ICarnivoro
 			ladoSano[i] = app.loadImage("../data/Personajes/P5/P5 Lado/P5 L Sano" + i + ".png"); // LADO
 																									// SANO
 
-			 /*transicionFrente[i] = app.loadImage("../data/Personajes/P5/Transiciones/Frente/Transicion P5 F" + i + ".png"); // TRANSICIÓN
+			 /*transicionFrente[i] = app.loadImage("../data/Personajes/P5/Transiciones/Frente/Transicion P5 F" + i + ".png"); // TRANSICIï¿½N
 			 // FRENTE
 			
-			 transicionEspalda[i] = app.loadImage("../data/Personajes/P5/Transiciones/Espalda/Transicion P5 E" + i + ".png"); // TRANSICIÓN
+			 transicionEspalda[i] = app.loadImage("../data/Personajes/P5/Transiciones/Espalda/Transicion P5 E" + i + ".png"); // TRANSICIï¿½N
 			 // ESPALDA
 			
-			 transicionLado[i] = app.loadImage("../data/Personajes/P5/Transiciones/Lado/Transicion P5 L" + i + ".png"); // TRANSICIÓN
+			 transicionLado[i] = app.loadImage("../data/Personajes/P5/Transiciones/Lado/Transicion P5 L" + i + ".png"); // TRANSICIï¿½N
 			 // LADO
 			 */
 		}
@@ -106,5 +106,4 @@ public class AmidHijo extends EspecieAbstracta implements IApareable, ICarnivoro
 		// TODO Auto-generated method stub
 		return false;
 	}
-
 }
