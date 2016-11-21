@@ -36,6 +36,7 @@ public class AmidCanibal extends EspecieAbstracta implements ICanibal {
 	private EspecieAbstracta parejaCercana;
 	private PVector dir;
 	private PVector pos;
+	private PVector objetivo;
 	private int ciclo;
 
 	// Constantes
@@ -54,10 +55,12 @@ public class AmidCanibal extends EspecieAbstracta implements ICanibal {
 		this.fuerza = 100;
 		this.energia = 250;
 		this.velocidad = 2;
-		
-		dir= new PVector(0,0);
-		pos = new PVector(0,0);
-		
+		objetivo = new PVector(300, -300);
+
+
+		dir = new PVector(0, 0);
+		pos = new PVector(0, 0);
+
 		cargaImagenes();
 		Thread nt = new Thread(this);
 		nt.start();
@@ -66,24 +69,35 @@ public class AmidCanibal extends EspecieAbstracta implements ICanibal {
 	public void cargaImagenes() {
 
 		for (int i = 0; i < 12; i++) {
-			
-				frenteEnfermo[i] = app.loadImage("../data/Personajes/P1/P1 Frente/P1 F Enfermo" + i + ".png");			// FRENTE ENFERMO
 
-				frenteSano[i] = app.loadImage("../data/Personajes/P1/P1 Frente/P1 F Sano" + i + ".png"); 		// FRENTE SANO
+			frenteEnfermo[i] = app.loadImage("../data/Personajes/P1/P1 Frente/P1 F Enfermo" + i + ".png"); // FRENTE
+																											// ENFERMO
 
-				espaldaEnfermo[i] = app.loadImage("../data/Personajes/P1/P1 Espalda/P1 E Enfermo" + i + ".png");		// ESPALDA ENFERMO
+			frenteSano[i] = app.loadImage("../data/Personajes/P1/P1 Frente/P1 F Sano" + i + ".png"); // FRENTE
+																										// SANO
 
-				espaldaSano[i] = app.loadImage("../data/Personajes/P1/P1 Espalda/P1 E Sano" + i + ".png");		// ESPALDA SANO
+			espaldaEnfermo[i] = app.loadImage("../data/Personajes/P1/P1 Espalda/P1 E Enfermo" + i + ".png"); // ESPALDA
+																												// ENFERMO
 
-				ladoEnfermo[i] = app.loadImage("../data/Personajes/P1/P1 Lado/P1 L Enfermo" + i + ".png");		// LADO ENFERMO
+			espaldaSano[i] = app.loadImage("../data/Personajes/P1/P1 Espalda/P1 E Sano" + i + ".png"); // ESPALDA
+																										// SANO
 
-				ladoSano[i] = app.loadImage("../data/Personajes/P1/P1 Lado/P1 L Sano" + i + ".png");		// LADO SANO
+			ladoEnfermo[i] = app.loadImage("../data/Personajes/P1/P1 Lado/P1 L Enfermo" + i + ".png"); // LADO
+																										// ENFERMO
 
-				transicionFrente[i] = app.loadImage("../data/Personajes/P1/Transiciones/Frente/Transicion P1 F" + i + ".png");		// TRANSICIÓN FRENTE
+			ladoSano[i] = app.loadImage("../data/Personajes/P1/P1 Lado/P1 L Sano" + i + ".png"); // LADO
+																									// SANO
 
-				transicionEspalda[i] = app.loadImage("../data/Personajes/P1/Transiciones/Espalda/Transicion P1 E" + i + ".png");		// TRANSICIÓN ESPALDA
+			transicionFrente[i] = app
+					.loadImage("../data/Personajes/P1/Transiciones/Frente/Transicion P1 F" + i + ".png"); // TRANSICIÓN
+																											// FRENTE
 
-				transicionLado[i] = app.loadImage("../data/Personajes/P1/Transiciones/Lado/Transicion P1 L" + i + ".png");		// TRANSICIÓN LADO
+			transicionEspalda[i] = app
+					.loadImage("../data/Personajes/P1/Transiciones/Espalda/Transicion P1 E" + i + ".png"); // TRANSICIÓN
+																											// ESPALDA
+
+			transicionLado[i] = app.loadImage("../data/Personajes/P1/Transiciones/Lado/Transicion P1 L" + i + ".png"); // TRANSICIÓN
+																														// LADO
 		}
 
 	}
@@ -91,33 +105,40 @@ public class AmidCanibal extends EspecieAbstracta implements ICanibal {
 	@Override
 	public void dibujar() {
 		// TODO Auto-generated method stub
-		app.ellipse(pos.x, pos.y, 50, 50);
-		if(contador==12) contador=0;
-		app.image(frenteEnfermo[contador], pos.x-50, pos.y-50);
+		app.ellipse(objetivo.x, objetivo.y, 50, 50);
+		if (contador == 12)
+			contador = 0;
+		app.image(frenteEnfermo[contador], pos.x - 50, pos.y - 50);
 		contador++;
+		
+		perseguir();
 	}
 
 	@Override
 	public void mover() {
-		PVector m = new PVector(app.mouseX, app.mouseY);
-		  PVector distanX = PVector.sub(m, pos);
-		  distanX.y=0;
-		  PVector distanY = PVector.sub(m, pos);
-		  distanY.x=0;
-		  float dX = distanX.mag();
-		  distanX.normalize();
-		  distanY.normalize();
-		  
-		  PVector direccionX = PVector.sub(distanX, dir);
-		  direccionX.limit(3);
-		  dir.add(direccionX);
+		pos.add(dir);
+	}
+	
+	public void perseguir(){
+		PVector distanX = PVector.sub(objetivo, pos);
+		distanX.y = 0;
+		PVector distanY = PVector.sub(objetivo, pos);
+		distanY.x = 0;
+		float dX = distanX.mag();
+		System.out.println(distanX.x + "  "+ distanY.y);
 
-		  if (dX <= 0) {
-		    PVector direccionY = PVector.sub(distanY, dir);
-		    dir.add(direccionY);
-		  }
+		distanX.normalize();
+		distanY.normalize();
 
-		  pos.add(dir);
+		PVector direccionX = PVector.sub(distanX, dir);
+		dir.add(direccionX);
+
+		if (dX <= 0) {
+			PVector direccionY = PVector.sub(distanY, dir);
+			dir.add(direccionY);
+		}
+		
+
 	}
 
 	@Override
