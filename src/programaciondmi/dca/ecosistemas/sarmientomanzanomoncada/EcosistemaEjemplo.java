@@ -70,6 +70,7 @@ public class EcosistemaEjemplo extends EcosistemaAbstracto {
 
 	@Override
 	protected List<PlantaAbstracta> generarPlantas() {
+		LinkedList<PlantaAbstracta> plantas = new LinkedList<PlantaAbstracta>();
 		return plantas;
 	}
 
