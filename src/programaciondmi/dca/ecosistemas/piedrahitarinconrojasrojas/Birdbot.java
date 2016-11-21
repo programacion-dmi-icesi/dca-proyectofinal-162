@@ -223,7 +223,7 @@ public class Birdbot extends EspecieAbstracta implements IApareable, ICarnivoro 
 		float dist = PApplet.dist(x, y, parejaCercana.getX(), parejaCercana.getY());
 		if (dist < vida) {
 			IApareable a = (IApareable) parejaCercana;
-			ecosistema.agregarEspecie(aparear(a));
+			//ecosistema.agregarEspecie(aparear(a));
 			// perder energia
 			energia -= 50;
 		}
