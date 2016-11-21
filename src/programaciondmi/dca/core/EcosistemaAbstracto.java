@@ -22,7 +22,7 @@ public abstract class EcosistemaAbstracto extends Observable implements Runnable
 	public EcosistemaAbstracto() {
 		// TODO Auto-generated constructor stub
 		especies = Collections.synchronizedList(poblarEspecies());
-		plantas = Collections.synchronizedList(poblarPlantas());
+		//plantas = Collections.synchronizedList(poblarPlantas());
 		Thread t =  new Thread(this);
 		t.start();
 	}

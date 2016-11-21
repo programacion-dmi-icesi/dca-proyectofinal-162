@@ -1,29 +1,40 @@
 package programaciondmi.dca.ecosistemas.perezgallegogiraldo;
 
+import processing.core.PApplet;
 import programaciondmi.dca.core.EcosistemaAbstracto;
 import programaciondmi.dca.core.EspecieAbstracta;
 import programaciondmi.dca.core.PlantaAbstracta;
 import programaciondmi.dca.core.interfaces.IApareable;
 import programaciondmi.dca.core.interfaces.IHerbivoro;
+import programaciondmi.dca.ejecucion.Mundo;
 
 public class AmidHerbivoro extends EspecieAbstracta implements IHerbivoro, IApareable{
+	PApplet app;
+	private int vida;
 
+	
 	public AmidHerbivoro(EcosistemaAbstracto ecosistema) {
 		super(ecosistema);
-		// TODO Auto-generated constructor stub
+		app = Mundo.ObtenerInstancia().getApp();
 	}
 
 	@Override
 	public void run() {
-		// TODO Auto-generated method stub
-		
+		while(vida>0){
+			mover();
+			try{
+				Thread.sleep(33);
+			}catch(Exception e){
+				
+			}
+		}		
 	}
 
 
 	@Override
 	public void dibujar() {
-		// TODO Auto-generated method stub
-		
+		app.fill(0,255,255);
+		app.ellipse(100, 100, 100, 100);
 	}
 
 	@Override

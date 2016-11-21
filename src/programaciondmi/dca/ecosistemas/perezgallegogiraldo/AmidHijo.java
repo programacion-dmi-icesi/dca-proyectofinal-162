@@ -1,12 +1,16 @@
 package programaciondmi.dca.ecosistemas.perezgallegogiraldo;
 
+import processing.core.PApplet;
 import programaciondmi.dca.core.EcosistemaAbstracto;
 import programaciondmi.dca.core.EspecieAbstracta;
 import programaciondmi.dca.core.interfaces.IApareable;
 import programaciondmi.dca.core.interfaces.ICarnivoro;
 
 public class AmidHijo extends EspecieAbstracta implements IApareable, ICarnivoro{
-
+	
+	PApplet app;
+	private int vida;
+	
 	public AmidHijo(EcosistemaAbstracto ecosistema) {
 		super(ecosistema);
 		// TODO Auto-generated constructor stub
@@ -14,7 +18,14 @@ public class AmidHijo extends EspecieAbstracta implements IApareable, ICarnivoro
 
 	@Override
 	public void run() {
-		// TODO Auto-generated method stub
+		while(vida>0){
+			mover();
+			try{
+				Thread.sleep(33);
+			}catch(Exception e){
+				
+			}
+		}
 		
 	}
 
@@ -32,8 +43,8 @@ public class AmidHijo extends EspecieAbstracta implements IApareable, ICarnivoro
 
 	@Override
 	public void dibujar() {
-		// TODO Auto-generated method stub
-		
+		app.fill(0,255,255);
+		app.ellipse(100, 100, 100, 100);		
 	}
 
 	@Override
