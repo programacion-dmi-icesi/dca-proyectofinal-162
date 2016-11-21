@@ -23,7 +23,6 @@ public class EcosistemaTikiBots extends EcosistemaAbstracto {
 		super();
 	}
 
-
 	@Override
 	public void dibujar() {
 		synchronized (especies) {
