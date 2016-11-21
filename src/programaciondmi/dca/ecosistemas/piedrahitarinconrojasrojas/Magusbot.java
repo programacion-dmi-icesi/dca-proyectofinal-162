@@ -59,7 +59,6 @@ public class Magusbot extends EspecieAbstracta implements IOmnivoro {
 		magobot[7] = app.loadImage("DataTikiBots/Magusbot/mD03.png");
 		magobot[8] = app.loadImage("DataTikiBots/Magusbot/mD04.png");
 		magobot[9] = app.loadImage("DataTikiBots/Magusbot/mD05.png");
-		// magobot[10] = app.loadImage("DataTikiBots/Magusbot/mD06.png");
 		// frente del magobot
 		magobot[10] = app.loadImage("DataTikiBots/Magusbot/mF01.png");
 		magobot[11] = app.loadImage("DataTikiBots/Magusbot/mF02.png");
@@ -72,7 +71,6 @@ public class Magusbot extends EspecieAbstracta implements IOmnivoro {
 		magobot[17] = app.loadImage("DataTikiBots/Magusbot/mZ03.png");
 		magobot[18] = app.loadImage("DataTikiBots/Magusbot/mZ04.png");
 		magobot[19] = app.loadImage("DataTikiBots/Magusbot/mZ05.png");
-		// magobot[21] = app.loadImage("DataTikiBots/Magusbot/mZ06.png");
 
 		Thread nt = new Thread(this);
 		nt.start();
@@ -98,7 +96,7 @@ public class Magusbot extends EspecieAbstracta implements IOmnivoro {
 
 			buscarComida();
 
-			if (ciclo % 50 == 0) {
+			if (ciclo % 30 == 0) {
 				// Definir una direccion aleatoria cada 5 segundos
 				// Siguiente posición en x
 				int targetX = random.nextInt();
@@ -169,7 +167,7 @@ public class Magusbot extends EspecieAbstracta implements IOmnivoro {
 		
 		app.image(magobot[contador], x, y, 100, 100);
 		app.fill(255, 0, 0);
-		if (app.frameRate % 1 == 0) {
+		if (app.frameCount % 10 == 0) {
 			contador++;
 		}
 
