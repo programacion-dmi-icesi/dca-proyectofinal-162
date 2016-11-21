@@ -34,6 +34,7 @@ public class AmidCanibal extends EspecieAbstracta implements ICanibal {
 	private float energia;
 	private EspecieAbstracta parejaCercana;
 	private PVector dir;
+	private PVector pos;
 	private int ciclo;
 
 	// Constantes
@@ -53,6 +54,9 @@ public class AmidCanibal extends EspecieAbstracta implements ICanibal {
 		this.energia = 250;
 		this.velocidad = 2;
 		
+		dir= new PVector(0,0);
+		pos = new PVector(0,0);
+		
 		cargaImagenes();
 		Thread nt = new Thread(this);
 		nt.start();
@@ -60,55 +64,41 @@ public class AmidCanibal extends EspecieAbstracta implements ICanibal {
 
 	public void cargaImagenes() {
 
-		// FRENTE ENFERMO
 		for (int i = 0; i < 12; i++) {
 			
-				frenteEnfermo[i] = app.loadImage("../data/Personajes/P1/P1 Frente/P1 F Enfermo" + i + ".png");
+				frenteEnfermo[i] = app.loadImage("../data/Personajes/P1/P1 Frente/P1 F Enfermo" + i + ".png");			// FRENTE ENFERMO
 
-				frenteSano[i] = app.loadImage("../data/Personajes/P1/P1 Frente/P1 F Sano" + i + ".png");
+				frenteSano[i] = app.loadImage("../data/Personajes/P1/P1 Frente/P1 F Sano" + i + ".png"); 		// FRENTE SANO
 
-				espaldaEnfermo[i] = app.loadImage("../data/Personajes/P1/P1 Espalda/P1 E Enfermo" + i + ".png");
+				espaldaEnfermo[i] = app.loadImage("../data/Personajes/P1/P1 Espalda/P1 E Enfermo" + i + ".png");		// ESPALDA ENFERMO
 
-				espaldaSano[i] = app.loadImage("../data/Personajes/P1/P1 Espalda/P1 E Sano" + i + ".png");
+				espaldaSano[i] = app.loadImage("../data/Personajes/P1/P1 Espalda/P1 E Sano" + i + ".png");		// ESPALDA SANO
 
-				ladoEnfermo[i] = app.loadImage("../data/Personajes/P1/P1 Lado/P1 L Enfermo" + i + ".png");
+				ladoEnfermo[i] = app.loadImage("../data/Personajes/P1/P1 Lado/P1 L Enfermo" + i + ".png");		// LADO ENFERMO
 
-				ladoSano[i] = app.loadImage("../data/Personajes/P1/P1 Lado/P1 L Sano" + i + ".png");
+				ladoSano[i] = app.loadImage("../data/Personajes/P1/P1 Lado/P1 L Sano" + i + ".png");		// LADO SANO
 
-				transicionFrente[i] = app.loadImage("../data/Personajes/P1/Transiciones/Frente/Transicion P1 F" + i + ".png");
+				transicionFrente[i] = app.loadImage("../data/Personajes/P1/Transiciones/Frente/Transicion P1 F" + i + ".png");		// TRANSICIÓN FRENTE
 
-				transicionEspalda[i] = app.loadImage("../data/Personajes/P1/Transiciones/Espalda/Transicion P1 E" + i + ".png");
+				transicionEspalda[i] = app.loadImage("../data/Personajes/P1/Transiciones/Espalda/Transicion P1 E" + i + ".png");		// TRANSICIÓN ESPALDA
 
-				transicionLado[i] = app.loadImage("../data/Personajes/P1/Transiciones/Lado/Transicion P1 L" + i + ".png");
+				transicionLado[i] = app.loadImage("../data/Personajes/P1/Transiciones/Lado/Transicion P1 L" + i + ".png");		// TRANSICIÓN LADO
 		}
 
-		// FRENTE SANO
-
-		// ESPALDA ENFERMO
-
-		// ESPALDA SANO
-
-		// LADO ENFERMO
-
-		// LADO SANO
-
-		// TRANSICIÓN FRENTE
-
-		// TRANSICIÓN ESPALDA
-
-		// TRANSICIÓN LADO
 	}
 
 	@Override
 	public void dibujar() {
 		// TODO Auto-generated method stub
-		app.image(frenteEnfermo[0], 0, 0);
+		app.ellipse(pos.x, pos.y, 50, 50);
+		app.image(frenteEnfermo[0], pos.x-50, pos.y-50);
 	}
 
 	@Override
 	public void mover() {
-		// TODO Auto-generated method stub
-
+		dir = PVector.random2D();
+		dir.mult(3);
+		pos.add(dir);
 	}
 
 	@Override
