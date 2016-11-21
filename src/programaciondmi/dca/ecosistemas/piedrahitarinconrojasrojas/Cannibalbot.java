@@ -125,7 +125,6 @@ public class Cannibalbot extends EspecieAbstracta implements ICanibal {
 		if (this.y > Mundo.ObtenerInstancia().getApp().height || this.y < 0) {
 			this.dir.y *= -1;
 		}
-
 	}
 
 	public void run() {
@@ -151,7 +150,6 @@ public class Cannibalbot extends EspecieAbstracta implements ICanibal {
 		if(app.frameCount%10 == 0){
 			contador++;
 		}
-		
 	}
 
 	private void cambiarDireccion(PVector target) {
