@@ -14,14 +14,15 @@ public class Venenosa extends PlantaAbstracta {
 	private Random random;
 	private PImage plant;
 
-	public Venenosa() {
+	public Venenosa(int x, int y) {
 		super();
 		PApplet app = Mundo.ObtenerInstancia().getApp();
-		this.plant=app.loadImage("carnivora1.png");
+		this.plant = app.loadImage("carnivora1.png");
 		recursos = 3;
 		this.random = new Random();
-		x = random.nextInt(Mundo.ObtenerInstancia().getApp().width);
-		y = random.nextInt(Mundo.ObtenerInstancia().getApp().height);
+
+		this.x = x;
+		this.y = y;
 
 		Thread nt = new Thread(this);
 		nt.start();
@@ -48,7 +49,7 @@ public class Venenosa extends PlantaAbstracta {
 	public boolean recibirDano(EspecieAbstracta lastimador) {
 		if (recursos > 0) {
 			recursos--;
-			System.out.println("Me comieron"+recursos);
+			System.out.println("Me comieron" + recursos);
 			return true;
 		}
 		return false;

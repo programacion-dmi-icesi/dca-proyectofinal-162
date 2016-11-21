@@ -23,7 +23,7 @@ public class MurHerbivoro extends EspecieAbstracta implements IHerbivoro {
 	private int display;
 	private int ciclo;
 	private int estadoVeneno, tiempoEnvenenado;
-	private boolean puedeComer;
+	private boolean puedeComer, puedeSembrar, yaComi;
 
 	private Random random;
 
@@ -70,8 +70,13 @@ public class MurHerbivoro extends EspecieAbstracta implements IHerbivoro {
 				if ((victima instanceof Venenosa) && estadoVeneno == 0) {
 					estado = ENVENENADO;
 					estadoVeneno = 1;
+				} else if ((victima instanceof Hojas)) {
+					estado = EXTASIS;
+					energia += 20;
+					estadoVeneno = 0;
 				}
 				victima.recibirDano(this);
+				yaComi = true;
 				puedeComer = false;
 			}
 		}
@@ -92,6 +97,10 @@ public class MurHerbivoro extends EspecieAbstracta implements IHerbivoro {
 			buscarPlanta();
 			if (plantaCerca != null) {
 				comerPlanta(plantaCerca);
+			}
+
+			if (ciclo % 300 == 0 && yaComi) {
+				sembrar();
 			}
 			if (ciclo % 30 == 0) {
 				int targetX = random.nextInt();
@@ -126,6 +135,10 @@ public class MurHerbivoro extends EspecieAbstracta implements IHerbivoro {
 			puedeComer = true;
 		}
 
+		if (ciclo % 420 == 0) {
+			puedeSembrar = true;
+		}
+
 	}
 
 	/**
@@ -153,7 +166,8 @@ public class MurHerbivoro extends EspecieAbstracta implements IHerbivoro {
 	}
 
 	/**
-	 * Metodo para demostrar tanto visualmente como en datos, el estado de Veneno de el personaje
+	 * Metodo para demostrar tanto visualmente como en datos, el estado de
+	 * Veneno de el personaje
 	 */
 	private void veneno() {
 		PApplet app = Mundo.ObtenerInstancia().getApp();
@@ -192,8 +206,21 @@ public class MurHerbivoro extends EspecieAbstracta implements IHerbivoro {
 		}
 	}
 
+	public void sembrar() {
+		PlantaAbstracta[] plantas = new PlantaAbstracta[2];
+		plantas[0] = new Hojas(x, y);
+		plantas[1] = new Venenosa(x, y);
+
+		PApplet app = Mundo.ObtenerInstancia().getApp();
+		int r = (int) app.random(0, 2);
+
+		PlantaAbstracta p = plantas[r];
+		ecosistema.agregarPlanta(p);
+	}
+
 	/**
 	 * Metodo para direccionar el organismo a una posicion especifica
+	 * 
 	 * @param target
 	 */
 	private void redireccionar(PVector target) {

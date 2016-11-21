@@ -19,8 +19,9 @@ public class BuhoHijo extends EspecieAbstracta {
 	private int vel, vida, cambio;
 	private float energia;
 	private PlantaAbstracta plantaCerca;
+	private EspecieAbstracta mama;
 	private int estadoVeneno, tiempoEnvenenado;
-	private boolean comer;
+	private boolean comer, puedeSeguir;
 
 	private Random random;
 
@@ -61,13 +62,13 @@ public class BuhoHijo extends EspecieAbstracta {
 		app.imageMode(3);
 		app.image(bird, x, y);
 		veneno();
-
 	}
 
 	@Override
 	public void mover() {
 		if (energia > 0) {
 			if (energia > 100) {
+				buscarMama();
 				int targetX = random.nextInt();
 				int targetY = random.nextInt();
 				redireccionar(new PVector(targetX, targetY));
@@ -96,8 +97,9 @@ public class BuhoHijo extends EspecieAbstracta {
 		}
 
 		PApplet app = Mundo.ObtenerInstancia().getApp();
-		if (app.frameCount % 60 == 0) {
+		if (cambio % 120 == 0) {
 			comer = true;
+			puedeSeguir = true;
 		}
 	}
 
@@ -136,6 +138,11 @@ public class BuhoHijo extends EspecieAbstracta {
 				if ((planta instanceof Venenosa) && estadoVeneno == 0) {
 					estado = ENVENENADO;
 					estadoVeneno = 1;
+					comer = false;
+				} else if ((planta instanceof Hojas)) {
+					energia += 20;
+					estado = EXTASIS;
+					estadoVeneno = 0;
 					comer = false;
 				} else {
 					energia += 20;
@@ -177,6 +184,29 @@ public class BuhoHijo extends EspecieAbstracta {
 			}
 			break;
 		}
+	}
+
+	public void buscarMama() {
+		List<EspecieAbstracta> all = Mundo.ObtenerInstancia().getEspecies();
+		ListIterator<EspecieAbstracta> iter = all.listIterator();
+		boolean encontro = false;
+		while (!encontro && iter.hasNext()) {
+			EspecieAbstracta mom = iter.next();
+			if (mom instanceof BuhoApareable) {
+				float d = PApplet.dist(x, y, mom.getX(), mom.getY());
+				if (d < energia * 2 && puedeSeguir) {
+					encontro = true;
+					mama = mom;
+					redireccionar(new PVector(mama.getX(), mama.getY()));
+					puedeSeguir = false;
+				}
+			}
+		}
+
+		if (!encontro) {
+			mama = null;
+		}
+
 	}
 
 	/**

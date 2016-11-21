@@ -269,5 +269,14 @@ public class Mundo implements Observer {
 		}
 		
 	}
+
+	public synchronized int getCamX() {
+		return camX;
+	}
+
+	public synchronized int getCamY() {
+		return camY;
+	}
+	
 	
 }

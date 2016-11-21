@@ -15,16 +15,16 @@ import programaciondmi.dca.ejecucion.Mundo;
 
 public class BuhoApareable extends EspecieAbstracta implements IApareable {
 
-	private PImage bird,nino;
+	private PImage bird, nino;
 	private int vida;
-	private float energia,vel;
+	private float energia, vel;
 	private EspecieAbstracta parejaCerca;
 	private PlantaAbstracta plantaCerca;
 	private PVector pos;
 	private int display;
 	private int ciclo;
 	private int estadoVeneno, tiempoEnvenenado;
-	private boolean tenerHijo, puedeComer;
+	private boolean tenerHijo, comerPlanta;
 
 	private final int LIMITE_APAREO = 100;
 	private Random random;
@@ -69,7 +69,7 @@ public class BuhoApareable extends EspecieAbstracta implements IApareable {
 
 	@Override
 	public EspecieAbstracta aparear(IApareable apareable) {
-		BuhoHijo kid = new BuhoHijo(ecosistema,nino);
+		BuhoHijo kid = new BuhoHijo(ecosistema, nino);
 		kid.setX(this.x);
 		kid.setY(this.y);
 		ecosistema.agregarEspecie(kid);
@@ -127,13 +127,14 @@ public class BuhoApareable extends EspecieAbstracta implements IApareable {
 		PApplet app = Mundo.ObtenerInstancia().getApp();
 		if (ciclo % 600 == 0) {
 			tenerHijo = true;
-			puedeComer = true;
+			comerPlanta = true;
 		}
 
 	}
 
 	/**
-	 * Metodo para demostrar tanto visualmente como en datos, el estado de Veneno de el personaje
+	 * Metodo para demostrar tanto visualmente como en datos, el estado de
+	 * Veneno de el personaje
 	 */
 	private void veneno() {
 		PApplet app = Mundo.ObtenerInstancia().getApp();
@@ -173,8 +174,8 @@ public class BuhoApareable extends EspecieAbstracta implements IApareable {
 	}
 
 	/**
-	 * Metodo par buscar otro apareable cercano con el que puede copular
-	 * Mide si el otro apareable también posee la suficiente energía para copular
+	 * Metodo par buscar otro apareable cercano con el que puede copular Mide si
+	 * el otro apareable también posee la suficiente energía para copular
 	 */
 	private void buscarPareja() {
 		List<EspecieAbstracta> all = Mundo.ObtenerInstancia().getEspecies();
@@ -184,11 +185,11 @@ public class BuhoApareable extends EspecieAbstracta implements IApareable {
 			EspecieAbstracta cerca = iterador.next();
 			if ((cerca instanceof IApareable) && !cerca.equals(this)) {
 				float d = PApplet.dist(x, y, cerca.getX(), cerca.getY());
-				if (d < energia*1.5 && cerca.getEstado() != cerca.MUERTO && !(cerca instanceof BuhoApareable)) {
+				if (d < energia * 1.5 && cerca.getEstado() != cerca.MUERTO && !(cerca instanceof BuhoApareable)) {
 					encontro = true;
 					parejaCerca = cerca;
 					redireccionar(new PVector(parejaCerca.getX(), parejaCerca.getY()));
-				} else if (d < energia*1.5 && cerca.getEstado() != cerca.MUERTO && (cerca instanceof BuhoApareable)) {
+				} else if (d < energia * 1.5 && cerca.getEstado() != cerca.MUERTO && (cerca instanceof BuhoApareable)) {
 					if (((BuhoApareable) cerca).getEnergia() > LIMITE_APAREO) {
 						encontro = true;
 						parejaCerca = cerca;
@@ -201,10 +202,10 @@ public class BuhoApareable extends EspecieAbstracta implements IApareable {
 			parejaCerca = null;
 		}
 	}
-	
 
 	/**
-	 * Creación de nuevo hijo cuando la distancia entre los apareables sea menor a su vida actual
+	 * Creación de nuevo hijo cuando la distancia entre los apareables sea menor
+	 * a su vida actual
 	 */
 	private void intentarAparear() {
 		float d = PApplet.dist(x, y, parejaCerca.getX(), parejaCerca.getY());
@@ -219,18 +220,27 @@ public class BuhoApareable extends EspecieAbstracta implements IApareable {
 
 	/**
 	 * Metodo para alimentarse de las plantas a las que se acerque
+	 * 
 	 * @param planta
 	 */
 	private void alimentar(PlantaAbstracta planta) {
 		if (planta != null) {
 			float d = PApplet.dist(x, y, planta.getX(), planta.getY());
-			if (d < 80 && puedeComer) {
+			if (d < 80 && comerPlanta) {
 				if ((planta instanceof Venenosa) && estadoVeneno == 0) {
 					estado = ENVENENADO;
 					estadoVeneno = 1;
+				} else if ((planta instanceof Hojas)) {
+					energia += 20;
+					estado = EXTASIS;
+					estadoVeneno = 0;
+					comerPlanta = false;
+				} else {
+					energia += 20;
+					comerPlanta = false;
 				}
 				planta.recibirDano(this);
-				puedeComer=false;
+				comerPlanta = false;
 			}
 		}
 	}
@@ -245,11 +255,11 @@ public class BuhoApareable extends EspecieAbstracta implements IApareable {
 		while (!encontro && iterador.hasNext()) {
 			PlantaAbstracta p = iterador.next();
 			float d = PApplet.dist(x, y, p.getX(), p.getY());
-			if (d < energia * 2 && puedeComer) {
+			if (d < energia * 2 && comerPlanta) {
 				encontro = true;
 				plantaCerca = p;
 				redireccionar(new PVector(plantaCerca.getX(), plantaCerca.getY()));
-				puedeComer=false;
+				comerPlanta = false;
 			}
 		}
 
@@ -260,6 +270,7 @@ public class BuhoApareable extends EspecieAbstracta implements IApareable {
 
 	/**
 	 * Metodo para direccionar el organismo a una posicion especifica
+	 * 
 	 * @param target
 	 */
 	private void redireccionar(PVector target) {
@@ -270,7 +281,9 @@ public class BuhoApareable extends EspecieAbstracta implements IApareable {
 	}
 
 	/**
-	 * Metodo para calcular la perspectiva en la que se debe colocar al personaje
+	 * Metodo para calcular la perspectiva en la que se debe colocar al
+	 * personaje
+	 * 
 	 * @param target
 	 */
 	private void calculcarImg(PVector target) {
@@ -296,6 +309,22 @@ public class BuhoApareable extends EspecieAbstracta implements IApareable {
 			// Down
 			display = 4;
 		}
+	}
+
+	public void buscarCria() {
+
+	}
+
+	public void divisarPredador() {
+
+	}
+
+	public void huir() {
+
+	}
+
+	public void defenderCria() {
+
 	}
 
 	@Override

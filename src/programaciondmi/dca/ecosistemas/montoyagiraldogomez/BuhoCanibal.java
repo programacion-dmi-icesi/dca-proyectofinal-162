@@ -25,7 +25,7 @@ public class BuhoCanibal extends EspecieAbstracta implements ICanibal {
 	private PlantaAbstracta plantaCerca;
 	private boolean encontro;
 	private int estadoVeneno, tiempoEnvenenado;
-	private boolean puedeCanibalizar;
+	private boolean puedeCanibalizar, comerPlanta;
 
 	private final int LIMITE_COMER = 100;
 	private Random random;
@@ -130,11 +130,13 @@ public class BuhoCanibal extends EspecieAbstracta implements ICanibal {
 		PApplet app = Mundo.ObtenerInstancia().getApp();
 		if (ciclo % 240 == 0) {
 			puedeCanibalizar = true;
+			comerPlanta = true;
 		}
 	}
 
 	/**
-	 * Metodo para buscar una de las especies de su ecosistema y perseguirla para atacarla
+	 * Metodo para buscar una de las especies de su ecosistema y perseguirla
+	 * para atacarla
 	 */
 	private void buscarComida() {
 		List<EspecieAbstracta> all = Mundo.ObtenerInstancia().getEspecies();
@@ -161,15 +163,25 @@ public class BuhoCanibal extends EspecieAbstracta implements ICanibal {
 
 	/**
 	 * Metodo para alimentarse de las plantas
+	 * 
 	 * @param planta
 	 */
 	private void alimentar(PlantaAbstracta planta) {
 		if (planta != null) {
 			float d = PApplet.dist(x, y, planta.getX(), planta.getY());
-			if (d < 80) {
+			if (d < energia * 2 && comerPlanta) {
 				if ((planta instanceof Venenosa) && estadoVeneno == 0) {
 					estado = ENVENENADO;
 					estadoVeneno = 1;
+					comerPlanta = false;
+				} else if ((planta instanceof Hojas)) {
+					energia += 20;
+					estado = EXTASIS;
+					estadoVeneno = 0;
+					comerPlanta = false;
+				} else {
+					energia += 20;
+					comerPlanta = false;
 				}
 				planta.recibirDano((EspecieAbstracta) this);
 			}
@@ -199,7 +211,8 @@ public class BuhoCanibal extends EspecieAbstracta implements ICanibal {
 	}
 
 	/**
-	 * Metodo para demostrar tanto visualmente como en datos, el estado de Veneno de el personaje
+	 * Metodo para demostrar tanto visualmente como en datos, el estado de
+	 * Veneno de el personaje
 	 */
 	private void veneno() {
 		PApplet app = Mundo.ObtenerInstancia().getApp();
@@ -240,6 +253,7 @@ public class BuhoCanibal extends EspecieAbstracta implements ICanibal {
 
 	/**
 	 * Metodo para direccionar el organismo a una posicion especifica
+	 * 
 	 * @param target
 	 */
 	private void redireccionar(PVector target) {

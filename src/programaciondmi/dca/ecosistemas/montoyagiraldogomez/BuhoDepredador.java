@@ -23,7 +23,7 @@ public class BuhoDepredador extends EspecieAbstracta implements ICarnivoro {
 	private PVector pos;
 	private int ciclo;
 	private int estadoVeneno, tiempoEnvenenado;
-	private boolean puedeComer, puedeAtacar;
+	private boolean comerPlanta, puedeAtacar;
 
 	private final int LIMITE_COMER = 100;
 	private Random random;
@@ -123,7 +123,7 @@ public class BuhoDepredador extends EspecieAbstracta implements ICarnivoro {
 
 		PApplet app = Mundo.ObtenerInstancia().getApp();
 		if (ciclo % 300 == 0) {
-			puedeComer = true;
+			comerPlanta = true;
 			puedeAtacar = true;
 		}
 	}
@@ -165,11 +165,11 @@ public class BuhoDepredador extends EspecieAbstracta implements ICarnivoro {
 		while (!encontro && iterador.hasNext()) {
 			PlantaAbstracta p = iterador.next();
 			float d = PApplet.dist(x, y, p.getX(), p.getY());
-			if (d < energia * 2 && puedeComer) {
+			if (d < energia * 2 && comerPlanta) {
 				encontro = true;
 				plantaCerca = p;
 				redireccionar(new PVector(plantaCerca.getX(), plantaCerca.getY()));
-				puedeComer = false;
+				comerPlanta = false;
 			}
 		}
 
@@ -186,10 +186,18 @@ public class BuhoDepredador extends EspecieAbstracta implements ICarnivoro {
 	private void alimentar(PlantaAbstracta planta) {
 		if (planta != null) {
 			float d = PApplet.dist(x, y, planta.getX(), planta.getY());
-			if (d < 80 && !puedeComer) {
+			if (d < 80 && !comerPlanta) {
 				if ((planta instanceof Venenosa) && estadoVeneno == 0) {
 					estado = ENVENENADO;
 					estadoVeneno = 1;
+				} else if ((planta instanceof Hojas)) {
+					energia += 20;
+					estado = EXTASIS;
+					estadoVeneno = 0;
+					comerPlanta = false;
+				} else {
+					energia += 20;
+					comerPlanta = false;
 				}
 				planta.recibirDano((EspecieAbstracta) this);
 			}
