@@ -24,6 +24,7 @@ public class AmidCanibal extends EspecieAbstracta implements ICanibal {
 
 	private PApplet app;
 
+	private int contador;
 	private int vida;
 	private float fuerza;
 	private int velocidad;
@@ -91,14 +92,32 @@ public class AmidCanibal extends EspecieAbstracta implements ICanibal {
 	public void dibujar() {
 		// TODO Auto-generated method stub
 		app.ellipse(pos.x, pos.y, 50, 50);
-		app.image(frenteEnfermo[0], pos.x-50, pos.y-50);
+		if(contador==12) contador=0;
+		app.image(frenteEnfermo[contador], pos.x-50, pos.y-50);
+		contador++;
 	}
 
 	@Override
 	public void mover() {
-		dir = PVector.random2D();
-		dir.mult(3);
-		pos.add(dir);
+		PVector m = new PVector(app.mouseX, app.mouseY);
+		  PVector distanX = PVector.sub(m, pos);
+		  distanX.y=0;
+		  PVector distanY = PVector.sub(m, pos);
+		  distanY.x=0;
+		  float dX = distanX.mag();
+		  distanX.normalize();
+		  distanY.normalize();
+		  
+		  PVector direccionX = PVector.sub(distanX, dir);
+		  direccionX.limit(3);
+		  dir.add(direccionX);
+
+		  if (dX <= 0) {
+		    PVector direccionY = PVector.sub(distanY, dir);
+		    dir.add(direccionY);
+		  }
+
+		  pos.add(dir);
 	}
 
 	@Override

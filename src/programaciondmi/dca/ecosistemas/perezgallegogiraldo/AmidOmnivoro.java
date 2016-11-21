@@ -51,7 +51,7 @@ public class AmidOmnivoro extends EspecieAbstracta implements IOmnivoro {
 			ladoSano[i] = app.loadImage("../data/Personajes/P3/P3 Lado/P3 L Sano" + i + ".png"); // LADO
 																									// SANO
 			
-			/*
+			
 			transicionFrente[i] = app.loadImage("../data/Personajes/P3/Transiciones/Frente/Transicion P3 F" + i + ".png"); // TRANSICIÓN
 																											// FRENTE
 
@@ -60,7 +60,7 @@ public class AmidOmnivoro extends EspecieAbstracta implements IOmnivoro {
 
 			transicionLado[i] = app.loadImage("../data/Personajes/P3/Transiciones/Lado/Transicion P3 L" + i + ".png"); // TRANSICIÓN
 																														// LADO
-			*/
+			
 		}
 
 	}

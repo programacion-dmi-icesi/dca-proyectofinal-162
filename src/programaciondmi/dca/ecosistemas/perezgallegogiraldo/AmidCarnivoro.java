@@ -50,7 +50,7 @@ public class AmidCarnivoro extends EspecieAbstracta implements ICarnivoro {
 
 				transicionEspalda[i] = app.loadImage("../data/Personajes/P2/Transiciones/Espalda/Transicion P2 E" + i + ".png");		// TRANSICIÓN ESPALDA
 
-				transicionLado[i] = app.loadImage("../data/Personajes/P2/Transiciones/Lado/Transicion P2 L" + i + ".png");		// TRANSICIÓN LADO
+				transicionLado[i] = app.loadImage("../data/Personajes/P2/Transiciones/Lado/Terminados P2 L" + i + ".png");		// TRANSICIÓN LADO
 		}
 
 	}
