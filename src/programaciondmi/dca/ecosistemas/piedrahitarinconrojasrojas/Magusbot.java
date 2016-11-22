@@ -98,9 +98,9 @@ public class Magusbot extends EspecieAbstracta implements IOmnivoro {
 
 			if (ciclo % 30 == 0) {
 				// Definir una direccion aleatoria cada 5 segundos
-				// Siguiente posición en x
+				// Siguiente posiciï¿½n en x
 				int targetX = random.nextInt();
-				// Siguiente posición en y
+				// Siguiente posiciï¿½n en y
 				int targetY = random.nextInt();
 				cambiarDireccion(new PVector(targetX, targetY));
 				//System.out.println("CAMBIO DIRECCION!");
@@ -163,7 +163,7 @@ public class Magusbot extends EspecieAbstracta implements IOmnivoro {
 		if (contador == 5 * vista) {
 			contador = (vista - 1) * 5;
 		}
-		System.out.println(magobot[contador]);
+		//System.out.println(magobot[contador]);
 		
 		app.image(magobot[contador], x, y, 100, 100);
 		app.fill(255, 0, 0);

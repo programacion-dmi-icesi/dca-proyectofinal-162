@@ -90,7 +90,7 @@ public class SaberBot extends EspecieAbstracta implements ICarnivoro{
 					int targetX = random.nextInt();
 					int targetY = random.nextInt();
 					cambiarDireccion(new PVector(targetX, targetY));
-					System.out.println("CAMBIO DIRECCION!");
+					//System.out.println("CAMBIO DIRECCION!");
 					}
 		
 				

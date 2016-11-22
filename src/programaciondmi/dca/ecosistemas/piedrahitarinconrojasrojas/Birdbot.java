@@ -18,21 +18,12 @@ import programaciondmi.dca.core.interfaces.IHerbivoro;
 import programaciondmi.dca.ejecucion.Mundo;
 
 public class Birdbot extends EspecieAbstracta implements IApareable, IHerbivoro {
-	private int vida;
-	private float fuerza;
-	private int velocidad;
+	private int vida, velocidad, ciclo, contador;
+	private float fuerza, energia;
 	PApplet app = Mundo.ObtenerInstancia().getApp();
-	
-	/*
-	 * Se utiliza para definfir cuando el individuo puede realizar acciones:
-	 * moverse, aparearse, etc
-	 */
-	
-	private float energia;
 	private EspecieAbstracta parejaCercana;
+	private PlantaAbstracta plantaCerca;
 	private PVector dir;
-	private int ciclo;
-	private int contador;
 	PImage[] pjBirdbot = new PImage[16];
 	// Constantes
 	private final int LIMITE_APAREO = 100;
@@ -103,7 +94,8 @@ public class Birdbot extends EspecieAbstracta implements IApareable, IHerbivoro 
 	@Override
 	public void mover() {
 		if (energia > 0) {
-			//System.out.println("[id=" + id + ", energia=" + energia + "]");			
+			//System.out.println("[id=" + id + ", energia=" + energia + "]");
+			
 				// Si tengo buena energía para aparearme
 				if (energia > LIMITE_APAREO) {
 					buscarParejaCercana();
@@ -111,35 +103,17 @@ public class Birdbot extends EspecieAbstracta implements IApareable, IHerbivoro 
 					if (parejaCercana != null) {
 						intentarAparear();
 					}
+					
 				} else {
 					buscarComida();
+					if(plantaCerca != null){
+						comerPlanta(plantaCerca);
+					}
+					
 					if (ciclo % 30 == 0) {
-					// Definir una direccion aleatoria cada 3 segundos
-					int targetX = random.nextInt();
-					int targetY = random.nextInt();
-					
-					if(targetX>0){
-						System.out.println("va hacia derecha");
-					}
-					
-					if(targetY>0){
-						System.out.println("va hacia abajo");
-					}
-					
-					if(targetX<0){
-						System.out.println("va hacia izquierda");
-						for (int i = 13; i < pjBirdbot.length; i++) {
-							contador = i;
-							System.out.println(contador);
-						}
-					}
-					if(targetY<0){
-						System.out.println("va hacia arriba");
-					}
-					
-					cambiarDireccion(new PVector(targetX, targetY));
-					System.out.println(targetX+" "+targetY);
-					//System.out.println("CAMBIO DIRECCION!");
+						int targetX = random.nextInt();
+						int targetY = random.nextInt();
+						cambiarDireccion(new PVector(targetX, targetY));
 					}
 				}
 				
@@ -237,15 +211,29 @@ public class Birdbot extends EspecieAbstracta implements IApareable, IHerbivoro 
 	 * </p>
 	 */
 	private void buscarComida() {
-		List<PlantaAbstracta> todas = Mundo.ObtenerInstancia().getPlantas();
-		/*for (int i = 0; i < todas.size(); i++) {
-			if(todas.get(i).){
+		List<PlantaAbstracta> all = Mundo.ObtenerInstancia().getPlantas();
+		ListIterator<PlantaAbstracta> iterador = all.listIterator();
+		boolean encontro = false;
+		
+		while (iterador.hasNext()) {
+			PlantaAbstracta planta = iterador.next();
+			if(all instanceof PlantaMala ){
+				float distancia = app.dist( x, y, planta.getX(), planta.getY());
+				
+				if (distancia < energia) {
+					encontro = true;
+					plantaCerca = planta;
+					cambiarDireccion(new PVector(planta.getX(), planta.getY()));
+					System.out.println("encuentra planta");
+				}
 				
 			}
-			if (app.dist(x,y,todas.get(i). ,todas.get(i).y)<vida) {
-			comerPlanta(todas.get(i));
-			}
-		}*/
+			
+		}
+		
+		if (!encontro) {
+			plantaCerca = null;
+		}
 	}
 	
 	private void cambiarDireccion(PVector target) {
@@ -270,11 +258,10 @@ public class Birdbot extends EspecieAbstracta implements IApareable, IHerbivoro 
 
 	@Override
 	public void comerPlanta(PlantaAbstracta victima) {
-		// TODO Auto-generated method stub
-			//if(victima.recibirDano(this)){
-				//plantas.remove(victima);
-				energia+=5;
-		
+	// TODO Auto-generated method stub
+		if(victima.recibirDano(this)){
+			energia+=5;
+		}
 	}
 
 }
