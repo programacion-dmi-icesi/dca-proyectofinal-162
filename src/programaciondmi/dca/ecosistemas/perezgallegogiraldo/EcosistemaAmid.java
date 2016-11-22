@@ -71,7 +71,7 @@ public class EcosistemaAmid extends EcosistemaAbstracto {
 		AmidCarnivoro azul = new AmidCarnivoro(this);
 		especies.add(azul);
 
-		return especies;
+		return null;
 	}
 
 	@Override
@@ -80,9 +80,9 @@ public class EcosistemaAmid extends EcosistemaAbstracto {
 		PlantaSaludable salud = new PlantaSaludable();
 		plantas.add(salud);
 
-//		PlantaVenenosa veneno = new PlantaVenenosa();
-//		plantas.add(veneno);
+		PlantaVenenosa veneno = new PlantaVenenosa();
+		plantas.add(veneno);
 
-		return plantas;
+		return null;
 	}
 }

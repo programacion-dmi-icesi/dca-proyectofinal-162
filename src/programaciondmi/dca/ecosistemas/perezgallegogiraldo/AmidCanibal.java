@@ -37,6 +37,7 @@ public class AmidCanibal extends EspecieAbstracta implements ICanibal {
 	private PVector dir;
 	private PVector pos;
 	private PVector objetivo;
+	private int animacion;
 	private int ciclo;
 
 	// Constantes
@@ -55,8 +56,7 @@ public class AmidCanibal extends EspecieAbstracta implements ICanibal {
 		this.fuerza = 100;
 		this.energia = 250;
 		this.velocidad = 2;
-		objetivo = new PVector(300, -300);
-
+		objetivo = new PVector(-300, 300);
 
 		dir = new PVector(0, 0);
 		pos = new PVector(0, 0);
@@ -106,11 +106,7 @@ public class AmidCanibal extends EspecieAbstracta implements ICanibal {
 	public void dibujar() {
 		// TODO Auto-generated method stub
 		app.ellipse(objetivo.x, objetivo.y, 50, 50);
-		if (contador == 12)
-			contador = 0;
-		app.image(frenteEnfermo[contador], pos.x - 50, pos.y - 50);
-		contador++;
-		
+		animacion();
 		perseguir();
 	}
 
@@ -118,26 +114,76 @@ public class AmidCanibal extends EspecieAbstracta implements ICanibal {
 	public void mover() {
 		pos.add(dir);
 	}
-	
-	public void perseguir(){
+
+	public void animacion() {
+		switch (animacion) {
+		case 0:
+
+			if (contador == 12)
+				contador = 0;
+			app.image(frenteSano[contador], pos.x - 50, pos.y - 50);
+			contador++;
+			break;
+
+		case 1:
+			if (contador == 12)
+				contador = 0;
+			app.image(espaldaSano[contador], pos.x - 50, pos.y - 50);
+			contador++;
+			break;
+
+		case 2:
+			if (contador == 12)
+				contador = 0;
+			app.image(ladoSano[contador], pos.x - 50, pos.y - 50);
+			contador++;
+			break;
+
+		case 3:
+			if (contador == 12)
+				contador = 0;
+			app.pushMatrix();
+			app.scale(-1.0f, 1.0f);
+			app.image(ladoSano[contador], -ladoSano[contador].width - pos.x + 50, pos.y - 50);
+			app.popMatrix();
+			contador++;
+
+			break;
+		default:
+			break;
+		}
+	}
+
+	public void perseguir() {
 		PVector distanX = PVector.sub(objetivo, pos);
 		distanX.y = 0;
 		PVector distanY = PVector.sub(objetivo, pos);
 		distanY.x = 0;
 		float dX = distanX.mag();
-		System.out.println(distanX.x + "  "+ distanY.y);
+		System.out.println(distanX.x + "  " + distanY.y);
 
 		distanX.normalize();
 		distanY.normalize();
 
 		PVector direccionX = PVector.sub(distanX, dir);
 		dir.add(direccionX);
+		if (distanX.x < 0) {
+			animacion = 2;
+		} else if (distanX.x > 0) {
+			animacion = 3;
+		}
 
 		if (dX <= 0) {
+
+			if (distanY.y < 0) {
+				animacion = 1;
+			} else if (distanY.y > 0) {
+				animacion = 0;
+			}
+
 			PVector direccionY = PVector.sub(distanY, dir);
 			dir.add(direccionY);
 		}
-		
 
 	}
 
