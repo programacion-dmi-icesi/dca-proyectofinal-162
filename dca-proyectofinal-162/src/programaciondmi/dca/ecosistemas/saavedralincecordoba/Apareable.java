@@ -161,7 +161,7 @@ public class Apareable extends EspecieAbstracta implements  IApareable, IOmnivor
 				
 				try {
 					if(victima.getClass()==Canibal.class){
-						
+						// camila
 					}
 					
 					if (victima.getClass()== Hervivoro.class) {
