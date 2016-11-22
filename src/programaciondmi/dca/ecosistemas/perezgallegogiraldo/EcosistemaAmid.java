@@ -9,11 +9,16 @@ import programaciondmi.dca.core.EspecieAbstracta;
 import programaciondmi.dca.core.PlantaAbstracta;
 import programaciondmi.dca.ecosistemas.perezgallegogiraldo.PlantaSaludable;
 import programaciondmi.dca.ecosistemas.perezgallegogiraldo.PlantaVenenosa;
+import programaciondmi.dca.ejecucion.Mundo;
 
 public class EcosistemaAmid extends EcosistemaAbstracto {
 
 	public EcosistemaAmid() {
 		super();
+		
+		Mundo ref = Mundo.ObtenerInstancia();
+		LogoAmid boton = new LogoAmid("data/icono-01.svg",this);
+		ref.agregarBoton(boton);
 	}
 
 	@Override
