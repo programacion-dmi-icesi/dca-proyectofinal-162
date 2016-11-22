@@ -60,7 +60,7 @@ public class EcosistemaGomiCabra extends EcosistemaAbstracto {
 				for (PlantaAbstracta planta : plantas) {
 					if (es instanceof IHerbivoro) {
 						float d = app.dist(((PlantaGomiCabra) planta).getX(), ((PlantaGomiCabra) planta).getY(),es.getX(), es.getY());
-						if (d < 50) {
+						if (d < 100) {
 							((IHerbivoro) es).comerPlanta(planta);
 							PlantaGomiCabra p = (PlantaGomiCabra) planta;
 							if (p.isMuerto())
