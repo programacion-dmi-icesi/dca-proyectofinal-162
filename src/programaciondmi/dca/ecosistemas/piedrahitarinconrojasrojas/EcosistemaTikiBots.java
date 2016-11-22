@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Observable;
 
 import processing.core.PApplet;
+import processing.core.PConstants;
 import programaciondmi.dca.core.EcosistemaAbstracto;
 import programaciondmi.dca.core.EspecieAbstracta;
 import programaciondmi.dca.core.PlantaAbstracta;
@@ -41,6 +42,8 @@ public class EcosistemaTikiBots extends EcosistemaAbstracto {
 				actual.dibujar();
 			}
 		}
+		
+		System.out.println(tipoPlanta);
 		
 		if (app.mousePressed == true){
 			if (app.mouseButton==app.LEFT){
@@ -92,18 +95,18 @@ public class EcosistemaTikiBots extends EcosistemaAbstracto {
 	protected LinkedList<PlantaAbstracta> poblarPlantas() {
 	LinkedList<PlantaAbstracta> plantas = new LinkedList<PlantaAbstracta>();
 	
-		if(tipoPlanta == 1){
-			//System.out.println("planta buena");
-			//GoodPlanta buena = new GoodPlanta(this);
-			//plantas.add(buena);
-			tipoPlanta = 0;
-		}
+		
+			System.out.println("planta buena");
+			PlantaBuena buena = new PlantaBuena(this);
+			plantas.add(buena);
+			//tipoPlanta = 0;
+		
 		
 		if(tipoPlanta == 2){
 			//System.out.println("planta mala");
 			PlantaMala mala = new PlantaMala(this);
 			plantas.add(mala);
-			tipoPlanta = 0;
+			//tipoPlanta = 0;
 		}
 	
 		return plantas;
@@ -136,10 +139,25 @@ public class EcosistemaTikiBots extends EcosistemaAbstracto {
 	@Override
 	protected List<PlantaAbstracta> generarPlantas() {
 		//System.out.println("generar plantas");
+		
+		
 		LinkedList<PlantaAbstracta> plantas = new LinkedList<PlantaAbstracta>();
+		
+		if (app.mousePressed && (app.mouseButton == PConstants.LEFT)){
+			
+			PlantaBuena buena= new PlantaBuena(this);
+			plantas.add(buena);
+		}
 		
 		PlantaMala mala = new PlantaMala(this);
 		plantas.add(mala);
+		
+		
+		if (tipoPlanta==2){
+		PlantaBuena buena= new PlantaBuena(this);
+		plantas.add(buena);
+		}
+		
 		
 		return plantas;
 	}

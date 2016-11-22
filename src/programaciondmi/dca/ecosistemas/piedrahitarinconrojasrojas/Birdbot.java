@@ -1,4 +1,4 @@
-package programaciondmi.dca.ecosistemas.piedrahitarinconrojasrojas;
+ package programaciondmi.dca.ecosistemas.piedrahitarinconrojasrojas;
 
 import java.util.Iterator;
 import java.util.List;
@@ -40,7 +40,7 @@ public class Birdbot extends EspecieAbstracta implements IApareable, ICarnivoro 
 		this.random = new Random();
 		this.x = random.nextInt(Mundo.ObtenerInstancia().getApp().width);
 		this.y = random.nextInt(Mundo.ObtenerInstancia().getApp().height);
-		this.vida = 50;
+		this.vida = 5;
 		this.fuerza = 100;
 		this.energia = 250;
 		this.velocidad = 2;
@@ -104,6 +104,43 @@ public class Birdbot extends EspecieAbstracta implements IApareable, ICarnivoro 
 		// TODO Auto-generated method stub
 		PApplet app = Mundo.ObtenerInstancia().getApp();
 		app.image(pjBirdbot[contador], x, y, 100,100);
+		
+		
+		// PINTAR BARRA DE VIDA
+		
+				app.noStroke();
+				app.fill(255,0,0);
+				switch (vida) {
+				
+				case 5: 
+					
+				app.rect(x+05, y-20, 20, 10);
+				app.rect(x+25, y-20, 20, 10);
+				app.rect(x+45, y-20, 20, 10);
+				app.rect(x+65, y-20, 20, 10);
+				app.rect(x+85, y-20, 20, 10);
+				break;
+				case 4: 
+					app.rect(x+05, y-20, 20, 10);
+					app.rect(x+25, y-20, 20, 10);
+					app.rect(x+45, y-20, 20, 10);
+					app.rect(x+65, y-20, 20, 10);
+					break;
+				case 3:
+					app.rect(x+05, y-20, 20, 10);
+					app.rect(x+25, y-20, 20, 10);
+					app.rect(x+45, y-20, 20, 10);
+					break;
+				case 2:
+					app.rect(x+05, y-20, 20, 10);
+					app.rect(x+25, y-20, 20, 10);
+					break;
+				case 1:
+					app.rect(x+05, y-20, 20, 10);
+					break;
+				case 0:
+					break;
+				}
 	}
 
 	@Override

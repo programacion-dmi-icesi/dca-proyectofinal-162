@@ -150,6 +150,42 @@ public class Cannibalbot extends EspecieAbstracta implements ICanibal {
 		if(app.frameCount%10 == 0){
 			contador++;
 		}
+		
+		// PINTAR BARRA DE VIDA
+		
+		app.noStroke();
+		app.fill(255,0,0);
+		switch (vida) {
+		
+		case 5: 
+			
+		app.rect(x+05, y-20, 20, 10);
+		app.rect(x+25, y-20, 20, 10);
+		app.rect(x+45, y-20, 20, 10);
+		app.rect(x+65, y-20, 20, 10);
+		app.rect(x+85, y-20, 20, 10);
+		break;
+		case 4: 
+			app.rect(x+05, y-20, 20, 10);
+			app.rect(x+25, y-20, 20, 10);
+			app.rect(x+45, y-20, 20, 10);
+			app.rect(x+65, y-20, 20, 10);
+			break;
+		case 3:
+			app.rect(x+05, y-20, 20, 10);
+			app.rect(x+25, y-20, 20, 10);
+			app.rect(x+45, y-20, 20, 10);
+			break;
+		case 2:
+			app.rect(x+05, y-20, 20, 10);
+			app.rect(x+25, y-20, 20, 10);
+			break;
+		case 1:
+			app.rect(x+05, y-20, 20, 10);
+			break;
+		case 0:
+			break;
+		}
 	}
 
 	private void cambiarDireccion(PVector target) {

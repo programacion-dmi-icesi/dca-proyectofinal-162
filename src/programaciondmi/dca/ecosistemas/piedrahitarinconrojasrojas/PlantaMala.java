@@ -12,6 +12,7 @@ public class PlantaMala extends PlantaAbstracta {
 	private int y;
 	PImage[] Mplanta = new PImage[3];
 	
+	
 	public PlantaMala(EcosistemaTikiBots ecosistemaTikiBots){
 		this.x = app.mouseX;
 		this.y = app.mouseY;
@@ -37,7 +38,46 @@ public class PlantaMala extends PlantaAbstracta {
 	@Override
 	public void dibujar() {
 		//System.out.println("imagen planta mala");
+		
+		
+		
 		app.image(Mplanta[0],x,y);
-	}
+		
+		// PINTAR BARRA DE VIDA
+		
+		app.noStroke();
+		app.fill(255,0,0);
+		switch (vida) {
+		
+		case 5: 
+			
+		app.rect(x+05, y-20, 20, 10);
+		app.rect(x+25, y-20, 20, 10);
+		app.rect(x+45, y-20, 20, 10);
+		app.rect(x+65, y-20, 20, 10);
+		app.rect(x+85, y-20, 20, 10);
+		break;
+		case 4: 
+			app.rect(x+05, y-20, 20, 10);
+			app.rect(x+25, y-20, 20, 10);
+			app.rect(x+45, y-20, 20, 10);
+			app.rect(x+65, y-20, 20, 10);
+			break;
+		case 3:
+			app.rect(x+05, y-20, 20, 10);
+			app.rect(x+25, y-20, 20, 10);
+			app.rect(x+45, y-20, 20, 10);
+			break;
+		case 2:
+			app.rect(x+05, y-20, 20, 10);
+			app.rect(x+25, y-20, 20, 10);
+			break;
+		case 1:
+			app.rect(x+05, y-20, 20, 10);
+			break;
+		case 0:
+			break;
+		}
 
+}
 }
