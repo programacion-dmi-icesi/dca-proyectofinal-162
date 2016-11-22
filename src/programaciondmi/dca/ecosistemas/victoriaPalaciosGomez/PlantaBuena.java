@@ -1,4 +1,4 @@
-package programaciondmi.dca.ecosistemas.nataliajairojose;
+package programaciondmi.dca.ecosistemas.victoriaPalaciosGomez;
 
 import processing.core.PApplet;
 import programaciondmi.dca.core.EspecieAbstracta;
