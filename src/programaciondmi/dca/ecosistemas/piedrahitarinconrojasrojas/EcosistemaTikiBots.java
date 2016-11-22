@@ -45,7 +45,9 @@ public class EcosistemaTikiBots extends EcosistemaAbstracto {
 		
 		System.out.println(tipoPlanta);
 		
-		if (app.mousePressed == true){
+	System.out.println(tipoPlanta);
+		
+		if (app.mousePressed== true){
 			if (app.mouseButton==app.LEFT){
 				// clic derecho agrega plantas buenas
 				tipoPlanta = 1;
@@ -95,12 +97,21 @@ public class EcosistemaTikiBots extends EcosistemaAbstracto {
 	protected LinkedList<PlantaAbstracta> poblarPlantas() {
 	LinkedList<PlantaAbstracta> plantas = new LinkedList<PlantaAbstracta>();
 	
+<<<<<<< HEAD
 		
 			System.out.println("planta buena");
 			PlantaBuena buena = new PlantaBuena(this);
 			plantas.add(buena);
 			//tipoPlanta = 0;
 		
+=======
+		if(tipoPlanta == 1){
+		//	System.out.println("planta buena");
+			PlantaBuena buena = new PlantaBuena(this);
+			plantas.add(buena);
+		
+		}
+>>>>>>> refs/remotes/origin/tikibots_jd
 		
 		if(tipoPlanta == 2){
 			//System.out.println("planta mala");
@@ -108,6 +119,10 @@ public class EcosistemaTikiBots extends EcosistemaAbstracto {
 			plantas.add(mala);
 			//tipoPlanta = 0;
 		}
+		
+		PlantaBuena buena = new PlantaBuena(this);
+		plantas.add(buena);
+		
 	
 		return plantas;
 	}
@@ -149,8 +164,8 @@ public class EcosistemaTikiBots extends EcosistemaAbstracto {
 			plantas.add(buena);
 		}
 		
-		PlantaMala mala = new PlantaMala(this);
-		plantas.add(mala);
+		
+	
 		
 		
 		if (tipoPlanta==2){
@@ -162,6 +177,7 @@ public class EcosistemaTikiBots extends EcosistemaAbstracto {
 		return plantas;
 	}
 
+	
 
 
 }
