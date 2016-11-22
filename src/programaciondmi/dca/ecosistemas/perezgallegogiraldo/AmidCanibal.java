@@ -89,14 +89,14 @@ public class AmidCanibal extends EspecieAbstracta implements ICanibal {
 																									// SANO
 
 			transicionFrente[i] = app
-					.loadImage("../data/Personajes/P1/Transiciones/Frente/Transicion P1 F" + i + ".png"); // TRANSICIÓN
+					.loadImage("../data/Personajes/P1/Transiciones/Frente/Transicion P1 F" + i + ".png"); // TRANSICIï¿½N
 																											// FRENTE
 
 			transicionEspalda[i] = app
-					.loadImage("../data/Personajes/P1/Transiciones/Espalda/Transicion P1 E" + i + ".png"); // TRANSICIÓN
+					.loadImage("../data/Personajes/P1/Transiciones/Espalda/Transicion P1 E" + i + ".png"); // TRANSICIï¿½N
 																											// ESPALDA
 
-			transicionLado[i] = app.loadImage("../data/Personajes/P1/Transiciones/Lado/Transicion P1 L" + i + ".png"); // TRANSICIÓN
+			transicionLado[i] = app.loadImage("../data/Personajes/P1/Transiciones/Lado/Transicion P1 L" + i + ".png"); // TRANSICIï¿½N
 																														// LADO
 		}
 
@@ -160,7 +160,6 @@ public class AmidCanibal extends EspecieAbstracta implements ICanibal {
 		PVector distanY = PVector.sub(objetivo, pos);
 		distanY.x = 0;
 		float dX = distanX.mag();
-		System.out.println(distanX.x + "  " + distanY.y);
 
 		distanX.normalize();
 		distanY.normalize();
