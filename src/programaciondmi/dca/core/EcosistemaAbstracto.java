@@ -41,7 +41,7 @@ public abstract class EcosistemaAbstracto extends Observable implements Runnable
 			throw new EcosistemaException("el nuevo individuo es nulo, verifique los metodos generarIndividuos() y generarPlantas()");
 		}
 		especies.addAll(espTemp);
-		plantas.addAll(plaTemp);		
+		plantas.addAll(plaTemp);
 	}
 	
 	/**

@@ -1,64 +1,42 @@
 package programaciondmi.dca.ecosistemas.saavedralincecordoba;
 
+import processing.core.PApplet;
+import programaciondmi.dca.core.EcosistemaAbstracto;
 import programaciondmi.dca.core.EspecieAbstracta;
 import programaciondmi.dca.core.PlantaAbstracta;
-import processing.core.PImage;
-import processing.core.PApplet;
 import programaciondmi.dca.ejecucion.Mundo;
 
-public class PlantaMala extends PlantaAbstracta {
-	private float posX;
-	private float posY;
-	private PImage plantaM;
-	private PApplet app;
-	private int vida;
-
+public class PlantaMala extends PlantaAbstracta{
+	
 	public PlantaMala() {
-		app = Mundo.ObtenerInstancia().getApp();
-		vida = 3;
+		// TODO Auto-generated constructor stub
+	}
+	
+	public PlantaMala(int x, int y) {
+		super(x,y);
 	}
 
 	@Override
 	public void run() {
 		// TODO Auto-generated method stub
-		while (vida > 0) {
-			try {
-
-			} catch (Exception e) {
-
-			}
-		}
+		
 	}
 
 	@Override
 	public void dibujar() {
-		// TODO Auto-generated method stub
-		app.image(plantaM, posX, posY);
+		
+		PApplet app = Mundo.ObtenerInstancia().getApp();
+		app.fill(0);
+		app.ellipse(x, y, 30, 30);
+		
 	}
 
 	@Override
 	public boolean recibirDano(EspecieAbstracta lastimador) {
 		// TODO Auto-generated method stub
-		if (vida > 0) {
-			vida--;
-			System.out.println("mordido" + vida);
-			return true;
-		}
 		return false;
 	}
-
-	public float getposX() {
-		return posX;
-	}
-
-	public float getposY() {
-		return posY;
-	}
-	public int getVida(){
-		return vida;
-	}
-	public void setVida(){
-		this.vida=vida;
-	}
+	
+	
 
 }
