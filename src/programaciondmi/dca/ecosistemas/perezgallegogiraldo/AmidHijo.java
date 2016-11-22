@@ -11,7 +11,7 @@ import programaciondmi.dca.core.interfaces.IApareable;
 import programaciondmi.dca.core.interfaces.ICarnivoro;
 import programaciondmi.dca.ejecucion.Mundo;
 
-public class AmidHijo extends EspecieAbstracta implements IApareable, ICarnivoro {
+public class AmidHijo extends EspecieAbstracta {
 
 	PApplet app;
 	private int vida;
@@ -203,20 +203,17 @@ public class AmidHijo extends EspecieAbstracta implements IApareable, ICarnivoro
 	}
 
 	@Override
-	public void comer(EspecieAbstracta victima) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public EspecieAbstracta aparear(IApareable apareable) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public boolean recibirDano(EspecieAbstracta lastimador) {
 		// TODO Auto-generated method stub
+		if (PApplet.dist(x, y, lastimador.getX(), lastimador.getY()) < 50) {
+			vida -= 5;
+			try {
+				lastimador.setEstado(ENFERMO);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			return true;
+		}
 		return false;
 	}
 }

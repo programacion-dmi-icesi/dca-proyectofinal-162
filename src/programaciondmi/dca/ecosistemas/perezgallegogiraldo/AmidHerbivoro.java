@@ -141,7 +141,7 @@ public class AmidHerbivoro extends EspecieAbstracta implements IHerbivoro {
 				contador = 0;
 			app.pushMatrix();
 			app.scale(-1.0f, 1.0f);
-			app.image(ladoSano[contador], -ladoSano[contador].width - x + 100, y );
+			app.image(ladoSano[contador], -ladoSano[contador].width - x + 100, y);
 			app.popMatrix();
 			contador++;
 
@@ -199,13 +199,25 @@ public class AmidHerbivoro extends EspecieAbstracta implements IHerbivoro {
 	@Override
 	public boolean recibirDano(EspecieAbstracta lastimador) {
 		// TODO Auto-generated method stub
+		if (PApplet.dist(x, y, lastimador.getX(), lastimador.getY()) < 50) {
+			vida -= 5;
+			try {
+				lastimador.setEstado(ENFERMO);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			return true;
+		}
 		return false;
 	}
 
 	@Override
 	public void comerPlanta(PlantaAbstracta victima) {
 		// TODO Auto-generated method stub
-
+		if (victima.getClass().isInstance(victima)) {
+			if (victima.recibirDano(this)) {
+				energia += 5;
+			}
+		}
 	}
-
 }

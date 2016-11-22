@@ -196,14 +196,26 @@ public class AmidCarnivoro extends EspecieAbstracta implements ICarnivoro {
 
 	@Override
 	public void comer(EspecieAbstracta victima) {
-
+		// TODO Auto-generated method stub
+		if (!victima.getClass().toString().equals(this.getClass().toString())) {
+			if (victima.recibirDano(this)) {
+				energia += 5;
+			}
+		}
 	}
-	// TODO Auto-generated method stub
 
 	@Override
 	public boolean recibirDano(EspecieAbstracta lastimador) {
 		// TODO Auto-generated method stub
+		if (PApplet.dist(x, y, lastimador.getX(), lastimador.getY()) < 50) {
+			vida -= 5;
+			try {
+				lastimador.setEstado(ENFERMO);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			return true;
+		}
 		return false;
 	}
-
 }
