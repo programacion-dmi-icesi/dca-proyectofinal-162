@@ -1,7 +1,5 @@
 package programaciondmi.dca.ecosistemas.perezgallegogiraldo;
 
-import java.util.List;
-import java.util.ListIterator;
 import java.util.Random;
 
 import processing.core.PApplet;
@@ -39,10 +37,7 @@ public class AmidOmnivoro extends EspecieAbstracta implements IOmnivoro, IAparea
 	private PVector objetivo;
 	private int animacion;
 
-	private EspecieAbstracta parejaCercana;
-
 	private Random random;
-	private final int LIMITE_APAREO = 100;
 
 	public AmidOmnivoro(EcosistemaAbstracto ecosistema) {
 		super(ecosistema);
@@ -55,6 +50,8 @@ public class AmidOmnivoro extends EspecieAbstracta implements IOmnivoro, IAparea
 		this.fuerza = 100;
 		this.energia = 250;
 		this.velocidad = 2;
+
+		objetivo = new PVector(400, 200);
 
 		dir = new PVector(0, 0);
 		pos = new PVector(0, 0);
@@ -104,31 +101,13 @@ public class AmidOmnivoro extends EspecieAbstracta implements IOmnivoro, IAparea
 	@Override
 	public void comer(EspecieAbstracta victima) {
 		// TODO Auto-generated method stub
-		if (!victima.getClass().toString().equals(this.getClass().toString())) {
-			if (victima.recibirDano(this)) {
-				energia += 5;
-			}
-		}
-	}
 
-	@Override
-	public EspecieAbstracta aparear(IApareable apareable) {
-		// TODO Auto-generated method stub
-		AmidHijo hijo = new AmidHijo(ecosistema);
-		hijo.setX(this.x);
-		hijo.setY(this.y);
-		ecosistema.agregarEspecie(hijo);
-		return hijo;
 	}
 
 	@Override
 	public void comerPlanta(PlantaAbstracta victima) {
 		// TODO Auto-generated method stub
-		if (victima.getClass().isInstance(victima)) {
-			if (victima.recibirDano(this)) {
-				energia += 5;
-			}
-		}
+
 	}
 
 	@Override
@@ -141,37 +120,9 @@ public class AmidOmnivoro extends EspecieAbstracta implements IOmnivoro, IAparea
 
 	@Override
 	public void mover() {
-		if (energia > 0) {
-			if (energia > LIMITE_APAREO) {
-				pos.add(dir);
-
-			} else {
-
-			}
-		}
+		pos.add(dir);
 		x = (int) pos.x;
 		y = (int) pos.y;
-	}
-
-	@Override
-	public void run() {
-		while (vida > 0) {
-			try {
-				mover();
-				Thread.sleep(33);
-			} catch (Exception e) {
-
-			}
-		}
-	}
-
-	private void intentarAparear() {
-		float dist = PApplet.dist(x, y, parejaCercana.getX(), parejaCercana.getY());
-		if (dist < vida) {
-			IApareable a = (IApareable) parejaCercana;
-			ecosistema.agregarEspecie(aparear(a));
-			energia -= 50;
-		}
 	}
 
 	public void animacion() {
@@ -219,30 +170,7 @@ public class AmidOmnivoro extends EspecieAbstracta implements IOmnivoro, IAparea
 		app.noFill();
 	}
 
-	public void buscarParejaCercana() {	
-		List<EspecieAbstracta> todas = Mundo.ObtenerInstancia().getEspecies();
-		ListIterator<EspecieAbstracta> iterador = todas.listIterator();
-
-		boolean encontro = false;
-		while (!encontro && iterador.hasNext()) {
-			EspecieAbstracta e = iterador.next();
-			if ((e instanceof IApareable) && !e.equals(this)) {
-				float dist = PApplet.dist(x, y, e.getX(), e.getY());
-				if (dist < energia) {
-					encontro = true;
-					parejaCercana = e;
-					objetivo = new PVector(parejaCercana.getX(), parejaCercana.getY());
-				}
-			}
-		}
-
-		if (!encontro) {
-			parejaCercana = null;
-		}
-	}
-
 	public void perseguir() {
-
 		PVector distanX = PVector.sub(objetivo, pos);
 		distanX.y = 0;
 		PVector distanY = PVector.sub(objetivo, pos);
@@ -271,12 +199,18 @@ public class AmidOmnivoro extends EspecieAbstracta implements IOmnivoro, IAparea
 			PVector direccionY = PVector.sub(distanY, dir);
 			dir.add(direccionY);
 		}
+
 	}
 
-	private void buscarComida() {
-		List<EspecieAbstracta> todas = Mundo.ObtenerInstancia().getEspecies();
-		for (int i = 0; i < todas.size(); i++) {
-			comer(todas.get(i));
+	@Override
+	public void run() {
+		while (vida > 0) {
+			mover();
+			try {
+				Thread.sleep(33);
+			} catch (Exception e) {
+
+			}
 		}
 	}
 
@@ -294,4 +228,15 @@ public class AmidOmnivoro extends EspecieAbstracta implements IOmnivoro, IAparea
 		}
 		return false;
 	}
+
+	@Override
+	public EspecieAbstracta aparear(IApareable apareable) {
+		// TODO Auto-generated method stub
+		AmidHijo hijo = new AmidHijo(ecosistema);
+		hijo.setX(this.x);
+		hijo.setY(this.y);
+		ecosistema.agregarEspecie(hijo);
+		return hijo;
+	}
+
 }

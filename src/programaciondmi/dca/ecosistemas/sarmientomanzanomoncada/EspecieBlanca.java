@@ -160,6 +160,7 @@ public class EspecieBlanca extends EspecieAbstracta implements IApareable, ICarn
 			parejaCercana = null;
 			// System.out.println("No encontró una pareja cercana");
 		}
+
 	}
 
 	/**
