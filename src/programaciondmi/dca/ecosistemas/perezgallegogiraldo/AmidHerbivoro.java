@@ -25,22 +25,22 @@ public class AmidHerbivoro extends EspecieAbstracta implements IHerbivoro {
 	private PImage[] transicionFrente = new PImage[12];
 	private PImage[] transicionEspalda = new PImage[12];
 	private PImage[] transicionLado = new PImage[12];
-	
+
 	private float energia;
 	private int contador;
 	private float fuerza;
 	private int velocidad;
-	
+
 	private PVector dir;
 	private PVector pos;
 	private PVector objetivo;
 	private int animacion;
 	private Random random;
-	
+
 	public AmidHerbivoro(EcosistemaAbstracto ecosistema) {
 		super(ecosistema);
 		app = Mundo.ObtenerInstancia().getApp();
-		
+
 		this.random = new Random();
 		this.x = random.nextInt(Mundo.ObtenerInstancia().getApp().width);
 		this.y = random.nextInt(Mundo.ObtenerInstancia().getApp().height);
@@ -52,7 +52,7 @@ public class AmidHerbivoro extends EspecieAbstracta implements IHerbivoro {
 
 		dir = new PVector(0, 0);
 		pos = new PVector(0, 0);
-		
+
 		cargaImagenes();
 		Thread nt = new Thread(this);
 		nt.start();
@@ -80,17 +80,21 @@ public class AmidHerbivoro extends EspecieAbstracta implements IHerbivoro {
 			ladoSano[i] = app.loadImage("../data/Personajes/P4/P4 Lado/P4 L Sano" + i + ".png"); // LADO
 																									// SANO
 			/*
-			transicionFrente[i] = app.loadImage("../data/Personajes/P4/Transiciones/Frente/Transicion P4 F" + i + ".png"); // TRANSICI�N FRENTE
-
-			transicionEspalda[i] = app.loadImage("../data/Personajes/P4/Transiciones/Espalda/Transicion P4 E" + i + ".png"); // TRANSICI�N ESPALDA
-
-			transicionLado[i] = app.loadImage("../data/Personajes/P4/Transiciones/Lado/Transicion P4 L" + i + ".png"); // TRANSICI�N LADO
-			*/
+			 * transicionFrente[i] = app.loadImage(
+			 * "../data/Personajes/P4/Transiciones/Frente/Transicion P4 F" + i +
+			 * ".png"); // TRANSICI�N FRENTE
+			 * 
+			 * transicionEspalda[i] = app.loadImage(
+			 * "../data/Personajes/P4/Transiciones/Espalda/Transicion P4 E" + i
+			 * + ".png"); // TRANSICI�N ESPALDA
+			 * 
+			 * transicionLado[i] = app.loadImage(
+			 * "../data/Personajes/P4/Transiciones/Lado/Transicion P4 L" + i +
+			 * ".png"); // TRANSICI�N LADO
+			 */
 		}
 
 	}
-
-	
 
 	@Override
 	public void dibujar() {
@@ -103,29 +107,32 @@ public class AmidHerbivoro extends EspecieAbstracta implements IHerbivoro {
 	@Override
 	public void mover() {
 		pos.add(dir);
+		x = (int) pos.x;
+		y = (int) pos.y;
 	}
 
 	public void animacion() {
+		app.imageMode(PApplet.CENTER);
 		switch (animacion) {
 		case 0:
 
 			if (contador == 12)
 				contador = 0;
-			app.image(frenteSano[contador], pos.x - 50, pos.y - 50);
+			app.image(frenteSano[contador], x, y);
 			contador++;
 			break;
 
 		case 1:
 			if (contador == 12)
 				contador = 0;
-			app.image(espaldaSano[contador], pos.x - 50, pos.y - 50);
+			app.image(espaldaSano[contador], x, y);
 			contador++;
 			break;
 
 		case 2:
 			if (contador == 12)
 				contador = 0;
-			app.image(ladoSano[contador], pos.x - 50, pos.y - 50);
+			app.image(ladoSano[contador], x, y);
 			contador++;
 			break;
 
@@ -134,7 +141,7 @@ public class AmidHerbivoro extends EspecieAbstracta implements IHerbivoro {
 				contador = 0;
 			app.pushMatrix();
 			app.scale(-1.0f, 1.0f);
-			app.image(ladoSano[contador], -ladoSano[contador].width - pos.x + 50, pos.y - 50);
+			app.image(ladoSano[contador], -ladoSano[contador].width - x + 100, y );
 			app.popMatrix();
 			contador++;
 
@@ -142,6 +149,7 @@ public class AmidHerbivoro extends EspecieAbstracta implements IHerbivoro {
 		default:
 			break;
 		}
+		app.imageMode(PApplet.CORNER);
 	}
 
 	public void perseguir() {
@@ -175,7 +183,7 @@ public class AmidHerbivoro extends EspecieAbstracta implements IHerbivoro {
 		}
 
 	}
-	
+
 	@Override
 	public void run() {
 		while (vida > 0) {
@@ -193,7 +201,6 @@ public class AmidHerbivoro extends EspecieAbstracta implements IHerbivoro {
 		// TODO Auto-generated method stub
 		return false;
 	}
-
 
 	@Override
 	public void comerPlanta(PlantaAbstracta victima) {

@@ -27,7 +27,7 @@ public class AmidCarnivoro extends EspecieAbstracta implements ICarnivoro {
 	private int contador;
 	private float fuerza;
 	private int velocidad;
-	
+
 	private float energia;
 	private PVector dir;
 	private PVector pos;
@@ -35,11 +35,12 @@ public class AmidCarnivoro extends EspecieAbstracta implements ICarnivoro {
 	private int animacion;
 
 	private Random random;
+
 	public AmidCarnivoro(EcosistemaAbstracto ecosistema) {
 		super(ecosistema);
 
 		app = Mundo.ObtenerInstancia().getApp();
-		
+
 		this.random = new Random();
 		this.x = random.nextInt(Mundo.ObtenerInstancia().getApp().width);
 		this.y = random.nextInt(Mundo.ObtenerInstancia().getApp().height);
@@ -47,7 +48,7 @@ public class AmidCarnivoro extends EspecieAbstracta implements ICarnivoro {
 		this.fuerza = 100;
 		this.energia = 250;
 		this.velocidad = 2;
-		
+
 		objetivo = new PVector(-500, 500);
 
 		dir = new PVector(0, 0);
@@ -93,7 +94,7 @@ public class AmidCarnivoro extends EspecieAbstracta implements ICarnivoro {
 		}
 
 	}
-	
+
 	@Override
 	public void dibujar() {
 		// TODO Auto-generated method stub
@@ -105,29 +106,32 @@ public class AmidCarnivoro extends EspecieAbstracta implements ICarnivoro {
 	@Override
 	public void mover() {
 		pos.add(dir);
+		x = (int) pos.x;
+		y = (int) pos.y;
 	}
 
 	public void animacion() {
+		app.imageMode(PApplet.CENTER);
 		switch (animacion) {
 		case 0:
 
 			if (contador == 12)
 				contador = 0;
-			app.image(frenteSano[contador], pos.x - 50, pos.y - 50);
+			app.image(frenteSano[contador], x, y);
 			contador++;
 			break;
 
 		case 1:
 			if (contador == 12)
 				contador = 0;
-			app.image(espaldaSano[contador], pos.x - 50, pos.y - 50);
+			app.image(espaldaSano[contador], x, y);
 			contador++;
 			break;
 
 		case 2:
 			if (contador == 12)
 				contador = 0;
-			app.image(ladoSano[contador], pos.x - 50, pos.y - 50);
+			app.image(ladoSano[contador], x, y);
 			contador++;
 			break;
 
@@ -136,7 +140,7 @@ public class AmidCarnivoro extends EspecieAbstracta implements ICarnivoro {
 				contador = 0;
 			app.pushMatrix();
 			app.scale(-1.0f, 1.0f);
-			app.image(ladoSano[contador], -ladoSano[contador].width - pos.x + 50, pos.y - 50);
+			app.image(ladoSano[contador], -ladoSano[contador].width - x, y);
 			app.popMatrix();
 			contador++;
 
@@ -144,6 +148,7 @@ public class AmidCarnivoro extends EspecieAbstracta implements ICarnivoro {
 		default:
 			break;
 		}
+		app.imageMode(PApplet.CORNER);
 	}
 
 	public void perseguir() {
@@ -175,7 +180,6 @@ public class AmidCarnivoro extends EspecieAbstracta implements ICarnivoro {
 			PVector direccionY = PVector.sub(distanY, dir);
 			dir.add(direccionY);
 		}
-
 	}
 
 	@Override
@@ -192,11 +196,9 @@ public class AmidCarnivoro extends EspecieAbstracta implements ICarnivoro {
 
 	@Override
 	public void comer(EspecieAbstracta victima) {
-		
+
 	}
 	// TODO Auto-generated method stub
-
-
 
 	@Override
 	public boolean recibirDano(EspecieAbstracta lastimador) {

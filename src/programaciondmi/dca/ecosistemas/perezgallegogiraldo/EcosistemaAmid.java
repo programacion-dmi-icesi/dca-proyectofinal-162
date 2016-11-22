@@ -57,9 +57,6 @@ public class EcosistemaAmid extends EcosistemaAbstracto {
 		
 		AmidOmnivoro blanco = new AmidOmnivoro(this);
 		especies.add(blanco);
-		
-		AmidHijo verde = new AmidHijo(this);
-		especies.add(verde);
 
 		return especies;
 	}

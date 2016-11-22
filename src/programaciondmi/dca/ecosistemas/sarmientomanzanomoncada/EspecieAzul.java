@@ -91,6 +91,4 @@ public class EspecieAzul extends EspecieAbstracta implements IHerbivoro {
 		dir.mult(velocidad);
 		//System.out.println("[id=" + id + ", direcion=" + dir + "]");
 	}
-	
-	
 }

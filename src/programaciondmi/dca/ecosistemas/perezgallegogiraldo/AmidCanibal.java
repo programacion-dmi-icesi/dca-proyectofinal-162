@@ -28,10 +28,12 @@ public class AmidCanibal extends EspecieAbstracta implements ICanibal {
 	private int vida;
 	private float fuerza;
 	private int velocidad;
+
 	/*
 	 * Se utiliza para definfir cuando el individuo puede realizar acciones:
 	 * moverse, aparearse, etc
 	 */
+
 	private float energia;
 	private EspecieAbstracta parejaCercana;
 	private PVector dir;
@@ -99,7 +101,6 @@ public class AmidCanibal extends EspecieAbstracta implements ICanibal {
 			transicionLado[i] = app.loadImage("../data/Personajes/P1/Transiciones/Lado/Transicion P1 L" + i + ".png"); // TRANSICI�N
 																														// LADO
 		}
-
 	}
 
 	@Override
@@ -113,29 +114,32 @@ public class AmidCanibal extends EspecieAbstracta implements ICanibal {
 	@Override
 	public void mover() {
 		pos.add(dir);
+		x = (int) pos.x;
+		y = (int) pos.y;
 	}
 
 	public void animacion() {
+		app.imageMode(PApplet.CENTER);
 		switch (animacion) {
 		case 0:
 
 			if (contador == 12)
 				contador = 0;
-			app.image(frenteSano[contador], pos.x - 50, pos.y - 50);
+			app.image(frenteSano[contador], x, y);
 			contador++;
 			break;
 
 		case 1:
 			if (contador == 12)
 				contador = 0;
-			app.image(espaldaSano[contador], pos.x - 50, pos.y - 50);
+			app.image(espaldaSano[contador], x, y);
 			contador++;
 			break;
 
 		case 2:
 			if (contador == 12)
 				contador = 0;
-			app.image(ladoSano[contador], pos.x - 50, pos.y - 50);
+			app.image(ladoSano[contador], x, y);
 			contador++;
 			break;
 
@@ -144,7 +148,7 @@ public class AmidCanibal extends EspecieAbstracta implements ICanibal {
 				contador = 0;
 			app.pushMatrix();
 			app.scale(-1.0f, 1.0f);
-			app.image(ladoSano[contador], -ladoSano[contador].width - pos.x + 50, pos.y - 50);
+			app.image(ladoSano[contador], -ladoSano[contador].width - x+100, y);
 			app.popMatrix();
 			contador++;
 
@@ -152,6 +156,7 @@ public class AmidCanibal extends EspecieAbstracta implements ICanibal {
 		default:
 			break;
 		}
+		app.imageMode(PApplet.CORNER);
 	}
 
 	public void perseguir() {
@@ -198,19 +203,30 @@ public class AmidCanibal extends EspecieAbstracta implements ICanibal {
 
 			}
 		}
-
 	}
 
 	@Override
 	public void comer(EspecieAbstracta victima) {
 		// TODO Auto-generated method stub
-
+		if (!victima.getClass().toString().equals(this.getClass().toString())) {
+			if (victima.recibirDano(this)) {
+				energia += 5;
+			}
+		}
 	}
 
 	@Override
 	public boolean recibirDano(EspecieAbstracta lastimador) {
 		// TODO Auto-generated method stub
+		if (PApplet.dist(x, y, lastimador.getX(), lastimador.getY()) < 50) {
+			vida -= 5;
+			try {
+				lastimador.setEstado(ENFERMO);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			return true;
+		}
 		return false;
 	}
-
 }
