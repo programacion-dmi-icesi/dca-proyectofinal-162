@@ -51,6 +51,12 @@ public class EcosistemaAmid extends EcosistemaAbstracto {
 
 		AmidCarnivoro azul = new AmidCarnivoro(this);
 		especies.add(azul);
+		
+		AmidHerbivoro roja = new AmidHerbivoro(this);
+		especies.add(roja);
+		
+		AmidHijo verde = new AmidHijo(this);
+		especies.add(verde);
 
 		return especies;
 	}
@@ -64,6 +70,7 @@ public class EcosistemaAmid extends EcosistemaAbstracto {
 
 		PlantaVenenosa veneno = new PlantaVenenosa();
 		plantas.add(veneno);
+		
 
 		return plantas;
 	}
@@ -75,6 +82,12 @@ public class EcosistemaAmid extends EcosistemaAbstracto {
 
 		AmidCarnivoro azul = new AmidCarnivoro(this);
 		especies.add(azul);
+		
+		AmidHerbivoro roja = new AmidHerbivoro(this);
+		especies.add(roja);
+		
+		AmidHijo verde = new AmidHijo(this);
+		especies.add(verde);
 
 		return null;
 	}
