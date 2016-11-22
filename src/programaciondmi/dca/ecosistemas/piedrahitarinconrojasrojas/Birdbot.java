@@ -4,21 +4,24 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Random;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import processing.core.PApplet;
 import processing.core.PImage;
 import processing.core.PVector;
 import programaciondmi.dca.core.EcosistemaAbstracto;
 import programaciondmi.dca.core.EspecieAbstracta;
+import programaciondmi.dca.core.PlantaAbstracta;
 import programaciondmi.dca.core.interfaces.IApareable;
-import programaciondmi.dca.core.interfaces.ICarnivoro;
+import programaciondmi.dca.core.interfaces.IHerbivoro;
 import programaciondmi.dca.ejecucion.Mundo;
 
-public class Birdbot extends EspecieAbstracta implements IApareable, ICarnivoro {
+public class Birdbot extends EspecieAbstracta implements IApareable, IHerbivoro {
 	private int vida;
 	private float fuerza;
 	private int velocidad;
-	
+	PApplet app = Mundo.ObtenerInstancia().getApp();
 	
 	/*
 	 * Se utiliza para definfir cuando el individuo puede realizar acciones:
@@ -80,29 +83,20 @@ public class Birdbot extends EspecieAbstracta implements IApareable, ICarnivoro 
 	}
 
 	@Override
-	public void comer(EspecieAbstracta victima) {
-		// TODO Auto-generated method stub
-		if (!victima.getClass().toString().equals(this.getClass().toString())) {
-			if(victima.recibirDano(this)){
-				energia+=5;
-			}
-		}	
-	}
-
-	@Override
 	public EspecieAbstracta aparear(IApareable apareable) {
-	//	HijoBlanco hijo = new HijoBlanco(ecosistema);
-	//	hijo.setX(this.x);
-	//	hijo.setY(this.y);
-	//	ecosistema.agregarEspecie(hijo);
-	//return hijo;
-		return null;
+		Hijo hijo = new Hijo(ecosistema);
+		hijo.setX(this.x);
+		hijo.setY(this.y);
+		ecosistema.agregarEspecie(hijo);
+		
+		return hijo;
+		//return null;
 	}
 
 	@Override
 	public void dibujar() {
 		// TODO Auto-generated method stub
-		PApplet app = Mundo.ObtenerInstancia().getApp();
+		
 		app.image(pjBirdbot[contador], x, y, 100,100);
 	}
 
@@ -185,10 +179,16 @@ public class Birdbot extends EspecieAbstracta implements IApareable, ICarnivoro 
 	 * 
 	 */
 	private void buscarParejaCercana() {
-
+		
 		List<EspecieAbstracta> todas = Mundo.ObtenerInstancia().getEspecies();
+		List<EspecieAbstracta> concurrente = new CopyOnWriteArrayList<>();
+		
+		for (int i = 0; i < todas.size(); i++) {
+			concurrente.add(todas.get(i));
+		}
+		
 		//System.out.println("Buscando pareja entre " + todas.size() + " especies del mundo");
-		ListIterator<EspecieAbstracta> iterador = todas.listIterator();
+		ListIterator<EspecieAbstracta> iterador = concurrente.listIterator();
 		boolean encontro = false;
 		while (!encontro && iterador.hasNext()) {
 			EspecieAbstracta e = iterador.next();
@@ -223,7 +223,7 @@ public class Birdbot extends EspecieAbstracta implements IApareable, ICarnivoro 
 		float dist = PApplet.dist(x, y, parejaCercana.getX(), parejaCercana.getY());
 		if (dist < vida) {
 			IApareable a = (IApareable) parejaCercana;
-			//ecosistema.agregarEspecie(aparear(a));
+			ecosistema.agregarEspecie(aparear(a));
 			// perder energia
 			energia -= 50;
 		}
@@ -237,10 +237,15 @@ public class Birdbot extends EspecieAbstracta implements IApareable, ICarnivoro 
 	 * </p>
 	 */
 	private void buscarComida() {
-		List<EspecieAbstracta> todas = Mundo.ObtenerInstancia().getEspecies();
-		for (int i = 0; i < todas.size(); i++) {
-			comer(todas.get(i));
-		}
+		List<PlantaAbstracta> todas = Mundo.ObtenerInstancia().getPlantas();
+		/*for (int i = 0; i < todas.size(); i++) {
+			if(todas.get(i).){
+				
+			}
+			if (app.dist(x,y,todas.get(i). ,todas.get(i).y)<vida) {
+			comerPlanta(todas.get(i));
+			}
+		}*/
 	}
 	
 	private void cambiarDireccion(PVector target) {
@@ -261,6 +266,15 @@ public class Birdbot extends EspecieAbstracta implements IApareable, ICarnivoro 
 	public boolean recibirDano(EspecieAbstracta lastimador) {
 		// TODO implementar metodo
 		return false;
+	}
+
+	@Override
+	public void comerPlanta(PlantaAbstracta victima) {
+		// TODO Auto-generated method stub
+			//if(victima.recibirDano(this)){
+				//plantas.remove(victima);
+				energia+=5;
+		
 	}
 
 }
