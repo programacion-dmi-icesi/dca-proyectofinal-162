@@ -22,7 +22,6 @@ public class Magusbot extends EspecieAbstracta implements IOmnivoro {
 	private PVector dir;
 	PImage[] magobot = new PImage[20];
 	int posicionpj;
-
 	int contador;
 	int vista;
 	int movMagusBot;
@@ -37,7 +36,7 @@ public class Magusbot extends EspecieAbstracta implements IOmnivoro {
 		this.velocidad = 2;
 		this.energia = 250;
 		this.fuerza = 100;
-
+		contador = 0;
 		// this.movMagusBot= (int) (Math.random()*4+1);
 
 		int targetX = random.nextInt();
@@ -94,7 +93,7 @@ public class Magusbot extends EspecieAbstracta implements IOmnivoro {
 		// TODO Auto-generated method stub
 		if (energia > 0) {
 
-			buscarComida();
+			//buscarComida();
 
 			if (ciclo % 30 == 0) {
 				// Definir una direccion aleatoria cada 5 segundos
@@ -103,8 +102,9 @@ public class Magusbot extends EspecieAbstracta implements IOmnivoro {
 				// Siguiente posici�n en y
 				int targetY = random.nextInt();
 				cambiarDireccion(new PVector(targetX, targetY));
+				//System.out.println(x+" "+y);
 				//System.out.println("CAMBIO DIRECCION!");
-				if (targetX > this.x && targetY > this.y) {// derechaarriba
+				/*if (targetX > this.x && targetY > this.y) {// derechaarriba
 					vista = 1;
 					contador = (vista - 1) * 5;
 				} else if (targetX < this.x && targetY < this.y) {// izquierdaAbajo
@@ -116,7 +116,7 @@ public class Magusbot extends EspecieAbstracta implements IOmnivoro {
 				} else if (targetX > this.x && targetY < this.y) {// derechaAbajo
 					vista = 4;
 					contador = (vista - 1) * 5;
-				}
+				}*/
 			}
 
 			// moverse en la direcciÃ³n asignada actualmente
@@ -160,16 +160,16 @@ public class Magusbot extends EspecieAbstracta implements IOmnivoro {
 		app.background(255);
 		// Image Personaje
 
-		if (contador == 5 * vista) {
+		/*if (contador == 5 * vista) {
 			contador = (vista - 1) * 5;
-		}
+		}*/
 		//System.out.println(magobot[contador]);
 		
 		app.image(magobot[contador], x, y, 100, 100);
 		app.fill(255, 0, 0);
-		if (app.frameCount % 10 == 0) {
+		/*if (app.frameCount % 10 == 0) {
 			contador++;
-		}
+		}*/
 
 	}
 

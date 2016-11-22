@@ -100,12 +100,12 @@ public class SaberBot extends EspecieAbstracta implements ICarnivoro{
 			energia -= 0.01;
 		}
 		
-		if(this.x > Mundo.ObtenerInstancia().getApp().width || this.x < 0){
+		/*if(this.x > Mundo.ObtenerInstancia().getApp().width || this.x < 0){
 			this.dir.x*=-1;			
 		}
 		if(this.y > Mundo.ObtenerInstancia().getApp().height || this.y < 0){
 			this.dir.y *= -1;			
-		}
+		}*/
 		
 
 	}
@@ -169,7 +169,4 @@ public class SaberBot extends EspecieAbstracta implements ICarnivoro{
 			comer(todas.get(i));
 		}
 	}
-	
-	
-	
 }

@@ -17,6 +17,7 @@ import programaciondmi.dca.ejecucion.Mundo;
 public class EcosistemaTikiBots extends EcosistemaAbstracto {
 	PApplet app = Mundo.ObtenerInstancia().getApp();
 	int tipoPlanta = 0;
+	int cont = 0;
 	
 	
 	public EcosistemaTikiBots() {
@@ -63,7 +64,7 @@ public class EcosistemaTikiBots extends EcosistemaAbstracto {
 	protected LinkedList<EspecieAbstracta> poblarEspecies() {
 		LinkedList<EspecieAbstracta> especies = new LinkedList<EspecieAbstracta>();
 		
-		SaberBot nueva = new SaberBot(this);
+		/*SaberBot nueva = new SaberBot(this);
 		especies.add(nueva);
 		
 		nueva = new SaberBot(this);
@@ -79,10 +80,13 @@ public class EcosistemaTikiBots extends EcosistemaAbstracto {
 		especies.add(cani);
 		
 		cani = new Cannibalbot(this);
-		especies.add(cani);
+		especies.add(cani);*/
 		
-		Birdbot ave = new Birdbot(this);
-		especies.add(ave);
+		if(cont == 0){
+			Birdbot ave = new Birdbot(this);
+			especies.add(ave);
+			cont++;
+		}
 		
 		return especies;
 	}
@@ -114,20 +118,26 @@ public class EcosistemaTikiBots extends EcosistemaAbstracto {
 
 	@Override
 	protected List<EspecieAbstracta> generarIndividuos() {
-		LinkedList<EspecieAbstracta> especies = new LinkedList<EspecieAbstracta>();
+		
 		// TODO Auto-generated method stub
 		
-		SaberBot nueva = new SaberBot(this);
-		especies.add(nueva);	
-
+		/*SaberBot nueva = new SaberBot(this);
+		especies.add(nueva);*/	
+		
+		/*if(cont == 0){
 		Magusbot mago = new Magusbot(this);
 		especies.add(mago);
+		}*/
 		
-		Cannibalbot cani = new Cannibalbot(this);
-		especies.add(cani);
+		/*Cannibalbot cani = new Cannibalbot(this);
+		especies.add(cani);*/
 		
-		Birdbot ave = new Birdbot(this);
-		especies.add(ave);
+		//if(cont == 0){
+			Birdbot ave = new Birdbot(this);
+			especies.add(ave);
+			agregarEspecie(ave);
+			//cont++;
+		//}
 		
 		return especies;
 	}
@@ -136,10 +146,11 @@ public class EcosistemaTikiBots extends EcosistemaAbstracto {
 	@Override
 	protected List<PlantaAbstracta> generarPlantas() {
 		//System.out.println("generar plantas");
-		LinkedList<PlantaAbstracta> plantas = new LinkedList<PlantaAbstracta>();
+	
 		
 		PlantaMala mala = new PlantaMala(this);
 		plantas.add(mala);
+		agregarPlanta(mala);
 		
 		return plantas;
 	}

@@ -32,8 +32,8 @@ public class Birdbot extends EspecieAbstracta implements IApareable, IHerbivoro 
 	public Birdbot(EcosistemaAbstracto ecosistema) {
 		super(ecosistema);
 		this.random = new Random();
-		this.x = random.nextInt(Mundo.ObtenerInstancia().getApp().width);
-		this.y = random.nextInt(Mundo.ObtenerInstancia().getApp().height);
+		this.x = 500;//random.nextInt(Mundo.ObtenerInstancia().getApp().width);
+		this.y = 500;//random.nextInt(Mundo.ObtenerInstancia().getApp().height);
 		this.vida = 50;
 		this.fuerza = 100;
 		this.energia = 250;
@@ -106,11 +106,12 @@ public class Birdbot extends EspecieAbstracta implements IApareable, IHerbivoro 
 					
 				} else {
 					buscarComida();
+					
 					if(plantaCerca != null){
 						comerPlanta(plantaCerca);
 					}
 					
-					if (ciclo % 30 == 0) {
+					if (ciclo % 30 == 0 && plantaCerca == null) {
 						int targetX = random.nextInt();
 						int targetY = random.nextInt();
 						cambiarDireccion(new PVector(targetX, targetY));
@@ -121,6 +122,7 @@ public class Birdbot extends EspecieAbstracta implements IApareable, IHerbivoro 
 			this.x += dir.x;
 			this.y += dir.y;
 			energia -= 0.01;
+			
 		}
 		
 		if(this.x > Mundo.ObtenerInstancia().getApp().width || this.x < 0){
@@ -214,12 +216,15 @@ public class Birdbot extends EspecieAbstracta implements IApareable, IHerbivoro 
 		List<PlantaAbstracta> all = Mundo.ObtenerInstancia().getPlantas();
 		ListIterator<PlantaAbstracta> iterador = all.listIterator();
 		boolean encontro = false;
+		System.out.println(all.size());
 		
 		while (iterador.hasNext()) {
 			PlantaAbstracta planta = iterador.next();
-			if(all instanceof PlantaMala ){
+			System.out.println("entra2");
+			
+			if(planta instanceof PlantaMala ){
 				float distancia = app.dist( x, y, planta.getX(), planta.getY());
-				
+				System.out.println(distancia);
 				if (distancia < energia) {
 					encontro = true;
 					plantaCerca = planta;

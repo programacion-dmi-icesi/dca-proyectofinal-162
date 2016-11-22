@@ -4,6 +4,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Random;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import processing.core.PApplet;
 import processing.core.PVector;
@@ -17,8 +18,6 @@ public class EspecieBlanca extends EspecieAbstracta implements IApareable, ICarn
 	private int vida;
 	private float fuerza;
 	private int velocidad;
-	
-	
 	/*
 	 * Se utiliza para definfir cuando el individuo puede realizar acciones:
 	 * moverse, aparearse, etc
@@ -100,7 +99,6 @@ public class EspecieBlanca extends EspecieAbstracta implements IApareable, ICarn
 					int targetX = random.nextInt();
 					int targetY = random.nextInt();
 					cambiarDireccion(new PVector(targetX, targetY));
-					System.out.println("CAMBIO DIRECCION!");
 					}
 				}
 				
@@ -142,8 +140,14 @@ public class EspecieBlanca extends EspecieAbstracta implements IApareable, ICarn
 	private void buscarParejaCercana() {
 
 		List<EspecieAbstracta> todas = Mundo.ObtenerInstancia().getEspecies();
+		List<EspecieAbstracta> concurrente = new CopyOnWriteArrayList<>();
+		
+		for (int i = 0; i < todas.size(); i++) {
+			concurrente.add(todas.get(i));
+		}
+		
 		//System.out.println("Buscando pareja entre " + todas.size() + " especies del mundo");
-		ListIterator<EspecieAbstracta> iterador = todas.listIterator();
+		ListIterator<EspecieAbstracta> iterador = concurrente.listIterator();
 		boolean encontro = false;
 		while (!encontro && iterador.hasNext()) {
 			EspecieAbstracta e = iterador.next();
