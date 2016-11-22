@@ -46,9 +46,6 @@ public class EcosistemaAmid extends EcosistemaAbstracto {
 		AmidCanibal nueva = new AmidCanibal(this);
 		especies.add(nueva);
 
-		nueva = new AmidCanibal(this);
-		especies.add(nueva);
-
 		AmidCarnivoro azul = new AmidCarnivoro(this);
 		especies.add(azul);
 		

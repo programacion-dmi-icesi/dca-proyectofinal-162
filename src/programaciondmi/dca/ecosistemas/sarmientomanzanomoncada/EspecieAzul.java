@@ -49,8 +49,8 @@ public class EspecieAzul extends EspecieAbstracta implements IHerbivoro {
 	@Override
 	public void dibujar() {
 		PApplet app = Mundo.ObtenerInstancia().getApp();
-		app.fill(0,0,255);
-		app.ellipse(x, y, vida, vida);
+		//app.fill(0,0,255);
+		//app.ellipse(x, y, vida, vida);
 
 	}
 

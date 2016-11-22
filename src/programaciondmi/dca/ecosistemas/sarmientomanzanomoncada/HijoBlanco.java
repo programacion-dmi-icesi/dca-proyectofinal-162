@@ -15,8 +15,8 @@ public class HijoBlanco extends EspecieAbstracta {
 	public void dibujar() {
 		// TODO Auto-generated method stub
 		PApplet app = Mundo.ObtenerInstancia().getApp();
-		app.fill(0);
-		app.ellipse(x, y, 10, 10);
+		//app.fill(0);
+		//app.ellipse(x, y, 10, 10);
 	}
 
 	@Override

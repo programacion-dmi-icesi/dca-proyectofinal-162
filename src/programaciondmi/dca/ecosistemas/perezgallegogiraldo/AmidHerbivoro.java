@@ -99,7 +99,7 @@ public class AmidHerbivoro extends EspecieAbstracta implements IHerbivoro {
 	@Override
 	public void dibujar() {
 		// TODO Auto-generated method stub
-		app.ellipse(objetivo.x, objetivo.y, 50, 50);
+		app.ellipse(objetivo.x, objetivo.y, 10, 10);
 		animacion();
 		perseguir();
 	}
