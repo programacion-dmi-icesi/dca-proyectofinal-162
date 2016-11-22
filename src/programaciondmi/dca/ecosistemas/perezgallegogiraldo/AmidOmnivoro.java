@@ -8,10 +8,11 @@ import processing.core.PVector;
 import programaciondmi.dca.core.EcosistemaAbstracto;
 import programaciondmi.dca.core.EspecieAbstracta;
 import programaciondmi.dca.core.PlantaAbstracta;
+import programaciondmi.dca.core.interfaces.IApareable;
 import programaciondmi.dca.core.interfaces.IOmnivoro;
 import programaciondmi.dca.ejecucion.Mundo;
 
-public class AmidOmnivoro extends EspecieAbstracta implements IOmnivoro {
+public class AmidOmnivoro extends EspecieAbstracta implements IOmnivoro, IApareable {
 
 	PApplet app;
 	private int vida;
@@ -206,6 +207,12 @@ public class AmidOmnivoro extends EspecieAbstracta implements IOmnivoro {
 	public boolean recibirDano(EspecieAbstracta lastimador) {
 		// TODO Auto-generated method stub
 		return false;
+	}
+
+	@Override
+	public EspecieAbstracta aparear(IApareable apareable) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

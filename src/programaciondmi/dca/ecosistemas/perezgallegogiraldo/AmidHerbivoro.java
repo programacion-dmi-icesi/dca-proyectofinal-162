@@ -12,7 +12,7 @@ import programaciondmi.dca.core.interfaces.IApareable;
 import programaciondmi.dca.core.interfaces.IHerbivoro;
 import programaciondmi.dca.ejecucion.Mundo;
 
-public class AmidHerbivoro extends EspecieAbstracta implements IHerbivoro, IApareable {
+public class AmidHerbivoro extends EspecieAbstracta implements IHerbivoro {
 	PApplet app;
 	private int vida;
 
@@ -194,11 +194,6 @@ public class AmidHerbivoro extends EspecieAbstracta implements IHerbivoro, IApar
 		return false;
 	}
 
-	@Override
-	public EspecieAbstracta aparear(IApareable apareable) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 	@Override
 	public void comerPlanta(PlantaAbstracta victima) {
