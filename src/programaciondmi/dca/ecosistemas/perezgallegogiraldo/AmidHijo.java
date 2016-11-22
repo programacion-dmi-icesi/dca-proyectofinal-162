@@ -102,7 +102,6 @@ public class AmidHijo extends EspecieAbstracta {
 		// TODO Auto-generated method stub
 		app.ellipse(objetivo.x, objetivo.y, 10, 10);
 		animacion();
-		perseguir();
 	}
 
 	@Override
@@ -192,8 +191,9 @@ public class AmidHijo extends EspecieAbstracta {
 	@Override
 	public void run() {
 		while (vida > 0) {
-			mover();
 			try {
+				mover();
+				perseguir();
 				Thread.sleep(33);
 			} catch (Exception e) {
 
