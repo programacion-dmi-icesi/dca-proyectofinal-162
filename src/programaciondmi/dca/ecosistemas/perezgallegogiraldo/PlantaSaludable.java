@@ -12,6 +12,7 @@ public class PlantaSaludable extends PlantaAbstracta {
 	private PApplet app;
 	private int vida;
 	private PShape[] img;
+	private int fase, mov;
 
 	public PlantaSaludable() {
 		super();
@@ -20,6 +21,7 @@ public class PlantaSaludable extends PlantaAbstracta {
 		posX = (int) (app.random(0, 500));
 		posY = (int) (app.random(0, 500));
 		vida = 100;
+		mov = 0;
 
 		cargaDeImagenes();
 	}
@@ -39,13 +41,31 @@ public class PlantaSaludable extends PlantaAbstracta {
 	@Override
 	public void dibujar() {
 		// TODO Auto-generated method stub
-		app.shape(img[2], posX, posY);
+		fase = (int) PApplet.map(vida, 0, 100, 0, 4);
+		app.shapeMode(PApplet.CENTER);
+		app.shape(img[4 - fase], posX, posY);
+		app.shapeMode(PApplet.CORNER);
+
+		if (vida == 0)
+			mov = 1;
+
+		switch (mov) {
+		case 0:
+			vida -= 1;
+			break;
+		case 1:
+			vida = 0;
+			break;
+		}
 		// System.out.println("posX: "+posX+" posY: "+posY);
 	}
 
 	@Override
 	public boolean recibirDano(EspecieAbstracta lastimador) {
 		// TODO Auto-generated method stub
+		if (PApplet.dist(x, y, lastimador.getX(), lastimador.getY()) < 50) {
+			vida -= 5;
+		}
 		return false;
 	}
 

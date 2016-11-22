@@ -109,6 +109,7 @@ public class AmidCanibal extends EspecieAbstracta implements ICanibal {
 		app.ellipse(objetivo.x, objetivo.y, 10, 10);
 		animacion();
 		perseguir();
+		barraVida();
 	}
 
 	@Override
@@ -148,7 +149,7 @@ public class AmidCanibal extends EspecieAbstracta implements ICanibal {
 				contador = 0;
 			app.pushMatrix();
 			app.scale(-1.0f, 1.0f);
-			app.image(ladoSano[contador], -ladoSano[contador].width - x+100, y);
+			app.image(ladoSano[contador], -ladoSano[contador].width - x + 100, y);
 			app.popMatrix();
 			contador++;
 
@@ -228,5 +229,24 @@ public class AmidCanibal extends EspecieAbstracta implements ICanibal {
 			return true;
 		}
 		return false;
+	}
+
+	public void barraVida() {
+		app.fill(255,95);
+		app.rect(x-60, y-120, 120, 70,8);
+		app.fill(255, 50, 90);
+		app.rect(x - 50, y - 70, vida, 10, 100);
+		app.noFill();
+		app.stroke(255, 50, 90);
+		app.rect(x - 50, y - 70, 100, 10, 100);
+		app.noFill();
+		app.stroke(252, 182, 35);
+		app.rect(x - 50, y - 90, 100, 10, 100);
+		app.fill(252, 182, 35);
+		app.rect(x - 50, y - 90, vida, 10, 100);
+		app.textAlign(PApplet.CENTER);
+		app.fill(252,182,35);
+		app.text("C A N I B A L", x,y-105);
+		app.textAlign(PApplet.CORNER);
 	}
 }
