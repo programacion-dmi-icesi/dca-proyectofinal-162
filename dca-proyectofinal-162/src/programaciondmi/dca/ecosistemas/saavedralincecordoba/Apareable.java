@@ -2,6 +2,9 @@ package programaciondmi.dca.ecosistemas.saavedralincecordoba;
 
 import java.util.List;
 import java.util.Random;
+
+import org.omg.Messaging.SYNC_WITH_TRANSPORT;
+
 import processing.core.PApplet;
 import processing.core.PImage;
 import processing.core.PVector;
@@ -196,7 +199,7 @@ public class Apareable extends EspecieAbstracta implements  IApareable, IOmnivor
 	
 			
 		}
-
+System.out.println("funciona");
 		
 
 	}
