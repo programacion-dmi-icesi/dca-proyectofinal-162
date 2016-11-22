@@ -36,7 +36,6 @@ public class PlantaBuena extends PlantaAbstracta {
 
 	@Override
 	public void dibujar() {
-<<<<<<< HEAD
 		PApplet app = Mundo.ObtenerInstancia().getApp();
 		//System.out.println("imagen planta mala");
 		app.image(Bplanta[0],x,y);
@@ -76,10 +75,10 @@ public class PlantaBuena extends PlantaAbstracta {
 		case 0:
 			break;
 		}
-=======
+
 		//System.out.println("imagen planta mala");
 		app.image(Bplanta[0],x,y);
->>>>>>> refs/remotes/origin/tikibots_jd
+
 	}
 
 }
