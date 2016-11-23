@@ -30,6 +30,7 @@ public class PlantaMala extends PlantaAbstracta {
 		while (vida > 0) {
 			
 			try {
+				
 				Thread.sleep(33);
 			} catch (Exception e) {
 				// TODO: handle exception
@@ -76,7 +77,6 @@ public class PlantaMala extends PlantaAbstracta {
 	public boolean recibirDano(EspecieAbstracta lastimador) {
 		// TODO Auto-generated method stub
 		
-			System.out.println("entra");
 			if(contador<2){
 				vida -=50;
 				contador+=1;

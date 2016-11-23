@@ -19,7 +19,7 @@ import programaciondmi.dca.ejecucion.Mundo;
 
 public class Birdbot extends EspecieAbstracta implements IApareable, IHerbivoro {
 	private int vida, velocidad, ciclo, contador;
-	private float fuerza, energia;
+	private float fuerza, energia, defensa;
 	PApplet app = Mundo.ObtenerInstancia().getApp();
 	private EspecieAbstracta parejaCercana;
 	private PlantaAbstracta plantaCerca;
@@ -38,7 +38,7 @@ public class Birdbot extends EspecieAbstracta implements IApareable, IHerbivoro 
 		this.fuerza = 100;
 		this.energia = 250;
 		this.velocidad = 2;
-	
+		this.defensa = 100;
 
 		int targetX = random.nextInt();
 		int targetY = random.nextInt();
@@ -242,13 +242,14 @@ public class Birdbot extends EspecieAbstracta implements IApareable, IHerbivoro 
 
 	@Override
 	public String toString() {
-		return "EspecieBlanca [id=" + id + ", vida=" + vida + ", fuerza=" + fuerza + ", parejaCercana=" + parejaCercana
+		return "EspecieBlanca [id=" + id + ", vida=" + vida + ", fuerza=" + fuerza + ", parejaCercana="
 				+ ", dir=" + dir + ", x=" + x + ", y=" + y + ", estado=" + estado + "]";
 	}
 
 	@Override
 	public boolean recibirDano(EspecieAbstracta lastimador) {
 		// TODO implementar metodo
+
 		return false;
 	}
 
@@ -260,12 +261,19 @@ public class Birdbot extends EspecieAbstracta implements IApareable, IHerbivoro 
 				if(victima.getClass() == PlantaMala.class){
 					PlantaMala m = (PlantaMala) victima;
 					setEstado(ENFERMO);
+					fuerza -=5;
+					defensa -=5;
+					vida -=5;
 				}
 				
 				/*if(victima.getClass() == PlantaBuena.class){
 					PlantaBuena m = (PlantaBuena) victima;
 					setEstado(EXTASIS);
+					fuerza +=5;
+					defensa +=5;
+					vida +=5;
 				}*/
+				
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
