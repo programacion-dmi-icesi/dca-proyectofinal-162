@@ -108,28 +108,6 @@ public class EspecieGomiHerbivoro extends GomiCabra implements IApareable, IHerb
 	}
 
 	// ========================================================================================================================================
-	private void buscarParejaCercana() {
-		List<EspecieAbstracta> todas = Mundo.ObtenerInstancia().getEspecies();
-		ListIterator<EspecieAbstracta> iterador = todas.listIterator();
-		boolean encontro = false;
-
-		while (!encontro && iterador.hasNext()) {
-			EspecieAbstracta e = iterador.next();
-			if ((e instanceof IApareable) && !e.equals(this)) {
-				float dist = PApplet.dist(x, y, e.getX(), e.getY());
-				if (dist < energia) {
-					encontro = true;
-					parejaCercana = e;
-				}
-			}
-		}
-
-		if (!encontro) {
-			parejaCercana = null;
-		}
-	}
-
-	// ========================================================================================================================================
 	@Override
 	public boolean recibirDano(EspecieAbstracta lastimador) {
 		// TODO implementar metodo
@@ -139,7 +117,6 @@ public class EspecieGomiHerbivoro extends GomiCabra implements IApareable, IHerb
 	// ========================================================================================================================================
 	@Override
 	public void comerPlanta(PlantaAbstracta victima) {
-		System.out.println("se come una planta HERVI");
 		if (puedeComer && victima instanceof PlantaGomiCabra) {
 			PlantaGomiCabra p = (PlantaGomiCabra) victima;
 

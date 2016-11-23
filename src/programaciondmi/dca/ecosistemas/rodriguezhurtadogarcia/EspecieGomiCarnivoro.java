@@ -71,10 +71,29 @@ public class EspecieGomiCarnivoro extends GomiCabra implements ICarnivoro {
 	}
 
 	// ========================================================================================================================================
+	public void alimento() {
+		List<EspecieAbstracta> todas = Mundo.ObtenerInstancia().getEspecies();
+		ListIterator<EspecieAbstracta> iterador = todas.listIterator();
+
+		while (iterador.hasNext()) {
+			EspecieAbstracta e = iterador.next();
+			if (!e.equals(this)) {
+				float dist = PApplet.dist(x, y, e.getX(), e.getY());
+				if (dist < 100) {
+					todas.remove(e);
+
+				}
+			}
+		}
+	
+	}
+
+	// ========================================================================================================================================
 	@Override
 	public void run() {
 		while (vida > 0) {
 			mover();
+			alimento();
 			try {
 				Thread.sleep(33);
 				vista++;
