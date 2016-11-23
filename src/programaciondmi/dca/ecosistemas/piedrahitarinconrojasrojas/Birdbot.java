@@ -348,7 +348,7 @@ public class Birdbot extends EspecieAbstracta implements IApareable, IHerbivoro 
 			}
 			
 			Mundo.ObtenerInstancia().getPlantas().remove(victima);
-			
+			this.ecosistema.getPlantas().remove(victima);
 			energia+=5;
 		}
 	}
