@@ -63,7 +63,6 @@ public class EspecieGomiCarnivoro extends GomiCabra implements ICarnivoro {
 	// ========================================================================================================================================
 	@Override
 	public void comer(EspecieAbstracta victima) {
-		// TODO Auto-generated method stub
 		if (!victima.getClass().toString().equals(this.getClass().toString())) {
 			if (victima.recibirDano(this)) {
 				energia += 5;

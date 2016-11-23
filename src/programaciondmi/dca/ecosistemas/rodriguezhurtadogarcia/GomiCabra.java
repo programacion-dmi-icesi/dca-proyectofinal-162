@@ -37,8 +37,8 @@ public abstract class GomiCabra extends EspecieAbstracta {
 		super(ecosistema);
 		this.random = new Random();
 		app = Mundo.ObtenerInstancia().getApp();
-		this.x = (int) app.random(-app.width - 2000, app.width + 2000);
-		this.y = (int) app.random(-app.height - 2000, app.height + 2000);
+		this.x = (int) app.random(-app.width - 1500, app.width + 1500);
+		this.y = (int) app.random(-app.height - 1500, app.height + 1500);
 	}
 
 	// ========================================================================================================================================

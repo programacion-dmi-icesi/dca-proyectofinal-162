@@ -108,7 +108,7 @@ public class EspecieGomiOmnivoro extends GomiCabra implements IOmnivoro {
 	// ========================================================================================================================================
 	@Override
 	public void comerPlanta(PlantaAbstracta victima) {
-		System.out.println("se come una planta ");
+		System.out.println("se come una planta OMNI");
 		if (puedeComer && victima instanceof PlantaGomiCabra) {
 			PlantaGomiCabra p = (PlantaGomiCabra) victima;
 			switch (p.getId()) {

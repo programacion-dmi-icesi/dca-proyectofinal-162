@@ -145,8 +145,7 @@ public class EspecieGomiHerbivoro extends GomiCabra implements IApareable, IHerb
 	// ========================================================================================================================================
 	@Override
 	public void comerPlanta(PlantaAbstracta victima) {
-
-		System.out.println("se come una planta ");
+		System.out.println("se come una planta HERVI");
 		if (puedeComer && victima instanceof PlantaGomiCabra) {
 			PlantaGomiCabra p = (PlantaGomiCabra) victima;
 
