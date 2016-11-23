@@ -15,6 +15,7 @@ public class Pavotortuga extends EspecieAbstracta implements IHerbivoro {
 	private PVector dir;
 	private int ciclo;
 	private int index = 0;
+	private PlantaBuena Pb;
 	
 	
 	public Pavotortuga(EcosistemaAbstracto ecosistema){
@@ -56,6 +57,10 @@ public class Pavotortuga extends EspecieAbstracta implements IHerbivoro {
 
 	@Override
 	public void comerPlanta(PlantaAbstracta victima) {
+		
+//		if(app.dist(Pb.getX(),Pb.getY() , x, y)<50){
+//			Pb.
+//		}
 		// TODO Auto-generated method stub
 		
 	}

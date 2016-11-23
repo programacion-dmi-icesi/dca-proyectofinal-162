@@ -13,9 +13,14 @@ import programaciondmi.dca.core.PlantaAbstracta;
 import programaciondmi.dca.ejecucion.Mundo;
 
 public class Ecosistema extends EcosistemaAbstracto {
-
+	 private int width;
+	    private int height;
+	
+	
 	public Ecosistema() {
 		super();
+		this.width = width;
+        this.height = height;
 		Mundo ref = Mundo.ObtenerInstancia();
 		LogoEjemplo boton= new LogoEjemplo("global_data/bot1.svg", this);
 		System.out.println("elbot:"+boton);
@@ -69,5 +74,15 @@ public class Ecosistema extends EcosistemaAbstracto {
 	protected List<PlantaAbstracta> generarPlantas() {
 		return plantas;
 	}
+
+
+	public int getWidth() {
+		return this.width;
+	}
+
+	public int getHeight() {
+		return this.height;
+	}
+
 	
 }

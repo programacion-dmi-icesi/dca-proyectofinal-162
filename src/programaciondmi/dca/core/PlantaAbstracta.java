@@ -13,7 +13,9 @@ public abstract class PlantaAbstracta implements Runnable{
 	protected int y;	
 	protected PApplet app;
 	
-	public PlantaAbstracta(){}
+	public PlantaAbstracta(PApplet app){
+		this.app=app;
+	}
 	
 	public PlantaAbstracta(int x, int y){
 		this.x = x ;

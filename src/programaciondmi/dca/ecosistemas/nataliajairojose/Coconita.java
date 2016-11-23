@@ -19,7 +19,7 @@ public class Coconita extends EspecieAbstracta implements ICarnivoro {
 	private int ciclo;
 	private PImage[] coconitaF;
 	private int index = 0;
-	
+	private int x,y;
 	public Coconita(EcosistemaAbstracto ecosistema) {
 		super(ecosistema);
 		//SIEMPRE HAGAN ESTO CON EL APP
@@ -29,9 +29,9 @@ public class Coconita extends EspecieAbstracta implements ICarnivoro {
 		this.vida = 20;
 		this.velocidad = 5;
 		
-		int targetX = (int) (Math.random()*500);
-		int targetY = (int) (Math.random()*500);
-		cambiarDireccion(new PVector(targetX, targetY));
+		int x = (int) (Math.random()*500);
+		int y = (int) (Math.random()*500);
+		cambiarDireccion(new PVector(x, y));
 		
 		Thread nt = new Thread(this);
 		nt.start();
@@ -74,9 +74,9 @@ public class Coconita extends EspecieAbstracta implements ICarnivoro {
 	public void mover() {
 		if (ciclo % 30 == 0) {
 			// Definir una direccion aleatoria cada 3 segundos
-			int targetX = (int) (Math.random() * 500);
-			int targetY = (int) (Math.random() * 500);
-			cambiarDireccion(new PVector(targetX, targetY));
+			int x = (int) (Math.random() * 500);
+			int y = (int) (Math.random() * 500);
+			cambiarDireccion(new PVector(x, y));
 			//System.out.println("CAMBIO DIRECCION!");
 		}
 		
@@ -123,6 +123,22 @@ public class Coconita extends EspecieAbstracta implements ICarnivoro {
 	public void comer(EspecieAbstracta victima) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	public int getX() {
+		return x;
+	}
+
+	public void setX(int x) {
+		this.x = x;
+	}
+
+	public int getY() {
+		return y;
+	}
+
+	public void setY(int y) {
+		this.y = y;
 	}
 	
 	
