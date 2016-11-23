@@ -37,7 +37,6 @@ public class Apareable extends EspecieAbstracta implements  IApareable, IOmnivor
 	private Random random;
 	
 
-	//private PApplet app;
 	
 	
 	public Apareable(EcosistemaAbstracto ecosistema) {

@@ -26,6 +26,9 @@ public class Carnivoro extends EspecieAbstracta implements ICarnivoro {
 	private PImage[] izquierda = new PImage[12];
 	private PImage[] atras = new PImage[12];
 
+	
+	// VALORES PARA MANEJAR LOS ARREGLOS DE IMAGENES
+	private int nDerecha, nIzquierda, nAtras;
 	/*
 	 * SE UTILIZA PARA DEFINIR CUANDO EL INDIVIDUO PUEDE EALIZAR ACCIONES
 	 * MOVERSE, COMER, etc
@@ -262,24 +265,34 @@ public class Carnivoro extends EspecieAbstracta implements ICarnivoro {
 					if (victima.getClass() == Canibal.class) {
 						Canibal c = (Canibal) victima;
 						vida -= 2;
-						System.out.println("pos me muero");
+						System.out.println("Canibal Recibe Daño");
 						if (vida == 0) {
 							Mundo.ObtenerInstancia().getEspecies().remove(victima.getClass());
+							System.out.println("Canibal Muere");
 						}
 					}
 
 					if (victima.getClass() == Hervivoro.class) {
-
-					}
-
-					if (victima.getClass() == Carnivoro.class) {
-
+						Hervivoro h = (Hervivoro) victima;
+						if(Mundo.ObtenerInstancia().getApp().dist(x,y,h.getX(),h.getY())<50){
+						vida-=2;
+						System.out.println("Hervivoro Recibe Daño");
+						}
+						if(vida==0){
+							Mundo.ObtenerInstancia().getEspecies().remove(victima.getClass());
+							System.out.println("Hervivoro Muere");
+						}
 					}
 
 					if (victima.getClass() == Apareable.class) {
-
+						Apareable a = (Apareable) victima;
+						vida-=2;
+						System.out.println("Apareable Recibe Daño");
+						if(vida==0){
+							Mundo.ObtenerInstancia().getEspecies().remove(victima.getClass());
+						}
 					}
-					Mundo.ObtenerInstancia().getEspecies().remove(victima);
+					//Mundo.ObtenerInstancia().getEspecies().remove(victima);
 
 				} catch (Exception e) {
 					// TODO: handle exception
