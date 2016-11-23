@@ -199,7 +199,7 @@ public class Apareable extends EspecieAbstracta implements  IApareable, IOmnivor
 	
 			
 		}
-System.out.println("funciona");
+
 		
 
 	}

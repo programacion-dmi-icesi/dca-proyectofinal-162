@@ -41,7 +41,7 @@ public class PlantaBuena extends PlantaAbstracta{
 		if(PApplet.dist(x, y, lastimador.getX(), lastimador.getY()) <= 60){
 
 			mostrar= false;
-			return true;
+			
 		}
 		
 		return false;
