@@ -20,6 +20,7 @@ public class Cannibalbot extends EspecieAbstracta implements ICanibal {
 	private int ciclo;
 	private PVector dir;
 	PImage[] cannibal = new PImage[20];
+	PImage mDefensa, mEnergia, mFuerza, mVelocidad;
 	int posicionpj = 0;
 	int contador;
 	int movCannibalbot = 0;
@@ -71,18 +72,22 @@ public class Cannibalbot extends EspecieAbstracta implements ICanibal {
 		cannibal[18] = app.loadImage("DataTikiBots/Cannibalbot/cZ004.png");
 		cannibal[19] = app.loadImage("DataTikiBots/Cannibalbot/cZ005.png");
 
+		// Iconos
+		mDefensa = app.loadImage("DataTikiBots/iconos/iconoDefensa.png");
+		mEnergia = app.loadImage("DataTikiBots/iconos/iconoEnergia.png");
+		mFuerza = app.loadImage("DataTikiBots/iconos/iconoFuerza.png");
+		mVelocidad = app.loadImage("DataTikiBots/iconos/iconoVelocidad.png");
+
 		Thread nt = new Thread(this);
 		nt.start();
 
 	}
 
-	@Override
 	public void comer(EspecieAbstracta victima) {
 		// TODO Auto-generated method stub
 
 	}
 
-	@Override
 	public void mover() {
 		if (energia > 0) {
 			buscarComida();
@@ -141,13 +146,13 @@ public class Cannibalbot extends EspecieAbstracta implements ICanibal {
 
 	public void dibujar() {
 		PApplet app = Mundo.ObtenerInstancia().getApp();
-		if(contador ==5*vista){
-			contador= (vista-1)*5;
+		if (contador == 5 * vista) {
+			contador = (vista - 1) * 5;
 		}
 		// Imagen Personaje
-		app.image(cannibal[contador], x, y,100,100);
-		app.fill(255,0,0);
-		if(app.frameCount%10 == 0){
+		app.image(cannibal[contador], x, y, 100, 100);
+		app.fill(255, 0, 0);
+		if (app.frameCount % 10 == 0) {
 			contador++;
 		}
 	}
