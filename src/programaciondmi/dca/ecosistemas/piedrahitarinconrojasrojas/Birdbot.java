@@ -278,13 +278,26 @@ public class Birdbot extends EspecieAbstracta implements IApareable, IHerbivoro 
 		
 		while (iterador.hasNext()) {
 			PlantaAbstracta planta = iterador.next();
-			
-			float distancia = app.dist( x, y, planta.x, planta.getY());
-			if (distancia < energia) {
-				encontro = true;
-				plantaCerca = planta;
-				cambiarDireccion(new PVector(planta.getX(), planta.getY()));
+			if (planta instanceof PlantaMala) {
+				PlantaMala pmala =(PlantaMala) planta;
+				float distancia = app.dist( x, y, pmala.getX(), pmala.getY());
+				if (distancia < energia) {
+					encontro = true;
+					plantaCerca = planta;
+					cambiarDireccion(new PVector(pmala.getX(), pmala.getY()));
+				
+				}	
+			} else if (planta instanceof PlantaBuena) {
+				PlantaBuena pbuena =(PlantaBuena) planta;
+				float distancia = app.dist( x, y, pbuena.getX(), pbuena.getY());
+				if (distancia < energia) {
+					encontro = true;
+					plantaCerca = planta;
+					cambiarDireccion(new PVector(pbuena.getX(), pbuena.getY()));
+				
+				}	
 			}
+		
 		}
 		
 		if (!encontro) {
