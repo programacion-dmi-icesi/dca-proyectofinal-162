@@ -32,7 +32,7 @@ public class Magusbot extends EspecieAbstracta implements IOmnivoro {
 		this.random = new Random();
 		this.x = random.nextInt(Mundo.ObtenerInstancia().getApp().width);
 		this.y = random.nextInt(Mundo.ObtenerInstancia().getApp().height);
-		this.vida = 5;
+		this.vida = 100;
 		this.velocidad = 2;
 		this.energia = 250;
 		this.fuerza = 100;
@@ -170,6 +170,45 @@ public class Magusbot extends EspecieAbstracta implements IOmnivoro {
 		/*if (app.frameCount % 10 == 0) {
 			contador++;
 		}*/
+		
+		
+		app.noStroke();
+		switch (vida) {
+		
+		case 100:
+			app.fill(0,255,0);
+			app.rect(x+05, y-20, 20, 10);
+			app.rect(x+25, y-20, 20, 10);
+			app.rect(x+45, y-20, 20, 10);
+			app.rect(x+65, y-20, 20, 10);
+			app.rect(x+85, y-20, 20, 10);
+		break;
+		case 80:
+			app.fill(255,255,0);
+			app.rect(x+05, y-20, 20, 10);
+			app.rect(x+25, y-20, 20, 10);
+			app.rect(x+45, y-20, 20, 10);
+			app.rect(x+65, y-20, 20, 10);
+			break;
+		case 60:
+			app.fill(255,0,0);
+			app.rect(x+05, y-20, 20, 10);
+			app.rect(x+25, y-20, 20, 10);
+			app.rect(x+45, y-20, 20, 10);
+			break;
+		case 40:
+			app.fill(255,0,255);
+			app.rect(x+05, y-20, 20, 10);
+			app.rect(x+25, y-20, 20, 10);
+			break;
+		case 20:
+			app.fill(255,0,255);
+			app.rect(x+05, y-20, 20, 10);
+			break;
+		case 0:
+			
+			break;
+		}
 
 	}
 

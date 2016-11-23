@@ -1,6 +1,6 @@
 package programaciondmi.dca.ecosistemas.piedrahitarinconrojasrojas;
 
-import java.util.Iterator;
+import java.util.Iterator; 
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Random;
@@ -25,6 +25,7 @@ public class Birdbot extends EspecieAbstracta implements IApareable, IHerbivoro 
 	private PlantaAbstracta plantaCerca;
 	private PVector dir;
 	PImage[] pjBirdbot = new PImage[16];
+	PImage poison;
 	// Constantes
 	private final int LIMITE_APAREO = 100;
 	private Random random;
@@ -68,6 +69,8 @@ public class Birdbot extends EspecieAbstracta implements IApareable, IHerbivoro 
 		pjBirdbot[14] = app.loadImage("DataTikiBots/Birdbot/bZ02.png");
 		pjBirdbot[15] = app.loadImage("DataTikiBots/Birdbot/bZ03.png");
 	
+		
+		poison = app.loadImage("DataTikiBots/iconos/envenenado.png");
 		
 		Thread nt = new Thread(this);
 		nt.start();
@@ -127,10 +130,12 @@ public class Birdbot extends EspecieAbstracta implements IApareable, IHerbivoro 
 		}
 		
 		if(getEstado() == ENFERMO){
+			
 			app.tint(0,255,0);
 		}
 		
 		if(getEstado() == ENVENENADO){
+		
 			app.tint(156,28,247);
 		}
 		
@@ -139,6 +144,7 @@ public class Birdbot extends EspecieAbstracta implements IApareable, IHerbivoro 
 		}
 		
 		if(getEstado() == MUERTO){
+			app.image(poison, x+25, y-60, 50,50);
 			app.tint(63,63,63);
 		}
 		

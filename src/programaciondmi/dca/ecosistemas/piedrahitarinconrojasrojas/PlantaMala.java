@@ -99,7 +99,7 @@ public class PlantaMala extends PlantaAbstracta {
 		}
 	}
 
-	public int getX() {
+	public float getX() {
 		return x;
 	}
 
@@ -107,7 +107,7 @@ public class PlantaMala extends PlantaAbstracta {
 		this.x = x;
 	}
 
-	public int getY() {
+	public float getY() {
 		return y;
 	}
 
