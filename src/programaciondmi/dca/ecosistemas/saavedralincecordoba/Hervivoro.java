@@ -102,7 +102,7 @@ public class Hervivoro extends EspecieAbstracta implements IHerbivoro {
 						PlantaBuena b = (PlantaBuena) victima;
 						setEstado(EXTASIS);
 						velocidad = 10;
-						b.setMostrar(false);
+						b.setMostrar(1);
 						System.out.println("no error");
 						 Mundo.ObtenerInstancia().getPlantas().remove(victima);
 					}
