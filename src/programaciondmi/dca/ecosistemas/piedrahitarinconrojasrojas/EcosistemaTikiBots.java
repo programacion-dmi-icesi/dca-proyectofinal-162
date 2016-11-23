@@ -76,7 +76,7 @@ public class EcosistemaTikiBots extends EcosistemaAbstracto {
 					System.out.println("coloca planta buena");
 					
 					PlantaMala mala = new PlantaMala(app.mouseX - ((app.width) - camX), (int) (app.mouseY - ((app.height) - camY)));
-					plantas.add(mala);
+					//plantas.add(mala);
 					agregarPlanta(mala);
 					puedeColocar=false;
 					
@@ -85,7 +85,7 @@ public class EcosistemaTikiBots extends EcosistemaAbstracto {
 					System.out.println("coloca planta mala");
 					
 					PlantaMala mala = new PlantaMala(app.mouseX - ((app.width) - camX), (int) (app.mouseY - ((app.height) - camY)));
-					plantas.add(mala);
+					//plantas.add(mala);
 					agregarPlanta(mala);
 					puedeColocar=false;
 					
@@ -169,7 +169,7 @@ public class EcosistemaTikiBots extends EcosistemaAbstracto {
 		
 		//if(cont == 0){
 			Birdbot ave = new Birdbot(this);
-			especies.add(ave);
+			//especies.add(ave);
 			agregarEspecie(ave);
 			//cont++;
 		//}

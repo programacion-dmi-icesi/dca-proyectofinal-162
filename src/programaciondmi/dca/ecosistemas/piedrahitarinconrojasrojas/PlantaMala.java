@@ -15,6 +15,7 @@ public class PlantaMala extends PlantaAbstracta {
 	private boolean mostrar;
 	
 	public PlantaMala(int x, int y){
+		super(x,y);
 		this.x = x;
 		this.y = y;
 		this.vida = 100;
