@@ -53,6 +53,8 @@ public class Ecosistema extends EcosistemaAbstracto {
 		// SE GENERA EL CARNIVORO
 //		Carnivoro carnivoro = new Carnivoro(this);
 //		especies.add(carnivoro);
+		Hervivoro hervivoro = new Hervivoro(this);
+		especies.add(hervivoro);
 
 		return especies;
 	}
@@ -84,6 +86,10 @@ public class Ecosistema extends EcosistemaAbstracto {
 		Carnivoro carnivoro = new Carnivoro(this);
 		especies.add(carnivoro);
 		agregarEspecie(carnivoro);
+		//SE GENERA EL HERVIVORO
+		Hervivoro hervivoro= new Hervivoro(this);
+		especies.add(hervivoro);
+		agregarEspecie(hervivoro);
 
 		return especies;
 	}
