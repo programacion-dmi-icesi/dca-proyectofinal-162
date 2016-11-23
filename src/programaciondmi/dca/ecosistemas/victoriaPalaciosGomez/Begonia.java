@@ -70,7 +70,7 @@ public class Begonia extends EspecieAbstracta implements IApareable, ICarnivoro 
 
 	@Override
 	public EspecieAbstracta aparear(IApareable apareable) {
-		HijoBlanco hijo = new HijoBlanco(ecosistema);
+		Jacinto hijo = new Jacinto(ecosistema);
 		hijo.setX(this.x);
 		hijo.setY(this.y);
 		ecosistema.agregarEspecie(hijo);
