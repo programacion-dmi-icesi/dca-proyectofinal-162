@@ -48,11 +48,11 @@ public class Ecosistema extends EcosistemaAbstracto {
 		// especies.add(apareable);
 
 		// SE GENERA EL CANIBAL
-//		Canibal canibal = new Canibal(this);
-//		especies.add(canibal);
+		// Canibal canibal = new Canibal(this);
+		// especies.add(canibal);
 		// SE GENERA EL CARNIVORO
-//		Carnivoro carnivoro = new Carnivoro(this);
-//		especies.add(carnivoro);
+		// Carnivoro carnivoro = new Carnivoro(this);
+		// especies.add(carnivoro);
 		Hervivoro hervivoro = new Hervivoro(this);
 		especies.add(hervivoro);
 
@@ -62,10 +62,13 @@ public class Ecosistema extends EcosistemaAbstracto {
 	@Override
 	protected LinkedList<PlantaAbstracta> poblarPlantas() {
 		LinkedList<PlantaAbstracta> plantas = new LinkedList<PlantaAbstracta>();
-
+		// SE AGREGA LA BUENA
 		PlantaBuena pb = new PlantaBuena(50, 90);
 		plantas.add(pb);
 		System.out.println(plantas);
+		// SE AGREGA LA MALA
+		PlantaMala pm = new PlantaMala(100, 100);
+		plantas.add(pm);
 
 		return plantas;
 	}
@@ -86,8 +89,8 @@ public class Ecosistema extends EcosistemaAbstracto {
 		Carnivoro carnivoro = new Carnivoro(this);
 		especies.add(carnivoro);
 		agregarEspecie(carnivoro);
-		//SE GENERA EL HERVIVORO
-		Hervivoro hervivoro= new Hervivoro(this);
+		// SE GENERA EL HERVIVORO
+		Hervivoro hervivoro = new Hervivoro(this);
 		especies.add(hervivoro);
 		agregarEspecie(hervivoro);
 
@@ -96,12 +99,17 @@ public class Ecosistema extends EcosistemaAbstracto {
 
 	@Override
 	protected List<PlantaAbstracta> generarPlantas() {
+		// SE AGREGA LA PLANTA BUENA
 		LinkedList<PlantaAbstracta> plantas = new LinkedList<PlantaAbstracta>();
 
 		PlantaBuena pb = new PlantaBuena(50, 90);
 		plantas.add(pb);
 		System.out.println(plantas);
 		agregarPlanta(pb);
+		// SE AGREGA LA MALA
+		PlantaMala pm = new PlantaMala(100, 100);
+		plantas.add(pm);
+		agregarPlanta(pm);
 
 		return plantas;
 

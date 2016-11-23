@@ -7,7 +7,7 @@ import programaciondmi.dca.core.PlantaAbstracta;
 import programaciondmi.dca.ejecucion.Mundo;
 
 public class PlantaMala extends PlantaAbstracta{
-	
+	private boolean mostrar= true;
 	public PlantaMala() {
 		// TODO Auto-generated constructor stub
 	}
@@ -33,8 +33,20 @@ public class PlantaMala extends PlantaAbstracta{
 
 	@Override
 	public boolean recibirDano(EspecieAbstracta lastimador) {
-		// TODO Auto-generated method stub
+		if(PApplet.dist(x, y, lastimador.getX(), lastimador.getY()) <= 60){
+
+			mostrar= false;
+			
+		}
+		
 		return false;
+	}
+	public boolean isMostrar() {
+		return mostrar;
+	}
+
+	public void setMostrar(boolean mostrar) {
+		this.mostrar = mostrar;
 	}
 	
 	
