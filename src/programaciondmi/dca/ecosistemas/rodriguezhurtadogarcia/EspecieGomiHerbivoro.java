@@ -159,7 +159,7 @@ public class EspecieGomiHerbivoro extends GomiCabra implements IApareable, IHerb
 			case 1:
 				vida -= 15;
 				if (vida < 0) {
-
+					
 					// condición de morir
 				}
 				break;

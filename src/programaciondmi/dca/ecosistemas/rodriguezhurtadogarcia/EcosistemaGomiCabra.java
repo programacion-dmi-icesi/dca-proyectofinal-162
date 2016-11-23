@@ -36,44 +36,47 @@ public class EcosistemaGomiCabra extends EcosistemaAbstracto {
 	// ========================================================================================================================================
 	@Override
 	public void dibujar() {
+
+		synchronized (plantas) {
+			if (Mundo.ObtenerInstancia().getApp().mousePressed == true) {
+				if (app.mouseButton == app.LEFT) {
+					plantas.add(new PlantaGomiCabra(this, 0));
+				} else if (app.mouseButton == app.RIGHT) {
+					plantas.add(new PlantaGomiCabra(this, 1));
+				}
+			}
+			Iterator<PlantaAbstracta> iteradorPlantas = plantas.iterator();
+			while (iteradorPlantas.hasNext()) {
+				actualPlanta = iteradorPlantas.next();
+				actualPlanta.dibujar();
+			}
+		}
 		synchronized (especies) {
 			Iterator<EspecieAbstracta> iteradorEspecies = especies.iterator();
 			while (iteradorEspecies.hasNext()) {
 				actual = iteradorEspecies.next();
 				actual.dibujar();
 			}
-			synchronized (plantas) {
-				if (Mundo.ObtenerInstancia().getApp().mousePressed == true) {
-					if (app.mouseButton == app.LEFT) {
-						plantas.add(new PlantaGomiCabra(this, 0));
-					} else if (app.mouseButton == app.RIGHT) {
-						plantas.add(new PlantaGomiCabra(this, 1));
-					}
-				}
-				Iterator<PlantaAbstracta> iteradorPlantas = plantas.iterator();
-				while (iteradorPlantas.hasNext()) {
-					actualPlanta = iteradorPlantas.next();
-					actualPlanta.dibujar();
-				}
-			}
-			for (EspecieAbstracta es : especies) {
-				for (PlantaAbstracta planta : plantas) {
-					if (es instanceof IHerbivoro) {
-						float d = app.dist(((PlantaGomiCabra) planta).getX(), ((PlantaGomiCabra) planta).getY(),es.getX(), es.getY());
-						if (d < 100) {
-							((IHerbivoro) es).comerPlanta(planta);
-							PlantaGomiCabra p = (PlantaGomiCabra) planta;
-							if (p.isMuerto())
-								plantas.remove(planta);
-							GomiCabra esp = (GomiCabra) es;
-							if (esp.isMuerto())
-								especies.remove(esp);
-							break;
-						}
+		}
+		for (EspecieAbstracta es : especies) {
+			for (PlantaAbstracta planta : plantas) {
+				if (es instanceof IHerbivoro) {
+					float d = app.dist(((PlantaGomiCabra) planta).getX(), ((PlantaGomiCabra) planta).getY(), es.getX(),
+							es.getY());
+					if (d < 100) {
+						((IHerbivoro) es).comerPlanta(planta);
+						PlantaGomiCabra p = (PlantaGomiCabra) planta;
+						if (p.isMuerto())
+							plantas.remove(planta);
+						GomiCabra esp = (GomiCabra) es;
+						if (esp.isMuerto())
+							especies.remove(esp);
+						break;
 					}
 				}
 			}
 		}
+
 	}
 
 	// ========================================================================================================================================
