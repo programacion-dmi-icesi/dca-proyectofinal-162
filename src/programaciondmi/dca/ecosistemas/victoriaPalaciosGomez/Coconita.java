@@ -7,7 +7,6 @@ import programaciondmi.dca.core.EcosistemaAbstracto;
 import programaciondmi.dca.core.EspecieAbstracta;
 import programaciondmi.dca.core.PlantaAbstracta;
 import programaciondmi.dca.core.interfaces.ICarnivoro;
-import programaciondmi.dca.core.interfaces.IHerbivoro;
 import programaciondmi.dca.ejecucion.Mundo;
 
 public class Coconita extends EspecieAbstracta implements ICarnivoro {

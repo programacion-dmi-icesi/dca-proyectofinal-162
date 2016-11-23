@@ -15,11 +15,12 @@ public class Pavortuga extends EspecieAbstracta implements IHerbivoro {
 	private PVector dir;
 	private int ciclo;
 	private int index = 0;
-	private PImage [] pavortuga;
+	private PImage [] pavortuga = new PImage [6];
 	
 	public Pavortuga(EcosistemaAbstracto ecosistema){
 		super(ecosistema);
 		this.app = Mundo.ObtenerInstancia().getApp();
+		imagenes();
 		this.vida = 20;
 		this.velocidad = 8;
 		int targetX = (int) (Math.random()*500);
@@ -107,12 +108,12 @@ public class Pavortuga extends EspecieAbstracta implements IHerbivoro {
 	
 	private void imagenes () {
 		//pavortuga SANO
-		pavortuga[0] = app.loadImage("../data/pavortuga-walk-01.png");
-		pavortuga[1] = app.loadImage("../data/pavortuga-walk-02.png");
-		pavortuga[2] = app.loadImage("../data/pavortuga-walk-03.png");
+		pavortuga[0] = app.loadImage("../data/pngs/pavortuga-walk-01.png");
+		pavortuga[1] = app.loadImage("../data/pngs/pavortuga-walk-02.png");
+		pavortuga[2] = app.loadImage("../data/pngs/pavortuga-walk-03.png");
 		//pavortuga enfermo
-		pavortuga[3] = app.loadImage("../data/pavortuga-sick-1.png");
-		pavortuga[4] = app.loadImage("../data/pavortuga-sick-2.png");
-		pavortuga[5] = app.loadImage("../data/pavortuga-sick-3.png");
+		pavortuga[3] = app.loadImage("../data/pngs/pavortuga-sick-1.png");
+		pavortuga[4] = app.loadImage("../data/pngs/pavortuga-sick-2.png");
+		pavortuga[5] = app.loadImage("../data/pngs/pavortuga-sick-3.png");
 	}
 }

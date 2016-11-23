@@ -42,7 +42,10 @@ public class Ecosistema extends EcosistemaAbstracto {
 		especies.add(pavo);	
 		//Coconita
 		Coconita coco = new Coconita(this);
-		especies.add(coco);		
+		especies.add(coco);	
+		//Begonia
+		Begonia bego = new Begonia(this);
+		especies.add(bego);
 		return especies;
 	}
 
@@ -60,7 +63,9 @@ public class Ecosistema extends EcosistemaAbstracto {
 		Pavortuga pavo = new Pavortuga(this);
 		especies.add(pavo);		
 		Coconita coco = new Coconita(this);
-		especies.add(coco);		
+		especies.add(coco);	
+		Begonia bego = new Begonia(this);
+		especies.add(bego);
 		return especies;
 	}
 	
