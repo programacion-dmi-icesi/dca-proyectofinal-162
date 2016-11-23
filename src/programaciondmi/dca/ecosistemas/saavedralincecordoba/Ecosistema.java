@@ -31,7 +31,7 @@ public class Ecosistema extends EcosistemaAbstracto {
 				actual.dibujar();
 			}
 		}
-		
+
 		synchronized (plantas) {
 			Iterator<PlantaAbstracta> iteradorPlantas = plantas.iterator();
 			while (iteradorPlantas.hasNext()) {
@@ -44,8 +44,15 @@ public class Ecosistema extends EcosistemaAbstracto {
 	@Override
 	protected LinkedList<EspecieAbstracta> poblarEspecies() {
 		LinkedList<EspecieAbstracta> especies = new LinkedList<EspecieAbstracta>();
-		Apareable apareable = new Apareable(this);
-		especies.add(apareable);
+		// Apareable apareable = new Apareable(this);
+		// especies.add(apareable);
+
+		// SE GENERA EL CANIBAL
+//		Canibal canibal = new Canibal(this);
+//		especies.add(canibal);
+		// SE GENERA EL CARNIVORO
+//		Carnivoro carnivoro = new Carnivoro(this);
+//		especies.add(carnivoro);
 
 		return especies;
 	}
@@ -63,11 +70,21 @@ public class Ecosistema extends EcosistemaAbstracto {
 
 	@Override
 	protected List<EspecieAbstracta> generarIndividuos() {
-		List<EspecieAbstracta> especies= new LinkedList<EspecieAbstracta>();
-		Apareable apareable = new Apareable(this);
-		especies.add(apareable);
-		agregarEspecie(apareable);
-		
+		List<EspecieAbstracta> especies = new LinkedList<EspecieAbstracta>();
+		// SE GENERA EL APAREABLE
+		//// especies.add(apareable);
+		// agregarEspecie(apareable);
+
+		// SE GENERA EL CANIBAL
+		Canibal canibal = new Canibal(this);
+		especies.add(canibal);
+		agregarEspecie(canibal);
+
+		// SE GENERA EL CARNIVORO
+		Carnivoro carnivoro = new Carnivoro(this);
+		especies.add(carnivoro);
+		agregarEspecie(carnivoro);
+
 		return especies;
 	}
 
@@ -81,7 +98,7 @@ public class Ecosistema extends EcosistemaAbstracto {
 		agregarPlanta(pb);
 
 		return plantas;
-		
+
 	}
 
 }
