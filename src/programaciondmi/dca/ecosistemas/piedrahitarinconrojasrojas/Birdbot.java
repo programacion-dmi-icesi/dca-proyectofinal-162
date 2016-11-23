@@ -213,11 +213,10 @@ public class Birdbot extends EspecieAbstracta implements IApareable, IHerbivoro 
 		List<PlantaAbstracta> all = Mundo.ObtenerInstancia().getPlantas();
 		ListIterator<PlantaAbstracta> iterador = all.listIterator();
 		boolean encontro = false;
-		System.out.println(all.size());
+		//System.out.println(all.size());
 		
 		while (iterador.hasNext()) {
 			PlantaAbstracta planta = iterador.next();
-			System.out.println("entra2");
 			
 			if(planta instanceof PlantaMala ){
 				float distancia = app.dist( x, y, planta.getX(), planta.getY());

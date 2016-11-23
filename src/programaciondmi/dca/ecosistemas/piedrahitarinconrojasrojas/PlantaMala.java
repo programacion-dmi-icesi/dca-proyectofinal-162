@@ -16,7 +16,7 @@ public class PlantaMala extends PlantaAbstracta {
 	public PlantaMala(int x, int y){
 		this.x = x;
 		this.y = y;
-		this.vida = 5;
+		this.vida = 100;
 		contador = 0;
 		Mplanta[0] = app.loadImage("DataTikiBots/planta_mala/plantaMala01.png");
 		Mplanta[1] = app.loadImage("DataTikiBots/planta_mala/plantaMala02.png");
@@ -60,21 +60,24 @@ public class PlantaMala extends PlantaAbstracta {
 	@Override
 	public boolean recibirDano(EspecieAbstracta lastimador) {
 		// TODO Auto-generated method stub
-		cont++;
 		
-		
-		
-		if(cont%300 == 0){
+			System.out.println("entra");
 			if(contador<2){
+				vida -=50;
 				contador+=1;
 			}else{
-				
+				if(vida!=0){
+					vida -=50;
+					System.out.println("ya contador");
+					contador=0;
+				}else{
+					System.out.println("borrar planta");
+				}
 			}
-		}
 		
 		
 		 
-		 System.out.println(contador);
+		 System.out.println("contador: "+ contador);
 		
 		return false;
 	}
