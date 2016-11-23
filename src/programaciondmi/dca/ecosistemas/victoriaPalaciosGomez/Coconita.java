@@ -27,7 +27,7 @@ public class Coconita extends EspecieAbstracta implements ICarnivoro {
 		coconitaF = new PImage[7];
 		imagenes();
 		this.vida = 20;
-		this.velocidad = 5;
+		this.velocidad = 4;
 		
 		int targetX = (int) (Math.random()*500);
 		int targetY = (int) (Math.random()*500);
@@ -111,7 +111,7 @@ public class Coconita extends EspecieAbstracta implements ICarnivoro {
 	public void imagenes() {
 		
 		coconitaF[0] = app.loadImage("../data/presetacionPersonajes-08.png");
-			coconitaF[1] = app.loadImage("../data/presetacionPersonajes-09.png");
+		coconitaF[1] = app.loadImage("../data/presetacionPersonajes-09.png");
 		coconitaF[2] = app.loadImage("../data/presetacionPersonajes-10.png");
 		coconitaF[3] = app.loadImage("../data/presetacionPersonajes-11.png");
 		coconitaF[4] = app.loadImage("../data/presetacionPersonajes-12.png");

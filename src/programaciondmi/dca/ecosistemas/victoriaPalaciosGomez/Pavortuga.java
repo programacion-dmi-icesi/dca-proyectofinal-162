@@ -8,20 +8,20 @@ import programaciondmi.dca.core.PlantaAbstracta;
 import programaciondmi.dca.core.interfaces.IHerbivoro;
 import programaciondmi.dca.ejecucion.Mundo;
 
-public class Pavotortuga extends EspecieAbstracta implements IHerbivoro {
+public class Pavortuga extends EspecieAbstracta implements IHerbivoro {
 	private PApplet app;
 	private int vida;
 	private int velocidad;
 	private PVector dir;
 	private int ciclo;
 	private int index = 0;
+	private PImage [] pavortuga;
 	
-	
-	public Pavotortuga(EcosistemaAbstracto ecosistema){
+	public Pavortuga(EcosistemaAbstracto ecosistema){
 		super(ecosistema);
 		this.app = Mundo.ObtenerInstancia().getApp();
 		this.vida = 20;
-		this.velocidad = 5;
+		this.velocidad = 8;
 		int targetX = (int) (Math.random()*500);
 		int targetY = (int) (Math.random()*500);
 		cambiarDireccion(new PVector(targetX, targetY));
@@ -39,7 +39,7 @@ public class Pavotortuga extends EspecieAbstracta implements IHerbivoro {
 			mover();
 			if (app.frameCount % 6 == 0) {
 				index++;
-				if (index > 6) {
+				if (index > 2) {
 					index = 0;
 				}
 			}
@@ -64,7 +64,7 @@ public class Pavotortuga extends EspecieAbstracta implements IHerbivoro {
 	public void dibujar() {
 		// TODO Auto-generated method stub
 		PApplet app = Mundo.ObtenerInstancia().getApp();
-		app.ellipse(x, y, 20, 20);
+		app.image(pavortuga[index], x, y);
 		
 	}
 
@@ -99,11 +99,20 @@ public class Pavotortuga extends EspecieAbstracta implements IHerbivoro {
 	
 	
 	private void cambiarDireccion(PVector target) {
-		
-		
 		PVector location = new PVector(x, y);
 		dir = PVector.sub(target, location);
 		dir.normalize();
 		dir.mult(velocidad);
+	}
+	
+	private void imagenes () {
+		//pavortuga SANO
+		pavortuga[0] = app.loadImage("../data/pavortuga-walk-01.png");
+		pavortuga[1] = app.loadImage("../data/pavortuga-walk-02.png");
+		pavortuga[2] = app.loadImage("../data/pavortuga-walk-03.png");
+		//pavortuga enfermo
+		pavortuga[3] = app.loadImage("../data/pavortuga-sick-1.png");
+		pavortuga[4] = app.loadImage("../data/pavortuga-sick-2.png");
+		pavortuga[5] = app.loadImage("../data/pavortuga-sick-3.png");
 	}
 }

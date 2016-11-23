@@ -37,10 +37,10 @@ public class Ecosistema extends EcosistemaAbstracto {
 	@Override
 	protected LinkedList<EspecieAbstracta> poblarEspecies() {
 		LinkedList<EspecieAbstracta> especies = new LinkedList<EspecieAbstracta>();
-		EspecieBlanca nueva = new EspecieBlanca(this);
-		especies.add(nueva);		
-		nueva = new EspecieBlanca(this);
-		especies.add(nueva);		
+		//Pavortuga
+		Pavortuga pavo = new Pavortuga(this);
+		especies.add(pavo);	
+		//Coconita
 		Coconita coco = new Coconita(this);
 		especies.add(coco);		
 		return especies;
@@ -57,8 +57,8 @@ public class Ecosistema extends EcosistemaAbstracto {
 
 	@Override
 	protected List<EspecieAbstracta> generarIndividuos() {
-		EspecieBlanca nueva = new EspecieBlanca(this);
-		especies.add(nueva);		
+		Pavortuga pavo = new Pavortuga(this);
+		especies.add(pavo);		
 		Coconita coco = new Coconita(this);
 		especies.add(coco);		
 		return especies;
