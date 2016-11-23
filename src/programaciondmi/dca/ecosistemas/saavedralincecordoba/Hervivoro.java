@@ -104,13 +104,15 @@ public class Hervivoro extends EspecieAbstracta implements IHerbivoro {
 						velocidad = 10;
 						b.setMostrar(false);
 						System.out.println("no error");
-						// Mundo.ObtenerInstancia().getPlantas().remove(victima);
+						 Mundo.ObtenerInstancia().getPlantas().remove(victima);
 					}
 
 					if (victima.getClass() == PlantaMala.class) {
+						PlantaMala m= (PlantaMala)victima;
 						setEstado(ENFERMO);
 						velocidad = 8;
-						// Mundo.ObtenerInstancia().getPlantas().remove(victima);
+						m.setMostrar(false);
+						Mundo.ObtenerInstancia().getPlantas().remove(victima);
 					}
 
 				} catch (Exception e) {

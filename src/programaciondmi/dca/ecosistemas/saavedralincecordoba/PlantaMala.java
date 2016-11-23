@@ -24,11 +24,11 @@ public class PlantaMala extends PlantaAbstracta{
 
 	@Override
 	public void dibujar() {
-		
+		if(mostrar){
 		PApplet app = Mundo.ObtenerInstancia().getApp();
 		app.fill(0);
 		app.ellipse(x, y, 30, 30);
-		
+		}
 	}
 
 	@Override
