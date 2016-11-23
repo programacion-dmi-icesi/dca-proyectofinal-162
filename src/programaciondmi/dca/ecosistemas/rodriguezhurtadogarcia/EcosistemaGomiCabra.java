@@ -19,7 +19,7 @@ import programaciondmi.dca.ejecucion.Mundo;
 
 public class EcosistemaGomiCabra extends EcosistemaAbstracto {
 
-	private int id, x, y, vista;
+	private int id, x, y, vista, velPoder = 1;
 	private EspecieAbstracta actual;
 	private PlantaAbstracta actualPlanta;
 	private PApplet app = Mundo.ObtenerInstancia().getApp();
@@ -66,6 +66,13 @@ public class EcosistemaGomiCabra extends EcosistemaAbstracto {
 					if (d < 100) {
 						((IHerbivoro) es).comerPlanta(planta);
 						PlantaGomiCabra p = (PlantaGomiCabra) planta;
+						GomiCabra gomi = (GomiCabra) es;
+						if (p.getId() == 0) {
+							if (velPoder <= 4) {
+								velPoder++;
+							}
+							gomi.setVelPoder(velPoder);
+						}
 						if (p.isMuerto())
 							plantas.remove(planta);
 						GomiCabra esp = (GomiCabra) es;

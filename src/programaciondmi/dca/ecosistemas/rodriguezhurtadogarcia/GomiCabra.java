@@ -15,7 +15,7 @@ public abstract class GomiCabra extends EspecieAbstracta {
 	protected int maxVida;
 	protected boolean puedeComer = true;
 	protected float fuerza;
-	protected int velocidad, vista, mover, direccion = 2;
+	protected int velocidad, velPoder=1, vista, mover, direccion = 2;
 	protected PImage[] frente = new PImage[4];
 	protected PImage[] atras = new PImage[4];
 	protected PImage[] izquierda = new PImage[4];
@@ -72,19 +72,19 @@ public abstract class GomiCabra extends EspecieAbstracta {
 		if (energia > 0) {
 			switch (mover) {
 			case 0:
-				x++;
+				x+= velPoder;
 				direccion = 4;
 				break;
 			case 1:
-				x--;
+				x-= velPoder;
 				direccion = 3;
 				break;
 			case 2:
-				y++;
+				y+= velPoder;
 				direccion = 1;
 				break;
 			case 3:
-				y--;
+				y-= velPoder;
 				direccion = 2;
 			}// termina switch mover
 			if (x >= 500) {
@@ -105,6 +105,8 @@ public abstract class GomiCabra extends EspecieAbstracta {
 		if (vida < 0)
 			muerto = true;
 	}
+	
+	
 
 	// ========================================================================================================================================
 	@Override
@@ -130,5 +132,10 @@ public abstract class GomiCabra extends EspecieAbstracta {
 	public void aparear() {
 
 	}
+
+	public void setVelPoder(int velPoder) {
+		this.velPoder = velPoder;
+	}
+	
 
 }
