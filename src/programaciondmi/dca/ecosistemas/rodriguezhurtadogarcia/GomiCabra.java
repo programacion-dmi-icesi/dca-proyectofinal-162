@@ -126,5 +126,9 @@ public abstract class GomiCabra extends EspecieAbstracta {
 	public void setMuerto(boolean muerto) {
 		this.muerto = muerto;
 	}
+	
+	public void aparear() {
+
+	}
 
 }

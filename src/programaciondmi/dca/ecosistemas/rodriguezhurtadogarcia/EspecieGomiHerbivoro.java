@@ -59,31 +59,24 @@ public class EspecieGomiHerbivoro extends GomiCabra implements IApareable, IHerb
 	}
 
 	// ========================================================================================================================================
-	@Override
-	public EspecieAbstracta aparear(IApareable apareable) {
-		HijoGomiCabra hijo = new HijoGomiCabra(ecosistema);
-		hijo.setX(this.x);
-		hijo.setY(this.y);
+	public void aparear() {
+
 		List<EspecieAbstracta> todas = Mundo.ObtenerInstancia().getEspecies();
 		ListIterator<EspecieAbstracta> iterador = todas.listIterator();
-		boolean encontro = false;
 
 		while (iterador.hasNext()) {
 			EspecieAbstracta e = iterador.next();
-			if (e instanceof IApareable && !e.equals(this)) {
+			if ((e instanceof IApareable) && !e.equals(this)) {
 				float dist = PApplet.dist(x, y, e.getX(), e.getY());
-				if (dist < 200) {
-					encontro = true;
-					parejaCercana = e;
+				if (dist < 100) {
+					HijoGomiCabra hijo = new HijoGomiCabra(ecosistema);
+					hijo.setX(x);
+					hijo.setY(y);
 					ecosistema.agregarEspecie(hijo);
 				}
 			}
 		}
-		if (!encontro) {
-			parejaCercana = null;
-			// System.out.println("No encontró una pareja cercana");
-		}
-		return hijo;
+
 	}
 
 	// ========================================================================================================================================
@@ -91,6 +84,7 @@ public class EspecieGomiHerbivoro extends GomiCabra implements IApareable, IHerb
 	public void run() {
 		while (vida > 0) {
 			mover();
+			aparear();
 			try {
 				Thread.sleep(33);
 				vista++;
@@ -166,6 +160,12 @@ public class EspecieGomiHerbivoro extends GomiCabra implements IApareable, IHerb
 			p.mordisco();
 			puedeComer = false;
 		}
+	}
+
+	@Override
+	public EspecieAbstracta aparear(IApareable apareable) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
