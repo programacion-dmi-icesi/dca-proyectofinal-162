@@ -74,15 +74,19 @@ public class EcosistemaTikiBots extends EcosistemaAbstracto {
 				if (app.mouseButton == app.LEFT) {
 					
 					System.out.println("coloca planta buena");
-					plantas.add(
-							new PlantaMala(app.mouseX - ((app.width) - camX), (int) (app.mouseY - ((app.height) - camY))));
+					
+					PlantaMala mala = new PlantaMala(app.mouseX - ((app.width) - camX), (int) (app.mouseY - ((app.height) - camY)));
+					plantas.add(mala);
+					agregarPlanta(mala);
 					puedeColocar=false;
 					
 				} else if (app.mouseButton == app.RIGHT) {
 					
 					System.out.println("coloca planta mala");
-					plantas.add(new PlantaMala(app.mouseX - ((app.width) - camX),
-							app.mouseY - ((app.height) - camY)));
+					
+					PlantaMala mala = new PlantaMala(app.mouseX - ((app.width) - camX), (int) (app.mouseY - ((app.height) - camY)));
+					plantas.add(mala);
+					agregarPlanta(mala);
 					puedeColocar=false;
 					
 				}
@@ -185,9 +189,5 @@ public class EcosistemaTikiBots extends EcosistemaAbstracto {
 		
 		return plantas;
 	}
-	
-	/*public void setColocar(boolean colocar) {
-		this.colocar = colocar;
-	}*/
 
 }
