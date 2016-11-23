@@ -12,12 +12,14 @@ public class PlantaMala extends PlantaAbstracta {
 	private int x;
 	private int y;
 	PImage[] Mplanta = new PImage[3];
+	private boolean mostrar;
 	
 	public PlantaMala(int x, int y){
 		this.x = x;
 		this.y = y;
 		this.vida = 100;
 		contador = 0;
+		mostrar = true;
 		Mplanta[0] = app.loadImage("DataTikiBots/planta_mala/plantaMala01.png");
 		Mplanta[1] = app.loadImage("DataTikiBots/planta_mala/plantaMala02.png");
 		Mplanta[2] = app.loadImage("DataTikiBots/planta_mala/plantaMala03.png");
@@ -38,7 +40,20 @@ public class PlantaMala extends PlantaAbstracta {
 	@Override
 	public void dibujar() {
 		//System.out.println("imagen planta mala");
-		app.image(Mplanta[contador],x,y);
+		if(mostrar){
+			app.image(Mplanta[contador],x,y);
+		}
+		ocultarPlanta();
+	}
+	
+	private void ocultarPlanta() {
+		// TODO Auto-generated method stub
+		if(vida==0){
+			cont++;
+			if(cont%300 == 0){
+				setMostrar(false);
+			}
+		}
 	}
 
 	public int getX() {
@@ -68,18 +83,16 @@ public class PlantaMala extends PlantaAbstracta {
 			}else{
 				if(vida!=0){
 					vida -=50;
-					System.out.println("ya contador");
 					contador=0;
 				}else{
-					System.out.println("borrar planta");
+					return true;
 				}
 			}
-		
-		
-		 
-		 System.out.println("contador: "+ contador);
-		
 		return false;
+	}
+	
+	public void setMostrar(boolean mostrar) {
+		this.mostrar = mostrar;
 	}
 
 }

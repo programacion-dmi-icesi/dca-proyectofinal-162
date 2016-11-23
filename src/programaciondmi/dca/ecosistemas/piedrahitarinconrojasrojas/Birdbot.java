@@ -206,7 +206,7 @@ public class Birdbot extends EspecieAbstracta implements IApareable, IHerbivoro 
 	/**
 	 * <p>
 	 * Este método valida recorre el arreglo de especies del mundo e intenta
-	 * comerse a cada una de las especies
+	 * comerse a las plantas de TikiBots
 	 * </p>
 	 */
 	private void buscarComida() {
@@ -218,14 +218,11 @@ public class Birdbot extends EspecieAbstracta implements IApareable, IHerbivoro 
 		while (iterador.hasNext()) {
 			PlantaAbstracta planta = iterador.next();
 			
-			if(planta instanceof PlantaMala ){
-				float distancia = app.dist( x, y, planta.getX(), planta.getY());
-				if (distancia < energia) {
-					encontro = true;
-					plantaCerca = planta;
-					cambiarDireccion(new PVector(planta.getX(), planta.getY()));
-				}
-				
+			float distancia = app.dist( x, y, planta.getX(), planta.getY());
+			if (distancia < energia) {
+				encontro = true;
+				plantaCerca = planta;
+				cambiarDireccion(new PVector(planta.getX(), planta.getY()));
 			}
 			
 		}
@@ -259,6 +256,23 @@ public class Birdbot extends EspecieAbstracta implements IApareable, IHerbivoro 
 	public void comerPlanta(PlantaAbstracta victima) {
 	// TODO Auto-generated method stub
 		if(victima.recibirDano(this)){
+			try {
+				if(victima.getClass() == PlantaMala.class){
+					PlantaMala m = (PlantaMala) victima;
+					setEstado(ENFERMO);
+				}
+				
+				/*if(victima.getClass() == PlantaBuena.class){
+					PlantaBuena m = (PlantaBuena) victima;
+					setEstado(EXTASIS);
+				}*/
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			Mundo.ObtenerInstancia().getPlantas().remove(victima);
+			
 			energia+=5;
 		}
 	}
