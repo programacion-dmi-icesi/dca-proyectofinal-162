@@ -40,8 +40,49 @@ public class PlantaMala extends PlantaAbstracta {
 
 	@Override
 	public void dibujar() {
-		//System.out.println("imagen planta mala");
+		
+		
+		
 		if(mostrar){
+			
+			app.noStroke();
+			switch (vida) {
+			
+			case 100: 
+				app.fill(0,255,0);
+				app.rect(x+05, y-20, 20, 10);
+				app.rect(x+25, y-20, 20, 10);
+				app.rect(x+45, y-20, 20, 10);
+				app.rect(x+65, y-20, 20, 10);
+				app.rect(x+85, y-20, 20, 10);
+			break;
+			case 80:
+				app.fill(255,255,0);
+				app.rect(x+05, y-20, 20, 10);
+				app.rect(x+25, y-20, 20, 10);
+				app.rect(x+45, y-20, 20, 10);
+				app.rect(x+65, y-20, 20, 10);
+				break;
+			case 60:
+				app.fill(255,0,0);
+				app.rect(x+05, y-20, 20, 10);
+				app.rect(x+25, y-20, 20, 10);
+				app.rect(x+45, y-20, 20, 10);
+				break;
+			case 40:
+				app.fill(255,0,255);
+				app.rect(x+05, y-20, 20, 10);
+				app.rect(x+25, y-20, 20, 10);
+				break;
+			case 20:
+				app.fill(255,0,255);
+				app.rect(x+05, y-20, 20, 10);
+				break;
+			case 0:
+				
+				break;
+			}
+			
 			app.image(Mplanta[contador],x,y);
 		}
 		ocultarPlanta();
@@ -78,11 +119,11 @@ public class PlantaMala extends PlantaAbstracta {
 		// TODO Auto-generated method stub
 		
 			if(contador<2){
-				vida -=50;
+				vida -=20;
 				contador+=1;
 			}else{
 				if(vida!=0){
-					vida -=50;
+					vida -=20;
 					contador=0;
 				}else{
 					return true;

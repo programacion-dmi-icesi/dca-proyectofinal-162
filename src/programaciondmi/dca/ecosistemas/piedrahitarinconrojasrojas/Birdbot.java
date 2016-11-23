@@ -34,7 +34,7 @@ public class Birdbot extends EspecieAbstracta implements IApareable, IHerbivoro 
 		this.random = new Random();
 		this.x = 500;//random.nextInt(Mundo.ObtenerInstancia().getApp().width);
 		this.y = 500;//random.nextInt(Mundo.ObtenerInstancia().getApp().height);
-		this.vida = 50;
+		this.vida = 100;
 		this.fuerza = 100;
 		this.energia = 250;
 		this.velocidad = 2;
@@ -87,8 +87,63 @@ public class Birdbot extends EspecieAbstracta implements IApareable, IHerbivoro 
 	@Override
 	public void dibujar() {
 		// TODO Auto-generated method stub
+			
+		app.noStroke();
+		switch (vida) {
+		
+		case 100:
+			app.fill(0,255,0);
+			app.rect(x+05, y-20, 20, 10);
+			app.rect(x+25, y-20, 20, 10);
+			app.rect(x+45, y-20, 20, 10);
+			app.rect(x+65, y-20, 20, 10);
+			app.rect(x+85, y-20, 20, 10);
+		break;
+		case 80:
+			app.fill(255,255,0);
+			app.rect(x+05, y-20, 20, 10);
+			app.rect(x+25, y-20, 20, 10);
+			app.rect(x+45, y-20, 20, 10);
+			app.rect(x+65, y-20, 20, 10);
+			break;
+		case 60:
+			app.fill(255,0,0);
+			app.rect(x+05, y-20, 20, 10);
+			app.rect(x+25, y-20, 20, 10);
+			app.rect(x+45, y-20, 20, 10);
+			break;
+		case 40:
+			app.fill(255,0,255);
+			app.rect(x+05, y-20, 20, 10);
+			app.rect(x+25, y-20, 20, 10);
+			break;
+		case 20:
+			app.fill(255,0,255);
+			app.rect(x+05, y-20, 20, 10);
+			break;
+		case 0:
+			
+			break;
+		}
+		
+		if(getEstado() == ENFERMO){
+			app.tint(0,255,0);
+		}
+		
+		if(getEstado() == ENVENENADO){
+			app.tint(156,28,247);
+		}
+		
+		if(getEstado() == EXTASIS){
+			app.tint(28,45,247);
+		}
+		
+		if(getEstado() == MUERTO){
+			app.tint(63,63,63);
+		}
 		
 		app.image(pjBirdbot[contador], x, y, 100,100);
+		app.tint(255,255,255);	
 	}
 
 	@Override
@@ -224,7 +279,6 @@ public class Birdbot extends EspecieAbstracta implements IApareable, IHerbivoro 
 				plantaCerca = planta;
 				cambiarDireccion(new PVector(planta.getX(), planta.getY()));
 			}
-			
 		}
 		
 		if (!encontro) {
@@ -260,10 +314,24 @@ public class Birdbot extends EspecieAbstracta implements IApareable, IHerbivoro 
 			try {
 				if(victima.getClass() == PlantaMala.class){
 					PlantaMala m = (PlantaMala) victima;
-					setEstado(ENFERMO);
-					fuerza -=5;
-					defensa -=5;
-					vida -=5;
+					fuerza -=20;
+					defensa -=20;
+					vida -=20;
+					
+					switch (vida) {
+						case 100:
+							setEstado(NORMAL);
+							break;
+						case 80:
+							setEstado(ENFERMO);
+							break;
+						case 60:
+							setEstado(EXTASIS);
+							break;
+						case 40:
+							setEstado(MUERTO);
+							break;
+					}
 				}
 				
 				/*if(victima.getClass() == PlantaBuena.class){
@@ -283,6 +351,10 @@ public class Birdbot extends EspecieAbstracta implements IApareable, IHerbivoro 
 			
 			energia+=5;
 		}
+	}
+	
+	public void estado(){
+		
 	}
 
 }
