@@ -13,9 +13,9 @@ public class PlantaMala extends PlantaAbstracta {
 	private int y;
 	PImage[] Mplanta = new PImage[3];
 	
-	public PlantaMala(EcosistemaTikiBots ecosistemaTikiBots){
-		this.x = app.mouseX;
-		this.y = app.mouseY;
+	public PlantaMala(int x, int y){
+		this.x = x;
+		this.y = y;
 		this.vida = 5;
 		contador = 0;
 		Mplanta[0] = app.loadImage("DataTikiBots/planta_mala/plantaMala01.png");
@@ -62,10 +62,19 @@ public class PlantaMala extends PlantaAbstracta {
 		// TODO Auto-generated method stub
 		cont++;
 		
+		
+		
 		if(cont%300 == 0){
-			contador+=1;
-			return true;
+			if(contador<2){
+				contador+=1;
+			}else{
+				
+			}
 		}
+		
+		
+		 
+		 System.out.println(contador);
 		
 		return false;
 	}

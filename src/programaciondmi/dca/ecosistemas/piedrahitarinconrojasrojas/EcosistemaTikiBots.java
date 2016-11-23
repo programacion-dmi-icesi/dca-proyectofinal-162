@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Observable;
 
 import processing.core.PApplet;
+import processing.core.PConstants;
 import programaciondmi.dca.core.EcosistemaAbstracto;
 import programaciondmi.dca.core.EspecieAbstracta;
 import programaciondmi.dca.core.PlantaAbstracta;
@@ -18,6 +19,7 @@ public class EcosistemaTikiBots extends EcosistemaAbstracto {
 	PApplet app = Mundo.ObtenerInstancia().getApp();
 	int tipoPlanta = 0;
 	int cont = 0;
+	private boolean colocar, puedeColocar;
 	
 	
 	public EcosistemaTikiBots() {
@@ -43,7 +45,7 @@ public class EcosistemaTikiBots extends EcosistemaAbstracto {
 			}
 		}
 		
-		if (app.mousePressed == true){
+		/*if (app.mousePressed == true){
 			if (app.mouseButton==app.LEFT){
 				// clic derecho agrega plantas buenas
 				tipoPlanta = 1;
@@ -55,6 +57,35 @@ public class EcosistemaTikiBots extends EcosistemaAbstracto {
 				// clic derecho agrega plantas malas
 				tipoPlanta = 2;
 				poblarPlantas();
+			}
+		}*/
+		
+		if(app.frameCount%30==0){
+			puedeColocar=true;
+		}
+
+		int camX = Mundo.ObtenerInstancia().getCamX();
+		int camY = Mundo.ObtenerInstancia().getCamY();
+
+		if (puedeColocar) {
+
+			if (app.mousePressed == true) {
+
+				if (app.mouseButton == app.LEFT) {
+					
+					System.out.println("coloca planta buena");
+					plantas.add(
+							new PlantaMala(app.mouseX - ((app.width) - camX), (int) (app.mouseY - ((app.height) - camY))));
+					puedeColocar=false;
+					
+				} else if (app.mouseButton == app.RIGHT) {
+					
+					System.out.println("coloca planta mala");
+					plantas.add(new PlantaMala(app.mouseX - ((app.width) - camX),
+							app.mouseY - ((app.height) - camY)));
+					puedeColocar=false;
+					
+				}
 			}
 		}
 		
@@ -105,8 +136,8 @@ public class EcosistemaTikiBots extends EcosistemaAbstracto {
 		
 		if(tipoPlanta == 2){
 			//System.out.println("planta mala");
-			PlantaMala mala = new PlantaMala(this);
-			plantas.add(mala);
+			//PlantaMala mala = new PlantaMala(this);
+			//plantas.add(mala);
 			tipoPlanta = 0;
 		}
 	
@@ -148,13 +179,15 @@ public class EcosistemaTikiBots extends EcosistemaAbstracto {
 		//System.out.println("generar plantas");
 	
 		
-		PlantaMala mala = new PlantaMala(this);
+		/*PlantaMala mala = new PlantaMala(this);
 		plantas.add(mala);
-		agregarPlanta(mala);
+		agregarPlanta(mala);*/
 		
 		return plantas;
 	}
-
-
+	
+	/*public void setColocar(boolean colocar) {
+		this.colocar = colocar;
+	}*/
 
 }

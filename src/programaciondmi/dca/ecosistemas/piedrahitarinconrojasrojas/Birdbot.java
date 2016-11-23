@@ -157,24 +157,21 @@ public class Birdbot extends EspecieAbstracta implements IApareable, IHerbivoro 
 	private void buscarParejaCercana() {
 		
 		List<EspecieAbstracta> todas = Mundo.ObtenerInstancia().getEspecies();
-		List<EspecieAbstracta> concurrente = new CopyOnWriteArrayList<>();
 		
-		for (int i = 0; i < todas.size(); i++) {
-			concurrente.add(todas.get(i));
-		}
 		
-		//System.out.println("Buscando pareja entre " + todas.size() + " especies del mundo");
-		ListIterator<EspecieAbstracta> iterador = concurrente.listIterator();
+
+		ListIterator<EspecieAbstracta> iterador = todas.listIterator();
 		boolean encontro = false;
 		while (!encontro && iterador.hasNext()) {
 			EspecieAbstracta e = iterador.next();
 			if ((e instanceof IApareable) && !e.equals(this)) {
 				float dist = PApplet.dist(x, y, e.getX(), e.getY());
-				//System.out.println("Encontró apareable a " + dist);
+
 				if (dist < energia) {
-					//System.out.println("Encontró una pareja cercana");
+
 					encontro = true;
 					parejaCercana = e;
+					
 					// Cambiar la dirección
 					cambiarDireccion(new PVector(parejaCercana.getX(), parejaCercana.getY()));
 				}
@@ -224,12 +221,10 @@ public class Birdbot extends EspecieAbstracta implements IApareable, IHerbivoro 
 			
 			if(planta instanceof PlantaMala ){
 				float distancia = app.dist( x, y, planta.getX(), planta.getY());
-				System.out.println(distancia);
 				if (distancia < energia) {
 					encontro = true;
 					plantaCerca = planta;
 					cambiarDireccion(new PVector(planta.getX(), planta.getY()));
-					System.out.println("encuentra planta");
 				}
 				
 			}
