@@ -102,6 +102,10 @@ public class EspecieGomiCanibal extends GomiCabra implements ICanibal {
 				}
 
 				Thread.sleep(33);
+				vista++;
+				if (vista == 3) {
+					vista = 0;
+				}
 			} catch (Exception e) {
 				e.printStackTrace();
 				System.err.println("se ha muerto!");

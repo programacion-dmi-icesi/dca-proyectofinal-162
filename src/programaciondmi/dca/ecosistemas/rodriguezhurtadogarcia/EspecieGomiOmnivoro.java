@@ -119,6 +119,10 @@ public class EspecieGomiOmnivoro extends GomiCabra implements IOmnivoro {
 					}
 				}
 				Thread.sleep(33);
+				vista++;
+				if (vista == 3) {
+					vista = 0;
+				}
 
 			} catch (Exception e) {
 				// TODO: handle exception

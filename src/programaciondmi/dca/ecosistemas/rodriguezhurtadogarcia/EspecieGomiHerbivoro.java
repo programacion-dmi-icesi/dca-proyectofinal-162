@@ -124,6 +124,11 @@ public class EspecieGomiHerbivoro extends GomiCabra implements IApareable, IHerb
 				}
 
 				Thread.sleep(33);
+				vista++;
+
+				if (vista == 3) {
+					vista = 0;
+				}
 			} catch (Exception e) {
 				// TODO: handle exception
 			}
