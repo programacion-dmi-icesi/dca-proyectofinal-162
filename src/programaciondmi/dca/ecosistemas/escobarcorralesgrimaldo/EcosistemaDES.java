@@ -9,6 +9,7 @@ import processing.core.PApplet;
 import programaciondmi.dca.core.EcosistemaAbstracto;
 import programaciondmi.dca.core.EspecieAbstracta;
 import programaciondmi.dca.core.PlantaAbstracta;
+import programaciondmi.dca.core.interfaces.ICanibal;
 import programaciondmi.dca.core.interfaces.IHerbivoro;
 import programaciondmi.dca.ecosistemas.sarmientomanzanomoncada.LogoEjemplo;
 import programaciondmi.dca.ejecucion.Mundo;

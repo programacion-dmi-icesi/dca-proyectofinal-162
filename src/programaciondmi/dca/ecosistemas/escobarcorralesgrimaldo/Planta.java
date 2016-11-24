@@ -39,7 +39,7 @@ public class Planta extends PlantaAbstracta {
 
 		plantaM[0] = app.loadImage("../data/malatres.png");
 		plantaM[1] = app.loadImage("../data/malados.png");
-		plantaM[2] = app.loadImage("../data/malados.png");
+		plantaM[2] = app.loadImage("../data/malauno.png");
 
 	}
 
@@ -120,6 +120,7 @@ public class Planta extends PlantaAbstracta {
 	@Override
 	public boolean recibirDano(EspecieAbstracta lastimador) {
 		// TODO Auto-generated method stub
+		
 		return false;
 	}
 
