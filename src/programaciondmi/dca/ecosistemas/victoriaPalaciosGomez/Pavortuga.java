@@ -15,6 +15,12 @@ public class Pavortuga extends EspecieAbstracta implements IHerbivoro {
 	private PVector dir;
 	private int ciclo;
 	private int index = 0;
+	public static final int NORMAL = 0;
+	public static final int ENVENENADO = 1;
+	public static final int ENFERMO = 2;
+	public static final int EXTASIS = 3;
+	public static final int MUERTO = 4;
+	protected int estado;
 
 	private PlantaMala mala;
 	
@@ -24,6 +30,7 @@ public class Pavortuga extends EspecieAbstracta implements IHerbivoro {
 	
 	public Pavortuga(EcosistemaAbstracto ecosistema){
 		super(ecosistema);
+		this.estado = NORMAL;
 		this.estado = NORMAL;
 		this.app = Mundo.ObtenerInstancia().getApp();
 		imagenes();
@@ -37,7 +44,9 @@ public class Pavortuga extends EspecieAbstracta implements IHerbivoro {
 		nt.start();
 		
 	}
-	
+	public int getEstado() {
+		return estado;
+	}
 
 	@Override
 	public void run() {
