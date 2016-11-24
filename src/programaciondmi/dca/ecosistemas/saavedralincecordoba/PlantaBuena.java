@@ -12,7 +12,7 @@ public class PlantaBuena extends PlantaAbstracta {
 	boolean mostrar = true;
 	private PImage[] plantaB = new PImage[3];
 	private int vida = 100;
-	private int contador = 0;
+	private int contador,cont;
 
 	public PlantaBuena() {
 		// TODO Auto-generated constructor stub
@@ -21,6 +21,7 @@ public class PlantaBuena extends PlantaAbstracta {
 	public PlantaBuena(int x, int y) {
 		super(x, y);
 		PApplet app = Mundo.ObtenerInstancia().getApp();
+		contador=0;
 		plantaB[0] = app.loadImage("../data/plantab.png");
 		plantaB[1] = app.loadImage("../data/platab3.png");
 		plantaB[2] = app.loadImage("../data/plantab2.png");
@@ -66,8 +67,8 @@ public class PlantaBuena extends PlantaAbstracta {
 	private void ocultarPlanta() {
 		// TODO Auto-generated method stub
 		if(vida==0){
-			contador++;
-			if(contador%300 == 0){
+			cont++;
+			if(cont%300 == 0){
 				setMostrar(false);
 			}
 		}

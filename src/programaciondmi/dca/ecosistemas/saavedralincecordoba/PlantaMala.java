@@ -12,9 +12,7 @@ public class PlantaMala extends PlantaAbstracta {
 	boolean mostrar = true;
 	private PImage[] plantaM = new PImage[3];
 	private int vida = 100;
-	private int contador = 0;
-	private int x;
-	private int y;
+	private int contador,cont;
 
 	public PlantaMala() {
 		// TODO Auto-generated constructor stub
@@ -23,6 +21,7 @@ public class PlantaMala extends PlantaAbstracta {
 	public PlantaMala(int x, int y) {
 		super(x, y);
 		PApplet app = Mundo.ObtenerInstancia().getApp();
+		contador=0;
 		plantaM[0] = app.loadImage("../data/plantam.png");
 		plantaM[1] = app.loadImage("../data/plantam2.png");
 		plantaM[2] = app.loadImage("../data/plantam3.png");
@@ -68,26 +67,10 @@ public class PlantaMala extends PlantaAbstracta {
 	private void ocultarPlanta() {
 		// TODO Auto-generated method stub
 		if (vida == 0) {
-			contador++;
-			if (contador % 300 == 0) {
+			cont++;
+			if (cont% 300 == 0) {
 				setMostrar(false);
 			}
 		}
-	}
-
-	public float getX() {
-		return x;
-	}
-
-	public void setX(int x) {
-		this.x = x;
-	}
-
-	public float getY() {
-		return y;
-	}
-
-	public void setY(int y) {
-		this.y = y;
 	}
 }

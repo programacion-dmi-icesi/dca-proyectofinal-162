@@ -103,7 +103,7 @@ public class Hervivoro extends EspecieAbstracta implements IHerbivoro {
 				}
 				
 				if(victima.getClass() == PlantaBuena.class){
-					PlantaBuena m = (PlantaBuena) victima;
+					PlantaBuena b = (PlantaBuena) victima;
 					setEstado(EXTASIS);
 					velocidad=10;
 				}
