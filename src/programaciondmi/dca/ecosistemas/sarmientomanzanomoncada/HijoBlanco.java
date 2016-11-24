@@ -36,5 +36,4 @@ public class HijoBlanco extends EspecieAbstracta {
 		// TODO implementar metodo.
 		return false;
 	}
-
 }

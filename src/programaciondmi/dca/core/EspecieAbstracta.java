@@ -79,6 +79,5 @@ public abstract class EspecieAbstracta implements Runnable{
 
 	public void setY(int y) {
 		this.y = y;
-	}
-	
+	}	
 }
