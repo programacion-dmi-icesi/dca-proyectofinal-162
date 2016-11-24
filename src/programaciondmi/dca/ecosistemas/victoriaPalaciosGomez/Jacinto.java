@@ -11,18 +11,23 @@ public class Jacinto extends EspecieAbstracta {
 	private PApplet app;
 	private PImage[] jacinto = new PImage [6];
 	private int index;
-	private int vida, maxSpeed;
+	private int vida, maxSpeed,ciclo,velocidad;
 	private PVector location, acceleration, vel;
+	private PVector dir;
 
 	public Jacinto(EcosistemaAbstracto ecosistema) {
 		super(ecosistema);
-		PApplet app = Mundo.ObtenerInstancia().getApp();
+		this.app = Mundo.ObtenerInstancia().getApp();
 		imagenes();
 		vida = 30;
+		velocidad = 2;
 		acceleration = new PVector (0,0);
 		vel = new PVector (0,0);
 		maxSpeed = 3;
 		location = new PVector (x,y);
+		int targetX = (int) (Math.random() * 500);
+		int targetY = (int) (Math.random() * 500);
+		cambiarDireccion(new PVector(targetX, targetY));
 	}
 
 	@Override
@@ -33,31 +38,37 @@ public class Jacinto extends EspecieAbstracta {
 
 	@Override
 	public void mover() {
-		PVector newZona = new PVector (app.random(app.width), app.random(app.height));
-		PVector acceleration = PVector.sub(newZona, location);
-		acceleration.setMag(0.2f);
-		vel.add(acceleration);
-		vel.limit(maxSpeed);
-		location.add(vel);
-		if (app.frameCount % 6 == 0) {
-			index++;
-			if (index > 2) {
-				index = 0;
-			}
+		if (ciclo % 30 == 0) {
+			// Definir una direccion aleatoria cada 3 segundos
+			int targetX = (int) (Math.random() * 500);
+			int targetY = (int) (Math.random() * 500);
+			cambiarDireccion(new PVector(targetX, targetY));
+			 System.out.println("CAMBIO DIRECCION!");
 		}
+
+		x += dir.x;
+		y += dir.y;
 	}
 
+	private void cambiarDireccion(PVector target) {
+		PVector location = new PVector(x, y);
+		dir = PVector.sub(target, location);
+		dir.normalize();
+		dir.mult(velocidad);
+		// System.out.println("[id=" + id + ", direcion=" + dir + "]");
+	}
 	@Override
 	public void run() {
 		while (vida > 0) {
 			mover();
 			if (app.frameCount % 6 == 0) {
 				index++;
-				if (index > 2) {
+				if (index >= 3) {
 					index = 0;
 				}
 			}
 			try {
+				ciclo++;
 				Thread.sleep(33);
 			} catch (Exception e) {
 				// TODO: handle exception
@@ -66,7 +77,8 @@ public class Jacinto extends EspecieAbstracta {
 	}
 	
 	private void imagenes () {
-		//pavortuga SANO
+		//jacinto SANO
+		
 		jacinto[0] = app.loadImage("../data/pngs/jacinto-walk-1.png");
 		jacinto[1] = app.loadImage("../data/pngs/jacinto-walk-2.png");
 		jacinto[2] = app.loadImage("../data/pngs/jacinto-walk-3.png");
@@ -74,6 +86,8 @@ public class Jacinto extends EspecieAbstracta {
 		jacinto[3] = app.loadImage("../data/pngs/jacinto-sick-1.png");
 		jacinto[4] = app.loadImage("../data/pngs/jacinto-sick-2.png");
 		jacinto[5] = app.loadImage("../data/pngs/jacinto-sick-3.png");
+		
+		
 	}
 
 	@Override
