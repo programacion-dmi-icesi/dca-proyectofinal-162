@@ -48,7 +48,7 @@ public class Canibal extends EspecieAbstracta implements ICanibal {
 									comer(especie);
 									especie.setEstado(MUERTO);
 
-									System.out.println("canibal mata!");
+									//System.out.println("canibal mata!");
 									ecosistema.getEspecies().remove(especie);
 
 									break;
