@@ -10,7 +10,6 @@ import programaciondmi.dca.core.EspecieAbstracta;
 import programaciondmi.dca.core.PlantaAbstracta;
 import programaciondmi.dca.core.interfaces.IApareable;
 import programaciondmi.dca.core.interfaces.IHerbivoro;
-import programaciondmi.dca.ecosistemas.sarmientomanzanomoncada.HijoBlanco;
 import programaciondmi.dca.ejecucion.Mundo;
 
 public class Herbivoro extends EspecieAbstracta implements IHerbivoro, IApareable {
@@ -30,7 +29,6 @@ public class Herbivoro extends EspecieAbstracta implements IHerbivoro, IApareabl
 
 	// Constantes
 
-
 	private int ciclo;
 
 	private float ballX = 50, ballY = 50;
@@ -47,11 +45,10 @@ public class Herbivoro extends EspecieAbstracta implements IHerbivoro, IApareabl
 		this.energia = 250;
 
 		PApplet app = Mundo.ObtenerInstancia().getApp();
-		ballX = (int) app.random(0, app.width-400);
-		ballY = (int) app.random(0, app.height-300);
+		ballX = (int) app.random(0, app.width - 400);
+		ballY = (int) app.random(0, app.height - 300);
 		// Imagenes
 		// PApplet app = Mundo.ObtenerInstancia().getApp();
-
 
 		ciclo = 0;
 
@@ -59,16 +56,6 @@ public class Herbivoro extends EspecieAbstracta implements IHerbivoro, IApareabl
 		nt.start();
 	}
 
-	@Override
-	public void comerPlanta(PlantaAbstracta victima) {
-		if (!victima.getClass().toString().equals(this.getClass().toString())) {
-			if (victima.recibirDano(this)) {
-				energia += 5;
-			}
-		}
-	}
-
-	@Override
 	public void run() {
 		while (vida > 0) {
 			mover();
@@ -76,14 +63,45 @@ public class Herbivoro extends EspecieAbstracta implements IHerbivoro, IApareabl
 				Thread.sleep(20);
 				ciclo++;
 				reproducir();
+				comeP();
 
 			} catch (Exception e) {
 				// TODO: handle exception
 			}
 		}
 	}
-	
-	
+
+	public void comerPlanta(PlantaAbstracta victima) {
+		if (victima instanceof Planta) {
+
+			Planta p = (Planta) victima;
+			switch (p.getClasePlanta()) {
+			case 0:
+				// Buena
+				vida += 5;
+
+				if (vida >= 20) {
+					estado = NORMAL;
+				}
+
+				if (vida > 20)
+					vida = 20;
+				break;
+			case 1:
+				// Mala
+				vida -= 5;
+				if (vida < 20) {
+					estado = ENFERMO;
+				}
+
+				if (vida < 0) {
+					ecosistema.getPlantas().remove(victima);
+				}
+				break;
+
+			}
+		}
+	}
 
 	@Override
 	public void dibujar() {
@@ -110,7 +128,7 @@ public class Herbivoro extends EspecieAbstracta implements IHerbivoro, IApareabl
 			app.image(herbi[4], ballX, ballY);
 		}
 
-		if(app.mousePressed==true){
+		if (app.mousePressed == true) {
 			System.out.println(app.mouseX);
 			System.out.println(app.mouseY);
 		}
@@ -121,12 +139,12 @@ public class Herbivoro extends EspecieAbstracta implements IHerbivoro, IApareabl
 		int vel = 5;
 		if (ciclo % vel == 0) {
 			PApplet app = Mundo.ObtenerInstancia().getApp();
-			System.out.println("correcion_vistas");
-			
-			herbiVistas[0]= app.loadImage("../data/vistas/Herbi_aba.png");
-			herbiVistas[1]= app.loadImage("../data/vistas/Herbi_arri.png");
-			herbiVistas[2]= app.loadImage("../data/vistas/Herbi_izq.png");
-			herbiVistas[3]= app.loadImage("../data/vistas/Herbi_der.png");
+			// System.out.println("correcion_vistas");
+
+			herbiVistas[0] = app.loadImage("../data/vistas/Herbi_aba.png");
+			herbiVistas[1] = app.loadImage("../data/vistas/Herbi_arri.png");
+			herbiVistas[2] = app.loadImage("../data/vistas/Herbi_izq.png");
+			herbiVistas[3] = app.loadImage("../data/vistas/Herbi_der.png");
 
 			ballX = (float) (ballX + 10.8 * ballXDirection);
 			ballY = (float) (ballY + 8.8 * ballYDirection);
@@ -142,7 +160,7 @@ public class Herbivoro extends EspecieAbstracta implements IHerbivoro, IApareabl
 
 	@Override
 	public boolean recibirDano(EspecieAbstracta lastimador) {
-		if (PApplet.dist(ballX, ballY, lastimador.getX(), lastimador.getY()) < (1)) {
+		if (PApplet.dist(ballX, ballY, lastimador.getX(), lastimador.getY()) < 1) {
 			vida -= 5;
 			try {
 				if (vida >= 20) {
@@ -170,7 +188,6 @@ public class Herbivoro extends EspecieAbstracta implements IHerbivoro, IApareabl
 		return false;
 	}
 
-
 	public EspecieAbstracta aparear(IApareable apareable) {
 		Hijo hijo = new Hijo(ecosistema);
 		hijo.setX(this.x);
@@ -178,10 +195,10 @@ public class Herbivoro extends EspecieAbstracta implements IHerbivoro, IApareabl
 		ecosistema.agregarEspecie(hijo);
 		return hijo;
 	}
-	
-	public void reproducir(){
-		
-		//Ayuda de Junior Rodriguez
+
+	public void reproducir() {
+
+		// Ayuda de Junior Rodriguez
 		PApplet app = Mundo.ObtenerInstancia().getApp();
 		synchronized (ecosistema.getEspecies()) {
 			for (EspecieAbstracta especie : ecosistema.getEspecies()) {
@@ -189,21 +206,39 @@ public class Herbivoro extends EspecieAbstracta implements IHerbivoro, IApareabl
 					IApareable apareable = (IApareable) especie;
 					float d = app.dist(especie.getX(), especie.getY(), this.ballX, this.ballY);
 
-					//if (app.frameCount%60==0) {
-						if (d < 100) {
-							EspecieAbstracta hijo = aparear(apareable);
-							ecosistema.getEspecies().add(hijo);
+					// if (app.frameCount%60==0) {
+					if (d < 100) {
+						EspecieAbstracta hijo = aparear(apareable);
+						ecosistema.getEspecies().add(hijo);
 
-						}
+					}
 
-					//}
+					// }
 				}
 
 			}
 		}
 	}
 
-	
+	public void comeP() {
+
+		// Ayuda de monitorGC
+		PApplet app = Mundo.ObtenerInstancia().getApp();
+		synchronized (ecosistema.getPlantas()) {
+		// List<PlantaAbstracta> plantas = ecosistema.getPlantas();
+			for (PlantaAbstracta planta : ecosistema.getPlantas()) {
+				float d = app.dist(planta.getX(), planta.getY(), this.ballX, this.ballY);
+
+				if (d < 100) {
+					// if (!esperar) {
+					comerPlanta(planta);
+
+					// }
+				}
+			}
+		}
+	}
+
 	private void intentarAparear() {
 
 		PApplet app = Mundo.ObtenerInstancia().getApp();

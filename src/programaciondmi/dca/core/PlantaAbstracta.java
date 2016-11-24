@@ -31,4 +31,15 @@ public abstract class PlantaAbstracta implements Runnable{
 	 */
 	public abstract boolean recibirDano(EspecieAbstracta lastimador);
 
+	
+	public int getY() {
+		// TODO Auto-generated method stub
+		return y;
+	}
+
+	public int getX() {
+		// TODO Auto-generated method stub
+		return x;
+	}
+
 }

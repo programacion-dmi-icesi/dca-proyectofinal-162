@@ -16,7 +16,7 @@ public class Planta extends PlantaAbstracta {
 	// establece variables
 	private int x, y, vida, viva = 0;
 	private boolean muere = false;
-	// arreglo de imágenes
+	// arreglo de imagenes
 	private PImage[] plantaB = new PImage[3];
 	private PImage[] plantaM = new PImage[3];
 	private PApplet app;
@@ -32,7 +32,7 @@ public class Planta extends PlantaAbstracta {
 		this.y = (int) app.random(-app.height, app.height);
 		this.app = Mundo.ObtenerInstancia().getApp();
 
-		// inicializa el arreglo de imágenes
+		// inicializa el arreglo de imï¿½genes
 		plantaB[0] = app.loadImage("../data/buenatres.png");
 		plantaB[1] = app.loadImage("../data/buenados.png");
 		plantaB[2] = app.loadImage("../data/buenauno.png");
@@ -85,22 +85,6 @@ public class Planta extends PlantaAbstracta {
 		this.muere = muere;
 	}
 
-	public int getX() {
-		return x;
-	}
-
-	public void setX(int x) {
-		this.x = x;
-	}
-
-	public int getY() {
-		return y;
-	}
-
-	public void setY(int y) {
-		this.y = y;
-	}
-
 	public int getClasePlanta() {
 		return clasePlanta;
 	}
@@ -117,6 +101,14 @@ public class Planta extends PlantaAbstracta {
 		this.viva = viva;
 	}
 
+	public int getX() {
+		return x;
+	}
+
+	public int getY() {
+		return y;
+	}
+	
 	@Override
 	public boolean recibirDano(EspecieAbstracta lastimador) {
 		// TODO Auto-generated method stub
