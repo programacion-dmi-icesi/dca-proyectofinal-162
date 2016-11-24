@@ -10,16 +10,26 @@ public class Venenosa extends PlantaAbstracta {
 
 	private int recursos;
 	private PImage[] plant;
+	private PImage[] particulas;
+	private int frame;
+	private float ciclo, cambio;
 
 	public Venenosa(int x, int y) {
 		super();
 		PApplet app = Mundo.ObtenerInstancia().getApp();
 
 		this.plant = new PImage[4];
+		particulas = new PImage[32];
+		this.cambio = 5;
 
 		for (int i = 0; i < plant.length; i++) {
 			this.plant[i] = app.loadImage("propheticData/plantaMal/mala_" + i + ".png");
 		}
+		
+		for (int i = 0; i < particulas.length; i++) {
+			particulas[i] = app.loadImage("propheticData/plantaMal/particulasMala_" + i + ".png");
+		}
+		
 
 		recursos = 0;
 
@@ -30,13 +40,26 @@ public class Venenosa extends PlantaAbstracta {
 		nt.start();
 
 	}
-
+	
 	@Override
 	public void run() {
-		try {
+		while (recursos > 0) {
+			sumarFrames();
+			try {
+				this.ciclo++;
+			} catch (Exception e) {
+				// TODO: handle exception
+			}
+		}
 
-		} catch (Exception e) {
-			// TODO: handle exception
+	}
+	
+	private void sumarFrames() {
+		if (ciclo % cambio == 0) {
+			frame++;
+			if (frame > particulas.length - 1) {
+				frame = 0;
+			}
 		}
 	}
 
@@ -45,6 +68,7 @@ public class Venenosa extends PlantaAbstracta {
 		PApplet app = Mundo.ObtenerInstancia().getApp();
 		app.imageMode(3);
 		app.image(plant[recursos], x, y,100,100);
+		app.image(particulas[frame], x, y);
 	}
 
 	@Override
