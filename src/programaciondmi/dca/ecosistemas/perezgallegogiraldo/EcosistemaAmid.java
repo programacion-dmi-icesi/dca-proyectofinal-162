@@ -74,8 +74,8 @@ public class EcosistemaAmid extends EcosistemaAbstracto {
 
 	@Override
 	protected List<EspecieAbstracta> generarIndividuos() {
-		AmidCanibal nueva = new AmidCanibal(this);
-		especies.add(nueva);
+		AmidCanibal cani = new AmidCanibal(this);
+		especies.add(cani);
 
 		AmidCarnivoro azul = new AmidCarnivoro(this);
 		especies.add(azul);

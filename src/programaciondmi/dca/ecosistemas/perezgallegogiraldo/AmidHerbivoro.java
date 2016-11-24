@@ -1,5 +1,7 @@
 package programaciondmi.dca.ecosistemas.perezgallegogiraldo;
 
+import java.util.List;
+import java.util.ListIterator;
 import java.util.Random;
 
 import processing.core.PApplet;
@@ -26,32 +28,29 @@ public class AmidHerbivoro extends EspecieAbstracta implements IHerbivoro {
 	private PImage[] transicionEspalda = new PImage[12];
 	private PImage[] transicionLado = new PImage[12];
 
+	private PlantaAbstracta plantaCercana;
+
 	private float energia;
 	private int contador;
-	private float fuerza;
-	private int velocidad;
 
 	private PVector dir;
 	private PVector pos;
-	private PVector objetivo;
 	private int animacion;
-	private Random random;
+	private int ciclo;
+
+	private boolean puedeComer = true, encontro;
 
 	public AmidHerbivoro(EcosistemaAbstracto ecosistema) {
 		super(ecosistema);
 		app = Mundo.ObtenerInstancia().getApp();
 
-		this.random = new Random();
-		this.x = random.nextInt(Mundo.ObtenerInstancia().getApp().width);
-		this.y = random.nextInt(Mundo.ObtenerInstancia().getApp().height);
+		this.x = (int) app.random(-500, 500);
+		this.y = (int) app.random(-500, 500);
 		this.vida = 50;
-		this.fuerza = 100;
 		this.energia = 250;
-		this.velocidad = 2;
-		objetivo = new PVector(300, 100);
 
 		dir = new PVector(0, 0);
-		pos = new PVector(0, 0);
+		pos = new PVector(x, y);
 
 		cargaImagenes();
 		Thread nt = new Thread(this);
@@ -99,19 +98,32 @@ public class AmidHerbivoro extends EspecieAbstracta implements IHerbivoro {
 	@Override
 	public void dibujar() {
 		// TODO Auto-generated method stub
-		app.ellipse(objetivo.x, objetivo.y, 10, 10);
-		animacion();
-		perseguir();
+		animacionesMovimiento();
 	}
 
 	@Override
 	public void mover() {
-		pos.add(dir);
-		x = (int) pos.x;
-		y = (int) pos.y;
+		if (energia > 0 && vida > 0) {
+			buscarPlanta();
+			if (plantaCercana != null) {
+				comerPlanta(plantaCercana);
+			}
+			if (!encontro) {
+				if (ciclo % 90 == 0) {
+					int targetX = (int) app.random(-500, 500);
+					int targetY = (int) app.random(-500, 500);
+					perseguir(new PVector(targetX, targetY));
+					calcularImagen(new PVector(targetX, targetY));
+					puedeComer = true;
+				}
+			}
+			pos.add(dir);
+			x = (int) pos.x;
+			y = (int) pos.y;
+		}
 	}
 
-	public void animacion() {
+	public void animacionesMovimiento() {
 		app.imageMode(PApplet.CENTER);
 		switch (animacion) {
 		case 0:
@@ -152,7 +164,27 @@ public class AmidHerbivoro extends EspecieAbstracta implements IHerbivoro {
 		app.imageMode(PApplet.CORNER);
 	}
 
-	public void perseguir() {
+	@Override
+	public void run() {
+		// TODO Auto-generated method stub
+
+		while (true) {
+			if (vida > 0) {
+				mover();
+			} else {
+				Mundo.ObtenerInstancia().getEspecies().remove(this);
+				this.ecosistema.getEspecies().remove(this);
+			}
+			try {
+				Thread.sleep(33);
+				ciclo++;
+			} catch (Exception e) {
+
+			}
+		}
+	}
+
+	public void perseguir(PVector objetivo) {
 		PVector distanX = PVector.sub(objetivo, pos);
 		distanX.y = 0;
 		PVector distanY = PVector.sub(objetivo, pos);
@@ -164,6 +196,24 @@ public class AmidHerbivoro extends EspecieAbstracta implements IHerbivoro {
 
 		PVector direccionX = PVector.sub(distanX, dir);
 		dir.add(direccionX);
+
+		if (dX <= 0) {
+			PVector direccionY = PVector.sub(distanY, dir);
+			dir.add(direccionY);
+		}
+
+	}
+
+	public void calcularImagen(PVector objetivo) {
+		PVector distanX = PVector.sub(objetivo, pos);
+		distanX.y = 0;
+		PVector distanY = PVector.sub(objetivo, pos);
+		distanY.x = 0;
+		float dX = distanX.mag();
+
+		distanX.normalize();
+		distanY.normalize();
+
 		if (distanX.x < 0) {
 			animacion = 2;
 		} else if (distanX.x > 0) {
@@ -178,21 +228,6 @@ public class AmidHerbivoro extends EspecieAbstracta implements IHerbivoro {
 				animacion = 0;
 			}
 
-			PVector direccionY = PVector.sub(distanY, dir);
-			dir.add(direccionY);
-		}
-
-	}
-
-	@Override
-	public void run() {
-		while (vida > 0) {
-			mover();
-			try {
-				Thread.sleep(33);
-			} catch (Exception e) {
-
-			}
 		}
 	}
 
@@ -211,13 +246,55 @@ public class AmidHerbivoro extends EspecieAbstracta implements IHerbivoro {
 		return false;
 	}
 
-	@Override
-	public void comerPlanta(PlantaAbstracta victima) {
-		// TODO Auto-generated method stub
-		if (victima.getClass().isInstance(victima)) {
-			if (victima.recibirDano(this)) {
-				energia += 5;
+	private void buscarPlanta() {
+		List<PlantaAbstracta> all = Mundo.ObtenerInstancia().getPlantas();
+		ListIterator<PlantaAbstracta> iterador = all.listIterator();
+
+		while (!encontro && iterador.hasNext()) {
+			PlantaAbstracta p = iterador.next();
+
+			float distancia = PApplet.dist(x, y, p.getX(), p.getY());
+
+			if (distancia < energia * 2 && puedeComer) {
+				plantaCercana = p;
+				encontro = true;
 			}
 		}
+
+		if (encontro) {
+			perseguir(new PVector(plantaCercana.getX(), plantaCercana.getY()));
+			calcularImagen(new PVector(plantaCercana.getX(), plantaCercana.getY()));
+		} else {
+			plantaCercana = null;
+		}
+
+	}
+
+	@Override
+	public void comerPlanta(PlantaAbstracta victima) {
+		if (victima != null && puedeComer) {
+			float d = PApplet.dist(x, y, victima.getX(), victima.getY());
+			if (d < 15) {
+				if (victima instanceof PlantaVenenosa) {
+					estado = ENVENENADO;
+					energia += 10;
+					vida -= 10;
+
+				} else if (victima instanceof PlantaSaludable) {
+					estado = EXTASIS;
+					energia += 10;
+					vida += 10;
+					System.out.println(vida);
+
+				}
+				
+				Mundo.ObtenerInstancia().getPlantas().remove(victima);
+				this.ecosistema.getPlantas().remove(victima);
+
+				puedeComer = false;
+			}
+
+		}
+
 	}
 }

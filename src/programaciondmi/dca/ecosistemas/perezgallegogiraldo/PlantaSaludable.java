@@ -18,8 +18,8 @@ public class PlantaSaludable extends PlantaAbstracta {
 		super();
 		img = new PShape[6];
 		this.app = Mundo.ObtenerInstancia().getApp();
-		posX = (int) (app.random(0, 500));
-		posY = (int) (app.random(0, 500));
+		posX = (int) (app.random(-500, 500));
+		posY = (int) (app.random(-500, 500));
 		vida = 100;
 		mov = 0;
 
@@ -64,7 +64,7 @@ public class PlantaSaludable extends PlantaAbstracta {
 	public boolean recibirDano(EspecieAbstracta lastimador) {
 		// TODO Auto-generated method stub
 		if (PApplet.dist(x, y, lastimador.getX(), lastimador.getY()) < 50) {
-			vida -= 5;
+			vida -= 20;
 		}
 		return false;
 	}

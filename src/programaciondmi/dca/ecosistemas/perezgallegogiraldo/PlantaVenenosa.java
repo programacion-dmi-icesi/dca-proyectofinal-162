@@ -3,6 +3,7 @@ package programaciondmi.dca.ecosistemas.perezgallegogiraldo;
 import processing.core.PApplet;
 import processing.core.PShape;
 import processing.core.PVector;
+import programaciondmi.dca.core.EcosistemaAbstracto;
 import programaciondmi.dca.core.EspecieAbstracta;
 import programaciondmi.dca.core.PlantaAbstracta;
 import programaciondmi.dca.ejecucion.Mundo;
@@ -31,9 +32,6 @@ public class PlantaVenenosa extends PlantaAbstracta {
 		// TODO Auto-generated method stub
 		while (vida > 0) {
 			try {
-				if (recibirDano(null) == true) {
-
-				}
 
 			} catch (Exception e) {
 
@@ -47,9 +45,8 @@ public class PlantaVenenosa extends PlantaAbstracta {
 
 		fase = (int) PApplet.map(vida, 0, 100, 0, 4);
 		app.shapeMode(PApplet.CENTER);
-		app.shape(img[4-fase], pos.x, pos.y);
+		app.shape(img[4 - fase], pos.x, pos.y);
 		app.shapeMode(PApplet.CORNER);
-		System.out.println(fase);
 
 		if (vida == 0)
 			mov = 1;
@@ -66,11 +63,11 @@ public class PlantaVenenosa extends PlantaAbstracta {
 
 	@Override
 	public boolean recibirDano(EspecieAbstracta lastimador) {
-		// TODO Auto-generated method stub
-		if (PApplet.dist(x, y, lastimador.getX(), lastimador.getY()) < 50) {
-			vida -= 5;
+		if (vida>0) {
+			vida--;
 			return true;
 		}
+		
 		return false;
 	}
 

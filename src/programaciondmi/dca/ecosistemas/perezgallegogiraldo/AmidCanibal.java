@@ -1,12 +1,14 @@
 package programaciondmi.dca.ecosistemas.perezgallegogiraldo;
 
-import java.util.Random;
+import java.util.List;
+import java.util.ListIterator;
 
 import processing.core.PImage;
 import processing.core.PVector;
 import processing.core.PApplet;
 import programaciondmi.dca.core.EcosistemaAbstracto;
 import programaciondmi.dca.core.EspecieAbstracta;
+import programaciondmi.dca.core.PlantaAbstracta;
 import programaciondmi.dca.core.interfaces.ICanibal;
 import programaciondmi.dca.ejecucion.Mundo;
 
@@ -35,25 +37,25 @@ public class AmidCanibal extends EspecieAbstracta implements ICanibal {
 	 */
 
 	private float energia;
-	private EspecieAbstracta parejaCercana;
+	private EspecieAbstracta comestible;
+	private PlantaAbstracta plantaCercana;
 	private PVector dir;
 	private PVector pos;
 	private PVector objetivo;
 	private int animacion;
 	private int ciclo;
+	private boolean encontro, encontroPlanta, puedeComer = true;
 
 	// Constantes
-	private final int LIMITE_APAREO = 100;
-	private Random random;
+	private final int LIMITE_COMER = 150;
 
 	public AmidCanibal(EcosistemaAbstracto ecosistema) {
 
 		super(ecosistema);
 		app = Mundo.ObtenerInstancia().getApp();
 
-		this.random = new Random();
-		this.x = random.nextInt(Mundo.ObtenerInstancia().getApp().width);
-		this.y = random.nextInt(Mundo.ObtenerInstancia().getApp().height);
+		this.x = (int) app.random(-500, 500);
+		this.y = (int) app.random(-500, 500);
 		this.vida = 50;
 		this.fuerza = 100;
 		this.energia = 250;
@@ -61,7 +63,7 @@ public class AmidCanibal extends EspecieAbstracta implements ICanibal {
 		objetivo = new PVector(-300, 300);
 
 		dir = new PVector(0, 0);
-		pos = new PVector(0, 0);
+		pos = new PVector(x, y);
 
 		cargaImagenes();
 		Thread nt = new Thread(this);
@@ -104,22 +106,75 @@ public class AmidCanibal extends EspecieAbstracta implements ICanibal {
 	}
 
 	@Override
+	public void run() {
+		// TODO Auto-generated method stub
+
+		while (true) {
+			if (vida > 0) {
+				mover();
+			} else {
+				Mundo.ObtenerInstancia().getEspecies().remove(this);
+				this.ecosistema.getEspecies().remove(this);
+			}
+			try {
+				Thread.sleep(33);
+				ciclo++;
+			} catch (Exception e) {
+
+			}
+		}
+	}
+
+	@Override
 	public void dibujar() {
 		// TODO Auto-generated method stub
 		app.ellipse(objetivo.x, objetivo.y, 10, 10);
-		animacion();
-		perseguir();
+		app.stroke(255, 0, 255);
+		app.strokeWeight(3);
+		app.arc(x, y, 30, 30, 0, 10);
+		app.noStroke();
+		animacionesMovimiento();
 		barraVida();
 	}
 
 	@Override
 	public void mover() {
-		pos.add(dir);
-		x = (int) pos.x;
-		y = (int) pos.y;
+		if (energia > 0) {
+			if (energia > LIMITE_COMER) {
+				buscarComida();
+				if (comestible != null) {
+					comer(comestible);
+				}
+
+				if (!encontro || energia < LIMITE_COMER) {
+					if (ciclo % 90 == 0) {
+						int targetX = (int) app.random(-500, 500);
+						int targetY = (int) app.random(-500, 500);
+						perseguir(new PVector(targetX, targetY));
+						calcularImagen(new PVector(targetX, targetY));
+					}
+				}
+			} else {
+				buscarPlanta();
+				if (plantaCercana != null) {
+					comerPlanta(plantaCercana);
+				}
+
+				if (ciclo % 90 == 0) {
+					int targetX = (int) app.random(-500, 500);
+					int targetY = (int) app.random(-500, 500);
+					perseguir(new PVector(targetX, targetY));
+					calcularImagen(new PVector(targetX, targetY));
+				}
+			}
+			pos.add(dir);
+			x = (int) pos.x;
+			y = (int) pos.y;
+		}
+
 	}
 
-	public void animacion() {
+	public void animacionesMovimiento() {
 		app.imageMode(PApplet.CENTER);
 		switch (animacion) {
 		case 0:
@@ -160,7 +215,7 @@ public class AmidCanibal extends EspecieAbstracta implements ICanibal {
 		app.imageMode(PApplet.CORNER);
 	}
 
-	public void perseguir() {
+	public void perseguir(PVector objetivo) {
 		PVector distanX = PVector.sub(objetivo, pos);
 		distanX.y = 0;
 		PVector distanY = PVector.sub(objetivo, pos);
@@ -172,6 +227,24 @@ public class AmidCanibal extends EspecieAbstracta implements ICanibal {
 
 		PVector direccionX = PVector.sub(distanX, dir);
 		dir.add(direccionX);
+
+		if (dX <= 0) {
+			PVector direccionY = PVector.sub(distanY, dir);
+			dir.add(direccionY);
+		}
+
+	}
+
+	public void calcularImagen(PVector objetivo) {
+		PVector distanX = PVector.sub(objetivo, pos);
+		distanX.y = 0;
+		PVector distanY = PVector.sub(objetivo, pos);
+		distanY.x = 0;
+		float dX = distanX.mag();
+
+		distanX.normalize();
+		distanY.normalize();
+
 		if (distanX.x < 0) {
 			animacion = 2;
 		} else if (distanX.x > 0) {
@@ -186,23 +259,38 @@ public class AmidCanibal extends EspecieAbstracta implements ICanibal {
 				animacion = 0;
 			}
 
-			PVector direccionY = PVector.sub(distanY, dir);
-			dir.add(direccionY);
 		}
-
 	}
 
-	@Override
-	public void run() {
-		// TODO Auto-generated method stub
+	private void buscarComida() {
+		List<EspecieAbstracta> all = Mundo.ObtenerInstancia().getEspecies();
+		ListIterator<EspecieAbstracta> iterator = all.listIterator();
 
-		while (vida > 0) {
-			mover();
-			try {
-				Thread.sleep(33);
-			} catch (Exception e) {
+		while (!encontro && iterator.hasNext()) {
+			EspecieAbstracta com = iterator.next();
 
+			if (!com.equals(this)) {
+
+				if (com instanceof AmidOmnivoro || com instanceof AmidCanibal || com instanceof AmidHijo
+						|| com instanceof AmidHerbivoro) {
+
+					float d = PApplet.dist(x, y, com.getX(), com.getY());
+					if (d < energia * 2 && puedeComer) {
+						comestible = com;
+						encontro = true;
+					}
+				}
 			}
+		}
+
+		if (encontro) {
+
+			perseguir(new PVector(comestible.getX(), comestible.getY()));
+			calcularImagen(new PVector(comestible.getX(), comestible.getY()));
+		}
+
+		if (!encontro) {
+			comestible = null;
 		}
 	}
 
@@ -211,9 +299,63 @@ public class AmidCanibal extends EspecieAbstracta implements ICanibal {
 		// TODO Auto-generated method stub
 		if (!victima.getClass().toString().equals(this.getClass().toString())) {
 			if (victima.recibirDano(this)) {
-				energia += 5;
+				vida += 2;
+				energia -= 10;
+				victima.recibirDano(this);
+				encontro = false;
 			}
 		}
+	}
+
+	public void buscarPlanta() {
+		List<PlantaAbstracta> all = Mundo.ObtenerInstancia().getPlantas();
+		ListIterator<PlantaAbstracta> iterador = all.listIterator();
+
+		while (!encontroPlanta && iterador.hasNext()) {
+			PlantaAbstracta p = iterador.next();
+
+			float distancia = PApplet.dist(x, y, p.getX(), p.getY());
+
+			if (distancia < energia * 2 && puedeComer) {
+				plantaCercana = p;
+				encontroPlanta = true;
+			}
+		}
+
+		if (encontroPlanta) {
+			perseguir(new PVector(plantaCercana.getX(), plantaCercana.getY()));
+			calcularImagen(new PVector(plantaCercana.getX(), plantaCercana.getY()));
+		} else {
+			plantaCercana = null;
+		}
+
+	}
+
+	public void comerPlanta(PlantaAbstracta victima) {
+		if (victima != null && puedeComer) {
+			float d = PApplet.dist(x, y, victima.getX(), victima.getY());
+			if (d < 15) {
+				if (victima instanceof PlantaVenenosa) {
+					estado = ENVENENADO;
+					energia += 10;
+					vida -= 10;
+				} else if (victima instanceof PlantaSaludable) {
+					estado = EXTASIS;
+					energia += 10;
+					vida += 10;
+				}
+				if (victima.recibirDano(this)) {
+					victima.recibirDano(this);
+				} else {
+					Mundo.ObtenerInstancia().getPlantas().remove(victima);
+					this.ecosistema.getPlantas().remove(victima);
+				}
+
+				puedeComer = false;
+			}
+
+		}
+
 	}
 
 	@Override
@@ -231,9 +373,15 @@ public class AmidCanibal extends EspecieAbstracta implements ICanibal {
 		return false;
 	}
 
+	@Override
+	public String toString() {
+		return "EspecieBlanca [id=" + id + ", vida=" + vida + ", fuerza=" + fuerza + ", parejaCercana=" + comestible
+				+ ", dir=" + dir + ", x=" + x + ", y=" + y + ", estado=" + estado + "]";
+	}
+
 	public void barraVida() {
-		app.fill(255,95);
-		app.rect(x-60, y-120, 120, 70,8);
+		app.fill(255, 95);
+		app.rect(x - 60, y - 120, 120, 70, 8);
 		app.fill(255, 50, 90);
 		app.rect(x - 50, y - 70, vida, 10, 100);
 		app.noFill();
@@ -245,8 +393,8 @@ public class AmidCanibal extends EspecieAbstracta implements ICanibal {
 		app.fill(252, 182, 35);
 		app.rect(x - 50, y - 90, vida, 10, 100);
 		app.textAlign(PApplet.CENTER);
-		app.fill(252,182,35);
-		app.text("C A N I B A L", x,y-105);
+		app.fill(252, 182, 35);
+		app.text("C A N I B A L", x, y - 105);
 		app.textAlign(PApplet.CORNER);
 	}
 }

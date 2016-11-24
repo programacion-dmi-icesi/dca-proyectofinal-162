@@ -28,33 +28,29 @@ public class AmidOmnivoro extends EspecieAbstracta implements IOmnivoro, IAparea
 	private PImage[] transicionLado = new PImage[12];
 
 	private int contador;
-	private float fuerza;
-	private int velocidad;
 
 	private float energia;
 	private PVector dir;
 	private PVector pos;
 	private PVector objetivo;
 	private int animacion;
+	private int ciclo;
 
-	private Random random;
+
 
 	public AmidOmnivoro(EcosistemaAbstracto ecosistema) {
 		super(ecosistema);
 		app = Mundo.ObtenerInstancia().getApp();
 
-		this.random = new Random();
-		this.x = random.nextInt(Mundo.ObtenerInstancia().getApp().width);
-		this.y = random.nextInt(Mundo.ObtenerInstancia().getApp().height);
+		this.x = (int)app.random(-500,500);
+		this.y = (int)app.random(-500,500);
 		this.vida = 50;
-		this.fuerza = 100;
 		this.energia = 250;
-		this.velocidad = 2;
 
 		objetivo = new PVector(400, 200);
 
 		dir = new PVector(0, 0);
-		pos = new PVector(0, 0);
+		pos = new PVector(x, y);
 
 		cargaImagenes();
 		Thread nt = new Thread(this);
@@ -204,10 +200,18 @@ public class AmidOmnivoro extends EspecieAbstracta implements IOmnivoro, IAparea
 
 	@Override
 	public void run() {
-		while (vida > 0) {
-			mover();
+		// TODO Auto-generated method stub
+
+		while (true) {
+			if (vida > 0) {
+				mover();
+			} else {
+				Mundo.ObtenerInstancia().getEspecies().remove(this);
+				this.ecosistema.getEspecies().remove(this);
+			}
 			try {
 				Thread.sleep(33);
+				ciclo++;
 			} catch (Exception e) {
 
 			}
