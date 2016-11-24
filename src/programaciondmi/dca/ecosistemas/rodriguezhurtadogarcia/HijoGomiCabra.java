@@ -10,13 +10,13 @@ import programaciondmi.dca.ejecucion.Mundo;
 
 public class HijoGomiCabra extends GomiCabra {
 
-	public HijoGomiCabra(EcosistemaAbstracto ecosistema, int x, int y) {
+	public HijoGomiCabra(EcosistemaAbstracto ecosistema) {
 		super(ecosistema);
 		// TODO Auto-generated constructor stub
 		this.random = new Random();
 		app = Mundo.ObtenerInstancia().getApp();
-		this.x = x;
-		this.y = y;
+		this.x = (int) app.random(-app.width, app.width);
+		this.y = (int) app.random(-app.height, app.height);
 		this.vida = 50;
 		this.fuerza = 100;
 		this.energia = 250;
@@ -54,11 +54,17 @@ public class HijoGomiCabra extends GomiCabra {
 	@Override
 	public void run() {
 		// TODO Auto-generated method stub
-		while (vivo) {
-			// solo se mueve por ahí :D
+		while (true) {
 			mover();
 			try {
 				Thread.sleep(33);
+
+				vista++;
+
+				if (vista == 3) {
+					vista = 0;
+				}
+
 			} catch (Exception e) {
 				// TODO: handle exception
 			}

@@ -24,12 +24,8 @@ public class PlantaGomiCabra extends PlantaAbstracta {
 		super();
 
 		app = Mundo.ObtenerInstancia().getApp();
-
 		this.x = (int) app.random(-app.width, app.width);
 		this.y = (int) app.random(-app.height, app.height);
-
-		// this.x = (int) app.random(-app.width, app.width);
-		// this.y = (int) app.random(-app.height, app.height);
 
 		plantaBuena[0] = app.loadImage("../dataGomiCabra/plantaBuena/plantaBuena1.png");
 		plantaBuena[1] = app.loadImage("../dataGomiCabra/plantaBuena/plantaBuena2.png");
@@ -53,7 +49,7 @@ public class PlantaGomiCabra extends PlantaAbstracta {
 	@Override
 	public void dibujar() {
 		// TODO Auto-generated method stub
-		app.imageMode(app.CENTER);
+
 		switch (id) {
 		case 0:
 			app.image(plantaBuena[estado], x, y);
@@ -62,8 +58,6 @@ public class PlantaGomiCabra extends PlantaAbstracta {
 			app.image(plantaMala[estado], x, y);
 			break;
 		}
-		app.imageMode(app.CORNER);
-
 	}
 
 	public void setX(int x) {
@@ -95,7 +89,7 @@ public class PlantaGomiCabra extends PlantaAbstracta {
 	public void mordisco() {
 		estado++;
 
-		if (estado > 2) {
+		if (estado > 3) {
 			muerto = true;
 		}
 	}

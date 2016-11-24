@@ -13,7 +13,7 @@ public abstract class GomiCabra extends EspecieAbstracta {
 	protected int t;
 	protected int vida;
 	protected int maxVida;
-	protected boolean esperar = false;
+	protected boolean puedeComer = true;
 	protected float fuerza;
 	protected int velocidad, velPoder = 1, vista, mover, direccion = 2;
 	protected PImage[] frente = new PImage[4];
@@ -31,28 +31,22 @@ public abstract class GomiCabra extends EspecieAbstracta {
 	protected int maxSalud = 5;
 	protected int salud = maxSalud;
 	protected Random random;
-	protected boolean vivo = true;
 
 	public GomiCabra(EcosistemaAbstracto ecosistema) {
 		super(ecosistema);
 		this.random = new Random();
 		app = Mundo.ObtenerInstancia().getApp();
-
-		this.x = (int) app.random(-1071.387f, 1071.387f);
-		this.y = (int) app.random(-1840.438f, 1840.438f);
-
+		this.x = (int) app.random(-app.width - 2000, app.width + 2000);
+		this.y = (int) app.random(-app.height - 2000, app.height + 2000);
 	}
 
 	@Override
 	public void dibujar() {
+
 		PApplet app = Mundo.ObtenerInstancia().getApp();
 		float dolor = app.map(vida, 0, maxVida, 0, 255);
 		app.tint(dolor, 255, dolor);
-
-		app.imageMode(app.CENTER);
-		/**
-		 * para cambiar las posiciones.
-		 */
+		// app.rect( x + moverX, y + moverY,100,100);
 		if (direccion == 3) {
 			app.image(izquierda[vista], x, y);
 		} else if (direccion == 4) {
@@ -63,47 +57,18 @@ public abstract class GomiCabra extends EspecieAbstracta {
 			app.image(atras[vista], x, y);
 		}
 
-		app.imageMode(app.CORNER);
 		app.colorMode(app.RGB);
 		app.noTint();
-
 	}
 
 	@Override
 	public void mover() {
-
-		// condición para realizar acciones cada cierto tiempo
-		if (esperar) {
-			t++;
-			if (t > 300) {
-				esperar = false;
-				t = 0;
-			}
-		}
-
-		// la vida indica el estado de la especie, si este se enferma, se pondrá
-		// verde y cambiará su estado
-
-		if (vida > 50) {
-			estado = NORMAL;
-		} else {
-			estado = ENFERMO;
-		}
-
-		// cambia la imagen cada 5 frames
-		if (app.frameCount % 5 == 0)
-			vista += 1;
-		// reinicia todo.
-		if (vista > 2) {
-			vista = 0;
-		}
-		// para cambiar de dirección
+		// causa el movimiento
 
 		if (app.frameCount % (int) (app.random(60, 100)) == 0) {
 			mover = (int) app.random(0, 4);
 		}
 
-		// condiciones para mover.
 		if (energia > 0) {
 			switch (mover) {
 			case 0:
@@ -138,14 +103,8 @@ public abstract class GomiCabra extends EspecieAbstracta {
 			}
 		}
 
-		if (estado == MUERTO) {
+		if (vida < 0)
 			muerto = true;
-			vivo = false;
-		}
-		if (vida < 0) {
-			estado = MUERTO;
-		}
-
 	}
 
 	@Override
@@ -165,14 +124,6 @@ public abstract class GomiCabra extends EspecieAbstracta {
 
 	public void setMuerto(boolean muerto) {
 		this.muerto = muerto;
-	}
-
-	public boolean isVivo() {
-		return vivo;
-	}
-
-	public void setVivo(boolean vivo) {
-		this.vivo = vivo;
 	}
 
 	public void setVelPoder(int velPoder) {

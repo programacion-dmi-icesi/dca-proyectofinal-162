@@ -40,9 +40,7 @@ public class EcosistemaEjemplo extends EcosistemaAbstracto {
 		EspecieBlanca nueva = new EspecieBlanca(this);
 		especies.add(nueva);		
 		nueva = new EspecieBlanca(this);
-		especies.add(nueva);		
-		EspecieAzul azul = new EspecieAzul(this);
-		especies.add(azul);		
+		especies.add(nueva);	
 		return especies;
 	}
 
@@ -58,9 +56,7 @@ public class EcosistemaEjemplo extends EcosistemaAbstracto {
 	@Override
 	protected List<EspecieAbstracta> generarIndividuos() {
 		EspecieBlanca nueva = new EspecieBlanca(this);
-		especies.add(nueva);		
-		EspecieAzul azul = new EspecieAzul(this);
-		especies.add(azul);		
+		especies.add(nueva);	
 		return null;
 	}
 	

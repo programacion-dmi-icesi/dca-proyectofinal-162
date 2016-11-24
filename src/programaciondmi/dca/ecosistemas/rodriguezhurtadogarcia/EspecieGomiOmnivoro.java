@@ -38,6 +38,8 @@ public class EspecieGomiOmnivoro extends GomiCabra implements IOmnivoro {
 
 		app = Mundo.ObtenerInstancia().getApp();
 
+		// OMNIVORO IZQUIERDO
+
 		izquierda[0] = app.loadImage("../dataGomiCabra/omnivoro/omnivoroIzquierda/1.png");
 		izquierda[1] = app.loadImage("../dataGomiCabra/omnivoro/omnivoroIzquierda/2.png");
 		izquierda[2] = app.loadImage("../dataGomiCabra/omnivoro/omnivoroIzquierda/3.png");
@@ -67,59 +69,21 @@ public class EspecieGomiOmnivoro extends GomiCabra implements IOmnivoro {
 
 	@Override
 	public void comer(EspecieAbstracta victima) {
-		try {
-			victima.setEstado(MUERTO);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		if (!victima.getClass().toString().equals(this.getClass().toString())) {
+			if (victima.recibirDano(this)) {
+				energia += 5;
+			}
 		}
-
 	}
 
 	@Override
 	public void run() {
-		while (vivo) {
+		while (vida > 0) {
 			mover();
 			try {
-				// para comerse a los demás
-				synchronized (ecosistema.getEspecies()) {
-					for (EspecieAbstracta especie : ecosistema.getEspecies()) {
-						if (especie != this) {
-
-							float d = app.dist(especie.getX(), especie.getY(), this.x, this.y);
-
-							if (!esperar) {
-								if (d < 100) {
-									comer(especie);
-									((GomiCabra) especie).setVivo(vivo);
-									ecosistema.getEspecies().remove(especie);
-
-									break;
-								}
-							}
-						}
-					}
-				}
-
-				/*
-				 * Aqui se recorren las plantas y si, esta esta cerca de esta
-				 * clase, se llamará el metodo comerPlanta.
-				 */
-				synchronized (ecosistema.getPlantas()) {
-					// List<PlantaAbstracta> plantas = ecosistema.getPlantas();
-					for (PlantaAbstracta planta : ecosistema.getPlantas()) {
-						float d = app.dist(planta.getX(), planta.getY(), this.x, this.y);
-
-						if (d < 100) {
-							if (!esperar) {
-								comerPlanta(planta);
-
-							}
-						}
-					}
-				}
 				Thread.sleep(33);
 				vista++;
+
 				if (vista == 3) {
 					vista = 0;
 				}
@@ -130,14 +94,71 @@ public class EspecieGomiOmnivoro extends GomiCabra implements IOmnivoro {
 		}
 	}
 
-	@Override
-	public boolean recibirDano(EspecieAbstracta lastimador) {
-		return false;
+	private void buscarParejaCercana() {
+
+		List<EspecieAbstracta> todas = Mundo.ObtenerInstancia().getEspecies();
+
+		ListIterator<EspecieAbstracta> iterador = todas.listIterator();
+		boolean encontro = false;
+		while (!encontro && iterador.hasNext()) {
+			EspecieAbstracta e = iterador.next();
+			if ((e instanceof IApareable) && !e.equals(this)) {
+				float dist = PApplet.dist(x, y, e.getX(), e.getY());
+				if (dist < energia) {
+					encontro = true;
+					parejaCercana = e;
+				}
+			}
+		}
+		if (!encontro) {
+			parejaCercana = null;
+		}
+
+	}
+
+	private void intentarAparear() {
+
+	}
+
+	private void buscarComida() {
+		List<EspecieAbstracta> todas = Mundo.ObtenerInstancia().getEspecies();
+		for (int i = 0; i < todas.size(); i++) {
+			comer(todas.get(i));
+		}
 	}
 
 	@Override
+	public boolean recibirDano(EspecieAbstracta lastimador) {
+		// TODO implementar metodo
+		return false;
+	}
+
+
+	@Override
 	public void comerPlanta(PlantaAbstracta victima) {
-		// TODO Auto-generated method stub
+
+		System.out.println("se come una planta ");
+		if (puedeComer && victima instanceof PlantaGomiCabra) {
+			PlantaGomiCabra p = (PlantaGomiCabra) victima;
+
+			switch (p.getId()) {
+			case 0:
+				vida += 15;
+				if (vida > maxVida)
+					vida = maxVida;
+				break;
+			case 1:
+				vida -= 15;
+				if (vida < 0) {
+
+					// condición de morir
+				}
+				break;
+			}
+			p.mordisco();
+			puedeComer = false;
+
+		}
 
 	}
 

@@ -62,66 +62,74 @@ public class EspecieGomiCarnivoro extends GomiCabra implements ICarnivoro {
 
 	@Override
 	public void comer(EspecieAbstracta victima) {
-		try {
-			// la vida indica el estado de la especie, si este se enferma, se
-			// pondr· verde y cambiar· su estado
-			if (victima.getEstado() == ENFERMO) {
-				vida = 49;
-			} else {
-				vida = 100;
+		// TODO Auto-generated method stub
+		if (!victima.getClass().toString().equals(this.getClass().toString())) {
+			if (victima.recibirDano(this)) {
+				energia += 5;
 			}
-
-			victima.setEstado(MUERTO);
-
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
 	}
 
 	@Override
 	public void run() {
-		while (vivo) {
+		while (vida > 0) {
 			mover();
 			try {
-
-				/*
-				 * metodo que inidica que debe comerse a cualquier especie cuya
-				 * distancia a Èl sea menor a 100
-				 */
-				synchronized (ecosistema.getEspecies()) {
-					for (EspecieAbstracta especie : ecosistema.getEspecies()) {
-						if (especie != this) {
-
-							float d = PApplet.dist(especie.getX(), especie.getY(), this.x, this.y);
-
-							if (!esperar) {
-								if (d < 100) {
-									comer(especie);
-									((GomiCabra) especie).setVivo(false);
-									ecosistema.getEspecies().remove(especie);
-									break;
-								}
-							}
-
-						}
-
-					}
-				}
-
 				Thread.sleep(33);
+
 				vista++;
+
 				if (vista == 3) {
 					vista = 0;
 				}
+
 			} catch (Exception e) {
 				// TODO: handle exception
 			}
 		}
 	}
 
+	private void buscarParejaCercana() {
+		List<EspecieAbstracta> todas = Mundo.ObtenerInstancia().getEspecies();
+		// System.out.println("Buscando pareja entre " + todas.size() + "
+		// especies del mundo");
+		ListIterator<EspecieAbstracta> iterador = todas.listIterator();
+		boolean encontro = false;
+		while (!encontro && iterador.hasNext()) {
+			EspecieAbstracta e = iterador.next();
+			if ((e instanceof IApareable) && !e.equals(this)) {
+				float dist = PApplet.dist(x, y, e.getX(), e.getY());
+				// System.out.println("Encontr√≥ apareable a " + dist);
+				if (dist < energia) {
+					// System.out.println("Encontr√≥ una pareja cercana");
+					encontro = true;
+					parejaCercana = e;
+					// Cambiar la direcci√≥n
+				}
+			}
+		}
+		// asegurarse de que la referencia sea null;
+		if (!encontro) {
+			parejaCercana = null;
+			// System.out.println("No encontr√≥ una pareja cercana");
+		}
+
+	}
+
+	private void intentarAparear() {
+
+	}
+
+	private void buscarComida() {
+		List<EspecieAbstracta> todas = Mundo.ObtenerInstancia().getEspecies();
+		for (int i = 0; i < todas.size(); i++) {
+			comer(todas.get(i));
+		}
+	}
+
 	@Override
 	public boolean recibirDano(EspecieAbstracta lastimador) {
+		// TODO implementar metodo
 		return false;
 	}
 
