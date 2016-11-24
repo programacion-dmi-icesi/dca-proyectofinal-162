@@ -62,10 +62,24 @@ public class Herbivoro extends EspecieAbstracta implements IHerbivoro, IApareabl
 		while (vida > 0) {
 			mover();
 			try {
+				// Ayuda de monitorGC
+				PApplet app = Mundo.ObtenerInstancia().getApp();
+				synchronized (ecosistema.getPlantas()) {
+					// List<PlantaAbstracta> plantas = ecosistema.getPlantas();
+					for (PlantaAbstracta planta : ecosistema.getPlantas()) {
+						float d = app.dist(planta.getX(), planta.getY(), this.ballX, this.ballY);
+
+						if (d < 100) {
+							// if (!esperar) {
+							comerPlanta(planta);
+
+							// }
+						}
+					}
+				}
 				Thread.sleep(20);
 				ciclo++;
 				reproducir();
-				comeP();
 
 			} catch (Exception e) {
 				// TODO: handle exception
@@ -114,6 +128,7 @@ public class Herbivoro extends EspecieAbstracta implements IHerbivoro, IApareabl
 		herbi[3] = app.loadImage("../data/HerbivoroCuatro.png");
 		herbi[4] = app.loadImage("../data/HerbivoroCinco.png");
 
+
 		
 			app.image(herbi[direccion], ballX, ballY);
 
@@ -140,7 +155,29 @@ public class Herbivoro extends EspecieAbstracta implements IHerbivoro, IApareabl
 		if (app.mousePressed == true) {
 			System.out.println(app.mouseX);
 			System.out.println(app.mouseY);
+
+		if (vida == 20) {
+			app.image(herbi[0], ballX, ballY);
 		}
+		if (vida == 15) {
+			app.image(herbi[1], ballX, ballY);
+
+		}
+		if (vida == 10) {
+			app.image(herbi[2], ballX, ballY);
+		}
+		if (vida == 5) {
+			app.image(herbi[3], ballX, ballY);
+		}
+		}
+	}
+
+	public int getVida() {
+		return vida;
+	}
+
+	public void setVida(int vida) {
+		this.vida = vida;
 	}
 
 	@Override
@@ -169,7 +206,7 @@ public class Herbivoro extends EspecieAbstracta implements IHerbivoro, IApareabl
 
 	@Override
 	public boolean recibirDano(EspecieAbstracta lastimador) {
-		if (PApplet.dist(ballX, ballY, lastimador.getX(), lastimador.getY()) < 1) {
+		if (PApplet.dist(ballX, ballY, lastimador.getX(), lastimador.getY()) < 50) {
 			vida -= 5;
 			try {
 				if (vida >= 20) {
@@ -188,6 +225,7 @@ public class Herbivoro extends EspecieAbstracta implements IHerbivoro, IApareabl
 					lastimador.setEstado(MUERTO);
 
 				}
+
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -225,25 +263,6 @@ public class Herbivoro extends EspecieAbstracta implements IHerbivoro, IApareabl
 					// }
 				}
 
-			}
-		}
-	}
-
-	public void comeP() {
-
-		// Ayuda de monitorGC
-		PApplet app = Mundo.ObtenerInstancia().getApp();
-		synchronized (ecosistema.getPlantas()) {
-			// List<PlantaAbstracta> plantas = ecosistema.getPlantas();
-			for (PlantaAbstracta planta : ecosistema.getPlantas()) {
-				float d = app.dist(planta.getX(), planta.getY(), this.ballX, this.ballY);
-
-				if (d < 100) {
-					// if (!esperar) {
-					comerPlanta(planta);
-
-					// }
-				}
 			}
 		}
 	}
