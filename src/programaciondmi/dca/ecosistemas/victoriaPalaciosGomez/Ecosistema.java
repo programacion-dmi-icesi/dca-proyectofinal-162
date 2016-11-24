@@ -29,17 +29,17 @@ private static PApplet app;
 
 	@Override
 	public void dibujar() {
-		synchronized (especies) {
-			Iterator<EspecieAbstracta> iteradorEspecies = especies.iterator();
-			while(iteradorEspecies.hasNext()){
-				EspecieAbstracta actual = iteradorEspecies.next();
-				actual.dibujar();
-			}
-		}
 		synchronized (plantas) {
 			Iterator<PlantaAbstracta> iteradorEspecies = plantas.iterator();
 			while(iteradorEspecies.hasNext()){
 				PlantaAbstracta actual = iteradorEspecies.next();
+				actual.dibujar();
+			}
+		}
+		synchronized (especies) {
+			Iterator<EspecieAbstracta> iteradorEspecies = especies.iterator();
+			while(iteradorEspecies.hasNext()){
+				EspecieAbstracta actual = iteradorEspecies.next();
 				actual.dibujar();
 			}
 		}

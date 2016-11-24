@@ -32,7 +32,7 @@ public class Jacinto extends EspecieAbstracta {
 		acceleration = new PVector (0,0);
 		vel = new PVector (0,0);
 		maxSpeed = 3;
-		location = new PVector (x,y);
+		//location = new PVector (x,y);
 		int targetX = (int) (Math.random() * 500);
 		int targetY = (int) (Math.random() * 500);
 		cambiarDireccion(new PVector(targetX, targetY));
@@ -55,7 +55,7 @@ public class Jacinto extends EspecieAbstracta {
 			int targetX = (int) (Math.random() * 500);
 			int targetY = (int) (Math.random() * 500);
 			cambiarDireccion(new PVector(targetX, targetY));
-			 System.out.println("CAMBIO DIRECCION!");
+			// System.out.println("CAMBIO DIRECCION!");
 		}
 
 		x += dir.x;
