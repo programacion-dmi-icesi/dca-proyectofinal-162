@@ -26,7 +26,7 @@ public class EcosistemaDES extends EcosistemaAbstracto {
 		super();
 
 		Mundo app2 = Mundo.ObtenerInstancia();
-		logoMuf = new Logo("../data/iconoMuf.svg", this);
+		logoMuf = new Logo("../data/mufs.svg", this);
 		app2.agregarBoton(logoMuf);
 
 	}

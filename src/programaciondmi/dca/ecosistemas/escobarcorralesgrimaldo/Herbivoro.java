@@ -112,21 +112,12 @@ public class Herbivoro extends EspecieAbstracta implements IHerbivoro, IApareabl
 		herbi[3] = app.loadImage("../data/HerbivoroCuatro.png");
 		herbi[4] = app.loadImage("../data/HerbivoroCinco.png");
 
-		if (vida == 20) {
-			app.image(herbi[0], ballX, ballY);
+		if (vida <= 20) {
+	//		app.tint(10, 100, 10, 80);
+
 		}
-		if (vida == 15) {
-			app.image(herbi[1], ballX, ballY);
-		}
-		if (vida == 10) {
-			app.image(herbi[2], ballX, ballY);
-		}
-		if (vida == 5) {
-			app.image(herbi[3], ballX, ballY);
-		}
-		if (vida == 0) {
-			app.image(herbi[4], ballX, ballY);
-		}
+
+		app.image(herbi[0], ballX, ballY);
 
 		if (app.mousePressed == true) {
 			System.out.println(app.mouseX);
@@ -225,7 +216,7 @@ public class Herbivoro extends EspecieAbstracta implements IHerbivoro, IApareabl
 		// Ayuda de monitorGC
 		PApplet app = Mundo.ObtenerInstancia().getApp();
 		synchronized (ecosistema.getPlantas()) {
-		// List<PlantaAbstracta> plantas = ecosistema.getPlantas();
+			// List<PlantaAbstracta> plantas = ecosistema.getPlantas();
 			for (PlantaAbstracta planta : ecosistema.getPlantas()) {
 				float d = app.dist(planta.getX(), planta.getY(), this.ballX, this.ballY);
 
