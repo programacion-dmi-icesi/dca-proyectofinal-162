@@ -1,6 +1,7 @@
 package programaciondmi.dca.ecosistemas.piedrahitarinconrojasrojas;
 
 import java.util.List;
+import java.util.ListIterator;
 import java.util.Random;
 
 import processing.core.PApplet;
@@ -8,26 +9,29 @@ import processing.core.PImage;
 import processing.core.PVector;
 import programaciondmi.dca.core.EcosistemaAbstracto;
 import programaciondmi.dca.core.EspecieAbstracta;
+import programaciondmi.dca.core.interfaces.IApareable;
 import programaciondmi.dca.core.interfaces.ICanibal;
 import programaciondmi.dca.ejecucion.Mundo;
 
 public class Cannibalbot extends EspecieAbstracta implements ICanibal {
-
+	PApplet app = Mundo.ObtenerInstancia().getApp();
 	private int vida;
-	private float fuerza;
-	private int velocidad;
-	private float energia;
+	private float fuerza, energia, defensa;
+	private float velocidad;
 	private int ciclo;
 	private PVector dir;
 	PImage[] cannibal = new PImage[20];
-	PImage mDefensa, mEnergia, mFuerza, mVelocidad;
+	PImage poison, ivel, ienergy, iforce, idefense;
 	int posicionpj = 0;
 	int contador;
 	int movCannibalbot = 0;
 	private Random random;
 	int vista;
 	int movCanibal;
-
+	private EspecieAbstracta especieCercana;
+	
+	private boolean animonbuena =false;
+	private boolean animonmala =false;
 	public Cannibalbot(EcosistemaAbstracto ecosistema) {
 		super(ecosistema);
 		this.random = new Random();
@@ -73,10 +77,11 @@ public class Cannibalbot extends EspecieAbstracta implements ICanibal {
 		cannibal[19] = app.loadImage("DataTikiBots/Cannibalbot/cZ005.png");
 
 		// Iconos
-		mDefensa = app.loadImage("DataTikiBots/iconos/iconoDefensa.png");
-		mEnergia = app.loadImage("DataTikiBots/iconos/iconoEnergia.png");
-		mFuerza = app.loadImage("DataTikiBots/iconos/iconoFuerza.png");
-		mVelocidad = app.loadImage("DataTikiBots/iconos/iconoVelocidad.png");
+		poison = app.loadImage("DataTikiBots/iconos/envenenado.png");
+		ivel = app.loadImage("DataTikiBots/iconos/iconoVelocidad.png");
+		ienergy = app.loadImage("DataTikiBots/iconos/iconoEnergia.png");
+		iforce = app.loadImage("DataTikiBots/iconos/iconoFuerza.png");
+		idefense = app.loadImage("DataTikiBots/iconos/iconoDefensa.png");
 
 		Thread nt = new Thread(this);
 		nt.start();
@@ -84,13 +89,55 @@ public class Cannibalbot extends EspecieAbstracta implements ICanibal {
 	}
 
 	public void comer(EspecieAbstracta victima) {
-		// TODO Auto-generated method stub
+		if (victima.recibirDano(this)) {
+			try {
+					if(vida!=100){
+						vida+=20;
+					}
+					animonbuena =true;
+					animonmala=false;
+					fuerza +=20;
+					defensa +=20;
+					velocidad += 0.05;
+					
+					switch (vida) {
+					case 100:
+						setEstado(NORMAL);
+						break;
+					case 80:
+						setEstado(ENFERMO);
+						break;
+					case 60:
+						setEstado(EXTASIS);
+						break;
+					case 40:
+						setEstado(MUERTO);
+						animonbuena = false;
+						animonmala = false;
+						break;
+					}
 
+				
+				
+
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+			Mundo.ObtenerInstancia().getEspecies().remove(victima);
+			this.ecosistema.getEspecies().remove(victima);
+			energia += 5;
+		}
 	}
 
 	public void mover() {
 		if (energia > 0) {
 			buscarComida();
+			
+			if(especieCercana != null){
+				comer(especieCercana);
+			}
 
 			if (ciclo % 30 == 0) {
 				// Definir una direccion aleatoria cada 3 segundos
@@ -99,6 +146,7 @@ public class Cannibalbot extends EspecieAbstracta implements ICanibal {
 				// siguiente posicion en Y
 				int targetY = random.nextInt();
 				cambiarDireccion(new PVector(targetX, targetY));
+				
 				// diagonal derecha arriba
 				if (targetX > this.x && targetY > this.y) {
 					vista = 1;
@@ -145,7 +193,28 @@ public class Cannibalbot extends EspecieAbstracta implements ICanibal {
 	}
 
 	public void dibujar() {
-		PApplet app = Mundo.ObtenerInstancia().getApp();
+		
+		if (animonbuena==true) {
+			app.fill(0);
+			app.text("+20", x,y-70);
+			app.text("+20", x+30,y-70);
+			app.text("+0.05", x+60,y-70);
+			app.image(iforce, x, y-60, 30,30);
+			app.image(idefense, x+30, y-60, 30,30);
+			app.image(ivel, x+60, y-60, 30,30);
+		
+		}
+		if (animonmala==true) {
+			app.fill(0);
+			app.text("-20", x,y-70);
+			app.text("-20", x+30,y-70);
+			app.text("-0.01", x+60,y-70);
+			app.image(iforce, x, y-60, 30,30);
+			app.image(idefense, x+30, y-60, 30,30);
+			app.image(ivel, x+60, y-60, 30,30);
+		
+		}
+		
 		if (contador == 5 * vista) {
 			contador = (vista - 1) * 5;
 		}
@@ -205,9 +274,9 @@ public class Cannibalbot extends EspecieAbstracta implements ICanibal {
 
 	public boolean recibirDano(EspecieAbstracta lastimador) {
 		if (PApplet.dist(x, y, lastimador.getX(), lastimador.getY()) <= (vida / 2)) {
-			vida -= 5;
+			vida -= 20;
 			try {
-				lastimador.setEstado(EXTASIS);
+				lastimador.setEstado(NORMAL);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -217,9 +286,47 @@ public class Cannibalbot extends EspecieAbstracta implements ICanibal {
 	}
 
 	private void buscarComida() {
-		List<EspecieAbstracta> todas = Mundo.ObtenerInstancia().getEspecies();
-		for (int i = 0; i < todas.size(); i++) {
-			comer(todas.get(i));
+		synchronized (Mundo.ObtenerInstancia().getEspecies()) {
+			List<EspecieAbstracta> todas = Mundo.ObtenerInstancia().getEspecies();
+			ListIterator<EspecieAbstracta> iterador = todas.listIterator();
+			boolean encontro = false;
+			while (!encontro && iterador.hasNext()) {
+				EspecieAbstracta e = iterador.next();
+				if ((e instanceof Birdbot) && !e.equals(this)) {
+					float dist = PApplet.dist(x, y, e.getX(), e.getY());
+	
+					if (dist < energia) {
+						encontro = true;
+						especieCercana = e;
+						// Cambiar la dirección
+						cambiarDireccion(new PVector(especieCercana.getX(), especieCercana.getY()));
+					}
+					
+				}
+				if ((e instanceof Magusbot) && !e.equals(this)) {
+					float dist = PApplet.dist(x, y, e.getX(), e.getY());
+					if (dist < energia) {
+						encontro = true;
+						especieCercana = e;
+						// Cambiar la dirección
+						cambiarDireccion(new PVector(especieCercana.getX(), especieCercana.getY()));
+					}
+				}
+				if ((e instanceof SaberBot) && !e.equals(this)) {
+					float dist = PApplet.dist(x, y, e.getX(), e.getY());
+					if (dist < energia) {
+						encontro = true;
+						especieCercana = e;
+						// Cambiar la dirección
+						cambiarDireccion(new PVector(especieCercana.getX(), especieCercana.getY()));
+					}
+				}
+			}
+			// asegurarse de que la referencia sea null;
+			if (!encontro) {
+				especieCercana = null;
+				//System.out.println("No encontró una pareja cercana");
+			}
 		}
 	}
 }

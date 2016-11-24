@@ -183,59 +183,11 @@ public class Magusbot extends EspecieAbstracta implements IOmnivoro {
 
 		}
 
-		PApplet app = Mundo.ObtenerInstancia().getApp();
-		// Image Personaje
-
-		if (contador == 5 * vista) {
-			contador = (vista - 1) * 5;
-		}
 
 		// System.out.println(magobot[contador]);
 
 		app.image(magobot[contador], x, y, 100, 100);
 		app.fill(255, 0, 0);
-
-		if (app.frameCount % 10 == 0) {
-			contador++;
-		}
-
-		app.noStroke();
-		switch (vida) {
-
-		case 100:
-			app.fill(0, 255, 0);
-			app.rect(x + 05, y - 20, 20, 10);
-			app.rect(x + 25, y - 20, 20, 10);
-			app.rect(x + 45, y - 20, 20, 10);
-			app.rect(x + 65, y - 20, 20, 10);
-			app.rect(x + 85, y - 20, 20, 10);
-			break;
-		case 80:
-			app.fill(255, 255, 0);
-			app.rect(x + 05, y - 20, 20, 10);
-			app.rect(x + 25, y - 20, 20, 10);
-			app.rect(x + 45, y - 20, 20, 10);
-			app.rect(x + 65, y - 20, 20, 10);
-			break;
-		case 60:
-			app.fill(255, 0, 0);
-			app.rect(x + 05, y - 20, 20, 10);
-			app.rect(x + 25, y - 20, 20, 10);
-			app.rect(x + 45, y - 20, 20, 10);
-			break;
-		case 40:
-			app.fill(255, 0, 255);
-			app.rect(x + 05, y - 20, 20, 10);
-			app.rect(x + 25, y - 20, 20, 10);
-			break;
-		case 20:
-			app.fill(255, 0, 255);
-			app.rect(x + 05, y - 20, 20, 10);
-			break;
-		case 0:
-
-			break;
-		}
 
 	}
 
@@ -269,7 +221,7 @@ public class Magusbot extends EspecieAbstracta implements IOmnivoro {
 				}
 			}
 
-			// moverse en la dirección asignada actualmente
+			// moverse en la direcciï¿½n asignada actualmente
 			this.x += dir.x;
 			this.y += dir.y;
 			energia -= 0.01;
@@ -290,40 +242,7 @@ public class Magusbot extends EspecieAbstracta implements IOmnivoro {
 	}
 
 	private void buscarComida() {
-		synchronized (this.ecosistema.getPlantas()) {
-			List<PlantaAbstracta> all = Mundo.ObtenerInstancia().getPlantas();
-			ListIterator<PlantaAbstracta> iterador = all.listIterator();
-			boolean encontro = false;
-			// System.out.println(all.size());
-
-			while (iterador.hasNext()) {
-				PlantaAbstracta planta = iterador.next();
-				if (planta instanceof PlantaMala) {
-					PlantaMala pmala = (PlantaMala) planta;
-					float distancia = app.dist(x, y, pmala.getX(), pmala.getY());
-					if (distancia < energia) {
-						encontro = true;
-						plantaCerca = planta;
-						cambiarDireccion(new PVector(pmala.getX(), pmala.getY()));
-
-					}
-				} else if (planta instanceof PlantaBuena) {
-					PlantaBuena pbuena = (PlantaBuena) planta;
-					float distancia = app.dist(x, y, pbuena.getX(), pbuena.getY());
-					if (distancia < energia) {
-						encontro = true;
-						plantaCerca = planta;
-						cambiarDireccion(new PVector(pbuena.getX(), pbuena.getY()));
-
-					}
-				}
-
-			}
-
-			if (!encontro) {
-				plantaCerca = null;
-			}
-		}
+		
 	}
 
 	private void cambiarDireccion(PVector target) {

@@ -21,6 +21,7 @@ public class Birdbot extends EspecieAbstracta implements IApareable, IHerbivoro 
 	private int vida, ciclo, contador;
 	private float velocidad;
 	private float fuerza, energia, defensa;
+	private int contAparear;
 	PApplet app = Mundo.ObtenerInstancia().getApp();
 	private EspecieAbstracta parejaCercana;
 	private PlantaAbstracta plantaCerca;
@@ -293,13 +294,17 @@ public class Birdbot extends EspecieAbstracta implements IApareable, IHerbivoro 
 	 * </p>
 	 */
 	private void intentarAparear() {
-
+		
 		float dist = PApplet.dist(x, y, parejaCercana.getX(), parejaCercana.getY());
 		if (dist < vida) {
 			IApareable a = (IApareable) parejaCercana;
-			ecosistema.agregarEspecie(aparear(a));
-			// perder energia
-			energia -= 50;
+			if(contAparear==0){
+				ecosistema.agregarEspecie(aparear(a));
+				// perder energia
+				vida -=20;
+				energia -= 50;
+				contAparear++;
+			}
 		}
 
 	}
@@ -366,7 +371,15 @@ public class Birdbot extends EspecieAbstracta implements IApareable, IHerbivoro 
 	@Override
 	public boolean recibirDano(EspecieAbstracta lastimador) {
 		// TODO implementar metodo
-
+		if (PApplet.dist(x, y, lastimador.getX(), lastimador.getY()) <= (vida / 2)) {
+			vida -= 20;
+			try {
+				lastimador.setEstado(NORMAL);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			return true;
+		}
 		return false;
 	}
 
