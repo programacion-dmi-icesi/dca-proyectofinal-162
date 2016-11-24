@@ -19,6 +19,13 @@ public class Begonia extends EspecieAbstracta implements IApareable, ICarnivoro 
 	private int vida;
 	private float fuerza;
 	private int velocidad;
+	public static final int NORMAL = 0;
+	public static final int ENVENENADO = 1;
+	public static final int ENFERMO = 2;
+	public static final int EXTASIS = 3;
+	public static final int MUERTO = 4;
+	protected int estado;
+
 	/*
 	 * Se utiliza para definfir cuando el individuo puede realizar acciones:
 	 * moverse, aparearse, etc
@@ -37,6 +44,7 @@ public class Begonia extends EspecieAbstracta implements IApareable, ICarnivoro 
 	public Begonia(EcosistemaAbstracto ecosistema) {
 		super(ecosistema);
 		this.app = Mundo.ObtenerInstancia().getApp();
+		this.estado = NORMAL;
 		imagenes();
 		this.random = new Random();
 		this.x = random.nextInt(Mundo.ObtenerInstancia().getApp().width);
@@ -51,13 +59,16 @@ public class Begonia extends EspecieAbstracta implements IApareable, ICarnivoro 
 		cambiarDireccion(new PVector(targetX, targetY));
 
 		ciclo = 0;
-		
+		//pruebaaaa de commit :c
 
 		//System.out.println(this);
 		Thread nt = new Thread(this);
 		nt.start();
 	}
 
+	public int getEstado() {
+		return estado;
+	}
 	@Override
 	public void comer(EspecieAbstracta victima) {
 		// TODO Auto-generated method stub

@@ -86,10 +86,13 @@ private static PApplet app;
 
 	@Override
 	protected List<PlantaAbstracta> generarPlantas() {
+//		if( mousePressed==RIGHT){
 //		for (int i = 0; i < buenas.size(); i++) {
-//    		if(app.dist(buenas.get(i).getX(), buenas.get(i).getY(), , y2)){
-//    			
-//    		}
+//			buenas.add(new PlantaBuena(ecosistema));
+////    		if(dist(buenas.get(i).getX(), buenas.get(i).getY(), , y2)){
+////    			
+////    		}
+//		}
 //    		}
 		return plantas;
 	}

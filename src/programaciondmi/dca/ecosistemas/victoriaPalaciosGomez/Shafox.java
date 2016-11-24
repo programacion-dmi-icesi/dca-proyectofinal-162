@@ -19,10 +19,18 @@ public class Shafox extends EspecieAbstracta implements ICarnivoro, IHerbivoro {
 	private int ciclo;
 	private PImage[] shafoxImg;
 	private int index = 0;
+	public static final int NORMAL = 0;
+	public static final int ENVENENADO = 1;
+	public static final int ENFERMO = 2;
+	public static final int EXTASIS = 3;
+	public static final int MUERTO = 4;
+	protected int estado;
 
 	public Shafox(EcosistemaAbstracto ecosistema) {
 		super(ecosistema);
+		this.estado = NORMAL;
 		// SIEMPRE HAGAN ESTO CON EL APP
+		
 		this.app = Mundo.ObtenerInstancia().getApp();
 		shafoxImg = new PImage[7];
 		imagenes();
@@ -36,6 +44,10 @@ public class Shafox extends EspecieAbstracta implements ICarnivoro, IHerbivoro {
 		Thread nt = new Thread(this);
 		nt.start();
 
+	}
+	
+	public int getEstado() {
+		return estado;
 	}
 
 	@Override

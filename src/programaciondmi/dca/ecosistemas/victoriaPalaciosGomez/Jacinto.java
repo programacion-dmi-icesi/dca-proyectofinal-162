@@ -14,9 +14,17 @@ public class Jacinto extends EspecieAbstracta {
 	private int vida, maxSpeed,ciclo,velocidad;
 	private PVector location, acceleration, vel;
 	private PVector dir;
+	public static final int NORMAL = 0;
+	public static final int ENVENENADO = 1;
+	public static final int ENFERMO = 2;
+	public static final int EXTASIS = 3;
+	public static final int MUERTO = 4;
+	protected int estado;
 
 	public Jacinto(EcosistemaAbstracto ecosistema) {
 		super(ecosistema);
+		this.estado = NORMAL;
+
 		this.app = Mundo.ObtenerInstancia().getApp();
 		imagenes();
 		vida = 30;
@@ -28,6 +36,10 @@ public class Jacinto extends EspecieAbstracta {
 		int targetX = (int) (Math.random() * 500);
 		int targetY = (int) (Math.random() * 500);
 		cambiarDireccion(new PVector(targetX, targetY));
+	}
+	
+	public int getEstado() {
+		return estado;
 	}
 
 	@Override
