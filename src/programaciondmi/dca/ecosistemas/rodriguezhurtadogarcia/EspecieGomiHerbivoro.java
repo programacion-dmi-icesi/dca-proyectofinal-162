@@ -16,8 +16,10 @@ import programaciondmi.dca.ecosistemas.sarmientomanzanomoncada.HijoBlanco;
 import programaciondmi.dca.ejecucion.Mundo;
 
 public class EspecieGomiHerbivoro extends GomiCabra implements IApareable, IHerbivoro {
-	// ========================================================================================================================================
-	public EspecieGomiHerbivoro(EcosistemaAbstracto ecosistema, int vista) {
+
+	private HijoGomiCabra h;
+
+	public EspecieGomiHerbivoro(EcosistemaAbstracto ecosistema) {
 		super(ecosistema);
 		app = Mundo.ObtenerInstancia().getApp();
 		this.x = (int) app.random(-app.width, app.width);
@@ -26,8 +28,10 @@ public class EspecieGomiHerbivoro extends GomiCabra implements IApareable, IHerb
 		this.fuerza = 100;
 		this.energia = 250;
 		this.velocidad = 2;
-		this.vista = vista;
+		this.vista = (int) app.random(4);
+
 		ciclo = 0;
+
 		app = Mundo.ObtenerInstancia().getApp();
 
 		// FRENTE
@@ -58,91 +62,113 @@ public class EspecieGomiHerbivoro extends GomiCabra implements IApareable, IHerb
 		nt.start();
 	}
 
-	// ========================================================================================================================================
-	public void aparear() {
-
-		List<EspecieAbstracta> todas = Mundo.ObtenerInstancia().getEspecies();
-		ListIterator<EspecieAbstracta> iterador = todas.listIterator();
-
-		while (iterador.hasNext()) {
-			EspecieAbstracta e = iterador.next();
-			if ((e instanceof IApareable) && !e.equals(this)) {
-				float dist = PApplet.dist(x, y, e.getX(), e.getY());
-				if (dist < 100) {
-					HijoGomiCabra hijo = new HijoGomiCabra(ecosistema);
-					hijo.setX(x);
-					hijo.setY(y);
-					ecosistema.agregarEspecie(hijo);
-				}
-			}
-		}
-
+	@Override
+	public EspecieAbstracta aparear(IApareable apareable) {
+		h = new HijoGomiCabra(ecosistema, this.x, this.y);
+		esperar = true;
+		return h;
 	}
 
-	// ========================================================================================================================================
 	@Override
 	public void run() {
-		while (vida > 0) {
+		while (vivo) {
 			mover();
-			aparear();
-			try {
-				Thread.sleep(33);
-				vista++;
 
-				if (vista == 3) {
-					vista = 0;
-				}
-				// condición para que coma una planta cada cierto tiempo t
-				if (!puedeComer) {
-					t++;
-					if (t > 500) {
-						puedeComer = true;
-						t = 0;
+			try {
+				/*
+				 * por cada acción que se realice, se deberá esperar cierto
+				 * tiempo para ejecutar la siguiente acción,porque en caso
+				 * contrario, se ejecutará repetitivamente la acción mientras
+				 * las condiciones se cumplan.
+				 */
+
+				/*
+				 * Aqui se recorren las plantas y si, esta esta cerca de esta
+				 * clase, se llamará el metodo comerPlanta.
+				 */
+				synchronized (ecosistema.getPlantas()) {
+					// List<PlantaAbstracta> plantas = ecosistema.getPlantas();
+					for (PlantaAbstracta planta : ecosistema.getPlantas()) {
+						float d = app.dist(planta.getX(), planta.getY(), this.x, this.y);
+
+						if (d < 100) {
+							if (!esperar) {
+								comerPlanta(planta);
+							}
+						}
 					}
 				}
 
+				/*
+				 * aqui se recorren las especies, y si el otro es apareable,
+				 * llamará el metodo aparear que retornará un hijo que se guarda
+				 * en el arraylist
+				 */
+				synchronized (ecosistema.getEspecies()) {
+					for (EspecieAbstracta especie : ecosistema.getEspecies()) {
+						if (especie != this && especie instanceof IApareable) {
+							IApareable apareable = (IApareable) especie;
+							float d = app.dist(especie.getX(), especie.getY(), this.x, this.y);
+
+							if (!esperar) {
+								if (d < 100) {
+									EspecieAbstracta hijo = aparear(apareable);
+									ecosistema.getEspecies().add(hijo);
+
+								}
+
+							}
+						}
+
+					}
+				}
+
+				Thread.sleep(33);
 			} catch (Exception e) {
 				// TODO: handle exception
 			}
+
 		}
+
 	}
 
-	// ========================================================================================================================================
 	@Override
 	public boolean recibirDano(EspecieAbstracta lastimador) {
-		// TODO implementar metodo
 		return false;
 	}
 
-	// ========================================================================================================================================
 	@Override
 	public void comerPlanta(PlantaAbstracta victima) {
-		if (puedeComer && victima instanceof PlantaGomiCabra) {
+		if (victima instanceof PlantaGomiCabra) {
+			System.out.println("se come una planta ");
 			PlantaGomiCabra p = (PlantaGomiCabra) victima;
-
 			switch (p.getId()) {
 			case 0:
 				vida += 15;
+
+				if (vida < 50) {
+					estado = NORMAL;
+				}
+
 				if (vida > maxVida)
 					vida = maxVida;
 				break;
 			case 1:
 				vida -= 15;
+				if (vida < 50) {
+					estado = ENFERMO;
+				}
+
 				if (vida < 0) {
-					
 					// condición de morir
 				}
 				break;
 			}
 			p.mordisco();
-			puedeComer = false;
-		}
-	}
+			esperar = true;
+			System.out.println("esperando siguiente acción");
 
-	@Override
-	public EspecieAbstracta aparear(IApareable apareable) {
-		// TODO Auto-generated method stub
-		return null;
+		}
 	}
 
 }

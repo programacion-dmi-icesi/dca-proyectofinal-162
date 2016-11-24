@@ -30,5 +30,23 @@ public abstract class PlantaAbstracta implements Runnable{
 	 * @return true si pudo hacer daño y false si no puedo dañar a la especie actual 
 	 */
 	public abstract boolean recibirDano(EspecieAbstracta lastimador);
+	/*
+	 * Se agregaron setters and getters
+	 */
+	public int getX() {
+		return x;
+	}
 
+	public void setX(int x) {
+		this.x = x;
+	}
+
+	public int getY() {
+		return y;
+	}
+
+	public void setY(int y) {
+		this.y = y;
+	}
 }
+

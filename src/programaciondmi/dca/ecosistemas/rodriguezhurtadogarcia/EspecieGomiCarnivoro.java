@@ -17,7 +17,6 @@ import programaciondmi.dca.ejecucion.Mundo;
 
 public class EspecieGomiCarnivoro extends GomiCabra implements ICarnivoro {
 
-	// ========================================================================================================================================
 	public EspecieGomiCarnivoro(EcosistemaAbstracto ecosistema) {
 		super(ecosistema);
 		app = Mundo.ObtenerInstancia().getApp();
@@ -28,6 +27,7 @@ public class EspecieGomiCarnivoro extends GomiCabra implements ICarnivoro {
 		this.energia = 250;
 		this.velocidad = 2;
 		ciclo = 0;
+
 		app = Mundo.ObtenerInstancia().getApp();
 
 		// FRENTE
@@ -60,63 +60,64 @@ public class EspecieGomiCarnivoro extends GomiCabra implements ICarnivoro {
 		nt.start();
 	}
 
-	// ========================================================================================================================================
 	@Override
 	public void comer(EspecieAbstracta victima) {
-		if (!victima.getClass().toString().equals(this.getClass().toString())) {
-			if (victima.recibirDano(this)) {
-				energia += 5;
+		try {
+			// la vida indica el estado de la especie, si este se enferma, se
+			// pondrá verde y cambiará su estado
+			if (victima.getEstado() == ENFERMO) {
+				vida = 49;
+			} else {
+				vida = 100;
 			}
+
+			victima.setEstado(MUERTO);
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 
-	// ========================================================================================================================================
-	public void alimento() {
-		List<EspecieAbstracta> todas = Mundo.ObtenerInstancia().getEspecies();
-		ListIterator<EspecieAbstracta> iterador = todas.listIterator();
-
-		while (iterador.hasNext()) {
-			EspecieAbstracta e = iterador.next();
-			if (!e.equals(this)) {
-				float dist = PApplet.dist(x, y, e.getX(), e.getY());
-				if (dist < 100) {
-					todas.remove(e);
-
-				}
-			}
-		}
-	
-	}
-
-	// ========================================================================================================================================
 	@Override
 	public void run() {
-		while (vida > 0) {
+		while (vivo) {
 			mover();
-			alimento();
 			try {
-				Thread.sleep(33);
-				vista++;
-				if (vista == 3) {
-					vista = 0;
+
+				/*
+				 * metodo que inidica que debe comerse a cualquier especie cuya
+				 * distancia a él sea menor a 100
+				 */
+				synchronized (ecosistema.getEspecies()) {
+					for (EspecieAbstracta especie : ecosistema.getEspecies()) {
+						if (especie != this) {
+
+							float d = PApplet.dist(especie.getX(), especie.getY(), this.x, this.y);
+
+							if (!esperar) {
+								if (d < 100) {
+									comer(especie);
+									((GomiCabra) especie).setVivo(false);
+									ecosistema.getEspecies().remove(especie);
+									break;
+								}
+							}
+
+						}
+
+					}
 				}
+
+				Thread.sleep(33);
 			} catch (Exception e) {
+				// TODO: handle exception
 			}
 		}
 	}
 
-	// ========================================================================================================================================
-	private void buscarComida() {
-		List<EspecieAbstracta> todas = Mundo.ObtenerInstancia().getEspecies();
-		for (int i = 0; i < todas.size(); i++) {
-			comer(todas.get(i));
-		}
-	}
-
-	// ========================================================================================================================================
 	@Override
 	public boolean recibirDano(EspecieAbstracta lastimador) {
-		// TODO implementar metodo
 		return false;
 	}
 
