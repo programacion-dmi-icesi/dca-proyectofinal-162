@@ -10,8 +10,8 @@ import programaciondmi.dca.core.interfaces.ICarnivoro;
 import programaciondmi.dca.core.interfaces.IHerbivoro;
 import programaciondmi.dca.ejecucion.Mundo;
 
-public class Shafox extends EspecieAbstracta implements ICarnivoro , IHerbivoro{
-	
+public class Shafox extends EspecieAbstracta implements ICarnivoro, IHerbivoro {
+
 	private PApplet app;
 	private int vida;
 	private int velocidad;
@@ -19,23 +19,23 @@ public class Shafox extends EspecieAbstracta implements ICarnivoro , IHerbivoro{
 	private int ciclo;
 	private PImage[] shafoxImg;
 	private int index = 0;
-	
+
 	public Shafox(EcosistemaAbstracto ecosistema) {
 		super(ecosistema);
-		//SIEMPRE HAGAN ESTO CON EL APP
+		// SIEMPRE HAGAN ESTO CON EL APP
 		this.app = Mundo.ObtenerInstancia().getApp();
 		shafoxImg = new PImage[7];
 		imagenes();
 		this.vida = 20;
 		this.velocidad = 4;
-		
-		int targetX = (int) (Math.random()*500);
-		int targetY = (int) (Math.random()*500);
+
+		int targetX = (int) (Math.random() * 500);
+		int targetY = (int) (Math.random() * 500);
 		cambiarDireccion(new PVector(targetX, targetY));
-		
+
 		Thread nt = new Thread(this);
 		nt.start();
-		
+
 	}
 
 	@Override
@@ -56,17 +56,41 @@ public class Shafox extends EspecieAbstracta implements ICarnivoro , IHerbivoro{
 				// TODO: handle exception
 			}
 		}
-		
+
 	}
 
 	public void comerPlanta(PlantaAbstracta victima) {
-
+		if (victima instanceof PlantaAbstracta) {
+			if (victima instanceof PlantaBuena) {
+				PlantaBuena plantaTemp = (PlantaBuena) victima;
+				if (PApplet.dist(x, y, plantaTemp.getX(), plantaTemp.getY()) <= 50) {
+					plantaTemp.recibirDano(this);
+					try {
+						setEstado(EXTASIS);
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+			} else if (victima instanceof PlantaMala) {
+				PlantaMala plantaTemp = (PlantaMala) victima;
+				if (PApplet.dist(x, y, plantaTemp.getX(), plantaTemp.getY()) <= 50) {
+					plantaTemp.recibirDano(this);
+					try {
+						setEstado(ENVENENADO);
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+			}
+		}
 	}
 
 	@Override
 	public void dibujar() {
 		PApplet app = Mundo.ObtenerInstancia().getApp();
-		app.image(shafoxImg[index],x,y,68,100);
+		app.image(shafoxImg[index], x, y, 68, 100);
 
 	}
 
@@ -77,17 +101,17 @@ public class Shafox extends EspecieAbstracta implements ICarnivoro , IHerbivoro{
 			int targetX = (int) (Math.random() * 500);
 			int targetY = (int) (Math.random() * 500);
 			cambiarDireccion(new PVector(targetX, targetY));
-			//System.out.println("CAMBIO DIRECCION!");
+			// System.out.println("CAMBIO DIRECCION!");
 		}
-		
-		x+=dir.x;
-		y+=dir.y;
+
+		x += dir.x;
+		y += dir.y;
 
 	}
 
 	@Override
 	public boolean recibirDano(EspecieAbstracta lastimador) {
-		if(PApplet.dist(x, y, lastimador.getX(), lastimador.getY()) <= (vida/2)){
+		if (PApplet.dist(x, y, lastimador.getX(), lastimador.getY()) <= (vida / 2)) {
 			vida -= 5;
 			try {
 				lastimador.setEstado(EXTASIS);
@@ -96,7 +120,7 @@ public class Shafox extends EspecieAbstracta implements ICarnivoro , IHerbivoro{
 			}
 			return true;
 		}
-		
+
 		return false;
 	}
 
@@ -105,22 +129,35 @@ public class Shafox extends EspecieAbstracta implements ICarnivoro , IHerbivoro{
 		dir = PVector.sub(target, location);
 		dir.normalize();
 		dir.mult(velocidad);
-		//System.out.println("[id=" + id + ", direcion=" + dir + "]");
+		// System.out.println("[id=" + id + ", direcion=" + dir + "]");
 	}
-	
+
 	public void imagenes() {
-		
+
 		shafoxImg[0] = app.loadImage("../data/png/shafox-walk-01.png");
 		shafoxImg[1] = app.loadImage("../data/shafox-walk-02.png");
 		shafoxImg[2] = app.loadImage("../data/shafox-walk-03.png");
-		
+
 	}
 
 	@Override
 	public void comer(EspecieAbstracta victima) {
 		// TODO Auto-generated method stub
-		
+		if(victima instanceof EspecieAbstracta){
+			if(victima instanceof ICarnivoro || victima instanceof IHerbivoro){
+				if(PApplet.dist(x, y, victima.getX(), victima.getY())<= 55){
+					
+					try {
+						victima.setEstado(ENFERMO);
+						setEstado(EXTASIS);
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+			}
+		}
+
 	}
-	
-	
+
 }
