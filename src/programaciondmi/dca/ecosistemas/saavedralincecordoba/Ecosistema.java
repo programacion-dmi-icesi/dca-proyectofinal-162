@@ -13,6 +13,9 @@ import programaciondmi.dca.core.PlantaAbstracta;
 import programaciondmi.dca.ejecucion.Mundo;
 
 public class Ecosistema extends EcosistemaAbstracto {
+	PApplet app= Mundo.ObtenerInstancia().getApp();
+	private int x= (int)app.random(0,1000);
+	private int y= (int)app.random(0,500);
 
 	public Ecosistema() {
 		super();
@@ -61,9 +64,10 @@ public class Ecosistema extends EcosistemaAbstracto {
 
 	@Override
 	protected LinkedList<PlantaAbstracta> poblarPlantas() {
+		PApplet app= Mundo.ObtenerInstancia().getApp();
 		LinkedList<PlantaAbstracta> plantas = new LinkedList<PlantaAbstracta>();
 		// SE AGREGA LA BUENA
-		PlantaBuena pb = new PlantaBuena(50, 90);
+		PlantaBuena pb = new PlantaBuena(x,y);
 		plantas.add(pb);
 		System.out.println(plantas);
 		// SE AGREGA LA MALA
@@ -102,7 +106,7 @@ public class Ecosistema extends EcosistemaAbstracto {
 		// SE AGREGA LA PLANTA BUENA
 		LinkedList<PlantaAbstracta> plantas = new LinkedList<PlantaAbstracta>();
 
-		PlantaBuena pb = new PlantaBuena(50, 90);
+		PlantaBuena pb = new PlantaBuena(x, y);
 		plantas.add(pb);
 		System.out.println(plantas);
 		agregarPlanta(pb);

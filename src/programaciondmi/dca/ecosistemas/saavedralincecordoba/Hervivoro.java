@@ -26,6 +26,7 @@ public class Hervivoro extends EspecieAbstracta implements IHerbivoro {
 	private int ciclo;
 	private final int LIMITE_APAREO = 100;
 	private Random random;
+	private int prueba=0;
 
 	public Hervivoro(EcosistemaAbstracto ecosistema) {
 		super(ecosistema);
@@ -92,33 +93,24 @@ public class Hervivoro extends EspecieAbstracta implements IHerbivoro {
 
 	@Override
 	public void comerPlanta(PlantaAbstracta victima) {
-		if (!victima.getClass().toString().equals(this.getClass().toString())) {
-
-			if (victima.recibirDano(this)) {
-
-				try {
-					System.out.println("entreo");
-					if (victima.getClass() == PlantaBuena.class) {
-						PlantaBuena b = (PlantaBuena) victima;
-						setEstado(EXTASIS);
-						velocidad = 10;
-						b.setMostrar(1);
-						System.out.println("no error");
-						 Mundo.ObtenerInstancia().getPlantas().remove(victima);
-					}
-
-					if (victima.getClass() == PlantaMala.class) {
-						PlantaMala m= (PlantaMala)victima;
-						setEstado(ENFERMO);
-						velocidad = 8;
-						m.setMostrar(false);
-						Mundo.ObtenerInstancia().getPlantas().remove(victima);
-					}
-
-				} catch (Exception e) {
-					// TODO: handle exception
+		if(victima.recibirDano(this)){
+			try {
+				
+				if(victima.getClass() == PlantaMala.class){
+					PlantaMala m = (PlantaMala) victima;
+				setEstado(ENFERMO);
+				velocidad=5;
 				}
-
+				
+				if(victima.getClass() == PlantaBuena.class){
+					PlantaBuena m = (PlantaBuena) victima;
+					setEstado(EXTASIS);
+					velocidad=10;
+				}
+				
+			}catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
 		}
 

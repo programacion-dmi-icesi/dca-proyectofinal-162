@@ -9,10 +9,10 @@ import programaciondmi.dca.ejecucion.Mundo;
 
 public class PlantaBuena extends PlantaAbstracta {
 
-	int mostrar = 0;
+	boolean mostrar = true;
 	private PImage[] plantaB = new PImage[3];
-	private int planta = 0;
-	private int vida = 2;
+	private int vida = 100;
+	private int contador = 0;
 
 	public PlantaBuena() {
 		// TODO Auto-generated constructor stub
@@ -35,53 +35,42 @@ public class PlantaBuena extends PlantaAbstracta {
 
 	@Override
 	public void dibujar() {
-		if (mostrar == 0) {
-
-			PApplet app = Mundo.ObtenerInstancia().getApp();
-			app.image(plantaB[planta], x, y);
+		PApplet app = Mundo.ObtenerInstancia().getApp();
+		if (mostrar) {
+			app.image(plantaB[contador],x,y);
 		}
-		if (mostrar == 1) {
 
-			PApplet app = Mundo.ObtenerInstancia().getApp();
-			app.image(plantaB[1], x, y);
-		}
-		if (mostrar == 2) {
-
-			PApplet app = Mundo.ObtenerInstancia().getApp();
-			app.image(plantaB[2], x, y);
-		}
-		if (mostrar == 3) {
-
-	
-		}
-		
 	}
 
 	@Override
 	public boolean recibirDano(EspecieAbstracta lastimador) {
 
-		if (PApplet.dist(x, y, lastimador.getX(), lastimador.getY()) <= 60) {
-
-			mostrar = 1;
-			vida -= 1;
-			if (vida == 1) {
-				mostrar = 2;
+		if(contador<2){
+			vida -=20;
+			contador+=1;
+		}else{
+			if(vida!=0){
+				vida -=20;
+				contador=0;
+			}else{
+				return true;
 			}
-			if(vida==0){
-				mostrar=3;
-			}
-
 		}
-
-		return false;
+	return false;
 	}
 
-	public int isMostrar() {
-		return mostrar;
-	}
 
-	public void setMostrar(int mostrar) {
+	public void setMostrar(boolean mostrar) {
 		this.mostrar = mostrar;
+	}
+	private void ocultarPlanta() {
+		// TODO Auto-generated method stub
+		if(vida==0){
+			contador++;
+			if(contador%300 == 0){
+				setMostrar(false);
+			}
+		}
 	}
 
 }
