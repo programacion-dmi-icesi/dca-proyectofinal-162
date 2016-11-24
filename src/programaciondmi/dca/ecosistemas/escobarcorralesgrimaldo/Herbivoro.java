@@ -131,6 +131,7 @@ public class Herbivoro extends EspecieAbstracta implements IHerbivoro, IApareabl
 
 		
 			app.image(herbi[direccion], ballX, ballY);
+			
 
 			if (ballXDirection >= 0) {
 				direccion=3;
