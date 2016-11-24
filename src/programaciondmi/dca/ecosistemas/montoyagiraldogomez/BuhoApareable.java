@@ -54,9 +54,6 @@ public class BuhoApareable extends EspecieAbstracta implements IApareable {
 
 		ciclo = 0;
 
-		PApplet app = Mundo.ObtenerInstancia().getApp();
-		this.nino = app.loadImage("propheticData/Hijo.png");
-
 		int targetX = random.nextInt();
 		int targetY = random.nextInt();
 		redireccionar(new PVector(targetX, targetY));
@@ -215,7 +212,7 @@ public class BuhoApareable extends EspecieAbstracta implements IApareable {
 	}
 
 	/**
-	 * Metodo para demostrar tanto visualmente como en datos, el estado de
+	 * Metodo para demostrar en datos, el estado de
 	 * Veneno de el personaje
 	 */
 	private void veneno() {
@@ -401,22 +398,9 @@ public class BuhoApareable extends EspecieAbstracta implements IApareable {
 		}
 	}
 
-	public void buscarCria() {
-
-	}
-
-	public void divisarPredador() {
-
-	}
-
-	public void huir() {
-
-	}
-
-	public void defenderCria() {
-
-	}
-
+	/**
+	 * Metodo para sumar frames a la animacion principal de movimiento
+	 */
 	private void sumarFrames() {
 		if (ciclo % cambio == 0) {
 			frame++;
@@ -426,10 +410,13 @@ public class BuhoApareable extends EspecieAbstracta implements IApareable {
 		}
 	}
 
+	/**
+	 * Metodo para sumar frames dependiendo del estado enfermo que se tenga
+	 */
 	private void frameEnfermeda() {
 		if (ciclo % cambio == 0) {
 			frameEnfermo += sumaEnfermo;
-			if (frameEnfermo >= estadoVeneno) {
+			if (frameEnfermo >= estadoVenenoso) {
 				sumaEnfermo = -sumaEnfermo;
 			} else if (frameEnfermo == 0) {
 				sumaEnfermo = -sumaEnfermo;
@@ -438,6 +425,9 @@ public class BuhoApareable extends EspecieAbstracta implements IApareable {
 
 	}
 
+	/**
+	 * Metodo para sumar los frames de la animacion que tienen las especies al morir
+	 */
 	private void frameMuerte() {
 		if (vida <= 0) {
 			if (ciclo % cambio == 0) {
@@ -451,11 +441,18 @@ public class BuhoApareable extends EspecieAbstracta implements IApareable {
 
 	}
 
+	/**
+	 * Metodo para reproducir la animacion de vuelo
+	 */
 	private void vuelo() {
 		this.incremento += 0.045;
 		this.amplitud = 15;
 		this.seno = (PApplet.sin(incremento) * amplitud) * -1;
 	}
+	
+	/**
+	 * Metodo para crear la sombra inferior de la especie
+	 */
 
 	private void pintarSombra() {
 		PApplet app = Mundo.ObtenerInstancia().getApp();
@@ -465,6 +462,9 @@ public class BuhoApareable extends EspecieAbstracta implements IApareable {
 
 	}
 
+	/**
+	 * Metodo para cargar todos los arreglos de imagenes utilizados para la animacion
+	 */
 	private void cargarGrafica() {
 		vistas = new String[4];
 		estados = new String[3];
@@ -488,7 +488,7 @@ public class BuhoApareable extends EspecieAbstracta implements IApareable {
 		this.herido = false;
 		this.muerto = false;
 		this.estadoHerido = 2;
-		this.estadoVeneno = 29;
+		this.estadoVenenoso = 29;
 		this.frameEnfermo = 0;
 		this.sumaEnfermo = 1;
 		this.direccion = 2;

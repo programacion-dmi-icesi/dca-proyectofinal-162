@@ -248,7 +248,7 @@ public class BuhoHijo extends EspecieAbstracta {
 	}
 
 	/**
-	 * Metodo para demostrar tanto visualmente como en datos, el estado de
+	 * Metodo para demostrar en datos, el estado de
 	 * Veneno de el personaje
 	 */
 	private void veneno() {
@@ -279,6 +279,10 @@ public class BuhoHijo extends EspecieAbstracta {
 		}
 	}
 
+	/**
+	 * Metodo para buscar la mama o especie apareable mas cercana de la propia especie
+	 * para estar acompañado  seguro
+	 */
 	public void buscarMama() {
 		List<EspecieAbstracta> all = Mundo.ObtenerInstancia().getEspecies();
 		ListIterator<EspecieAbstracta> iter = all.listIterator();
@@ -302,6 +306,9 @@ public class BuhoHijo extends EspecieAbstracta {
 
 	}
 
+	/**
+	 * Metodo para sumar frames a la animacion principal de movimiento
+	 */
 	private void sumarFrames() {
 		if (ciclo % cambio == 0) {
 			frame++;
@@ -311,10 +318,13 @@ public class BuhoHijo extends EspecieAbstracta {
 		}
 	}
 
+	/**
+	 * Metodo para sumar frames dependiendo del estado enfermo que se tenga
+	 */
 	private void frameEnfermeda() {
 		if (ciclo % cambio == 0) {
 			frameEnfermo += sumaEnfermo;
-			if (frameEnfermo >= estadoVeneno) {
+			if (frameEnfermo >= estadoVenenoso) {
 				sumaEnfermo = -sumaEnfermo;
 			} else if (frameEnfermo == 0) {
 				sumaEnfermo = -sumaEnfermo;
@@ -323,6 +333,9 @@ public class BuhoHijo extends EspecieAbstracta {
 
 	}
 
+	/**
+	 * Metodo para sumar los frames de la animacion que tienen las especies al morir
+	 */
 	private void frameMuerte() {
 		if (vida <= 0) {
 			if (ciclo % cambio == 0) {
@@ -336,12 +349,18 @@ public class BuhoHijo extends EspecieAbstracta {
 
 	}
 
+	/**
+	 * Metodo para reproducir la animacion de vuelo
+	 */
 	private void vuelo() {
 		this.incremento += 0.045;
 		this.amplitud = 15;
 		this.seno = (PApplet.sin(incremento) * amplitud) * -1;
 	}
 
+	/**
+	 * Metodo para crear la sombra inferior de la especie
+	 */
 	private void pintarSombra() {
 		PApplet app = Mundo.ObtenerInstancia().getApp();
 		app.fill(0, 50);
@@ -350,6 +369,12 @@ public class BuhoHijo extends EspecieAbstracta {
 
 	}
 
+	/**
+	 * Metodo para calcular la vista a mostrar basado en el angulo entre la localizacion actual 
+	 * y el target que se recibe por parametro
+	 * 
+	 * @param target
+	 */
 	private void calcularImg(PVector target) {
 
 		PVector location = new PVector(x, y);
@@ -382,6 +407,9 @@ public class BuhoHijo extends EspecieAbstracta {
 		}
 	}
 
+	/**
+	 * Metodo para cargar todos los arreglos de imagenes utilizados para la animacion
+	 */
 	private void cargarGrafica() {
 
 		vistas = new String[4];
@@ -406,7 +434,7 @@ public class BuhoHijo extends EspecieAbstracta {
 		this.herido = false;
 		this.muerto = false;
 		this.estadoHerido = 2;
-		this.estadoVeneno = 29;
+		this.estadoVenenoso = 29;
 		this.frameEnfermo = 0;
 		this.sumaEnfermo = 1;
 		this.direccion = 2;

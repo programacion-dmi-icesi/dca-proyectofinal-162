@@ -117,6 +117,12 @@ public class EcosistemaProphetics extends EcosistemaAbstracto {
 				actual.dibujar();
 			}
 		}
+		
+		/**
+		 * A continucacion esta el metodo para crear plantas a partir del click del mouse
+		 * Se hizo dentro del draw, ya que no existio un metodo en el codigo base
+		 * para hacerlo en mouseClicked
+		 */
 
 		PApplet app = Mundo.ObtenerInstancia().getApp();
 
