@@ -1,11 +1,12 @@
-package programaciondmi.dca.ecosistemas.nataliajairojose;
+package programaciondmi.dca.ecosistemas.victoriaPalaciosGomez;
 
-import java.util.Iterator;
+
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Random;
 
 import processing.core.PApplet;
+import processing.core.PImage;
 import processing.core.PVector;
 import programaciondmi.dca.core.EcosistemaAbstracto;
 import programaciondmi.dca.core.EspecieAbstracta;
@@ -13,7 +14,8 @@ import programaciondmi.dca.core.interfaces.IApareable;
 import programaciondmi.dca.core.interfaces.ICarnivoro;
 import programaciondmi.dca.ejecucion.Mundo;
 
-public class EspecieBlanca extends EspecieAbstracta implements IApareable, ICarnivoro {
+public class Begonia extends EspecieAbstracta implements IApareable, ICarnivoro {
+	private PApplet app;
 	private int vida;
 	private float fuerza;
 	private int velocidad;
@@ -25,13 +27,17 @@ public class EspecieBlanca extends EspecieAbstracta implements IApareable, ICarn
 	private EspecieAbstracta parejaCercana;
 	private PVector dir;
 	private int ciclo;
+	private int index;
+	private PImage [] begonia = new PImage [6];
 
 	// Constantes
 	private final int LIMITE_APAREO = 100;
 	private Random random;
 
-	public EspecieBlanca(EcosistemaAbstracto ecosistema) {
+	public Begonia(EcosistemaAbstracto ecosistema) {
 		super(ecosistema);
+		this.app = Mundo.ObtenerInstancia().getApp();
+		imagenes();
 		this.random = new Random();
 		this.x = random.nextInt(Mundo.ObtenerInstancia().getApp().width);
 		this.y = random.nextInt(Mundo.ObtenerInstancia().getApp().height);
@@ -39,7 +45,6 @@ public class EspecieBlanca extends EspecieAbstracta implements IApareable, ICarn
 		this.fuerza = 100;
 		this.energia = 250;
 		this.velocidad = 2;
-
 
 		int targetX = random.nextInt();
 		int targetY = random.nextInt();
@@ -65,7 +70,7 @@ public class EspecieBlanca extends EspecieAbstracta implements IApareable, ICarn
 
 	@Override
 	public EspecieAbstracta aparear(IApareable apareable) {
-		HijoBlanco hijo = new HijoBlanco(ecosistema);
+		Jacinto hijo = new Jacinto(ecosistema);
 		hijo.setX(this.x);
 		hijo.setY(this.y);
 		ecosistema.agregarEspecie(hijo);
@@ -76,8 +81,7 @@ public class EspecieBlanca extends EspecieAbstracta implements IApareable, ICarn
 	public void dibujar() {
 		// TODO Auto-generated method stub
 		PApplet app = Mundo.ObtenerInstancia().getApp();
-		app.fill(255);
-		app.ellipse(x, y, vida, vida);
+		app.image(begonia[index], x, y);
 	}
 
 	@Override
@@ -122,6 +126,12 @@ public class EspecieBlanca extends EspecieAbstracta implements IApareable, ICarn
 	public void run() {
 		while (vida > 0) {
 			mover();
+			if (app.frameCount % 6 == 0) {
+				index++;
+				if (index > 2) {
+					index = 0;
+				}
+			}
 			try {
 				Thread.sleep(33);
 				ciclo++;
@@ -214,6 +224,17 @@ public class EspecieBlanca extends EspecieAbstracta implements IApareable, ICarn
 	public boolean recibirDano(EspecieAbstracta lastimador) {
 		// TODO implementar metodo
 		return false;
+	}
+	
+	private void imagenes () {
+		//pavortuga SANO
+		begonia[0] = app.loadImage("../data/pngs/begonia-walk-1.png");
+		begonia[1] = app.loadImage("../data/pngs/begonia-walk-2.png");
+		begonia[2] = app.loadImage("../data/pngs/begonia-walk-3.png");
+		//pavortuga enfermo
+		begonia[3] = app.loadImage("../data/pngs/begonia-sick-1.png");
+		begonia[4] = app.loadImage("../data/pngs/begonia-sick-2.png");
+		begonia[5] = app.loadImage("../data/pngs/begonia-sick-3.png");
 	}
 
 }

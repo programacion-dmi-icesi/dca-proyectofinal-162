@@ -1,4 +1,4 @@
-package programaciondmi.dca.ecosistemas.nataliajairojose;
+package programaciondmi.dca.ecosistemas.victoriaPalaciosGomez;
 
 import programaciondmi.dca.core.EcosistemaAbstracto;
 import programaciondmi.dca.core.LogoAbstracto;

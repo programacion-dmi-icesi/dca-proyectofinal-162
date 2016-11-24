@@ -1,28 +1,33 @@
-package programaciondmi.dca.ecosistemas.nataliajairojose;
+package programaciondmi.dca.ecosistemas.victoriaPalaciosGomez;
+
 import processing.core.PApplet;
 import processing.core.PImage;
 import processing.core.PVector;
 import programaciondmi.dca.core.EcosistemaAbstracto;
 import programaciondmi.dca.core.EspecieAbstracta;
 import programaciondmi.dca.core.PlantaAbstracta;
-import programaciondmi.dca.core.interfaces.IHerbivoro;
+import programaciondmi.dca.core.interfaces.ICarnivoro;
 import programaciondmi.dca.ejecucion.Mundo;
 
-public class Pavotortuga extends EspecieAbstracta implements IHerbivoro {
+public class Coconita extends EspecieAbstracta implements ICarnivoro {
+	
 	private PApplet app;
 	private int vida;
 	private int velocidad;
 	private PVector dir;
 	private int ciclo;
+	private PImage[] coconitaF;
 	private int index = 0;
-	private PlantaBuena Pb;
 	
-	
-	public Pavotortuga(EcosistemaAbstracto ecosistema){
+	public Coconita(EcosistemaAbstracto ecosistema) {
 		super(ecosistema);
+		//SIEMPRE HAGAN ESTO CON EL APP
 		this.app = Mundo.ObtenerInstancia().getApp();
+		coconitaF = new PImage[7];
+		imagenes();
 		this.vida = 20;
-		this.velocidad = 5;
+		this.velocidad = 4;
+		
 		int targetX = (int) (Math.random()*500);
 		int targetY = (int) (Math.random()*500);
 		cambiarDireccion(new PVector(targetX, targetY));
@@ -31,11 +36,9 @@ public class Pavotortuga extends EspecieAbstracta implements IHerbivoro {
 		nt.start();
 		
 	}
-	
 
 	@Override
 	public void run() {
-		// TODO Auto-generated method stub
 		while (vida > 0) {
 			mover();
 			if (app.frameCount % 6 == 0) {
@@ -55,36 +58,30 @@ public class Pavotortuga extends EspecieAbstracta implements IHerbivoro {
 		
 	}
 
-	@Override
 	public void comerPlanta(PlantaAbstracta victima) {
-		
-//		if(app.dist(Pb.getX(),Pb.getY() , x, y)<50){
-//			Pb.
-//		}
-		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void dibujar() {
-		// TODO Auto-generated method stub
 		PApplet app = Mundo.ObtenerInstancia().getApp();
-		app.ellipse(x, y, 20, 20);
-		
+		app.image(coconitaF[index],x,y,68,100);
+
 	}
 
 	@Override
 	public void mover() {
-		// TODO Auto-generated method stub
 		if (ciclo % 30 == 0) {
 			// Definir una direccion aleatoria cada 3 segundos
 			int targetX = (int) (Math.random() * 500);
 			int targetY = (int) (Math.random() * 500);
 			cambiarDireccion(new PVector(targetX, targetY));
+			//System.out.println("CAMBIO DIRECCION!");
 		}
 		
 		x+=dir.x;
 		y+=dir.y;
+
 	}
 
 	@Override
@@ -101,14 +98,31 @@ public class Pavotortuga extends EspecieAbstracta implements IHerbivoro {
 		
 		return false;
 	}
-	
-	
+
 	private void cambiarDireccion(PVector target) {
-		
-		
 		PVector location = new PVector(x, y);
 		dir = PVector.sub(target, location);
 		dir.normalize();
 		dir.mult(velocidad);
+		//System.out.println("[id=" + id + ", direcion=" + dir + "]");
 	}
+	
+	public void imagenes() {
+		
+		coconitaF[0] = app.loadImage("../data/presetacionPersonajes-08.png");
+		coconitaF[1] = app.loadImage("../data/presetacionPersonajes-09.png");
+		coconitaF[2] = app.loadImage("../data/presetacionPersonajes-10.png");
+		coconitaF[3] = app.loadImage("../data/presetacionPersonajes-11.png");
+		coconitaF[4] = app.loadImage("../data/presetacionPersonajes-12.png");
+		coconitaF[5] = app.loadImage("../data/presetacionPersonajes-13.png");
+		coconitaF[6] = app.loadImage("../data/presetacionPersonajes-14.png");
+	}
+
+	@Override
+	public void comer(EspecieAbstracta victima) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	
 }

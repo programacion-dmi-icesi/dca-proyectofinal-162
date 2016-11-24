@@ -1,4 +1,4 @@
-package programaciondmi.dca.ecosistemas.nataliajairojose;
+package programaciondmi.dca.ecosistemas.victoriaPalaciosGomez;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -13,16 +13,11 @@ import programaciondmi.dca.core.PlantaAbstracta;
 import programaciondmi.dca.ejecucion.Mundo;
 
 public class Ecosistema extends EcosistemaAbstracto {
-	 private int width;
-	    private int height;
-	
-	
+
 	public Ecosistema() {
 		super();
-		this.width = width;
-        this.height = height;
 		Mundo ref = Mundo.ObtenerInstancia();
-		LogoEjemplo boton= new LogoEjemplo("global_data/bot1.svg", this);
+		LogoEjemplo boton= new LogoEjemplo("../data/boton.svg", this);
 		System.out.println("elbot:"+boton);
 		ref.agregarBoton(boton);
 	}
@@ -42,12 +37,15 @@ public class Ecosistema extends EcosistemaAbstracto {
 	@Override
 	protected LinkedList<EspecieAbstracta> poblarEspecies() {
 		LinkedList<EspecieAbstracta> especies = new LinkedList<EspecieAbstracta>();
-		EspecieBlanca nueva = new EspecieBlanca(this);
-		especies.add(nueva);		
-		nueva = new EspecieBlanca(this);
-		especies.add(nueva);		
+		//Pavortuga
+		Pavortuga pavo = new Pavortuga(this);
+		especies.add(pavo);	
+		//Coconita
 		Coconita coco = new Coconita(this);
-		especies.add(coco);		
+		especies.add(coco);	
+		//Begonia
+		Begonia bego = new Begonia(this);
+		especies.add(bego);
 		return especies;
 	}
 
@@ -62,10 +60,12 @@ public class Ecosistema extends EcosistemaAbstracto {
 
 	@Override
 	protected List<EspecieAbstracta> generarIndividuos() {
-		EspecieBlanca nueva = new EspecieBlanca(this);
-		especies.add(nueva);		
+		Pavortuga pavo = new Pavortuga(this);
+		especies.add(pavo);		
 		Coconita coco = new Coconita(this);
-		especies.add(coco);		
+		especies.add(coco);	
+		Begonia bego = new Begonia(this);
+		especies.add(bego);
 		return especies;
 	}
 	
@@ -74,15 +74,5 @@ public class Ecosistema extends EcosistemaAbstracto {
 	protected List<PlantaAbstracta> generarPlantas() {
 		return plantas;
 	}
-
-
-	public int getWidth() {
-		return this.width;
-	}
-
-	public int getHeight() {
-		return this.height;
-	}
-
 	
 }
