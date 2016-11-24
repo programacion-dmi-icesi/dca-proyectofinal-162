@@ -9,29 +9,28 @@ import programaciondmi.dca.core.EspecieAbstracta;
 import programaciondmi.dca.core.PlantaAbstracta;
 import programaciondmi.dca.ejecucion.Mundo;
 
-public class PlantaBuena extends PlantaAbstracta{
-	
-	private float x, y; 
+public class PlantaBuena extends PlantaAbstracta {
+
+	private float x, y;
 	private int index;
 	protected PApplet app;
-	protected PImage[] plantaB = new PImage [4];
-	protected ArrayList<PlantaBuena>buenas;
-	
-	
-	public PlantaBuena(PApplet ecosistema, float x, float y){
+	protected PImage[] plantaB = new PImage[4];
+	protected ArrayList<PlantaBuena> buenas;
+
+	public PlantaBuena(PApplet ecosistema, float x, float y) {
 		super(ecosistema);
 		this.app = Mundo.ObtenerInstancia().getApp();
-		this.x= x;
-		this.y= y;
+		this.x = x;
+		this.y = y;
 		images();
-		
+
 	}
-	
-	public void dibujar(){
-		app.image(plantaB[index], x, y);	
+
+	public void dibujar() {
+		app.image(plantaB[index], x, y);
 	}
-	
-	private void images(){
+
+	private void images() {
 		plantaB[0] = app.loadImage("../data/pBuena-01.png");
 		plantaB[1] = app.loadImage("../data/pBuena-02.png");
 		plantaB[2] = app.loadImage("../data/pBuena-03.png");
@@ -53,18 +52,24 @@ public class PlantaBuena extends PlantaAbstracta{
 	public void setY(float y) {
 		this.y = y;
 	}
+	
+	public int getIndex(){
+		return this.index;
+	}
 
 	@Override
 	public void run() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public boolean recibirDano(EspecieAbstracta lastimador) {
-		// TODO Auto-generated method stub
+		index++;
+		if (index > 3) {
+			index = 0;
+		}
 		return false;
 	}
-  
-	
+
 }

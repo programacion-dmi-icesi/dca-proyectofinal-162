@@ -10,7 +10,7 @@ import programaciondmi.dca.core.interfaces.ICarnivoro;
 import programaciondmi.dca.ejecucion.Mundo;
 
 public class Coconita extends EspecieAbstracta implements ICarnivoro {
-	
+
 	private PApplet app;
 	private int vida;
 	private int velocidad;
@@ -18,6 +18,7 @@ public class Coconita extends EspecieAbstracta implements ICarnivoro {
 	private int ciclo;
 	private PImage[] coconitaF;
 	private int index = 0;
+<<<<<<< HEAD
 	public static final int NORMAL = 0;
 	public static final int ENVENENADO = 1;
 	public static final int ENFERMO = 2;
@@ -29,19 +30,25 @@ public class Coconita extends EspecieAbstracta implements ICarnivoro {
 		super(ecosistema);
 		this.estado = NORMAL;
 		//SIEMPRE HAGAN ESTO CON EL APP
+=======
+
+	public Coconita(EcosistemaAbstracto ecosistema) {
+		super(ecosistema);
+		// SIEMPRE HAGAN ESTO CON EL APP
+>>>>>>> dbdc6874e59b63a5d6ea3dad498eb18691dc6d4b
 		this.app = Mundo.ObtenerInstancia().getApp();
 		coconitaF = new PImage[7];
 		imagenes();
 		this.vida = 20;
 		this.velocidad = 4;
-		
-		int targetX = (int) (Math.random()*500);
-		int targetY = (int) (Math.random()*500);
+
+		int targetX = (int) (Math.random() * 500);
+		int targetY = (int) (Math.random() * 500);
 		cambiarDireccion(new PVector(targetX, targetY));
-		
+
 		Thread nt = new Thread(this);
 		nt.start();
-		
+
 	}
 
 	public int getEstado() {
@@ -65,7 +72,7 @@ public class Coconita extends EspecieAbstracta implements ICarnivoro {
 				// TODO: handle exception
 			}
 		}
-		
+
 	}
 
 	public void comerPlanta(PlantaAbstracta victima) {
@@ -74,6 +81,10 @@ public class Coconita extends EspecieAbstracta implements ICarnivoro {
 				PlantaBuena plantaTemp = (PlantaBuena) victima;
 				if (PApplet.dist(x, y, plantaTemp.getX(), plantaTemp.getY()) <= 50) {
 					plantaTemp.recibirDano(this);
+					if (plantaTemp.getIndex() == 4) {
+						Mundo.ObtenerInstancia().getPlantas().remove(victima);
+						this.ecosistema.getPlantas().remove(victima);
+					}
 					try {
 						setEstado(EXTASIS);
 					} catch (Exception e) {
@@ -85,6 +96,10 @@ public class Coconita extends EspecieAbstracta implements ICarnivoro {
 				PlantaMala plantaTemp = (PlantaMala) victima;
 				if (PApplet.dist(x, y, plantaTemp.getX(), plantaTemp.getY()) <= 50) {
 					plantaTemp.recibirDano(this);
+					if (plantaTemp.getIndex() == 4) {
+						Mundo.ObtenerInstancia().getPlantas().remove(victima);
+						this.ecosistema.getPlantas().remove(victima);
+					}
 					try {
 						setEstado(ENVENENADO);
 					} catch (Exception e) {
@@ -99,7 +114,7 @@ public class Coconita extends EspecieAbstracta implements ICarnivoro {
 	@Override
 	public void dibujar() {
 		PApplet app = Mundo.ObtenerInstancia().getApp();
-		app.image(coconitaF[index],x,y,68,100);
+		app.image(coconitaF[index], x, y, 68, 100);
 
 	}
 
@@ -110,17 +125,17 @@ public class Coconita extends EspecieAbstracta implements ICarnivoro {
 			int targetX = (int) (Math.random() * 500);
 			int targetY = (int) (Math.random() * 500);
 			cambiarDireccion(new PVector(targetX, targetY));
-			//System.out.println("CAMBIO DIRECCION!");
+			// System.out.println("CAMBIO DIRECCION!");
 		}
-		
-		x+=dir.x;
-		y+=dir.y;
+
+		x += dir.x;
+		y += dir.y;
 
 	}
 
 	@Override
 	public boolean recibirDano(EspecieAbstracta lastimador) {
-		if(PApplet.dist(x, y, lastimador.getX(), lastimador.getY()) <= (vida/2)){
+		if (PApplet.dist(x, y, lastimador.getX(), lastimador.getY()) <= (vida / 2)) {
 			vida -= 5;
 			try {
 				lastimador.setEstado(EXTASIS);
@@ -129,7 +144,7 @@ public class Coconita extends EspecieAbstracta implements ICarnivoro {
 			}
 			return true;
 		}
-		
+
 		return false;
 	}
 
@@ -138,11 +153,11 @@ public class Coconita extends EspecieAbstracta implements ICarnivoro {
 		dir = PVector.sub(target, location);
 		dir.normalize();
 		dir.mult(velocidad);
-		//System.out.println("[id=" + id + ", direcion=" + dir + "]");
+		// System.out.println("[id=" + id + ", direcion=" + dir + "]");
 	}
-	
+
 	public void imagenes() {
-		
+
 		coconitaF[0] = app.loadImage("../data/presetacionPersonajes-08.png");
 		coconitaF[1] = app.loadImage("../data/presetacionPersonajes-09.png");
 		coconitaF[2] = app.loadImage("../data/presetacionPersonajes-10.png");
@@ -155,8 +170,7 @@ public class Coconita extends EspecieAbstracta implements ICarnivoro {
 	@Override
 	public void comer(EspecieAbstracta victima) {
 		// TODO Auto-generated method stub
-		
+
 	}
-	
-	
+
 }

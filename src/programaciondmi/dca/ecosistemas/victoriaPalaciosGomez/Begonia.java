@@ -59,7 +59,7 @@ public class Begonia extends EspecieAbstracta implements IApareable, ICarnivoro 
 		cambiarDireccion(new PVector(targetX, targetY));
 
 		ciclo = 0;
-		
+		//pruebaaaa de commit :c
 
 		//System.out.println(this);
 		Thread nt = new Thread(this);

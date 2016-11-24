@@ -75,7 +75,7 @@ public class Jacinto extends EspecieAbstracta {
 			mover();
 			if (app.frameCount % 6 == 0) {
 				index++;
-				if (index >= 2) {
+				if (index > 2) {
 					index = 0;
 				}
 			}

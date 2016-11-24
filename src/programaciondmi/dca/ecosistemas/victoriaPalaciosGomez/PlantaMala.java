@@ -56,6 +56,10 @@ public class PlantaMala extends PlantaAbstracta {
 	public float getY() {
 		return this.y;
 	}
+	
+	public int getIndex(){
+		return this.index;
+	}
 
 	@Override
 	public void run() {
@@ -65,7 +69,10 @@ public class PlantaMala extends PlantaAbstracta {
 
 	@Override
 	public boolean recibirDano(EspecieAbstracta lastimador) {
-		// TODO Auto-generated method stub
+		index++;
+		if (index > 3) {
+			index = 0;
+		}
 		return false;
 	}
 
