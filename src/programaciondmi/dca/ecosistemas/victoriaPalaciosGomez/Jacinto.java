@@ -63,13 +63,14 @@ public class Jacinto extends EspecieAbstracta {
 			mover();
 			if (app.frameCount % 6 == 0) {
 				index++;
-				if (index >= 3) {
+				if (index >= 2) {
 					index = 0;
 				}
 			}
 			try {
-				ciclo++;
+				
 				Thread.sleep(33);
+				ciclo++;
 			} catch (Exception e) {
 				// TODO: handle exception
 			}
