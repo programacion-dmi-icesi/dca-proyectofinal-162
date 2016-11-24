@@ -3,6 +3,7 @@ package programaciondmi.dca.ecosistemas.escobarcorralesgrimaldo;
 import java.util.List;
 
 import processing.core.PApplet;
+import processing.core.PImage;
 import programaciondmi.dca.core.EcosistemaAbstracto;
 import programaciondmi.dca.core.EspecieAbstracta;
 import programaciondmi.dca.core.interfaces.ICarnivoro;
@@ -14,10 +15,16 @@ public class Carnivoro extends EspecieAbstracta implements ICarnivoro {
 	private int ciclo;
 	private Mundo m;
 
+	
+	private int dir,mover;
+
+
 	private float ballX = 50, ballY = 50;
 	private int ballXDirection = 1, ballYDirection = -1;
-
+	private PImage transparente;
 	private int xP, yP, vX, vY, vXD = 50, vYD = 50;
+
+	private PImage carni[] = new PImage[4];
 
 	public Carnivoro(EcosistemaAbstracto ecosistema) {
 		super(ecosistema);
@@ -49,10 +56,36 @@ public class Carnivoro extends EspecieAbstracta implements ICarnivoro {
 	@Override
 	public void dibujar() {
 		PApplet app = Mundo.ObtenerInstancia().getApp();
-		app.fill(255, 0, 0);
 
-		app.ellipse(ballX, ballY, 30, 30);
+		carni[0] = app.loadImage("../data/vistas/car_aba.png");
+		carni[1] = app.loadImage("../data/vistas/car_arri.png");
+		carni[2] = app.loadImage("../data/vistas/car_izq.png");
+		carni[3] = app.loadImage("../data/vistas/car_der.png");
 
+		
+		app.image(carni[dir], ballX, ballY);
+		
+		
+		// direciones -----------------------------------
+
+		if (ballXDirection >= 0) {
+			dir=3;
+
+		}else
+
+		if (ballXDirection <= 0) {
+			dir=2;
+
+		}else
+
+		if (ballYDirection >= 0) {
+			dir=0;
+
+		}else
+
+		if (ballYDirection <=0) {
+			dir=1;
+		}
 	}
 
 	@Override
@@ -92,8 +125,7 @@ public class Carnivoro extends EspecieAbstracta implements ICarnivoro {
 				}
 				if (vida == 0) {
 					lastimador.setEstado(MUERTO);
-					
-					//boolean esta = Mundo.ObtenerInstancia().getEspecies().remove(lastimador);
+
 				}
 
 			} catch (Exception e) {
@@ -113,7 +145,7 @@ public class Carnivoro extends EspecieAbstracta implements ICarnivoro {
 		if (!todas.equals(this)) {
 			for (int i = 0; i < todas.size(); i++) {
 				comer(todas.get(i));
-				
+
 				System.out.println("Comio");
 			}
 		}

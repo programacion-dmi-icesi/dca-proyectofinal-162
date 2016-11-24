@@ -12,12 +12,14 @@ import programaciondmi.dca.ejecucion.Mundo;
 
 public class Canibal extends EspecieAbstracta implements ICanibal {
 
-	private PImage[] cani = new PImage[1];
+	private PImage[] cani = new PImage[4];
 
 	private int vida, velocidad;
 	private PVector dir;
 	private int energia;
 	private int ciclo;
+	
+	
 
 	public Canibal(EcosistemaAbstracto ecosistema) {
 		super(ecosistema);
@@ -48,8 +50,12 @@ public class Canibal extends EspecieAbstracta implements ICanibal {
 	@Override
 	public void dibujar() {
 		PApplet app = Mundo.ObtenerInstancia().getApp();
-		cani[0] = app.loadImage("../data/Canibal.png");
-		//System.out.println("holi");
+
+		cani[0] = app.loadImage("../data/vistas/cani_aba.png");
+		cani[1] = app.loadImage("../data/vistas/cani_arri.png");
+		cani[2] = app.loadImage("../data/vistas/cani_izq.png");
+		cani[3] = app.loadImage("../data/vistas/cani_der.png");
+
 		// app.fill(255,255,0);
 		app.image(cani[0], x, y);
 		// app.ellipse(x, y, 100, 100);

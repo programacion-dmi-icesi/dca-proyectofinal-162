@@ -194,15 +194,15 @@ public class Mundo implements Observer {
 	
 	@Override
 	public void update(Observable arg0, Object arg1) {
-		System.out.println(" El ecosistema " + arg0 + " envia una notificación");
+		//System.out.println(" El ecosistema " + arg0 + " envia una notificación");
 		if (arg1 instanceof EspecieAbstracta) {
-			System.out.println("Se argrego una nueva especie " + arg1);
+			//System.out.println("Se argrego una nueva especie " + arg1);
 			EspecieAbstracta nuevaEspecie = (EspecieAbstracta) arg1;
 			especies.add(nuevaEspecie);
 		}
 
 		if (arg1 instanceof PlantaAbstracta) {
-			System.out.println("Se argrego una nueva especie " + arg1);
+			//System.out.println("Se argrego una nueva especie " + arg1);
 			PlantaAbstracta nuevaPlanta = (PlantaAbstracta) arg1;
 			plantas.add(nuevaPlanta);
 		}
