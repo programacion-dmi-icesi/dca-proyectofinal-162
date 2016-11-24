@@ -50,7 +50,7 @@ public class EcosistemaTikiBots extends EcosistemaAbstracto {
 
 		int camX = Mundo.ObtenerInstancia().getCamX();
 		int camY = Mundo.ObtenerInstancia().getCamY();
-
+//condicion para poner plantas
 		if (puedeColocar) {
 
 			if (app.mousePressed == true) {
@@ -88,9 +88,9 @@ public class EcosistemaTikiBots extends EcosistemaAbstracto {
 		// >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 		Magusbot mago = new Magusbot(this);
 		especies.add(mago);
-
-		mago = new Magusbot(this);
-		especies.add(mago);
+	
+	    mago = new Magusbot(this);
+  		especies.add(mago);
 		// >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 		Cannibalbot cani = new Cannibalbot(this);
@@ -125,10 +125,10 @@ public class EcosistemaTikiBots extends EcosistemaAbstracto {
 		 */
 
 		// >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-		//if (cont == 0) {
-			Magusbot mago = new Magusbot(this);
-			especies.add(mago);
-		//}
+		// if (cont == 0) {
+		Magusbot mago = new Magusbot(this);
+		especies.add(mago);
+		// }
 		// >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>.
 		Cannibalbot cani = new Cannibalbot(this);
 		agregarEspecie(cani);

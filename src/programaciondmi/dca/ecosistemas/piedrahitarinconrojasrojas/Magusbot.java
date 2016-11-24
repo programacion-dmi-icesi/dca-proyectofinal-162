@@ -253,14 +253,14 @@ public class Magusbot extends EspecieAbstracta implements IOmnivoro {
 			}
 
 			if (ciclo % 30 == 0 && plantaCerca == null) {
-				// Definir una direccion aleatoria cada 5 segundos
+				// Definir una direccion aleatoria cada 3 segundos
 				// Siguiente posici�n en x
 				int targetX = random.nextInt();
 				// Siguiente posici�n en y
 				int targetY = random.nextInt();
 				cambiarDireccion(new PVector(targetX, targetY));
 				// System.out.println(x+" "+y);
-				if (targetX > this.x && targetY > this.y) {// derechaarriba
+				if (targetX > this.x && targetY > this.y) {// derechaArriba
 					vista = 1;
 					contador = (vista - 1) * 5;
 				} else if (targetX < this.x && targetY < this.y) {// izquierdaAbajo
@@ -284,14 +284,12 @@ public class Magusbot extends EspecieAbstracta implements IOmnivoro {
 	}
 
 	public void run() {
-		// TODO Auto-generated method stub
 		while (vida > 0) {
 			mover();
 			try {
 				Thread.sleep(33);
 				ciclo++;
 			} catch (Exception e) {
-				// TODO: handle exception
 			}
 		}
 	}
@@ -331,11 +329,10 @@ public class Magusbot extends EspecieAbstracta implements IOmnivoro {
 				plantaCerca = null;
 			}
 		}
-		// List<EspecieAbstracta> todas =
-		// Mundo.ObtenerInstancia().getEspecies();
-		// for (int i = 0; i < todas.size(); i++) {
-		// comer(todas.get(i));
-		// }
+		List<EspecieAbstracta> todas = Mundo.ObtenerInstancia().getEspecies();
+		for (int i = 0; i < todas.size(); i++) {
+			comer(todas.get(i));
+		}
 	}
 
 	private void cambiarDireccion(PVector target) {
