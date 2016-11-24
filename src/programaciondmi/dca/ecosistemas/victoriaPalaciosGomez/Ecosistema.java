@@ -78,7 +78,7 @@ public class Ecosistema extends EcosistemaAbstracto {
 
 	@Override
 	protected List<PlantaAbstracta> generarPlantas() {
-		if (app.mouseX < app.width && app.mouseX > 0 && app.mouseY < app.height && app.mouseY > 0){
+		if (app.mouseX < app.width && app.mouseX > 0 && app.mouseY < app.height && app.mouseY > 0 && app.mousePressed){
 		if (app.mouseButton==app.LEFT){
 			PlantaBuena pB = new PlantaBuena(app, app.mouseX, app.mouseY);
 			plantas.add(pB);
