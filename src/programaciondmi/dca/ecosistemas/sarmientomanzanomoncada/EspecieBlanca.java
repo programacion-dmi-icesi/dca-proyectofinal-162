@@ -93,6 +93,7 @@ public class EspecieBlanca extends EspecieAbstracta implements IApareable, ICarn
 					}
 				} else {
 					buscarComida();
+					
 					if (ciclo % 30 == 0) {
 					// Definir una direccion aleatoria cada 3 segundos
 					int targetX = random.nextInt();

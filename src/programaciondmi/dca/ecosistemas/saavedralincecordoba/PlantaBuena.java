@@ -27,8 +27,6 @@ public class PlantaBuena extends PlantaAbstracta{
 	@Override
 	public void dibujar() {
 		if(mostrar){
-			
-		
 		PApplet app = Mundo.ObtenerInstancia().getApp();
 		app.fill(0,255,0);
 		app.ellipse(x, y, 30, 30);
