@@ -67,7 +67,7 @@ public class EspecieGomiCanibal extends GomiCabra implements ICanibal {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
+		esperar = true;
 	}
 
 	@Override
@@ -86,11 +86,9 @@ public class EspecieGomiCanibal extends GomiCabra implements ICanibal {
 									if (d < 100) {
 										comer(especie);
 										especie.setEstado(MUERTO);
-										((GomiCabra) especie).setVivo(false);
-
+										especie.setVivo(false);
 										System.out.println("canibal mata!");
-										ecosistema.getEspecies().remove(especie);
-
+										// ecosistema.getEspecies().remove(especie);
 										break;
 									}
 								}
@@ -104,10 +102,12 @@ public class EspecieGomiCanibal extends GomiCabra implements ICanibal {
 				Thread.sleep(33);
 			} catch (Exception e) {
 				e.printStackTrace();
-				System.err.println("se ha muerto!");
 			}
 
 		}
+
+		System.err.println("el canibal se ha muerto");
+
 	}
 
 	@Override

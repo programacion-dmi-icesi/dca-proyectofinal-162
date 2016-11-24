@@ -12,7 +12,6 @@ import java.util.UUID;
  */
 
 public abstract class EspecieAbstracta implements Runnable {
-
 	protected UUID id;
 	protected EcosistemaAbstracto ecosistema;
 	protected int x;
@@ -23,6 +22,7 @@ public abstract class EspecieAbstracta implements Runnable {
 	public static final int EXTASIS = 3;
 	public static final int MUERTO = 4;
 	protected int estado;
+	protected boolean vivo = true;
 
 	public EspecieAbstracta(EcosistemaAbstracto ecosistema) {
 		this.id = UUID.randomUUID();
@@ -55,6 +55,14 @@ public abstract class EspecieAbstracta implements Runnable {
 			System.err.println("Estado no valido... use: NORMAL, ENVENENADO, ENFERMO, MUERTO, EXTASIS");
 			throw new Exception("Ese estado no es valido, use uno basado en las constantes estaticas de la clase");
 		}
+	}
+
+	public boolean isVivo() {
+		return vivo;
+	}
+
+	public void setVivo(boolean vivo) {
+		this.vivo = vivo;
 	}
 
 	public abstract void dibujar();

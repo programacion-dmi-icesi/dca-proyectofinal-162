@@ -24,24 +24,24 @@ public class EcosistemaEjemplo extends EcosistemaAbstracto {
 
 	@Override
 	public void dibujar() {
-		// synchronized (especies) {
-		// Iterator<EspecieAbstracta> iteradorEspecies = especies.iterator();
-		// while (iteradorEspecies.hasNext()) {
-		// EspecieAbstracta actual = iteradorEspecies.next();
-		// actual.dibujar();
-		// }
-		// }
+		 synchronized (especies) {
+		 Iterator<EspecieAbstracta> iteradorEspecies = especies.iterator();
+		 while (iteradorEspecies.hasNext()) {
+		 EspecieAbstracta actual = iteradorEspecies.next();
+		 actual.dibujar();
+		 }
+		 }
 	}
 
 	@Override
 	protected LinkedList<EspecieAbstracta> poblarEspecies() {
 		LinkedList<EspecieAbstracta> especies = new LinkedList<EspecieAbstracta>();
-		// EspecieBlanca nueva = new EspecieBlanca(this);
-		// especies.add(nueva);
-		// nueva = new EspecieBlanca(this);
-		// especies.add(nueva);
-		// EspecieAzul azul = new EspecieAzul(this);
-		// especies.add(azul);
+		 EspecieBlanca nueva = new EspecieBlanca(this);
+		 especies.add(nueva);
+		 nueva = new EspecieBlanca(this);
+		 especies.add(nueva);
+		 EspecieAzul azul = new EspecieAzul(this);
+		 especies.add(azul);
 		return especies;
 	}
 
@@ -54,10 +54,10 @@ public class EcosistemaEjemplo extends EcosistemaAbstracto {
 
 	@Override
 	protected List<EspecieAbstracta> generarIndividuos() {
-		// EspecieBlanca nueva = new EspecieBlanca(this);
-		// especies.add(nueva);
-		// EspecieAzul azul = new EspecieAzul(this);
-		// especies.add(azul);
+		 EspecieBlanca nueva = new EspecieBlanca(this);
+		 especies.add(nueva);
+		 EspecieAzul azul = new EspecieAzul(this);
+		 especies.add(azul);
 		return null;
 	}
 

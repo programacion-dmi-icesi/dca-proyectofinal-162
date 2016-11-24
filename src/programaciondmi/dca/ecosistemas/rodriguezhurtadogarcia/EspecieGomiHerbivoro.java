@@ -114,7 +114,6 @@ public class EspecieGomiHerbivoro extends GomiCabra implements IApareable, IHerb
 								if (d < 100) {
 									EspecieAbstracta hijo = aparear(apareable);
 									ecosistema.getEspecies().add(hijo);
-
 								}
 
 							}
@@ -130,6 +129,7 @@ public class EspecieGomiHerbivoro extends GomiCabra implements IApareable, IHerb
 
 		}
 
+		System.out.println("se murio los hervivoros");
 	}
 
 	@Override

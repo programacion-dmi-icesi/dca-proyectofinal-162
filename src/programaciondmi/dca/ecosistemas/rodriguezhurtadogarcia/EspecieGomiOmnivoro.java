@@ -67,8 +67,10 @@ public class EspecieGomiOmnivoro extends GomiCabra implements IOmnivoro {
 
 	@Override
 	public void comer(EspecieAbstracta victima) {
+		esperar = true;
+
 		try {
-			victima.setEstado(MUERTO);
+
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -85,15 +87,13 @@ public class EspecieGomiOmnivoro extends GomiCabra implements IOmnivoro {
 				synchronized (ecosistema.getEspecies()) {
 					for (EspecieAbstracta especie : ecosistema.getEspecies()) {
 						if (especie != this) {
-
 							float d = app.dist(especie.getX(), especie.getY(), this.x, this.y);
-
 							if (!esperar) {
 								if (d < 100) {
 									comer(especie);
-									((GomiCabra) especie).setVivo(vivo);
-									ecosistema.getEspecies().remove(especie);
-
+									especie.setVivo(false);
+									// ecosistema.getEspecies().remove(especie);
+									System.out.println("omnivoro mata!");
 									break;
 								}
 							}
@@ -109,21 +109,23 @@ public class EspecieGomiOmnivoro extends GomiCabra implements IOmnivoro {
 					// List<PlantaAbstracta> plantas = ecosistema.getPlantas();
 					for (PlantaAbstracta planta : ecosistema.getPlantas()) {
 						float d = app.dist(planta.getX(), planta.getY(), this.x, this.y);
-
 						if (d < 100) {
 							if (!esperar) {
 								comerPlanta(planta);
-
 							}
 						}
 					}
 				}
+
 				Thread.sleep(33);
 
 			} catch (Exception e) {
 				// TODO: handle exception
 			}
 		}
+
+		System.out.println("se murio los omnivoros");
+
 	}
 
 	@Override
@@ -133,8 +135,37 @@ public class EspecieGomiOmnivoro extends GomiCabra implements IOmnivoro {
 
 	@Override
 	public void comerPlanta(PlantaAbstracta victima) {
-		// TODO Auto-generated method stub
+		if (victima instanceof PlantaGomiCabra) {
+			System.out.println("se come una planta ");
+			PlantaGomiCabra p = (PlantaGomiCabra) victima;
+			switch (p.getId()) {
+			case 0:
+				vida += 15;
 
+				if (vida < 50) {
+					estado = NORMAL;
+				}
+
+				if (vida > maxVida)
+					vida = maxVida;
+				break;
+			case 1:
+				vida -= 15;
+				if (vida < 50) {
+					estado = ENFERMO;
+				}
+
+				if (vida < 0) {
+					// condición de morir
+					estado = MUERTO;
+				}
+
+				break;
+			}
+			p.mordisco();
+			esperar = true;
+			System.out.println("esperando siguiente acción");
+		}
 	}
 
 }

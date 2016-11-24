@@ -77,6 +77,8 @@ public class EspecieGomiCarnivoro extends GomiCabra implements ICarnivoro {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		esperar = true;
+
 	}
 
 	@Override
@@ -98,8 +100,9 @@ public class EspecieGomiCarnivoro extends GomiCabra implements ICarnivoro {
 							if (!esperar) {
 								if (d < 100) {
 									comer(especie);
-									((GomiCabra) especie).setVivo(false);
-									ecosistema.getEspecies().remove(especie);
+									especie.setVivo(false);
+									/// ecosistema.getEspecies().remove(especie);
+									System.out.println("carnivoro mata!");
 									break;
 								}
 							}
@@ -114,6 +117,9 @@ public class EspecieGomiCarnivoro extends GomiCabra implements ICarnivoro {
 				// TODO: handle exception
 			}
 		}
+
+		System.err.println("el carnivoro se ha muerto");
+
 	}
 
 	@Override

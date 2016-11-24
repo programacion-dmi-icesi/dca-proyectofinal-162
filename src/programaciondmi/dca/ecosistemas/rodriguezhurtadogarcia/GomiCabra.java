@@ -31,15 +31,14 @@ public abstract class GomiCabra extends EspecieAbstracta {
 	protected int maxSalud = 5;
 	protected int salud = maxSalud;
 	protected Random random;
-	protected boolean vivo = true;
 
 	public GomiCabra(EcosistemaAbstracto ecosistema) {
 		super(ecosistema);
 		this.random = new Random();
 		app = Mundo.ObtenerInstancia().getApp();
 
-		this.x = (int) app.random(-1071.387f, 1071.387f);
-		this.y = (int) app.random(-1840.438f, 1840.438f);
+		this.x = (int) app.random(-4000f, 4000f);
+		this.y = (int) app.random(-4000f, 4000f);
 
 	}
 
@@ -138,13 +137,15 @@ public abstract class GomiCabra extends EspecieAbstracta {
 			}
 		}
 
-		if (estado == MUERTO) {
-			muerto = true;
-			vivo = false;
-		}
-		if (vida < 0) {
-			estado = MUERTO;
-		}
+		// if (estado == MUERTO) {
+		// muerto = true;
+		// vivo = false;
+		// }
+		//
+		// if (vida < 0) {
+		// estado = MUERTO;
+		// vivo = false;
+		// }
 
 	}
 

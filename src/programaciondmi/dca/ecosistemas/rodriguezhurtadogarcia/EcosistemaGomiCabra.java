@@ -37,20 +37,17 @@ public class EcosistemaGomiCabra extends EcosistemaAbstracto {
 	public void dibujar() {
 
 		synchronized (plantas) {
-
-			if (app.dist(boton.getX(), boton.getY(), app.mouseX, app.mouseY) <= 30) {
-				if (Mundo.ObtenerInstancia().getApp().mousePressed == true) {
-					if (app.mouseButton == app.LEFT) {
-						plantas.add(new PlantaGomiCabra(this, 0));
-					} else if (app.mouseButton == app.RIGHT) {
-						plantas.add(new PlantaGomiCabra(this, 1));
-					}
+			if (Mundo.ObtenerInstancia().getApp().mousePressed == true) {
+				if (app.mouseButton == app.LEFT) {
+					plantas.add(new PlantaGomiCabra(this, 0));
+				} else if (app.mouseButton == app.RIGHT) {
+					plantas.add(new PlantaGomiCabra(this, 1));
 				}
-
 			}
 			// pinta las plantas.
 			Iterator<PlantaAbstracta> iteradorPlantas = plantas.iterator();
 			PlantaAbstracta actualPlanta;
+
 			while (iteradorPlantas.hasNext()) {
 				actualPlanta = iteradorPlantas.next();
 				if (actualPlanta instanceof PlantaGomiCabra) {
@@ -87,13 +84,22 @@ public class EcosistemaGomiCabra extends EcosistemaAbstracto {
 
 			for (EspecieAbstracta especie : especies) {
 				// remueve la planta cuando ya es comida completamente.
-				if (especie.getEstado() == EspecieAbstracta.MUERTO) {
-
-					especies.remove(especie);
+				GomiCabra es = (GomiCabra) especie;
+				if (!es.isVivo()) {
+					especies.remove(es);
 					System.out.println("se ha eliminado una especie");
 					break;
 				}
 			}
+
+		}
+
+		/*
+		 * SE UTIIZÓ ESTE METODO PARA PODER POBLAR YA QUE EL DEL PROFESOR NO
+		 * QUERIA FUNCI
+		 */
+		if (app.frameCount %  6000== 0) {
+			crearIndividuos();
 
 		}
 	}
@@ -104,29 +110,44 @@ public class EcosistemaGomiCabra extends EcosistemaAbstracto {
 	 * Aquí se crean las especies iniciales.
 	 */
 	protected LinkedList<EspecieAbstracta> poblarEspecies() {
-		LinkedList<EspecieAbstracta> especiesIniciales = new LinkedList<EspecieAbstracta>();
+		LinkedList<EspecieAbstracta> especiesIniciales = new LinkedList<>();
+		especiesIniciales.add(new EspecieGomiHerbivoro(this));
+		// especiesIniciales.add(new EspecieGomiHerbivoro(this));
+		//
 
-		synchronized (especies) {
+		//
+		especiesIniciales.add(new EspecieGomiCarnivoro(this));
+		especiesIniciales.add(new EspecieGomiCarnivoro(this));
 
-			especiesIniciales.add(new EspecieGomiHerbivoro(this));
-			especiesIniciales.add(new EspecieGomiHerbivoro(this));
-			especiesIniciales.add(new EspecieGomiHerbivoro(this));
-			especiesIniciales.add(new EspecieGomiHerbivoro(this));
+		// synchronized (especies) {
 
-			especiesIniciales.add(new EspecieGomiCarnivoro(this));
-			especiesIniciales.add(new EspecieGomiCarnivoro(this));
+		especiesIniciales.add(new EspecieGomiHerbivoro(this));
+		especiesIniciales.add(new EspecieGomiHerbivoro(this));
+		especiesIniciales.add(new EspecieGomiHerbivoro(this));
+		especiesIniciales.add(new EspecieGomiHerbivoro(this));
+		especiesIniciales.add(new EspecieGomiHerbivoro(this));
+		especiesIniciales.add(new EspecieGomiHerbivoro(this));
+		especiesIniciales.add(new EspecieGomiHerbivoro(this));
+		especiesIniciales.add(new EspecieGomiHerbivoro(this));
+		// especiesIniciales.add(new EspecieGomiHerbivoro(this));
+		//
 
-			especiesIniciales.add(new EspecieGomiCanibal(this));
-			especiesIniciales.add(new EspecieGomiCanibal(this));
-			especiesIniciales.add(new EspecieGomiCanibal(this));
+		//
+		especiesIniciales.add(new EspecieGomiCarnivoro(this));
+		especiesIniciales.add(new EspecieGomiCarnivoro(this));
 
-			/*
-			 * especiesIniciales.add(new EspecieGomiOmnivoro(this));
-			 * especiesIniciales.add(new EspecieGomiOmnivoro(this));
-			 * especiesIniciales.add(new EspecieGomiOmnivoro(this));
-			 * especiesIniciales.add(new EspecieGomiOmnivoro(this));
-			 */
-		}
+		especiesIniciales.add(new EspecieGomiCanibal(this));
+		especiesIniciales.add(new EspecieGomiCanibal(this));
+		especiesIniciales.add(new EspecieGomiCanibal(this));
+
+		// especiesIniciales.add(new EspecieGomiCanibal(this));
+		//
+		especiesIniciales.add(new EspecieGomiOmnivoro(this));
+		especiesIniciales.add(new EspecieGomiOmnivoro(this));
+		especiesIniciales.add(new EspecieGomiOmnivoro(this));
+		especiesIniciales.add(new EspecieGomiOmnivoro(this));
+
+		// }
 
 		return especiesIniciales;
 	}
@@ -140,27 +161,26 @@ public class EcosistemaGomiCabra extends EcosistemaAbstracto {
 
 	@Override
 	/**
-	 * aqui se crean los individuos queu saldrán periodicamente
+	 * aqui se crean los individuos queu saldrán periodicamente,ESTE METODO NO
+	 * QUERÍA FUNCIONAR!!!!!
 	 * 
 	 */
 	protected List<EspecieAbstracta> generarIndividuos() {
 		LinkedList<EspecieAbstracta> especiesG = new LinkedList<EspecieAbstracta>();
-		synchronized (especies) {
-
-			especiesG.add(new EspecieGomiHerbivoro(this));
-			especiesG.add(new EspecieGomiHerbivoro(this));
-			especiesG.add(new EspecieGomiHerbivoro(this));
-			especiesG.add(new EspecieGomiHerbivoro(this));
-			especiesG.add(new EspecieGomiHerbivoro(this));
-			especiesG.add(new EspecieGomiHerbivoro(this));
-
-			especiesG.add(new EspecieGomiCarnivoro(this));
-			// especiesG.add(new EspecieGomiOmnivoro(this));
-			// especiesG.add(new EspecieGomiCanibal(this));
-
-		}
 
 		return especiesG;
+	}
+
+	void crearIndividuos() {
+		especies.add(new EspecieGomiHerbivoro(this));
+		especies.add(new EspecieGomiHerbivoro(this));
+		especies.add(new EspecieGomiHerbivoro(this));
+		especies.add(new EspecieGomiHerbivoro(this));
+		especies.add(new EspecieGomiHerbivoro(this));
+		especies.add(new EspecieGomiHerbivoro(this));
+
+		especies.add(new EspecieGomiCarnivoro(this));
+		especies.add(new EspecieGomiCanibal(this));
 	}
 
 	@Override

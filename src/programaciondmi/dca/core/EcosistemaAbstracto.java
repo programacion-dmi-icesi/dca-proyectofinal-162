@@ -45,21 +45,18 @@ public abstract class EcosistemaAbstracto extends Observable implements Runnable
 	 */
 
 	private final void repoblar() throws EcosistemaException {
-		List<EspecieAbstracta> espTemp = generarIndividuos();
-		List<PlantaAbstracta> plaTemp = generarPlantas();
-		if (espTemp == null || plaTemp == null) {
-			throw new EcosistemaException(
-					"el nuevo individuo es nulo, verifique los metodos generarIndividuos() y generarPlantas()");
-		}
-		synchronized (plantas) {
-			plantas.addAll(plaTemp);
-
-		}
-
-		synchronized (especies) {
-			especies.addAll(espTemp);
-		}
-
+		// List<EspecieAbstracta> espTemp = generarIndividuos();
+		// List<PlantaAbstracta> plaTemp = generarPlantas();
+		//
+		// if (espTemp == null || plaTemp == null) {
+		// throw new EcosistemaException(
+		// "el nuevo individuo es nulo, verifique los metodos
+		// generarIndividuos() y generarPlantas()");
+		// }
+		//
+		// plantas.addAll(plaTemp);
+		//
+		// especies.addAll(espTemp);
 	}
 
 	/**
@@ -72,7 +69,7 @@ public abstract class EcosistemaAbstracto extends Observable implements Runnable
 	public void run() {
 		while (true) {
 			try {
-				Thread.sleep(5000);
+				Thread.sleep(3000);
 				repoblar();
 			} catch (InterruptedException e) {
 				e.printStackTrace();
