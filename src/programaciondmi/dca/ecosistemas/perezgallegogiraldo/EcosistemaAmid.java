@@ -17,7 +17,7 @@ public class EcosistemaAmid extends EcosistemaAbstracto {
 		super();
 		
 		Mundo ref = Mundo.ObtenerInstancia();
-		LogoAmid boton = new LogoAmid("data/icono-01.svg",this);
+		LogoAmid boton = new LogoAmid("dataAmids/icono-01.svg",this);
 		ref.agregarBoton(boton);
 	}
 
@@ -86,9 +86,6 @@ public class EcosistemaAmid extends EcosistemaAbstracto {
 		AmidOmnivoro blanco = new AmidOmnivoro(this);
 		especies.add(blanco);
 		
-		AmidHijo verde = new AmidHijo(this);
-		especies.add(verde);
-
 		return null;
 	}
 

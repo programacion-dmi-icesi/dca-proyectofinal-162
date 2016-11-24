@@ -62,16 +62,16 @@ public class PlantaSaludable extends PlantaAbstracta {
 
 	@Override
 	public boolean recibirDano(EspecieAbstracta lastimador) {
-		// TODO Auto-generated method stub
-		if (PApplet.dist(x, y, lastimador.getX(), lastimador.getY()) < 50) {
-			vida -= 20;
-		}
-		return false;
+		if (vida > 0) {
+			vida--;
+			return true;
+		} else
+			return false;
 	}
 
 	public void cargaDeImagenes() {
 		for (int i = 0; i < 5; i++) {
-			img[i] = app.loadShape("data/plants/planta-0" + i + ".svg");
+			img[i] = app.loadShape("../dataAmids/Plants/planta-0" + i + ".svg");
 		}
 	}
 }

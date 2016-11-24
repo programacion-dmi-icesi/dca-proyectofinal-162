@@ -21,7 +21,7 @@ public class PlantaVenenosa extends PlantaAbstracta {
 		this.app = Mundo.ObtenerInstancia().getApp();
 		img = new PShape[5];
 
-		pos = new PVector(0, 0);
+		pos = new PVector(app.random(-500,500), app.random(-500,500));
 		cargaDeImagen();
 		mov = 0;
 		vida = 100;
@@ -63,17 +63,16 @@ public class PlantaVenenosa extends PlantaAbstracta {
 
 	@Override
 	public boolean recibirDano(EspecieAbstracta lastimador) {
-		if (vida>0) {
+		if (vida > 0) {
 			vida--;
 			return true;
-		}
-		
-		return false;
+		} else
+			return false;
 	}
 
 	public void cargaDeImagen() {
 		for (int i = 9; i > 4; i--) {
-			img[i - 5] = app.loadShape("data/Plants/planta-0" + i + ".svg");
+			img[i - 5] = app.loadShape("../dataAmids/Plants/planta-0" + i + ".svg");
 		}
 	}
 }

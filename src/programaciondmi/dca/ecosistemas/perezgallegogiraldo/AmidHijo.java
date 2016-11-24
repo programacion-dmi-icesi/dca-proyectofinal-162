@@ -25,23 +25,25 @@ public class AmidHijo extends EspecieAbstracta {
 	private PImage[] transicionFrente = new PImage[12];
 	private PImage[] transicionEspalda = new PImage[12];
 	private PImage[] transicionLado = new PImage[12];
+	private PImage[] extasis = new PImage[30];
+	private PImage[] envenenado = new PImage[12];
 
 	private float energia;
-	private int contador;
+	private int contador, contadorExta;
 
 	private PVector dir;
 	private PVector pos;
 	private PVector objetivo;
 	private int animacion;
 	private int ciclo;
-
+	private boolean enExtasis, enVeneno;
 
 	public AmidHijo(EcosistemaAbstracto ecosistema) {
 		super(ecosistema);
 		app = Mundo.ObtenerInstancia().getApp();
 
-		this.x = (int)app.random(-500,500);
-		this.y = (int)app.random(-500,500);
+		this.x = (int) app.random(-500, 500);
+		this.y = (int) app.random(-500, 500);
 		this.vida = 50;
 		this.energia = 250;
 		objetivo = new PVector(300, 100);
@@ -58,37 +60,42 @@ public class AmidHijo extends EspecieAbstracta {
 
 		for (int i = 0; i < 12; i++) {
 
-			frenteEnfermo[i] = app.loadImage("../data/Personajes/P5/P5 Frente/P5 F Enfermo" + i + ".png"); // FRENTE
-																											// ENFERMO
+			frenteEnfermo[i] = app.loadImage("../dataAmids/Personajes/P5/P5 Frente/P5 F Enfermo" + i + ".png"); // FRENTE
+			// ENFERMO
 
-			frenteSano[i] = app.loadImage("../data/Personajes/P5/P5 Frente/P5 F Sano" + i + ".png"); // FRENTE
+			frenteSano[i] = app.loadImage("../dataAmids/Personajes/P5/P5 Frente/P5 F Sano" + i + ".png"); // FRENTE
+																											// SANO
+
+			espaldaEnfermo[i] = app.loadImage("../dataAmids/Personajes/P5/P5 Espalda/P5 E Enfermo" + i + ".png"); // ESPALDA
+																													// ENFERMO
+
+			espaldaSano[i] = app.loadImage("../dataAmids/Personajes/P5/P5 Espalda/P5 E Sano" + i + ".png"); // ESPALDA
+			// SANO
+
+			ladoEnfermo[i] = app.loadImage("../dataAmids/Personajes/P5/P5 Lado/P5 L Enfermo" + i + ".png"); // LADO
+			// ENFERMO
+
+			ladoSano[i] = app.loadImage("../dataAmids/Personajes/P5/P5 Lado/P5 L Sano" + i + ".png"); // LADO
 																										// SANO
 
-			espaldaEnfermo[i] = app.loadImage("../data/Personajes/P5/P5 Espalda/P5 E Enfermo" + i + ".png"); // ESPALDA
-																												// ENFERMO
+			transicionFrente[i] = app
+					.loadImage("../dataAmids/Personajes/P5/Transiciones/Frente/Transicion P5 F" + i + ".png"); // TRANSICI�N
+																												// //
+																												// FRENTE
 
-			espaldaSano[i] = app.loadImage("../data/Personajes/P5/P5 Espalda/P5 E Sano" + i + ".png"); // ESPALDA
-																										// SANO
+			transicionEspalda[i] = app
+					.loadImage("../dataAmids/Personajes/P5/Transiciones/Espalda/Transicion P5 E" + i + ".png"); // TRANSICI�N
+			// //
+			// ESPALDA
 
-			ladoEnfermo[i] = app.loadImage("../data/Personajes/P5/P5 Lado/P5 L Enfermo" + i + ".png"); // LADO
-																										// ENFERMO
+			transicionLado[i] = app
+					.loadImage("../dataAmids/Personajes/P5/Transiciones/Lado/Transicion P5 L" + i + ".png"); // TRANSICI�N
+			// //
+			envenenado[i] = app.loadImage("../dataAmids/Estados/Envenenado/Herido" + i + ".png");
+		}
 
-			ladoSano[i] = app.loadImage("../data/Personajes/P5/P5 Lado/P5 L Sano" + i + ".png"); // LADO
-																									// SANO
-
-			/*
-			 * transicionFrente[i] = app.loadImage(
-			 * "../data/Personajes/P5/Transiciones/Frente/Transicion P5 F" + i +
-			 * ".png"); // TRANSICI�N // FRENTE
-			 * 
-			 * transicionEspalda[i] = app.loadImage(
-			 * "../data/Personajes/P5/Transiciones/Espalda/Transicion P5 E" + i
-			 * + ".png"); // TRANSICI�N // ESPALDA
-			 * 
-			 * transicionLado[i] = app.loadImage(
-			 * "../data/Personajes/P5/Transiciones/Lado/Transicion P5 L" + i +
-			 * ".png"); // TRANSICI�N // LADO
-			 */
+		for (int i = 0; i < 30; i++) {
+			extasis[i] = app.loadImage("../dataAmids/Estados/Extasis/Extasis" + i + ".png");
 		}
 
 	}
@@ -97,7 +104,7 @@ public class AmidHijo extends EspecieAbstracta {
 	public void dibujar() {
 		// TODO Auto-generated method stub
 		app.ellipse(objetivo.x, objetivo.y, 10, 10);
-		animacion();
+		animacionMovimientos();
 		perseguir();
 	}
 
@@ -108,49 +115,115 @@ public class AmidHijo extends EspecieAbstracta {
 		y = (int) pos.y;
 	}
 
-	public void animacion() {
+	public void animacionMovimientos() {
 		app.imageMode(PApplet.CENTER);
 		switch (animacion) {
 		case 0:
 
 			if (contador == 12)
 				contador = 0;
-			app.image(frenteSano[contador], x, y, 75, 75);
+			if (estado == ENFERMO) {
+				app.image(frenteEnfermo[contador], x, y, 125, 125);
+			} else {
+				app.image(frenteSano[contador], x, y, 125, 125);
+			}
+			if (contadorExta >= 30) {
+				contadorExta = 0;
+			}
+			if (enExtasis) {
+				app.image(extasis[contadorExta], x, y, 125, 125);
+			}
+			contadorExta++;
+
+			if (enVeneno) {
+				app.image(envenenado[contador], x, y, 125, 125);
+			}
+
 			contador++;
 			break;
 
 		case 1:
 			if (contador == 12)
 				contador = 0;
-			app.image(espaldaSano[contador], x, y, 75, 75);
+
+			if (estado == ENFERMO) {
+				app.image(espaldaEnfermo[contador], x, y, 125, 125);
+			} else {
+				app.image(espaldaSano[contador], x, y, 125, 125);
+			}
+
+			if (contadorExta >= 30) {
+				contadorExta = 0;
+			}
+			if (enExtasis) {
+				app.image(extasis[contadorExta], x, y, 125, 125);
+			}
+			contadorExta++;
+
+			if (enVeneno) {
+				app.image(envenenado[contador], x, y, 125, 125);
+			}
+
 			contador++;
 			break;
 
 		case 2:
 			if (contador == 12)
 				contador = 0;
-			app.image(ladoSano[contador], x, y, 75, 75);
+			if (estado == ENFERMO) {
+				app.image(ladoEnfermo[contador], x, y, 125, 125);
+			} else {
+				app.image(ladoSano[contador], x, y, 125, 125);
+			}
+
+			if (contadorExta >= 30) {
+				contadorExta = 0;
+			}
+			if (enExtasis) {
+				app.image(extasis[contadorExta], x, y, 125, 125);
+			}
+			contadorExta++;
+
+			if (enVeneno) {
+				app.image(envenenado[contador], x, y, 125, 125);
+			}
+
 			contador++;
 			break;
 
 		case 3:
 			if (contador == 12)
 				contador = 0;
-			app.pushMatrix();
-			app.scale(-1.0f, 1.0f);
-			app.image(ladoSano[contador], -ladoSano[contador].width - x + 100, y, 75, 75);
-			app.popMatrix();
-			contador++;
+			if (estado == ENFERMO) {
+				app.pushMatrix();
+				app.scale(-1.0f, 1.0f);
+				app.image(ladoEnfermo[contador], -ladoEnfermo[contador].width - x + 125, y, 125, 125);
+				app.popMatrix();
+			} else {
+				app.pushMatrix();
+				app.scale(-1.0f, 1.0f);
+				app.image(ladoSano[contador], -ladoSano[contador].width - x + 125, y, 125, 125);
+				app.popMatrix();
+			}
+			if (contadorExta >= 30) {
+				contadorExta = 0;
+			}
+			if (enExtasis) {
+				app.image(extasis[contadorExta], x, y, 125, 125);
+			}
+			contadorExta++;
 
+			if (enVeneno) {
+				app.image(envenenado[contador], x, y, 125, 125);
+			}
+
+			contador++;
 			break;
 		default:
 			break;
 		}
 		app.imageMode(PApplet.CORNER);
-		app.fill(255, 30, 50);
-		app.noStroke();
-		app.ellipse(pos.x, pos.y, 20, 20);
-		app.noFill();
+
 	}
 
 	public void perseguir() {

@@ -23,10 +23,12 @@ public class AmidCanibal extends EspecieAbstracta implements ICanibal {
 	private PImage[] transicionFrente = new PImage[12];
 	private PImage[] transicionEspalda = new PImage[12];
 	private PImage[] transicionLado = new PImage[12];
+	private PImage[] extasis = new PImage[30];
+	private PImage[] envenenado = new PImage[12];
 
 	private PApplet app;
 
-	private int contador;
+	private int contador, contadorExta;
 	private int vida;
 	private float fuerza;
 	private int velocidad;
@@ -44,7 +46,7 @@ public class AmidCanibal extends EspecieAbstracta implements ICanibal {
 	private PVector objetivo;
 	private int animacion;
 	private int ciclo;
-	private boolean encontro, encontroPlanta, puedeComer = true;
+	private boolean encontro, encontroPlanta, enExtasis, enVeneno, puedeComer = true;
 
 	// Constantes
 	private final int LIMITE_COMER = 150;
@@ -74,34 +76,40 @@ public class AmidCanibal extends EspecieAbstracta implements ICanibal {
 
 		for (int i = 0; i < 12; i++) {
 
-			frenteEnfermo[i] = app.loadImage("../data/Personajes/P1/P1 Frente/P1 F Enfermo" + i + ".png"); // FRENTE
-																											// ENFERMO
+			frenteEnfermo[i] = app.loadImage("../dataAmids/Personajes/P1/P1 Frente/P1 F Enfermo" + i + ".png"); // FRENTE
+			// ENFERMO
 
-			frenteSano[i] = app.loadImage("../data/Personajes/P1/P1 Frente/P1 F Sano" + i + ".png"); // FRENTE
+			frenteSano[i] = app.loadImage("../dataAmids/Personajes/P1/P1 Frente/P1 F Sano" + i + ".png"); // FRENTE
+																											// SANO
+
+			espaldaEnfermo[i] = app.loadImage("../dataAmids/Personajes/P1/P1 Espalda/P1 E Enfermo" + i + ".png"); // ESPALDA
+																													// ENFERMO
+
+			espaldaSano[i] = app.loadImage("../dataAmids/Personajes/P1/P1 Espalda/P1 E Sano" + i + ".png"); // ESPALDA
+			// SANO
+
+			ladoEnfermo[i] = app.loadImage("../dataAmids/Personajes/P1/P1 Lado/P1 L Enfermo" + i + ".png"); // LADO
+			// ENFERMO
+
+			ladoSano[i] = app.loadImage("../dataAmids/Personajes/P1/P1 Lado/P1 L Sano" + i + ".png"); // LADO
 																										// SANO
-
-			espaldaEnfermo[i] = app.loadImage("../data/Personajes/P1/P1 Espalda/P1 E Enfermo" + i + ".png"); // ESPALDA
-																												// ENFERMO
-
-			espaldaSano[i] = app.loadImage("../data/Personajes/P1/P1 Espalda/P1 E Sano" + i + ".png"); // ESPALDA
-																										// SANO
-
-			ladoEnfermo[i] = app.loadImage("../data/Personajes/P1/P1 Lado/P1 L Enfermo" + i + ".png"); // LADO
-																										// ENFERMO
-
-			ladoSano[i] = app.loadImage("../data/Personajes/P1/P1 Lado/P1 L Sano" + i + ".png"); // LADO
-																									// SANO
 
 			transicionFrente[i] = app
-					.loadImage("../data/Personajes/P1/Transiciones/Frente/Transicion P1 F" + i + ".png"); // TRANSICI�N
-																											// FRENTE
+					.loadImage("../dataAmids/Personajes/P1/Transiciones/Frente/Transicion P1 F" + i + ".png"); // TRANSICI�N
+																												// FRENTE
 
 			transicionEspalda[i] = app
-					.loadImage("../data/Personajes/P1/Transiciones/Espalda/Transicion P1 E" + i + ".png"); // TRANSICI�N
-																											// ESPALDA
+					.loadImage("../dataAmids/Personajes/P1/Transiciones/Espalda/Transicion P1 E" + i + ".png"); // TRANSICI�N
+			// ESPALDA
 
-			transicionLado[i] = app.loadImage("../data/Personajes/P1/Transiciones/Lado/Transicion P1 L" + i + ".png"); // TRANSICI�N
-																														// LADO
+			transicionLado[i] = app
+					.loadImage("../dataAmids/Personajes/P1/Transiciones/Lado/Transicion P1 L" + i + ".png"); // TRANSICI�N
+			// LADO
+			envenenado[i] = app.loadImage("../dataAmids/Estados/Envenenado/Herido" + i + ".png");
+		}
+
+		for (int i = 0; i < 30; i++) {
+			extasis[i] = app.loadImage("../dataAmids/Estados/Extasis/Extasis" + i + ".png");
 		}
 	}
 
@@ -117,7 +125,7 @@ public class AmidCanibal extends EspecieAbstracta implements ICanibal {
 				this.ecosistema.getEspecies().remove(this);
 			}
 			try {
-				Thread.sleep(33);
+				Thread.sleep(10);
 				ciclo++;
 			} catch (Exception e) {
 
@@ -127,13 +135,7 @@ public class AmidCanibal extends EspecieAbstracta implements ICanibal {
 
 	@Override
 	public void dibujar() {
-		// TODO Auto-generated method stub
-		app.ellipse(objetivo.x, objetivo.y, 10, 10);
-		app.stroke(255, 0, 255);
-		app.strokeWeight(3);
-		app.arc(x, y, 30, 30, 0, 10);
-		app.noStroke();
-		animacionesMovimiento();
+		animacionMovimientos();
 		barraVida();
 	}
 
@@ -147,7 +149,7 @@ public class AmidCanibal extends EspecieAbstracta implements ICanibal {
 				}
 
 				if (!encontro || energia < LIMITE_COMER) {
-					if (ciclo % 90 == 0) {
+					if (ciclo % 300 == 0) {
 						int targetX = (int) app.random(-500, 500);
 						int targetY = (int) app.random(-500, 500);
 						perseguir(new PVector(targetX, targetY));
@@ -160,7 +162,7 @@ public class AmidCanibal extends EspecieAbstracta implements ICanibal {
 					comerPlanta(plantaCercana);
 				}
 
-				if (ciclo % 90 == 0) {
+				if (ciclo % 300 == 0) {
 					int targetX = (int) app.random(-500, 500);
 					int targetY = (int) app.random(-500, 500);
 					perseguir(new PVector(targetX, targetY));
@@ -174,45 +176,115 @@ public class AmidCanibal extends EspecieAbstracta implements ICanibal {
 
 	}
 
-	public void animacionesMovimiento() {
+	public void animacionMovimientos() {
 		app.imageMode(PApplet.CENTER);
 		switch (animacion) {
 		case 0:
 
 			if (contador == 12)
 				contador = 0;
-			app.image(frenteSano[contador], x, y);
+			if (estado == ENFERMO) {
+				app.image(frenteEnfermo[contador], x, y, 125, 125);
+			} else {
+				app.image(frenteSano[contador], x, y, 125, 125);
+			}
+			if (contadorExta >= 30) {
+				contadorExta = 0;
+			}
+			if (enExtasis) {
+				app.image(extasis[contadorExta], x, y, 125, 125);
+			}
+			contadorExta++;
+
+			if (enVeneno) {
+				app.image(envenenado[contador], x, y, 125, 125);
+			}
+
 			contador++;
 			break;
 
 		case 1:
 			if (contador == 12)
 				contador = 0;
-			app.image(espaldaSano[contador], x, y);
+
+			if (estado == ENFERMO) {
+				app.image(espaldaEnfermo[contador], x, y, 125, 125);
+			} else {
+				app.image(espaldaSano[contador], x, y, 125, 125);
+			}
+
+			if (contadorExta >= 30) {
+				contadorExta = 0;
+			}
+			if (enExtasis) {
+				app.image(extasis[contadorExta], x, y, 125, 125);
+			}
+			contadorExta++;
+
+			if (enVeneno) {
+				app.image(envenenado[contador], x, y, 125, 125);
+			}
+
 			contador++;
 			break;
 
 		case 2:
 			if (contador == 12)
 				contador = 0;
-			app.image(ladoSano[contador], x, y);
+			if (estado == ENFERMO) {
+				app.image(ladoEnfermo[contador], x, y, 125, 125);
+			} else {
+				app.image(ladoSano[contador], x, y, 125, 125);
+			}
+
+			if (contadorExta >= 30) {
+				contadorExta = 0;
+			}
+			if (enExtasis) {
+				app.image(extasis[contadorExta], x, y, 125, 125);
+			}
+			contadorExta++;
+
+			if (enVeneno) {
+				app.image(envenenado[contador], x, y, 125, 125);
+			}
+
 			contador++;
 			break;
 
 		case 3:
 			if (contador == 12)
 				contador = 0;
-			app.pushMatrix();
-			app.scale(-1.0f, 1.0f);
-			app.image(ladoSano[contador], -ladoSano[contador].width - x + 100, y);
-			app.popMatrix();
-			contador++;
+			if (estado == ENFERMO) {
+				app.pushMatrix();
+				app.scale(-1.0f, 1.0f);
+				app.image(ladoEnfermo[contador], -ladoEnfermo[contador].width - x + 125, y, 125, 125);
+				app.popMatrix();
+			} else {
+				app.pushMatrix();
+				app.scale(-1.0f, 1.0f);
+				app.image(ladoSano[contador], -ladoSano[contador].width - x + 125, y, 125, 125);
+				app.popMatrix();
+			}
+			if (contadorExta >= 30) {
+				contadorExta = 0;
+			}
+			if (enExtasis) {
+				app.image(extasis[contadorExta], x, y, 125, 125);
+			}
+			contadorExta++;
 
+			if (enVeneno) {
+				app.image(envenenado[contador], x, y, 125, 125);
+			}
+
+			contador++;
 			break;
 		default:
 			break;
 		}
 		app.imageMode(PApplet.CORNER);
+
 	}
 
 	public void perseguir(PVector objetivo) {
@@ -337,12 +409,19 @@ public class AmidCanibal extends EspecieAbstracta implements ICanibal {
 			if (d < 15) {
 				if (victima instanceof PlantaVenenosa) {
 					estado = ENVENENADO;
-					energia += 10;
+					enVeneno = true;
+					enExtasis = false;
+					energia += 100;
 					vida -= 10;
+
 				} else if (victima instanceof PlantaSaludable) {
 					estado = EXTASIS;
-					energia += 10;
+					enVeneno = false;
+					enExtasis = true;
+					energia += 100;
 					vida += 10;
+					System.out.println(vida);
+
 				}
 				if (victima.recibirDano(this)) {
 					victima.recibirDano(this);
@@ -362,7 +441,7 @@ public class AmidCanibal extends EspecieAbstracta implements ICanibal {
 	public boolean recibirDano(EspecieAbstracta lastimador) {
 		// TODO Auto-generated method stub
 		if (PApplet.dist(x, y, lastimador.getX(), lastimador.getY()) < 50) {
-			vida -= 5;
+			vida -= 2;
 			try {
 				lastimador.setEstado(ENFERMO);
 			} catch (Exception e) {
