@@ -21,7 +21,7 @@ public class PlantaMala extends PlantaAbstracta {
 	public PlantaMala(int x, int y) {
 		super(x, y);
 		PApplet app = Mundo.ObtenerInstancia().getApp();
-		contador=0;
+		contador=3;
 		plantaM[0] = app.loadImage("../data/plantam.png");
 		plantaM[1] = app.loadImage("../data/plantam2.png");
 		plantaM[2] = app.loadImage("../data/plantam3.png");
@@ -37,25 +37,28 @@ public class PlantaMala extends PlantaAbstracta {
 	@Override
 	public void dibujar() {
 		PApplet app = Mundo.ObtenerInstancia().getApp();
-		if (mostrar) {
-			app.image(plantaM[contador], x, y);
+		
+		if (contador==3) {
+			app.image(plantaM[0], x, y);
 		}
-
+		if (contador==2) {
+			app.image(plantaM[1], x, y);
+		}
+		if (contador==1) {
+			app.image(plantaM[2], x, y);
+		}
+		if (contador==0) {
+			app.image(plantaM[2], x, y);
+		}
 	}
 
 	@Override
 	public boolean recibirDano(EspecieAbstracta lastimador) {
 
-		if (contador < 2) {
-			vida -= 20;
-			contador += 1;
-		} else {
-			if (vida != 0) {
-				vida -= 20;
-				contador = 0;
-			} else {
-				return true;
-			}
+		if (contador > 0) {
+			contador--;
+		return true;
+			
 		}
 		return false;
 	}
@@ -72,5 +75,11 @@ public class PlantaMala extends PlantaAbstracta {
 				setMostrar(false);
 			}
 		}
+	}
+	public int getCont(){
+	return contador;
+	}
+	public void setCont(int contador){
+		this.contador=contador;
 	}
 }

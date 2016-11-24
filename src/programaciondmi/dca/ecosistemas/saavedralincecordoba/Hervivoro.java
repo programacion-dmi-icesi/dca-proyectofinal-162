@@ -96,16 +96,16 @@ public class Hervivoro extends EspecieAbstracta implements IHerbivoro {
 		if(victima.recibirDano(this)){
 			try {
 				
-				if(victima.getClass() == PlantaMala.class){
+				if(victima instanceof PlantaMala){
 					PlantaMala m = (PlantaMala) victima;
 				setEstado(ENFERMO);
-				velocidad=5;
+				velocidad=1;
 				}
 				
-				if(victima.getClass() == PlantaBuena.class){
+				if(victima instanceof PlantaBuena){
 					PlantaBuena b = (PlantaBuena) victima;
 					setEstado(EXTASIS);
-					velocidad=10;
+					velocidad=100;
 				}
 				
 			}catch (Exception e) {

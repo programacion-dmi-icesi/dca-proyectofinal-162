@@ -38,6 +38,20 @@ public class Ecosistema extends EcosistemaAbstracto {
 			while (iteradorPlantas.hasNext()) {
 				PlantaAbstracta actual = iteradorPlantas.next();
 				actual.dibujar();
+				if (actual instanceof PlantaMala) {
+					if (actual instanceof PlantaMala) {
+						if (((PlantaMala) actual).getCont() <= 0) {
+							//plantas.remove(actual);
+						}
+					}
+				}
+				if (actual instanceof PlantaBuena) {
+					if (actual instanceof PlantaBuena) {
+						if (((PlantaBuena) actual).getCont() <= 0) {
+							//plantas.remove(actual);
+						}
+					}
+				}
 			}
 		}
 	}
@@ -83,8 +97,8 @@ public class Ecosistema extends EcosistemaAbstracto {
 		List<EspecieAbstracta> especies = new LinkedList<EspecieAbstracta>();
 		// SE GENERA EL APAREABLE
 		Apareable apareable = new Apareable(this);
-		 especies.add(apareable);
-		 agregarEspecie(apareable);
+		especies.add(apareable);
+		agregarEspecie(apareable);
 
 		// SE GENERA EL CANIBAL
 		Canibal canibal = new Canibal(this);
