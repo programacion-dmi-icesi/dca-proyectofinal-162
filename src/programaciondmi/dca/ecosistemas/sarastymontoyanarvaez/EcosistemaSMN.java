@@ -57,7 +57,17 @@ public class EcosistemaSMN extends EcosistemaAbstracto {
 						System.out.println("imprime");
 						anim.add(new Animaciones(app, especies.get(i).getX(), especies.get(i).getY(), 2));
 					}
+					if (especies.get(i).getClass().toString()
+							.equals("class programaciondmi.dca.ecosistemas.sarastymontoyanarvaez.Omnivoro")) {
+						System.out.println("imprime");
+						anim.add(new Animaciones(app, especies.get(i).getX(), especies.get(i).getY(), 3));
+					}
 
+					if (especies.get(i).getClass().toString()
+							.equals("class programaciondmi.dca.ecosistemas.sarastymontoyanarvaez.Canibal")) {
+						System.out.println("imprime");
+						anim.add(new Animaciones(app, especies.get(i).getX(), especies.get(i).getY(), 4));
+					}
 					
 					especies.remove(i);
 				}
@@ -108,7 +118,12 @@ public class EcosistemaSMN extends EcosistemaAbstracto {
 
 			Carnivoro carn = new Carnivoro(this);
 			especies.add(carn);
+			
+			Canibal come = new Canibal(this);
+			especies.add(come);
 
+			Omnivoro rep = new Omnivoro(this);
+			especies.add(rep);
 			
 		}
 
@@ -145,12 +160,19 @@ public class EcosistemaSMN extends EcosistemaAbstracto {
 
 		Carnivoro carn = new Carnivoro(this);
 		especies.add(carn);
+		
+		Omnivoro rep = new Omnivoro(this);
+		especies.add(rep);
+
+		Canibal come = new Canibal(this);
+		especies.add(come);
 
 
 		agregarEspecie(herb);
 		agregarEspecie(herb2);
 		agregarEspecie(carn);
-		
+		agregarEspecie(rep);
+		agregarEspecie(come);
 
 		return especies;
 	}
