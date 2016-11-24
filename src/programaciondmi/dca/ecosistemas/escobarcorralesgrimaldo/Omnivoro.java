@@ -37,6 +37,29 @@ public class Omnivoro extends EspecieAbstracta implements IOmnivoro{
 		while (vida > 0) {
 			mover();
 			try {
+				synchronized (ecosistema.getEspecies()) {
+					for (EspecieAbstracta especie : ecosistema.getEspecies()) {
+						if (especie != this) {
+							if (especie instanceof Carnivoro || especie instanceof Herbivoro
+									 || especie instanceof Hijo || especie instanceof Canibal) {
+								float d = PApplet.dist(especie.getX(), especie.getY(), this.ballX, this.ballY);
+								// if (!esperar) {
+								if (d < 70) {
+									comer(especie);
+									especie.setEstado(MUERTO);
+
+									System.out.println("omnivoro mata!");
+									ecosistema.getEspecies().remove(especie);
+
+									break;
+								}
+								// }
+
+							}
+
+						}
+					}
+				}
 				Thread.sleep(15);
 				ciclo++;
 			} catch (Exception e) {
