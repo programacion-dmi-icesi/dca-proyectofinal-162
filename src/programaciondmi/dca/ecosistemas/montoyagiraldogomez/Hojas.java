@@ -9,17 +9,22 @@ import programaciondmi.dca.ejecucion.Mundo;
 public class Hojas extends PlantaAbstracta {
 
 	private int recursos;
-	private PImage plant;
+	private PImage[] plant;
 
 	public Hojas(int x, int y) {
 		super();
 		PApplet app = Mundo.ObtenerInstancia().getApp();
-		this.plant = app.loadImage("propheticData/normal1.png");
+
+		this.plant = new PImage[4];
+
+		for (int i = 0; i < plant.length; i++) {
+			this.plant[i] = app.loadImage("propheticData/plantaBue/buena_" + i + ".png");
+		}
 
 		this.x = x;
 		this.y = y;
 
-		this.recursos = 3;
+		this.recursos = 0;
 
 		Thread nt = new Thread(this);
 		nt.start();
@@ -41,13 +46,14 @@ public class Hojas extends PlantaAbstracta {
 	public void dibujar() {
 		PApplet app = Mundo.ObtenerInstancia().getApp();
 		app.imageMode(3);
-		app.image(plant, x, y);
+		app.image(plant[recursos], x, y, 100, 100);
+		app.fill(255, 0, 0, 100);
 	}
 
 	@Override
 	public boolean recibirDano(EspecieAbstracta lastimador) {
-		if (recursos > 0) {
-			recursos--;
+		if (recursos < 2) {
+			recursos++;
 			return true;
 		}
 		return false;

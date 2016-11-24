@@ -9,13 +9,19 @@ import programaciondmi.dca.ejecucion.Mundo;
 public class Venenosa extends PlantaAbstracta {
 
 	private int recursos;
-	private PImage plant;
+	private PImage[] plant;
 
 	public Venenosa(int x, int y) {
 		super();
 		PApplet app = Mundo.ObtenerInstancia().getApp();
-		this.plant = app.loadImage("propheticData/carnivora1.png");
-		recursos = 3;
+
+		this.plant = new PImage[4];
+
+		for (int i = 0; i < plant.length; i++) {
+			this.plant[i] = app.loadImage("propheticData/plantaMal/mala_" + i + ".png");
+		}
+
+		recursos = 0;
 
 		this.x = x;
 		this.y = y;
@@ -38,13 +44,13 @@ public class Venenosa extends PlantaAbstracta {
 	public void dibujar() {
 		PApplet app = Mundo.ObtenerInstancia().getApp();
 		app.imageMode(3);
-		app.image(plant, x, y);
+		app.image(plant[recursos], x, y,100,100);
 	}
 
 	@Override
 	public boolean recibirDano(EspecieAbstracta lastimador) {
-		if (recursos > 0) {
-			recursos --;
+		if (recursos < 2) {
+			recursos++;
 			return true;
 		}
 		return false;
