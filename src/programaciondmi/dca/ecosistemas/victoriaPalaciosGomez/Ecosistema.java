@@ -66,10 +66,13 @@ public class Ecosistema extends EcosistemaAbstracto {
 	@Override
 	protected LinkedList<PlantaAbstracta> poblarPlantas() {
 		LinkedList<PlantaAbstracta> plantas = new LinkedList<PlantaAbstracta>();
+		/*
 		PlantaBuena pB = new PlantaBuena(app, app.random(app.width), app.random(app.height));
 		plantas.add(pB);
 		PlantaMala pM = new PlantaMala(app, app.random(app.width), app.random(app.height));
+		System.out.println("Poblando Plantas");
 		plantas.add(pM);
+		*/
 		return plantas;
 	}
 

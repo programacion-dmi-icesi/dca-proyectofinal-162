@@ -44,7 +44,7 @@ public class Shafox extends EspecieAbstracta implements ICarnivoro, IHerbivoro {
 			mover();
 			if (app.frameCount % 6 == 0) {
 				index++;
-				if (index > 6) {
+				if (index >= 3) {
 					index = 0;
 				}
 			}
@@ -91,6 +91,7 @@ public class Shafox extends EspecieAbstracta implements ICarnivoro, IHerbivoro {
 	public void dibujar() {
 		PApplet app = Mundo.ObtenerInstancia().getApp();
 		app.image(shafoxImg[index], x, y, 68, 100);
+		
 
 	}
 
@@ -133,10 +134,10 @@ public class Shafox extends EspecieAbstracta implements ICarnivoro, IHerbivoro {
 	}
 
 	public void imagenes() {
-
-		shafoxImg[0] = app.loadImage("../data/png/shafox-walk-01.png");
-		shafoxImg[1] = app.loadImage("../data/shafox-walk-02.png");
-		shafoxImg[2] = app.loadImage("../data/shafox-walk-03.png");
+		
+		shafoxImg[0] = app.loadImage("../data/pngs/shafox-walk-01.png");
+		shafoxImg[1] = app.loadImage("../data/pngs/shafox-walk-02.png");
+		shafoxImg[2] = app.loadImage("../data/pngs/shafox-walk-03.png");
 
 	}
 
