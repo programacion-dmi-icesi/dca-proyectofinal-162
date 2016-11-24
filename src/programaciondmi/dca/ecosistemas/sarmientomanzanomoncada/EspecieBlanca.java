@@ -74,8 +74,8 @@ public class EspecieBlanca extends EspecieAbstracta implements IApareable, ICarn
 	public void dibujar() {
 		// TODO Auto-generated method stub
 		PApplet app = Mundo.ObtenerInstancia().getApp();
-		//app.fill(255);
-		//app.ellipse(x, y, vida, vida);
+		app.fill(255);
+		app.ellipse(x, y, vida, vida);
 	}
 
 	@Override

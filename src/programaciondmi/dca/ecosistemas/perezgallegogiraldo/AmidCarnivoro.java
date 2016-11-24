@@ -332,7 +332,7 @@ public class AmidCarnivoro extends EspecieAbstracta implements ICarnivoro {
 						|| com instanceof ICanibal) {
 
 					float d = PApplet.dist(x, y, com.getX(), com.getY());
-					if (d < energia * 2 && puedeComer) {
+					if (d < 20 && puedeComer) {
 						comestible = com;
 						encontro = true;
 					}

@@ -46,7 +46,7 @@ public class AmidCanibal extends EspecieAbstracta implements ICanibal {
 	private PVector objetivo;
 	private int animacion;
 	private int ciclo;
-	private boolean encontro, encontroPlanta, enExtasis, enVeneno, puedeComer = true;
+	private boolean encontro, encontroPlanta, enExtasis, enVeneno, puedeComer = true, puedeComerPlanta=true;
 
 	// Constantes
 	private final int LIMITE_COMER = 150;
@@ -127,6 +127,10 @@ public class AmidCanibal extends EspecieAbstracta implements ICanibal {
 			try {
 				Thread.sleep(10);
 				ciclo++;
+
+				if (ciclo % 300 == 0) {
+					puedeComer = true;
+				}
 			} catch (Exception e) {
 
 			}
@@ -142,13 +146,13 @@ public class AmidCanibal extends EspecieAbstracta implements ICanibal {
 	@Override
 	public void mover() {
 		if (energia > 0) {
-			if (energia > LIMITE_COMER) {
+			if (energia > LIMITE_COMER && puedeComer) {
 				buscarComida();
 				if (comestible != null) {
 					comer(comestible);
 				}
 
-				if (!encontro || energia < LIMITE_COMER) {
+				if (!encontro) {
 					if (ciclo % 300 == 0) {
 						int targetX = (int) app.random(-500, 500);
 						int targetY = (int) app.random(-500, 500);
@@ -162,7 +166,7 @@ public class AmidCanibal extends EspecieAbstracta implements ICanibal {
 					comerPlanta(plantaCercana);
 				}
 
-				if (ciclo % 300 == 0) {
+				if (ciclo % 90 == 0) {
 					int targetX = (int) app.random(-500, 500);
 					int targetY = (int) app.random(-500, 500);
 					perseguir(new PVector(targetX, targetY));
@@ -375,6 +379,7 @@ public class AmidCanibal extends EspecieAbstracta implements ICanibal {
 				energia -= 10;
 				victima.recibirDano(this);
 				encontro = false;
+				puedeComer=false;
 			}
 		}
 	}
@@ -388,7 +393,7 @@ public class AmidCanibal extends EspecieAbstracta implements ICanibal {
 
 			float distancia = PApplet.dist(x, y, p.getX(), p.getY());
 
-			if (distancia < energia * 2 && puedeComer) {
+			if (distancia < energia * 2 && puedeComerPlanta) {
 				plantaCercana = p;
 				encontroPlanta = true;
 			}
@@ -404,7 +409,7 @@ public class AmidCanibal extends EspecieAbstracta implements ICanibal {
 	}
 
 	public void comerPlanta(PlantaAbstracta victima) {
-		if (victima != null && puedeComer) {
+		if (victima != null && puedeComerPlanta) {
 			float d = PApplet.dist(x, y, victima.getX(), victima.getY());
 			if (d < 15) {
 				if (victima instanceof PlantaVenenosa) {
@@ -420,7 +425,6 @@ public class AmidCanibal extends EspecieAbstracta implements ICanibal {
 					enExtasis = true;
 					energia += 100;
 					vida += 10;
-					System.out.println(vida);
 
 				}
 				if (victima.recibirDano(this)) {
@@ -430,7 +434,8 @@ public class AmidCanibal extends EspecieAbstracta implements ICanibal {
 					this.ecosistema.getPlantas().remove(victima);
 				}
 
-				puedeComer = false;
+				puedeComerPlanta = false;
+				encontroPlanta = false;
 			}
 
 		}

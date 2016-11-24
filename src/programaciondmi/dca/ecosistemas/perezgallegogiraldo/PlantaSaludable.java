@@ -74,4 +74,16 @@ public class PlantaSaludable extends PlantaAbstracta {
 			img[i] = app.loadShape("../dataAmids/Plants/planta-0" + i + ".svg");
 		}
 	}
+
+	@Override
+	public int getX() {
+		// TODO Auto-generated method stub
+		return posX;
+	}
+
+	@Override
+	public int getY() {
+		// TODO Auto-generated method stub
+		return posY;
+	}
 }

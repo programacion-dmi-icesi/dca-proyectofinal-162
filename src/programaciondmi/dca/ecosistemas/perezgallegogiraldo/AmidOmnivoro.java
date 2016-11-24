@@ -159,7 +159,7 @@ public class AmidOmnivoro extends EspecieAbstracta implements IOmnivoro, IAparea
 				}
 			}
 
-			if (puedeAparear && energia < LIMITE_APAREA) {
+			if (puedeAparear) {
 				buscarPareja();
 				if (pareja != null && pareja instanceof IApareable) {
 					aparear((IApareable) pareja);
@@ -391,7 +391,7 @@ public class AmidOmnivoro extends EspecieAbstracta implements IOmnivoro, IAparea
 
 			float distancia = PApplet.dist(x, y, p.getX(), p.getY());
 
-			if (distancia < energia * 2 && puedeComer) {
+			if (distancia < 20 && puedeComer) {
 				plantaCercana = p;
 				encontroPlanta = true;
 			}

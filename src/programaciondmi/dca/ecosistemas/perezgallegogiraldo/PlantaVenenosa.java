@@ -75,4 +75,16 @@ public class PlantaVenenosa extends PlantaAbstracta {
 			img[i - 5] = app.loadShape("../dataAmids/Plants/planta-0" + i + ".svg");
 		}
 	}
+
+	@Override
+	public int getX() {
+		// TODO Auto-generated method stub
+		return (int)pos.x;
+	}
+
+	@Override
+	public int getY() {
+		// TODO Auto-generated method stub
+		return (int)pos.y;
+	}
 }
