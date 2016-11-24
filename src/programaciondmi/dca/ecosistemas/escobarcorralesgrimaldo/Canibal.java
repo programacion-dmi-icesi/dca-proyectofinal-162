@@ -18,6 +18,9 @@ public class Canibal extends EspecieAbstracta implements ICanibal {
 	private PVector dir;
 	private int energia;
 	private int ciclo;
+	
+	private float ballX = 50, ballY = 50;
+	private int ballXDirection = 1, ballYDirection = -1;
 
 	private int direccion;
 
@@ -29,6 +32,10 @@ public class Canibal extends EspecieAbstracta implements ICanibal {
 		int targetX = (int) (Math.random() * 500);
 		int targetY = (int) (Math.random() * 500);
 		cambiarDireccion(new PVector(targetX, targetY));
+		
+		PApplet app = Mundo.ObtenerInstancia().getApp();
+		ballX = (int) app.random(0, app.width);
+		ballY = (int) app.random(0, app.height);
 
 		Thread nt = new Thread(this);
 		nt.start();
@@ -44,7 +51,7 @@ public class Canibal extends EspecieAbstracta implements ICanibal {
 						if (especie != this) {
 							if (especie instanceof Carnivoro || especie instanceof Herbivoro || especie instanceof Hijo
 									|| especie instanceof Omnivoro) {
-								float d = PApplet.dist(especie.getX(), especie.getY(), this.x, this.y);
+								float d = PApplet.dist(especie.getX(), especie.getY(), this.ballX, this.ballY);
 
 								// if (!esperar) {
 								if (d < 10) {
@@ -63,7 +70,7 @@ public class Canibal extends EspecieAbstracta implements ICanibal {
 						}
 					}
 				}
-				Thread.sleep(33);
+				Thread.sleep(5);
 				ciclo++;
 			} catch (Exception e) {
 
@@ -80,28 +87,50 @@ public class Canibal extends EspecieAbstracta implements ICanibal {
 		cani[2] = app.loadImage("../data/vistas/cani_izq.png");
 		cani[3] = app.loadImage("../data/vistas/cani_der.png");
 
-		app.image(cani[0], x, y);
+		app.image(cani[direccion], ballX, ballY);
 
+		if (ballXDirection >= 0) {
+			direccion=3;
+
+		}
+
+		if (ballXDirection <= 0) {
+			direccion=2;
+
+		}else
+
+		if (ballYDirection >= 0) {
+			direccion=0;
+
+		}
+
+		if (ballYDirection <=0) {
+			direccion=1;
+		}
 	}
 
 	@Override
 	public void mover() {
-		if (ciclo % 50 == 0) {
+		if (ciclo % 10 == 0) {
+			PApplet app = Mundo.ObtenerInstancia().getApp();
 
-			int targetX = (int) (Math.random() * 500);
-			int targetY = (int) (Math.random() * 500);
-			cambiarDireccion(new PVector(targetX, targetY));
-			// System.out.println("CAMBIO DIRECCION!");
+			ballX = (float) (ballX + 10.8 * ballXDirection);
+			ballY = (float) (ballY + 8.8 * ballYDirection);
+
+			if (ballX > app.width - 25 || ballX < -100) {
+				ballXDirection *= -1;
+			}
+			if (ballY > app.height - 25 || ballY < -100) {
+				ballYDirection *= -1;
+			}
+
 		}
-
-		x += dir.x;
-		y += dir.y;
 	}
 
 	@Override
 	public boolean recibirDano(EspecieAbstracta lastimador) {
 		// Codigo de base
-		if (PApplet.dist(x, y, lastimador.getX(), lastimador.getY()) < 100) {
+		if (PApplet.dist(ballX, ballY, lastimador.getX(), lastimador.getY()) < 100) {
 			vida -= 5;
 			try {
 				if (vida == 20) {
