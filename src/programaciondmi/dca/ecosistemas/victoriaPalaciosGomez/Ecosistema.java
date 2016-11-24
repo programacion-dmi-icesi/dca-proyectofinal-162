@@ -13,9 +13,10 @@ import programaciondmi.dca.core.PlantaAbstracta;
 import programaciondmi.dca.ejecucion.Mundo;
 
 public class Ecosistema extends EcosistemaAbstracto {
-
+private ArrayList<PlantaBuena>buenas;
 	public Ecosistema() {
 		super();
+		
 		Mundo ref = Mundo.ObtenerInstancia();
 		LogoEjemplo boton= new LogoEjemplo("../data/boton.svg", this);
 		System.out.println("elbot:"+boton);
@@ -72,7 +73,17 @@ public class Ecosistema extends EcosistemaAbstracto {
 
 	@Override
 	protected List<PlantaAbstracta> generarPlantas() {
+//		for (int i = 0; i < buenas.size(); i++) {
+//    		if(app.dist(buenas.get(i).getX(), buenas.get(i).getY(), , y2)){
+//    			
+//    		}
+//    		}
 		return plantas;
+	}
+	
+	
+	public void presionar(){
+		
 	}
 	
 }

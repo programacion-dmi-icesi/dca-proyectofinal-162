@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import processing.core.PApplet;
 import processing.core.PImage;
+import programaciondmi.dca.ejecucion.Mundo;
 
 public class PlantaBuena {
 	
@@ -13,8 +14,8 @@ public class PlantaBuena {
 	protected ArrayList<PlantaBuena>buenas;
 	
 	
-	public PlantaBuena(PApplet app, int x,int y){
-		this.app=app;
+	public PlantaBuena( int x,int y){
+		this.app = Mundo.ObtenerInstancia().getApp();
 		this.x= (int)app.random(2000);
 		this.y=(int)app.random(2000);
 		Buenauno= app.loadImage("../data/Malados.png");

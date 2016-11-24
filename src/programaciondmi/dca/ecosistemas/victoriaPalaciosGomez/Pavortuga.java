@@ -15,10 +15,16 @@ public class Pavortuga extends EspecieAbstracta implements IHerbivoro {
 	private PVector dir;
 	private int ciclo;
 	private int index = 0;
+
+	private PlantaMala mala;
+	
 	private PImage [] pavortuga = new PImage [6];
+	
+	
 	
 	public Pavortuga(EcosistemaAbstracto ecosistema){
 		super(ecosistema);
+		this.estado = NORMAL;
 		this.app = Mundo.ObtenerInstancia().getApp();
 		imagenes();
 		this.vida = 20;
@@ -55,10 +61,12 @@ public class Pavortuga extends EspecieAbstracta implements IHerbivoro {
 		
 	}
 
+	
+	
+	
 	@Override
 	public void comerPlanta(PlantaAbstracta victima) {
-		// TODO Auto-generated method stub
-		
+	
 	}
 
 	@Override
@@ -116,4 +124,5 @@ public class Pavortuga extends EspecieAbstracta implements IHerbivoro {
 		pavortuga[4] = app.loadImage("../data/pngs/pavortuga-sick-2.png");
 		pavortuga[5] = app.loadImage("../data/pngs/pavortuga-sick-3.png");
 	}
+	
 }
