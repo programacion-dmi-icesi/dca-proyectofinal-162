@@ -43,9 +43,10 @@ public class Venenosa extends PlantaAbstracta {
 	
 	@Override
 	public void run() {
-		while (recursos > 0) {
+		while (true) {
 			sumarFrames();
 			try {
+				Thread.sleep(10);
 				this.ciclo++;
 			} catch (Exception e) {
 				// TODO: handle exception

@@ -29,8 +29,8 @@ public class Hojas extends PlantaAbstracta {
 			particulas[i] = app.loadImage("propheticData/plantaBue/particulasBuena_" + i + ".png");
 		}
 
-		this.x = x;
-		this.y = y;
+		this.x = app.mouseX;
+		this.y = app.mouseY;
 
 		this.recursos = 0;
 
@@ -40,9 +40,10 @@ public class Hojas extends PlantaAbstracta {
 	
 	@Override
 	public void run() {
-		while (recursos > 0) {
+		while (true) {
 			sumarFrames();
 			try {
+				Thread.sleep(10);
 				this.ciclo++;
 			} catch (Exception e) {
 				// TODO: handle exception
