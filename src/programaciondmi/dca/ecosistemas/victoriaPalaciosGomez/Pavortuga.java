@@ -66,7 +66,31 @@ public class Pavortuga extends EspecieAbstracta implements IHerbivoro {
 	
 	@Override
 	public void comerPlanta(PlantaAbstracta victima) {
-	
+		if (victima instanceof PlantaAbstracta) {
+			if (victima instanceof PlantaBuena) {
+				PlantaBuena plantaTemp = (PlantaBuena) victima;
+				if (PApplet.dist(x, y, plantaTemp.getX(), plantaTemp.getY()) <= 50) {
+					plantaTemp.recibirDano(this);
+					try {
+						setEstado(EXTASIS);
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+			} else if (victima instanceof PlantaMala) {
+				PlantaMala plantaTemp = (PlantaMala) victima;
+				if (PApplet.dist(x, y, plantaTemp.getX(), plantaTemp.getY()) <= 50) {
+					plantaTemp.recibirDano(this);
+					try {
+						setEstado(ENVENENADO);
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+			}
+		}
 	}
 
 	@Override
