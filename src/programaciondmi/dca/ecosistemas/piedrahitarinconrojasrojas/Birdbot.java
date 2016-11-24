@@ -185,6 +185,8 @@ public class Birdbot extends EspecieAbstracta implements IApareable, IHerbivoro 
 		if(getEstado() == MUERTO){
 			app.image(poison, x+25, y-60, 50,50);
 			app.tint(63,63,63);
+			/*Mundo.ObtenerInstancia().getEspecies().remove(this);
+			this.ecosistema.getEspecies().remove(this);*/
 		}
 		
 		app.image(pjBirdbot[contador], x, y, 100,100);
@@ -257,34 +259,31 @@ public class Birdbot extends EspecieAbstracta implements IApareable, IHerbivoro 
 	 * 
 	 */
 	private void buscarParejaCercana() {
-		
-		List<EspecieAbstracta> todas = Mundo.ObtenerInstancia().getEspecies();
-		
-		
-
-		ListIterator<EspecieAbstracta> iterador = todas.listIterator();
-		boolean encontro = false;
-		while (!encontro && iterador.hasNext()) {
-			EspecieAbstracta e = iterador.next();
-			if ((e instanceof IApareable) && !e.equals(this)) {
-				float dist = PApplet.dist(x, y, e.getX(), e.getY());
-
-				if (dist < energia) {
-
-					encontro = true;
-					parejaCercana = e;
-					
-					// Cambiar la dirección
-					cambiarDireccion(new PVector(parejaCercana.getX(), parejaCercana.getY()));
+		synchronized (this.ecosistema.getEspecies()) {
+			List<EspecieAbstracta> todas = Mundo.ObtenerInstancia().getEspecies();
+			ListIterator<EspecieAbstracta> iterador = todas.listIterator();
+			boolean encontro = false;
+			while (!encontro && iterador.hasNext()) {
+				EspecieAbstracta e = iterador.next();
+				if ((e instanceof IApareable) && !e.equals(this)) {
+					float dist = PApplet.dist(x, y, e.getX(), e.getY());
+	
+					if (dist < energia) {
+	
+						encontro = true;
+						parejaCercana = e;
+						
+						// Cambiar la dirección
+						cambiarDireccion(new PVector(parejaCercana.getX(), parejaCercana.getY()));
+					}
 				}
 			}
+			// asegurarse de que la referencia sea null;
+			if (!encontro) {
+				parejaCercana = null;
+				//System.out.println("No encontró una pareja cercana");
+			}
 		}
-		// asegurarse de que la referencia sea null;
-		if (!encontro) {
-			parejaCercana = null;
-			//System.out.println("No encontró una pareja cercana");
-		}
-
 	}
 
 	/**
@@ -446,11 +445,4 @@ public class Birdbot extends EspecieAbstracta implements IApareable, IHerbivoro 
 			energia+=5;
 		}
 	}
-	
-
-
-	public void estado(){
-		
-	}
-
 }
