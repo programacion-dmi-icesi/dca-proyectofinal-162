@@ -37,6 +37,29 @@ public class Canibal extends EspecieAbstracta implements ICanibal {
 		while (vida > 0) {
 			mover();
 			try {
+				synchronized (ecosistema.getEspecies()) {
+					for (EspecieAbstracta especie : ecosistema.getEspecies()) {
+						if (especie != this) {
+							if (especie instanceof Carnivoro || especie instanceof Herbivoro
+									 || especie instanceof Hijo || especie instanceof Omnivoro) {
+								float d = PApplet.dist(especie.getX(), especie.getY(), this.x, this.y);
+								// if (!esperar) {
+								if (d < 70) {
+									comer(especie);
+									especie.setEstado(MUERTO);
+
+									//System.out.println("canibal mata!");
+									ecosistema.getEspecies().remove(especie);
+
+									break;
+								}
+								// }
+
+							}
+
+						}
+					}
+				}
 				Thread.sleep(33);
 				ciclo++;
 			} catch (Exception e) {
@@ -61,8 +84,8 @@ public class Canibal extends EspecieAbstracta implements ICanibal {
 
 	@Override
 	public void mover() {
-		if (ciclo % 30 == 0) {
-			// Definir una direccion aleatoria cada 3 segundos
+		if (ciclo % 50 == 0) {
+
 			int targetX = (int) (Math.random() * 500);
 			int targetY = (int) (Math.random() * 500);
 			cambiarDireccion(new PVector(targetX, targetY));
@@ -76,7 +99,7 @@ public class Canibal extends EspecieAbstracta implements ICanibal {
 	@Override
 	public boolean recibirDano(EspecieAbstracta lastimador) {
 		// Codigo de base
-		if (PApplet.dist(x, y, lastimador.getX(), lastimador.getY()) < 500) {
+		if (PApplet.dist(x, y, lastimador.getX(), lastimador.getY()) < 100) {
 			vida -= 5;
 			try {
 				if (vida == 20) {
@@ -108,9 +131,11 @@ public class Canibal extends EspecieAbstracta implements ICanibal {
 
 	@Override
 	public void comer(EspecieAbstracta victima) {
-		List<EspecieAbstracta> todas = Mundo.ObtenerInstancia().getEspecies();
-		for (int i = 0; i < todas.size(); i++) {
-			comer(todas.get(i));
+		try {
+			victima.setEstado(MUERTO);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 
@@ -119,7 +144,7 @@ public class Canibal extends EspecieAbstracta implements ICanibal {
 		dir = PVector.sub(target, location);
 		dir.normalize();
 		dir.mult(velocidad);
-		// System.out.println("[id=" + id + ", direcion=" + dir + "]");
+
 	}
 
 }
