@@ -5,31 +5,31 @@ import java.util.ArrayList;
 import processing.core.PApplet;
 import processing.core.PImage;
 import programaciondmi.dca.core.EspecieAbstracta;
+import programaciondmi.dca.core.PlantaAbstracta;
 import programaciondmi.dca.ejecucion.Mundo;
 
-public abstract class PlantaMala implements Runnable{
+public class PlantaMala extends PlantaAbstracta {
 	
-	protected int x;
-	protected int y;	
+	protected float x;
+	protected float y;	
 	protected PApplet app;
 	protected boolean PlantaVida=true;
+	private int index;
 	protected ArrayList<PlantaMala>malas;
-	protected  PImage Malauno, Malados;
+	protected  PImage[] plantaM = new PImage[4];
 	
 	
 	
-	public PlantaMala(int x, int y){
+	public PlantaMala(PApplet ecosistema, float x, float y){
+		super(ecosistema);
 		this.app = Mundo.ObtenerInstancia().getApp();
-		this.x = (int)app.random(2000);
-		this.y =  (int)app.random(2000) ;
-		Malauno= app.loadImage("../data/Malados.png");
-		Malados=app.loadImage("../data/Malauno.png");
+		this.x = x;
+		this.y = y;
 	}
 		
 //	public abstract void dibujar();
 	public void dibujar(){
-		app.image(Malauno, x, y);
-		app.image(Malados, x, y);
+		app.image(plantaM[index], x, y);
 	}
 	
 	/**
@@ -39,16 +39,34 @@ public abstract class PlantaMala implements Runnable{
 	 * @param lastimador quien hace daño a la planta actual
 	 * @return true si pudo hacer daño y false si no puedo dañar a la especie actual 
 	 */
-	public abstract boolean recibirDano(EspecieAbstracta lastimador);
+	//public abstract boolean recibirDano(EspecieAbstracta lastimador);
+	
+	private void images(){
+		plantaM[0] = app.loadImage("../data/pMala-01.png");
+		plantaM[1] = app.loadImage("../data/pMala-02.png");
+		plantaM[2] = app.loadImage("../data/pMala-03.png");
+		plantaM[3] = app.loadImage("../data/pMala-04.png");
+	}
 	
 	
-	
-	public int getX() {
+	public float getX() {
 		return this.x;
 	}
 
-	public int getY() {
+	public float getY() {
 		return this.y;
+	}
+
+	@Override
+	public void run() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public boolean recibirDano(EspecieAbstracta lastimador) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 }
