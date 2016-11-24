@@ -33,7 +33,7 @@ public class Cannibalbot extends EspecieAbstracta implements ICanibal {
 		this.random = new Random();
 		this.x = random.nextInt(Mundo.ObtenerInstancia().getApp().width);
 		this.y = random.nextInt(Mundo.ObtenerInstancia().getApp().height);
-		this.vida = 5;
+		this.vida = 100;
 		this.velocidad = 3;
 		this.energia = 200;
 		this.fuerza = 90;
