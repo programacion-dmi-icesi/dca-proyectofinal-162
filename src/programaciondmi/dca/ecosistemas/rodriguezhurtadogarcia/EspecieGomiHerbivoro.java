@@ -18,6 +18,7 @@ import programaciondmi.dca.ejecucion.Mundo;
 public class EspecieGomiHerbivoro extends GomiCabra implements IApareable, IHerbivoro {
 
 	private boolean procrear = false;
+	private HijoGomiCabra h;
 
 	public EspecieGomiHerbivoro(EcosistemaAbstracto ecosistema, int vista) {
 		super(ecosistema);
@@ -64,8 +65,10 @@ public class EspecieGomiHerbivoro extends GomiCabra implements IApareable, IHerb
 
 	@Override
 	public EspecieAbstracta aparear(IApareable apareable) {
-
-		return null;
+		h = new HijoGomiCabra(ecosistema);
+		h.setX(this.x);
+		h.setY(this.y);
+		return h;
 	}
 
 	@Override
@@ -76,29 +79,26 @@ public class EspecieGomiHerbivoro extends GomiCabra implements IApareable, IHerb
 
 				// AQUI TIENE EL BEBE
 
+				/*
+				 * aqui se recorren las especies, y si el otro es apareable,
+				 * llamará el metodo aparear que retornará un hijo que se guarda
+				 * en el arraylist
+				 */
 				synchronized (ecosistema.getEspecies()) {
 					for (EspecieAbstracta especie : ecosistema.getEspecies()) {
 						if (especie != this && especie instanceof IApareable) {
-
-							float d = PApplet.dist(especie.getX(), especie.getY(), this.x, this.y);
-
+							IApareable apareable = (IApareable) especie;
+							float d = app.dist(especie.getX(), especie.getY(), this.x, this.y);
 							if (d < 100) {
-								procrear = true;
-							} else {
-								procrear = false;
+								EspecieAbstracta hijo = aparear(apareable);
+								ecosistema.getEspecies().add(hijo);
+
 							}
 
 						}
+
 					}
 				}
-
-				/*
-				 * if (procrear == true) { HijoGomiCabra hijo = new
-				 * HijoGomiCabra(ecosistema); hijo.setX(this.x);
-				 * hijo.setY(this.y); ecosistema.getEspecies().add(hijo);
-				 * 
-				 * }
-				 */
 
 				Thread.sleep(33);
 				vista++;
