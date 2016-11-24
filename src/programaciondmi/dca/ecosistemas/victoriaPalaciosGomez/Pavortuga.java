@@ -78,7 +78,7 @@ public class Pavortuga extends EspecieAbstracta implements IHerbivoro {
 				PlantaBuena plantaTemp = (PlantaBuena) victima;
 				if (PApplet.dist(x, y, plantaTemp.getX(), plantaTemp.getY()) <= 50) {
 					plantaTemp.recibirDano(this);
-					if (plantaTemp.getIndex() == 4) {
+					if (plantaTemp.getIndex() > 3) {
 						Mundo.ObtenerInstancia().getPlantas().remove(victima);
 						this.ecosistema.getPlantas().remove(victima);
 					}
@@ -93,7 +93,7 @@ public class Pavortuga extends EspecieAbstracta implements IHerbivoro {
 				PlantaMala plantaTemp = (PlantaMala) victima;
 				if (PApplet.dist(x, y, plantaTemp.getX(), plantaTemp.getY()) <= 50) {
 					plantaTemp.recibirDano(this);
-					if (plantaTemp.getIndex() == 4) {
+					if (plantaTemp.getIndex() > 3) {
 						Mundo.ObtenerInstancia().getPlantas().remove(victima);
 						this.ecosistema.getPlantas().remove(victima);
 					}
