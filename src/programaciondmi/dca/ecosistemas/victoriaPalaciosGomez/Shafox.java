@@ -143,10 +143,10 @@ public class Shafox extends EspecieAbstracta implements ICarnivoro, IHerbivoro {
 	@Override
 	public void comer(EspecieAbstracta victima) {
 		// TODO Auto-generated method stub
-		if(victima instanceof EspecieAbstracta){
-			if(victima instanceof ICarnivoro || victima instanceof IHerbivoro){
-				if(PApplet.dist(x, y, victima.getX(), victima.getY())<= 55){
-					
+		if (victima instanceof EspecieAbstracta) {
+			if (victima instanceof ICarnivoro || victima instanceof IHerbivoro) {
+				if (PApplet.dist(x, y, victima.getX(), victima.getY()) <= 55) {
+
 					try {
 						victima.setEstado(ENFERMO);
 						setEstado(EXTASIS);
