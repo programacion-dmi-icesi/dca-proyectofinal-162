@@ -67,14 +67,14 @@ public class EspecieHervi extends EspecieAbstracta implements IHerbivoro {
 								setEstado(EXTASIS);
 							}
 							//Mundo.ObtenerInstancia().getPlantas().remove(victima);
-							System.out.println("ME COMI UNA SUPER PLANTAAAAAAAAAAAAAAAAAAA");
+							//System.out.println("ME COMI UNA SUPER PLANTAAAAAAAAAAAAAAAAAAA");
 							//System.out.println(Mundo.ObtenerInstancia().getPlantas().remove(victima));
 							
 							
 						} //else {
 
 							if (victima.getClass() == PlantaMala.class) {
-								System.out.println("ME COMI UNA MALAAAAAAAAAAAAA");
+								//System.out.println("ME COMI UNA MALAAAAAAAAAAAAA");
 								PlantaMala malita = (PlantaMala) victima;
 								velocidad = 1;
 								energia -= 5;
