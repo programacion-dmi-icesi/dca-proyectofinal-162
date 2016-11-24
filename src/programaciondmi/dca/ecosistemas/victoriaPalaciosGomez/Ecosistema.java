@@ -48,6 +48,9 @@ public class Ecosistema extends EcosistemaAbstracto {
 		// Begonia
 		Begonia bego = new Begonia(this);
 		especies.add(bego);
+		//Shafox
+		Shafox shafox = new Shafox(this);
+		especies.add(shafox);
 		Jacinto jaci = new Jacinto(this);
 		especies.add(jaci);
 		return especies;
@@ -71,6 +74,8 @@ public class Ecosistema extends EcosistemaAbstracto {
 		especies.add(coco);
 		Begonia bego = new Begonia(this);
 		especies.add(bego);
+		Shafox shafox = new Shafox(this);
+		especies.add(shafox);
 		Jacinto jaci = new Jacinto(this);
 		especies.add(jaci);
 		return especies;
