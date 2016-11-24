@@ -1,4 +1,5 @@
 package programaciondmi.dca.ecosistemas.victoriaPalaciosGomez;
+
 import processing.core.PApplet;
 import processing.core.PImage;
 import processing.core.PVector;
@@ -17,27 +18,24 @@ public class Pavortuga extends EspecieAbstracta implements IHerbivoro {
 	private int index = 0;
 
 	private PlantaMala mala;
-	
-	private PImage [] pavortuga = new PImage [6];
-	
-	
-	
-	public Pavortuga(EcosistemaAbstracto ecosistema){
+
+	private PImage[] pavortuga = new PImage[6];
+
+	public Pavortuga(EcosistemaAbstracto ecosistema) {
 		super(ecosistema);
 		this.estado = NORMAL;
 		this.app = Mundo.ObtenerInstancia().getApp();
 		imagenes();
 		this.vida = 20;
 		this.velocidad = 8;
-		int targetX = (int) (Math.random()*500);
-		int targetY = (int) (Math.random()*500);
+		int targetX = (int) (Math.random() * 500);
+		int targetY = (int) (Math.random() * 500);
 		cambiarDireccion(new PVector(targetX, targetY));
-		
+
 		Thread nt = new Thread(this);
 		nt.start();
-		
+
 	}
-	
 
 	@Override
 	public void run() {
@@ -58,12 +56,9 @@ public class Pavortuga extends EspecieAbstracta implements IHerbivoro {
 				// TODO: handle exception
 			}
 		}
-		
+
 	}
 
-	
-	
-	
 	@Override
 	public void comerPlanta(PlantaAbstracta victima) {
 		if (victima instanceof PlantaAbstracta) {
@@ -71,6 +66,10 @@ public class Pavortuga extends EspecieAbstracta implements IHerbivoro {
 				PlantaBuena plantaTemp = (PlantaBuena) victima;
 				if (PApplet.dist(x, y, plantaTemp.getX(), plantaTemp.getY()) <= 50) {
 					plantaTemp.recibirDano(this);
+					if (plantaTemp.getIndex() == 4) {
+						Mundo.ObtenerInstancia().getPlantas().remove(victima);
+						this.ecosistema.getPlantas().remove(victima);
+					}
 					try {
 						setEstado(EXTASIS);
 					} catch (Exception e) {
@@ -82,6 +81,10 @@ public class Pavortuga extends EspecieAbstracta implements IHerbivoro {
 				PlantaMala plantaTemp = (PlantaMala) victima;
 				if (PApplet.dist(x, y, plantaTemp.getX(), plantaTemp.getY()) <= 50) {
 					plantaTemp.recibirDano(this);
+					if (plantaTemp.getIndex() == 4) {
+						Mundo.ObtenerInstancia().getPlantas().remove(victima);
+						this.ecosistema.getPlantas().remove(victima);
+					}
 					try {
 						setEstado(ENVENENADO);
 					} catch (Exception e) {
@@ -98,7 +101,7 @@ public class Pavortuga extends EspecieAbstracta implements IHerbivoro {
 		// TODO Auto-generated method stub
 		PApplet app = Mundo.ObtenerInstancia().getApp();
 		app.image(pavortuga[index], x, y);
-		
+
 	}
 
 	@Override
@@ -110,14 +113,14 @@ public class Pavortuga extends EspecieAbstracta implements IHerbivoro {
 			int targetY = (int) (Math.random() * 500);
 			cambiarDireccion(new PVector(targetX, targetY));
 		}
-		
-		x+=dir.x;
-		y+=dir.y;
+
+		x += dir.x;
+		y += dir.y;
 	}
 
 	@Override
 	public boolean recibirDano(EspecieAbstracta lastimador) {
-		if(PApplet.dist(x, y, lastimador.getX(), lastimador.getY()) <= (vida/2)){
+		if (PApplet.dist(x, y, lastimador.getX(), lastimador.getY()) <= (vida / 2)) {
 			vida -= 5;
 			try {
 				lastimador.setEstado(EXTASIS);
@@ -126,27 +129,26 @@ public class Pavortuga extends EspecieAbstracta implements IHerbivoro {
 			}
 			return true;
 		}
-		
+
 		return false;
 	}
-	
-	
+
 	private void cambiarDireccion(PVector target) {
 		PVector location = new PVector(x, y);
 		dir = PVector.sub(target, location);
 		dir.normalize();
 		dir.mult(velocidad);
 	}
-	
-	private void imagenes () {
-		//pavortuga SANO
+
+	private void imagenes() {
+		// pavortuga SANO
 		pavortuga[0] = app.loadImage("../data/pngs/pavortuga-walk-01.png");
 		pavortuga[1] = app.loadImage("../data/pngs/pavortuga-walk-02.png");
 		pavortuga[2] = app.loadImage("../data/pngs/pavortuga-walk-03.png");
-		//pavortuga enfermo
+		// pavortuga enfermo
 		pavortuga[3] = app.loadImage("../data/pngs/pavortuga-sick-1.png");
 		pavortuga[4] = app.loadImage("../data/pngs/pavortuga-sick-2.png");
 		pavortuga[5] = app.loadImage("../data/pngs/pavortuga-sick-3.png");
 	}
-	
+
 }

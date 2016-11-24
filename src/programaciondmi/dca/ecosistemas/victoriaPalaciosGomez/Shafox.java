@@ -65,6 +65,10 @@ public class Shafox extends EspecieAbstracta implements ICarnivoro, IHerbivoro {
 				PlantaBuena plantaTemp = (PlantaBuena) victima;
 				if (PApplet.dist(x, y, plantaTemp.getX(), plantaTemp.getY()) <= 50) {
 					plantaTemp.recibirDano(this);
+					if (plantaTemp.getIndex() == 4) {
+						Mundo.ObtenerInstancia().getPlantas().remove(victima);
+						this.ecosistema.getPlantas().remove(victima);
+					}
 					try {
 						setEstado(EXTASIS);
 					} catch (Exception e) {
@@ -76,6 +80,10 @@ public class Shafox extends EspecieAbstracta implements ICarnivoro, IHerbivoro {
 				PlantaMala plantaTemp = (PlantaMala) victima;
 				if (PApplet.dist(x, y, plantaTemp.getX(), plantaTemp.getY()) <= 50) {
 					plantaTemp.recibirDano(this);
+					if (plantaTemp.getIndex() == 4) {
+						Mundo.ObtenerInstancia().getPlantas().remove(victima);
+						this.ecosistema.getPlantas().remove(victima);
+					}
 					try {
 						setEstado(ENVENENADO);
 					} catch (Exception e) {
@@ -91,7 +99,6 @@ public class Shafox extends EspecieAbstracta implements ICarnivoro, IHerbivoro {
 	public void dibujar() {
 		PApplet app = Mundo.ObtenerInstancia().getApp();
 		app.image(shafoxImg[index], x, y, 68, 100);
-		
 
 	}
 
@@ -134,7 +141,7 @@ public class Shafox extends EspecieAbstracta implements ICarnivoro, IHerbivoro {
 	}
 
 	public void imagenes() {
-		
+
 		shafoxImg[0] = app.loadImage("../data/pngs/shafox-walk-01.png");
 		shafoxImg[1] = app.loadImage("../data/pngs/shafox-walk-02.png");
 		shafoxImg[2] = app.loadImage("../data/pngs/shafox-walk-03.png");
