@@ -48,7 +48,7 @@ public class Ecosistema extends EcosistemaAbstracto {
 		// Begonia
 		Begonia bego = new Begonia(this);
 		especies.add(bego);
-		//Shafox
+		// Shafox
 		Shafox shafox = new Shafox(this);
 		especies.add(shafox);
 		Jacinto jaci = new Jacinto(this);
@@ -83,22 +83,17 @@ public class Ecosistema extends EcosistemaAbstracto {
 
 	@Override
 	protected List<PlantaAbstracta> generarPlantas() {
-		if (app.mouseX < app.width && app.mouseX > 0 && app.mouseY < app.height && app.mouseY > 0 && app.mousePressed){
-		if (app.mouseButton==app.LEFT){
-			PlantaBuena pB = new PlantaBuena(app, app.mouseX, app.mouseY);
-			plantas.add(pB);
-			System.out.println("pB");
-		} else if (app.mouseButton==app.RIGHT){
-			PlantaMala pM = new PlantaMala(app, app.mouseX, app.mouseY);
-			plantas.add(pM);
-			System.out.println("pM");
-		}}
-		// for (int i = 0; i < buenas.size(); i++) {
-		// if(app.dist(buenas.get(i).getX(), buenas.get(i).getY(), , y2)){
-		//
-		// }
-		// }
+		if (app.mouseX < app.width && app.mouseX > 0 && app.mouseY < app.height && app.mouseY > 0 && app.mousePressed) {
+			if (app.mouseButton == app.LEFT) {
+				PlantaBuena pB = new PlantaBuena(app, app.mouseX, app.mouseY);
+				plantas.add(pB);
+				System.out.println("pB");
+			} else if (app.mouseButton == app.RIGHT) {
+				PlantaMala pM = new PlantaMala(app, app.mouseX, app.mouseY);
+				plantas.add(pM);
+				System.out.println("pM");
+			}
+		}
 		return plantas;
 	}
-
 }

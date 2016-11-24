@@ -11,7 +11,8 @@ import programaciondmi.dca.ejecucion.Mundo;
 
 public class PlantaBuena extends PlantaAbstracta{
 	
-	protected int x, y, index;
+	private float x, y; 
+	private int index;
 	protected PApplet app;
 	protected PImage[] plantaB = new PImage [4];
 	protected ArrayList<PlantaBuena>buenas;
@@ -20,8 +21,8 @@ public class PlantaBuena extends PlantaAbstracta{
 	public PlantaBuena(PApplet ecosistema, float x, float y){
 		super(ecosistema);
 		this.app = Mundo.ObtenerInstancia().getApp();
-		this.x= (int)app.random(2000);
-		this.y=(int)app.random(2000);
+		this.x= x;
+		this.y= y;
 		images();
 		
 	}
@@ -37,19 +38,19 @@ public class PlantaBuena extends PlantaAbstracta{
 		plantaB[3] = app.loadImage("../data/pBuena-04.png");
 	}
 
-	public int getX() {
+	public float getX() {
 		return x;
 	}
 
-	public void setX(int x) {
+	public void setX(float x) {
 		this.x = x;
 	}
 
-	public int getY() {
+	public float getY() {
 		return y;
 	}
 
-	public void setY(int y) {
+	public void setY(float y) {
 		this.y = y;
 	}
 
