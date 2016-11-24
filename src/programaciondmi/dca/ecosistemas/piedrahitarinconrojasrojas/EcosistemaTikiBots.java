@@ -59,19 +59,13 @@ public class EcosistemaTikiBots extends EcosistemaAbstracto {
 
 				if (app.mouseButton == app.LEFT) {
 					
-					System.out.println("coloca planta buena");
-					
 					PlantaBuena buena = new PlantaBuena(app.mouseX - ((app.width) - camX), (int) (app.mouseY - ((app.height) - camY)));
-					//plantas.add(buena);
 					agregarPlanta(buena);
 					puedeColocar=false;
 					
 				} else if (app.mouseButton == app.RIGHT) {
 					
-					System.out.println("coloca planta mala");
-					
 					PlantaMala mala = new PlantaMala(app.mouseX - ((app.width) - camX), (int) (app.mouseY - ((app.height) - camY)));
-					//plantas.add(mala);
 					agregarPlanta(mala);
 					puedeColocar=false;
 					
@@ -118,20 +112,6 @@ public class EcosistemaTikiBots extends EcosistemaAbstracto {
 	protected LinkedList<PlantaAbstracta> poblarPlantas() {
 	LinkedList<PlantaAbstracta> plantas = new LinkedList<PlantaAbstracta>();
 	
-		if(tipoPlanta == 1){
-			//System.out.println("planta buena");
-			//GoodPlanta buena = new GoodPlanta(this);
-			//plantas.add(buena);
-			tipoPlanta = 0;
-		}
-		
-		if(tipoPlanta == 2){
-			//System.out.println("planta mala");
-			//PlantaMala mala = new PlantaMala(this);
-			//plantas.add(mala);
-			tipoPlanta = 0;
-		}
-	
 		return plantas;
 	}
 
@@ -151,15 +131,13 @@ public class EcosistemaTikiBots extends EcosistemaAbstracto {
 		especies.add(mago);
 		}*/
 		
-	Cannibalbot cani = new Cannibalbot(this);
-		especies.add(cani);
+		Cannibalbot cani = new Cannibalbot(this);
+		agregarEspecie(cani);
 		
-		//if(cont == 0){
-			Birdbot ave = new Birdbot(this);
-			//especies.add(ave);
-			agregarEspecie(ave);
-			//cont++;
-		//}
+
+		Birdbot ave = new Birdbot(this);
+		agregarEspecie(ave);
+
 		
 		return especies;
 	}
