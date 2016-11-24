@@ -317,6 +317,7 @@ public class Birdbot extends EspecieAbstracta implements IApareable, IHerbivoro 
 	 */
 	private void buscarComida() {
 		synchronized (this.ecosistema.getPlantas()) {
+			System.out.println("aja");
 		List<PlantaAbstracta> all = Mundo.ObtenerInstancia().getPlantas();
 		ListIterator<PlantaAbstracta> iterador = all.listIterator();
 		boolean encontro = false;

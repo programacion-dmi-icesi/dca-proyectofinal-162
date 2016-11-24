@@ -272,7 +272,6 @@ public class Hijo extends EspecieAbstracta implements IHerbivoro {
 		dir = PVector.sub(target, location);
 		dir.normalize();
 		dir.mult(velocidad);
-		//System.out.println("[id=" + id + ", direcion=" + dir + "]");
 	}
 	
 	@Override
