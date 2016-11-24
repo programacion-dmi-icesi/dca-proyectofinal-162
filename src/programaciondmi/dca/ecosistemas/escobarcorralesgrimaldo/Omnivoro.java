@@ -1,6 +1,7 @@
 package programaciondmi.dca.ecosistemas.escobarcorralesgrimaldo;
 
 import processing.core.PApplet;
+import processing.core.PImage;
 import programaciondmi.dca.core.EcosistemaAbstracto;
 import programaciondmi.dca.core.EspecieAbstracta;
 import programaciondmi.dca.core.PlantaAbstracta;
@@ -14,6 +15,8 @@ public class Omnivoro extends EspecieAbstracta implements IOmnivoro{
 
 	private float ballX = 50, ballY = 50;
 	private int ballXDirection = 1, ballYDirection = -1;
+	
+	private PImage omni [] = new PImage [4];
 
 	private int xP, yP, vX, vY, vXD = 50, vYD = 50;
 	
@@ -56,11 +59,15 @@ public class Omnivoro extends EspecieAbstracta implements IOmnivoro{
 	@Override
 	public void dibujar() {
 		PApplet app = Mundo.ObtenerInstancia().getApp();
-		app.fill(150, 150, 0);
-
-		app.ellipse(ballX, ballY, 60, 60);
+	
+		omni[0]= app.loadImage("../data/vistas/omni_aba.png");
+		omni[0]= app.loadImage("../data/vistas/omni_aba.png");
+		omni[0]= app.loadImage("../data/vistas/omni_aba.png");
+		omni[0]= app.loadImage("../data/vistas/omni_aba.png");
+		
+		app.image(omni[0], ballX, ballY);
 	}
-
+	
 	@Override
 	public void mover() {
 		if (ciclo % 60 == 0) {

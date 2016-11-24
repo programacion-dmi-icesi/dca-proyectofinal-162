@@ -6,7 +6,7 @@ import programaciondmi.dca.core.EspecieAbstracta;
 import programaciondmi.dca.ejecucion.Mundo;
 
 public class Hijo extends EspecieAbstracta{
-	private PImage[] hijo = new PImage[1];
+	private PImage[] hijo = new PImage[4];
 	private int vida;
 	private int velocidad;
 	private PVector dir;
@@ -32,7 +32,10 @@ public class Hijo extends EspecieAbstracta{
 	@Override
 	public void dibujar() {
 		PApplet app = Mundo.ObtenerInstancia().getApp();
-		hijo[0] = app.loadImage("../data/Personaje.png");
+		hijo[0] = app.loadImage("../data/vistas/hijo_aba.png");
+		hijo[0] = app.loadImage("../data/vistas/hijo_arri.png");
+		hijo[0] = app.loadImage("../data/vistas/hijo_izq.png");
+		hijo[0] = app.loadImage("../data/vistas/hijo_der.png");
 		app.image(hijo[0], x, y);
 	}
 

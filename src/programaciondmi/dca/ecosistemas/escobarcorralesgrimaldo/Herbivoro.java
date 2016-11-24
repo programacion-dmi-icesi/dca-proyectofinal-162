@@ -18,6 +18,7 @@ public class Herbivoro extends EspecieAbstracta implements IHerbivoro, IApareabl
 	private int vida, velocidad;
 	private PVector dir;
 	private PImage[] herbi = new PImage[5];
+	private PImage[] herbiVistas = new PImage[4];
 
 	/*
 	 * Se utiliza para definfir cuando el individuo puede realizar acciones:
@@ -91,6 +92,8 @@ public class Herbivoro extends EspecieAbstracta implements IHerbivoro, IApareabl
 			}
 		}
 	}
+	
+	
 
 	@Override
 	public void dibujar() {
@@ -124,6 +127,11 @@ public class Herbivoro extends EspecieAbstracta implements IHerbivoro, IApareabl
 	   int vel=5;
 		if (ciclo % vel == 0) {
 			PApplet app = Mundo.ObtenerInstancia().getApp();
+			
+			herbiVistas[0]= app.loadImage("../data/vistas/Herbi_aba.png");
+			herbiVistas[1]= app.loadImage("../data/vistas/Herbi_arri.png");
+			herbiVistas[2]= app.loadImage("../data/vistas/Herbi_izq.png");
+			herbiVistas[3]= app.loadImage("../data/vistas/Herbi_der.png");
 
 			ballX = (float) (ballX + 10.8 * ballXDirection);
 			ballY = (float) (ballY + 8.8 * ballYDirection);
