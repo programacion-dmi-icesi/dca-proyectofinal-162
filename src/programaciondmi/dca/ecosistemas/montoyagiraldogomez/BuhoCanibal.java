@@ -50,7 +50,7 @@ public class BuhoCanibal extends EspecieAbstracta implements ICanibal {
 		this.x = random.nextInt(Mundo.ObtenerInstancia().getApp().width);
 		this.y = random.nextInt(Mundo.ObtenerInstancia().getApp().height);
 		this.vida = 75;
-		this.energia = 250;
+		this.energia = 180;
 		this.vel = (float) 1.2;
 
 		int targetX = random.nextInt();
@@ -90,6 +90,9 @@ public class BuhoCanibal extends EspecieAbstracta implements ICanibal {
 		PApplet app = Mundo.ObtenerInstancia().getApp();
 		app.imageMode(3);
 		pintarSombra();
+		app.noStroke();
+		app.fill(255, 100);
+		app.ellipse(x, y, energia * 2, energia * 2);
 		if (frameMuerte < 5) {
 			if (direccion == 0) {
 				if (herido) {
@@ -127,12 +130,21 @@ public class BuhoCanibal extends EspecieAbstracta implements ICanibal {
 				if (comestible != null) {
 					comer(comestible);
 				}
+				
+				if(!encontro){
+					if (ciclo % 90 == 0) {
+						int targetX = random.nextInt();
+						int targetY = random.nextInt();
+						redireccionar(new PVector(targetX, targetY));
+						calcularImg(new PVector(targetX, targetY));
+					}
+				}
 			} else {
 				buscarPlanta();
 				if (plantaCerca != null) {
 					alimentar(plantaCerca);
 				}
-				if (ciclo % 30 == 0) {
+				if (ciclo % 90 == 0) {
 					int targetX = random.nextInt();
 					int targetY = random.nextInt();
 					redireccionar(new PVector(targetX, targetY));
@@ -176,8 +188,7 @@ public class BuhoCanibal extends EspecieAbstracta implements ICanibal {
 			estado = MUERTO;
 		}
 
-		PApplet app = Mundo.ObtenerInstancia().getApp();
-		if (ciclo % 240 == 0) {
+		if (ciclo % 300 == 0) {
 			puedeCanibalizar = true;
 			comerPlanta = true;
 		}
@@ -192,10 +203,11 @@ public class BuhoCanibal extends EspecieAbstracta implements ICanibal {
 		ListIterator<EspecieAbstracta> iterador = all.listIterator();
 		while (!encontro && iterador.hasNext()) {
 			EspecieAbstracta com = iterador.next();
-			if (!com.equals(this)) {
-				if (com instanceof BuhoApareable || com instanceof BuhoCanibal || com instanceof BuhoHijo) {
+			if (!com.equals(this) && com.getEstado() != MUERTO) {
+				if (com instanceof BuhoApareable || com instanceof BuhoCanibal || com instanceof BuhoHijo
+						|| com instanceof MurHerbivoro) {
 					float d = PApplet.dist(x, y, com.getX(), com.getY());
-					if (d < energia * 2 && puedeCanibalizar) {
+					if (d < energia * 2 && puedeCanibalizar && com.recibirDano(this)) {
 						comestible = com;
 						encontro = true;
 					}
@@ -215,10 +227,13 @@ public class BuhoCanibal extends EspecieAbstracta implements ICanibal {
 	@Override
 	public void comer(EspecieAbstracta victima) {
 		if (!victima.getClass().toString().equals(this.getClass().toString())) {
-			if (victima.recibirDano(this)) {
+			float d = PApplet.dist(x, y, victima.getX(), victima.getY());
+			if (d < 15 && puedeCanibalizar) {
 				energia += 10;
 				victima.recibirDano(this);
-				System.out.println("ME COMI UNA SALCHIPAPA");
+				puedeCanibalizar = false;
+				encontro = false;
+				System.out.println("ME COMI UNA SALCHIPAPA" + puedeCanibalizar);
 			}
 		}
 

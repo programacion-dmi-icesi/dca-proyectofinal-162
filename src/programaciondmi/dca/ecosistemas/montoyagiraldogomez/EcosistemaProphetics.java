@@ -36,7 +36,7 @@ public class EcosistemaProphetics extends EcosistemaAbstracto {
 		//
 		// BuhoApareable apareable = new BuhoApareable(this);
 		// especies.add(apareable);
-		//
+
 		// BuhoCanibal canibal = new BuhoCanibal(this);
 		// especies.add(canibal);
 
@@ -69,7 +69,7 @@ public class EcosistemaProphetics extends EcosistemaAbstracto {
 
 	@Override
 	protected List<EspecieAbstracta> generarIndividuos() {
-		//
+
 		// BuhoCanibal canibal = new BuhoCanibal(this);
 		// especies.add(canibal);
 		//

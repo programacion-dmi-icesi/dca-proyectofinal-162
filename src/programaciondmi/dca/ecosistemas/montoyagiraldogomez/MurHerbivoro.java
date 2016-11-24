@@ -69,13 +69,17 @@ public class MurHerbivoro extends EspecieAbstracta implements IHerbivoro {
 
 	@Override
 	public void run() {
-		while (vida > 0) {
+		while (true) {
 			sumarFrames();
 			frameEnfermeda();
 			frameMuerte();
 			vuelo();
 			mover();
 			veneno();
+			if (frameMuerte >= 11) {
+				Mundo.ObtenerInstancia().getEspecies().remove(this);
+				this.ecosistema.getEspecies().remove(this);
+			}
 			try {
 				Thread.sleep(10);
 				ciclo++;
@@ -92,8 +96,9 @@ public class MurHerbivoro extends EspecieAbstracta implements IHerbivoro {
 		pintarSombra();
 		app.noStroke();
 		app.fill(255, 100);
-		app.ellipse(x, y, energia, energia);
-		if (frameMuerte < 5) {
+		app.ellipse(x, y, energia * 2, energia * 2);
+		System.out.println(frameMuerte);
+		if (frameMuerte < 5 && vida > 0) {
 			if (direccion == 0) {
 				if (herido) {
 					app.image(mascarasHeridas[direccion][estadoHerido], x, y + seno);
@@ -117,14 +122,14 @@ public class MurHerbivoro extends EspecieAbstracta implements IHerbivoro {
 		}
 		app.image(muerte[frameMuerte], x, y + seno);
 
-		app.fill(255,0,0);
+		app.fill(255, 0, 0);
 		app.rectMode(3);
 		app.rect(x, y - 40, vida, 10);
 	}
 
 	@Override
 	public void mover() {
-		if (energia > 0) {
+		if (energia > 0 && vida > 0) {
 			buscarPlanta();
 			if (plantaCerca != null) {
 				comerPlanta(plantaCerca);
@@ -183,7 +188,7 @@ public class MurHerbivoro extends EspecieAbstracta implements IHerbivoro {
 			puedeComer = true;
 		}
 
-		if (ciclo % 1800 == 0) {
+		if (ciclo % 3000 == 0) {
 			puedeSembrar = true;
 		}
 
@@ -199,7 +204,7 @@ public class MurHerbivoro extends EspecieAbstracta implements IHerbivoro {
 		while (!encontro && iterador.hasNext()) {
 			PlantaAbstracta p = iterador.next();
 			float d = PApplet.dist(x, y, p.getX(), p.getY());
-			if (d < energia && puedeComer && p.recibirDano(this)) {
+			if (d < energia * 2 && puedeComer && p.recibirDano(this)) {
 				plantaCerca = p;
 				encontro = true;
 			}
@@ -225,14 +230,21 @@ public class MurHerbivoro extends EspecieAbstracta implements IHerbivoro {
 					estadoVeneno = 1;
 					energia += 10;
 					vida -= 5;
+					vel -= 0.01;
 					enfermo = true;
 				} else if ((victima instanceof Hojas)) {
 					estado = EXTASIS;
 					energia += 20;
+					vel += 0.02;
 					estadoVeneno = 0;
 					enfermo = false;
 				}
-				victima.recibirDano(this);
+				if (victima.recibirDano(this)) {
+					victima.recibirDano(this);
+				} else {
+					Mundo.ObtenerInstancia().getPlantas().remove(victima);
+					this.ecosistema.getPlantas().remove(victima);
+				}
 				yaComi = true;
 				puedeComer = false;
 				encontro = false;

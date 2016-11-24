@@ -10,7 +10,6 @@ public class Venenosa extends PlantaAbstracta {
 
 	private int recursos;
 	private PImage plant;
-	private boolean mostrar = true;
 
 	public Venenosa(int x, int y) {
 		super();
@@ -38,17 +37,14 @@ public class Venenosa extends PlantaAbstracta {
 	@Override
 	public void dibujar() {
 		PApplet app = Mundo.ObtenerInstancia().getApp();
-		if (mostrar) {
-			app.imageMode(3);
-			app.image(plant, x, y);
-		}
+		app.imageMode(3);
+		app.image(plant, x, y);
 	}
 
 	@Override
 	public boolean recibirDano(EspecieAbstracta lastimador) {
-		if (recursos > 0 && mostrar) {
-			recursos=0;
-			mostrar = false;
+		if (recursos > 0) {
+			recursos --;
 			return true;
 		}
 		return false;
