@@ -10,14 +10,15 @@ public class Hojas extends PlantaAbstracta {
 
 	private int recursos;
 	private PImage plant;
+	private boolean mostrar=true;
 
-	public Hojas(int x,int y) {
+	public Hojas(int x, int y) {
 		super();
 		PApplet app = Mundo.ObtenerInstancia().getApp();
-		this.plant = app.loadImage("normal1.png");
-		
-		this.x=x;
-		this.y=y;
+		this.plant = app.loadImage("propheticData/normal1.png");
+
+		this.x = x;
+		this.y = y;
 
 		this.recursos = 3;
 
@@ -27,31 +28,34 @@ public class Hojas extends PlantaAbstracta {
 
 	@Override
 	public void run() {
-		while(recursos > 0){
+		while (recursos > 0) {
 			try {
-				
+
 			} catch (Exception e) {
 				// TODO: handle exception
 			}
 		}
-		
+
 	}
 
 	@Override
 	public void dibujar() {
 		PApplet app = Mundo.ObtenerInstancia().getApp();
-		app.imageMode(3);
-		app.image(plant, x, y);
+		if (mostrar) {
+			app.imageMode(3);
+			app.image(plant, x, y);
+		}
 
 	}
 
 	@Override
 	public boolean recibirDano(EspecieAbstracta lastimador) {
-		if (recursos > 0) {
-			recursos--;
-			System.out.println("Me comieron"+recursos);
+		if (recursos > 0 && mostrar) {
+			recursos=0;
+			mostrar = false;
 			return true;
 		}
+		
 		return false;
 	}
 

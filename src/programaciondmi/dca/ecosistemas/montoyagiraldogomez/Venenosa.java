@@ -1,7 +1,5 @@
 package programaciondmi.dca.ecosistemas.montoyagiraldogomez;
 
-import java.util.Random;
-
 import processing.core.PApplet;
 import processing.core.PImage;
 import programaciondmi.dca.core.EspecieAbstracta;
@@ -11,15 +9,14 @@ import programaciondmi.dca.ejecucion.Mundo;
 public class Venenosa extends PlantaAbstracta {
 
 	private int recursos;
-	private Random random;
 	private PImage plant;
+	private boolean mostrar = true;
 
 	public Venenosa(int x, int y) {
 		super();
 		PApplet app = Mundo.ObtenerInstancia().getApp();
-		this.plant = app.loadImage("carnivora1.png");
+		this.plant = app.loadImage("propheticData/carnivora1.png");
 		recursos = 3;
-		this.random = new Random();
 
 		this.x = x;
 		this.y = y;
@@ -41,15 +38,17 @@ public class Venenosa extends PlantaAbstracta {
 	@Override
 	public void dibujar() {
 		PApplet app = Mundo.ObtenerInstancia().getApp();
-		app.imageMode(3);
-		app.image(plant, x, y);
+		if (mostrar) {
+			app.imageMode(3);
+			app.image(plant, x, y);
+		}
 	}
 
 	@Override
 	public boolean recibirDano(EspecieAbstracta lastimador) {
-		if (recursos > 0) {
-			recursos--;
-			System.out.println("Me comieron" + recursos);
+		if (recursos > 0 && mostrar) {
+			recursos=0;
+			mostrar = false;
 			return true;
 		}
 		return false;

@@ -25,6 +25,20 @@ public class BuhoApareable extends EspecieAbstracta implements IApareable {
 	private int ciclo;
 	private int estadoVeneno, tiempoEnvenenado;
 	private boolean tenerHijo, comerPlanta;
+	private boolean encontro;
+
+	private PImage[][] vuelo;
+	private PImage[][] mascarasHeridas;
+	private PImage[] mascarasNormales;
+	private PImage[] enfermedad;
+	private PImage[] muerte;
+	private int frame, frameEnfermo, frameMuerte, sumaEnfermo, direccion, estadoHerido, estadoVenenoso,
+			resistenciaAtaques, resistenciaVeneno;
+	private float incremento, amplitud, seno, cambio;
+	private boolean enfermo, herido, muerto;
+
+	private String[] vistas;
+	private String[] estados;
 
 	private final int LIMITE_APAREO = 100;
 	private Random random;
@@ -36,12 +50,12 @@ public class BuhoApareable extends EspecieAbstracta implements IApareable {
 		this.y = random.nextInt(Mundo.ObtenerInstancia().getApp().height);
 		this.vida = 50;
 		this.energia = 300;
-		this.vel = 3;
+		this.vel = 1;
 
 		ciclo = 0;
 		PApplet app = Mundo.ObtenerInstancia().getApp();
-		this.bird = app.loadImage("Herb.png");
-		this.nino = app.loadImage("Hijo.png");
+		this.bird = app.loadImage("propheticData/Herb.png");
+		this.nino = app.loadImage("propheticData/Hijo.png");
 
 		int targetX = random.nextInt();
 		int targetY = random.nextInt();
@@ -50,6 +64,8 @@ public class BuhoApareable extends EspecieAbstracta implements IApareable {
 		estadoVeneno = 0;
 		tiempoEnvenenado = 0;
 
+		cargarGrafica();
+
 		Thread nt = new Thread(this);
 		nt.start();
 	}
@@ -57,9 +73,14 @@ public class BuhoApareable extends EspecieAbstracta implements IApareable {
 	@Override
 	public void run() {
 		while (vida > 0) {
+			sumarFrames();
+			frameEnfermeda();
+			frameMuerte();
+			vuelo();
 			mover();
+			veneno();
 			try {
-				Thread.sleep(33);
+				Thread.sleep(10);
 				ciclo++;
 			} catch (Exception e) {
 
@@ -80,8 +101,30 @@ public class BuhoApareable extends EspecieAbstracta implements IApareable {
 	public void dibujar() {
 		PApplet app = Mundo.ObtenerInstancia().getApp();
 		app.imageMode(3);
-		app.image(bird, x, y);
-		veneno();
+		pintarSombra();
+		if (frameMuerte < 5) {
+			if (direccion == 0) {
+				if (herido) {
+					app.image(mascarasHeridas[direccion][estadoHerido], x, y + seno);
+				} else {
+					app.image(mascarasNormales[direccion], x, y + seno);
+				}
+			}
+			app.image(vuelo[direccion][frame], x, y + seno);
+
+			if (enfermo) {
+				app.image(enfermedad[frameEnfermo], x, y + seno);
+			}
+			if (direccion != 0) {
+
+				if (herido) {
+					app.image(mascarasHeridas[direccion][estadoHerido], x, y + seno);
+				} else {
+					app.image(mascarasNormales[direccion], x, y + seno);
+				}
+			}
+		}
+		app.image(muerte[frameMuerte], x, y + seno);
 	}
 
 	@Override
@@ -97,10 +140,11 @@ public class BuhoApareable extends EspecieAbstracta implements IApareable {
 				if (plantaCerca != null) {
 					alimentar(plantaCerca);
 				}
-				if (ciclo % 30 == 0) {
+				if (ciclo % 90 == 0) {
 					int targetX = random.nextInt();
 					int targetY = random.nextInt();
 					redireccionar(new PVector(targetX, targetY));
+					calcularImg(new PVector(targetX, targetY));
 				}
 			}
 			this.x += pos.x;
@@ -137,27 +181,18 @@ public class BuhoApareable extends EspecieAbstracta implements IApareable {
 	 * Veneno de el personaje
 	 */
 	private void veneno() {
-		PApplet app = Mundo.ObtenerInstancia().getApp();
-		app.fill(0, 255, 0);
-		app.noStroke();
 		switch (estadoVeneno) {
 		case 1:
-			app.ellipse(x - 30, y - 50, 20, 20);
 			if (tiempoEnvenenado % 60 == 0 && vida > 0) {
 				vida--;
 			}
 			break;
 		case 2:
-			app.ellipse(x - 30, y - 50, 20, 20);
-			app.ellipse(x, y - 50, 20, 20);
 			if (tiempoEnvenenado % 60 == 0 && vida > 0) {
 				vida -= 2;
 			}
 			break;
 		case 3:
-			for (int i = -30; i <= 30; i += 30) {
-				app.ellipse(x + i, y - 50, 20, 20);
-			}
 			if (tiempoEnvenenado % 60 == 0 && vida > 0) {
 				vida -= 3;
 			}
@@ -180,24 +215,21 @@ public class BuhoApareable extends EspecieAbstracta implements IApareable {
 	private void buscarPareja() {
 		List<EspecieAbstracta> all = Mundo.ObtenerInstancia().getEspecies();
 		ListIterator<EspecieAbstracta> iterador = all.listIterator();
-		boolean encontro = false;
-		while (!encontro && iterador.hasNext()) {
+		while (!encontro && tenerHijo && iterador.hasNext()) {
 			EspecieAbstracta cerca = iterador.next();
 			if ((cerca instanceof IApareable) && !cerca.equals(this)) {
 				float d = PApplet.dist(x, y, cerca.getX(), cerca.getY());
-				if (d < energia * 1.5 && cerca.getEstado() != cerca.MUERTO && !(cerca instanceof BuhoApareable)) {
-					encontro = true;
+				if (d < energia * 1.5 && cerca.getEstado() != cerca.MUERTO) {
 					parejaCerca = cerca;
-					redireccionar(new PVector(parejaCerca.getX(), parejaCerca.getY()));
-				} else if (d < energia * 1.5 && cerca.getEstado() != cerca.MUERTO && (cerca instanceof BuhoApareable)) {
-					if (((BuhoApareable) cerca).getEnergia() > LIMITE_APAREO) {
-						encontro = true;
-						parejaCerca = cerca;
-						redireccionar(new PVector(parejaCerca.getX(), parejaCerca.getY()));
-					}
+					encontro = true;
 				}
 			}
 		}
+		if (encontro) {
+			redireccionar(new PVector(parejaCerca.getX(), parejaCerca.getY()));
+			calcularImg(new PVector(parejaCerca.getX(), parejaCerca.getY()));
+		}
+
 		if (!encontro) {
 			parejaCerca = null;
 		}
@@ -209,11 +241,12 @@ public class BuhoApareable extends EspecieAbstracta implements IApareable {
 	 */
 	private void intentarAparear() {
 		float d = PApplet.dist(x, y, parejaCerca.getX(), parejaCerca.getY());
-		if ((d < vida) && tenerHijo && energia > 0) {
+		if ((d < vida) && energia > 0) {
 			IApareable a = (IApareable) parejaCerca;
 			ecosistema.agregarEspecie(aparear(a));
 			energia -= 50;
 			tenerHijo = false;
+			encontro = false;
 
 		}
 	}
@@ -259,6 +292,7 @@ public class BuhoApareable extends EspecieAbstracta implements IApareable {
 				encontro = true;
 				plantaCerca = p;
 				redireccionar(new PVector(plantaCerca.getX(), plantaCerca.getY()));
+				calcularImg(new PVector(plantaCerca.getX(), plantaCerca.getY()));
 				comerPlanta = false;
 			}
 		}
@@ -286,28 +320,35 @@ public class BuhoApareable extends EspecieAbstracta implements IApareable {
 	 * 
 	 * @param target
 	 */
-	private void calculcarImg(PVector target) {
-		float xO = target.x;
-		float yO = target.y;
+	private void calcularImg(PVector target) {
 
-		if (x - xO < 0) {
-			// Left
-			display = 1;
+		PVector location = new PVector(x, y);
+		float disX = target.x - location.x;
+		float disY = target.y - location.y;
+
+		float teta = PApplet.atan2(disY, disX);
+
+		teta *= 180 / PApplet.PI;
+
+		if (teta < 0)
+			teta = 360 + teta;
+
+		int d = (int) teta;
+
+		if (d <= 45 && d >= 0 && d <= 360 && d >= 315) {
+			direccion = 3; // Derecha
 		}
 
-		if (x - xO >= 0) {
-			// Right
-			display = 2;
+		if (d <= 315 && d > 225) {
+			direccion = 0; // Frontal
 		}
 
-		if (y - yO < 0) {
-			// Up
-			display = 3;
+		if (d <= 225 && d > 135) {
+			direccion = 1; // Izquierda
 		}
 
-		if (y - yO >= 0) {
-			// Down
-			display = 4;
+		if (d <= 135 && d > 45) {
+			direccion = 2; // Posterior
 		}
 	}
 
@@ -325,6 +366,117 @@ public class BuhoApareable extends EspecieAbstracta implements IApareable {
 
 	public void defenderCria() {
 
+	}
+
+	private void sumarFrames() {
+		if (ciclo % cambio == 0) {
+			frame++;
+			if (frame > 29 - 1) {
+				frame = 0;
+			}
+		}
+	}
+
+	private void frameEnfermeda() {
+		if (ciclo % cambio == 0) {
+			frameEnfermo += sumaEnfermo;
+			if (frameEnfermo >= estadoVeneno) {
+				sumaEnfermo = -sumaEnfermo;
+			} else if (frameEnfermo == 0) {
+				sumaEnfermo = -sumaEnfermo;
+			}
+		}
+
+	}
+
+	private void frameMuerte() {
+		if (vida <= 0) {
+			if (ciclo % cambio == 0) {
+				frameMuerte++;
+				if (frameMuerte >= muerte.length) {
+					frameMuerte = muerte.length - 1;
+					muerto = true;
+				}
+			}
+		}
+
+	}
+
+	private void vuelo() {
+		this.incremento += 0.045;
+		this.amplitud = 15;
+		this.seno = (PApplet.sin(incremento) * amplitud) * -1;
+	}
+
+	private void pintarSombra() {
+		PApplet app = Mundo.ObtenerInstancia().getApp();
+		app.fill(0, 50);
+		app.noStroke();
+		app.ellipse(x, y + 70, 40 + seno, 10);
+
+	}
+
+	private void cargarGrafica() {
+		vistas = new String[4];
+		estados = new String[3];
+
+		vistas[0] = "posterior";
+		vistas[1] = "izquierda";
+		vistas[2] = "frontal";
+		vistas[3] = "derecha";
+
+		estados[0] = "normal";
+		estados[1] = "herido";
+		estados[2] = "enfermo";
+
+		this.vuelo = new PImage[vistas.length][30];
+		this.mascarasNormales = new PImage[vistas.length];
+		this.mascarasHeridas = new PImage[vistas.length][3];
+		this.enfermedad = new PImage[30];
+		this.muerte = new PImage[12];
+		this.cambio = 5;
+		this.enfermo = false;
+		this.herido = false;
+		this.muerto = false;
+		this.estadoHerido = 2;
+		this.estadoVeneno = 29;
+		this.frameEnfermo = 0;
+		this.sumaEnfermo = 1;
+		this.direccion = 2;
+
+		PApplet app = Mundo.ObtenerInstancia().getApp();
+
+		for (int j = 0; j < vuelo.length; j++) {
+			for (int k = 0; k < vuelo[j].length; k++) {
+				String especie = "apareable";
+				String vista = vistas[j];
+				vuelo[j][k] = app.loadImage("propheticData/" + especie + "/" + especie + "_" + vista + "/" + especie
+						+ "_" + vista + "_" + k + ".png");
+			}
+		}
+
+		for (int j = 0; j < mascarasHeridas.length; j++) {
+			for (int k = 0; k < mascarasHeridas[j].length; k++) {
+				String especie = "apareable";
+				String vista = vistas[j];
+				mascarasHeridas[j][k] = app
+						.loadImage("propheticData/" + especie + "/mascaras/mascara_" + vista + "_herido_" + k + ".png");
+			}
+		}
+
+		for (int i = 0; i < mascarasNormales.length; i++) {
+			String especie = "apareable";
+			String vista = vistas[i];
+			mascarasNormales[i] = app
+					.loadImage("propheticData/" + especie + "/mascaras/mascara_" + vista + "_normal.png");
+		}
+
+		for (int i = 0; i < enfermedad.length; i++) {
+			if (i < muerte.length) {
+				muerte[i] = app.loadImage("propheticData/muerte/muerte_" + i + ".png");
+			}
+			enfermedad[i] = app.loadImage("propheticData/enfermedad/enfermedad_" + i + ".png");
+		}
 	}
 
 	@Override

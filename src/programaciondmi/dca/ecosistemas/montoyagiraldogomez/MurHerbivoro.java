@@ -15,26 +15,40 @@ import programaciondmi.dca.ejecucion.Mundo;
 
 public class MurHerbivoro extends EspecieAbstracta implements IHerbivoro {
 
-	private PImage bat;
 	private int vida;
 	private float energia, vel;
 	private PlantaAbstracta plantaCerca;
 	private PVector pos;
-	private int display;
+	private boolean encontro;
 	private int ciclo;
 	private int estadoVeneno, tiempoEnvenenado;
 	private boolean puedeComer, puedeSembrar, yaComi;
+
+	private PImage[][] vuelo;
+	private PImage[][] mascarasHeridas;
+	private PImage[] mascarasNormales;
+	private PImage[] enfermedad;
+	private PImage[] muerte;
+	private int frame, frameEnfermo, frameMuerte, sumaEnfermo, direccion, estadoHerido, estadoVenenoso,
+			resistenciaAtaques, resistenciaVeneno;
+	private float incremento, amplitud, seno, cambio;
+	private boolean enfermo, herido, muerto;
+
+	private String[] vistas;
+	private String[] estados;
 
 	private Random random;
 
 	public MurHerbivoro(EcosistemaAbstracto ecosistema) {
 		super(ecosistema);
 		this.random = new Random();
-		this.x = random.nextInt(Mundo.ObtenerInstancia().getApp().width);
-		this.y = random.nextInt(Mundo.ObtenerInstancia().getApp().height);
+		// this.x = random.nextInt(Mundo.ObtenerInstancia().getApp().width);
+		// this.y = random.nextInt(Mundo.ObtenerInstancia().getApp().height);
+		this.x = 300;
+		this.y = 300;
 		this.vida = 50;
 		this.energia = 200;
-		this.vel = (float) 3.5;
+		this.vel = (float) 1.5;
 
 		ciclo = 0;
 
@@ -42,8 +56,12 @@ public class MurHerbivoro extends EspecieAbstracta implements IHerbivoro {
 		int targetY = random.nextInt();
 		redireccionar(new PVector(targetX, targetY));
 
-		PApplet app = Mundo.ObtenerInstancia().getApp();
-		this.bat = app.loadImage("Murcielago.png");
+		// this.resistenciaAtaques = 100;
+		// this.resistenciaVeneno = 100;
+		// this.vida = (int) PApplet.map((resistenciaAtaques +
+		// resistenciaVeneno), 0, 200, 0, 100);
+
+		cargarGrafica();
 
 		Thread nt = new Thread(this);
 		nt.start();
@@ -52,9 +70,14 @@ public class MurHerbivoro extends EspecieAbstracta implements IHerbivoro {
 	@Override
 	public void run() {
 		while (vida > 0) {
+			sumarFrames();
+			frameEnfermeda();
+			frameMuerte();
+			vuelo();
 			mover();
+			veneno();
 			try {
-				Thread.sleep(33);
+				Thread.sleep(10);
 				ciclo++;
 			} catch (Exception e) {
 
@@ -63,32 +86,40 @@ public class MurHerbivoro extends EspecieAbstracta implements IHerbivoro {
 	}
 
 	@Override
-	public void comerPlanta(PlantaAbstracta victima) {
-		if (victima != null) {
-			float d = PApplet.dist(x, y, victima.getX(), victima.getY());
-			if (d < 80 && puedeComer) {
-				if ((victima instanceof Venenosa) && estadoVeneno == 0) {
-					estado = ENVENENADO;
-					estadoVeneno = 1;
-				} else if ((victima instanceof Hojas)) {
-					estado = EXTASIS;
-					energia += 20;
-					estadoVeneno = 0;
-				}
-				victima.recibirDano(this);
-				yaComi = true;
-				puedeComer = false;
-			}
-		}
-
-	}
-
-	@Override
 	public void dibujar() {
 		PApplet app = Mundo.ObtenerInstancia().getApp();
 		app.imageMode(3);
-		app.image(bat, x, y);
-		veneno();
+		pintarSombra();
+		app.noStroke();
+		app.fill(255, 100);
+		app.ellipse(x, y, energia, energia);
+		if (frameMuerte < 5) {
+			if (direccion == 0) {
+				if (herido) {
+					app.image(mascarasHeridas[direccion][estadoHerido], x, y + seno);
+				} else {
+					app.image(mascarasNormales[direccion], x, y + seno);
+				}
+			}
+			app.image(vuelo[direccion][frame], x, y + seno);
+
+			if (enfermo) {
+				app.image(enfermedad[frameEnfermo], x, y + seno);
+			}
+			if (direccion != 0) {
+
+				if (herido) {
+					app.image(mascarasHeridas[direccion][estadoHerido], x, y + seno);
+				} else {
+					app.image(mascarasNormales[direccion], x, y + seno);
+				}
+			}
+		}
+		app.image(muerte[frameMuerte], x, y + seno);
+
+		app.fill(255,0,0);
+		app.rectMode(3);
+		app.rect(x, y - 40, vida, 10);
 	}
 
 	@Override
@@ -99,13 +130,15 @@ public class MurHerbivoro extends EspecieAbstracta implements IHerbivoro {
 				comerPlanta(plantaCerca);
 			}
 
-			if (ciclo % 300 == 0 && yaComi) {
+			if (ciclo % 500 == 0 && yaComi && puedeSembrar) {
 				sembrar();
 			}
-			if (ciclo % 30 == 0) {
+
+			if (ciclo % 90 == 0) {
 				int targetX = random.nextInt();
 				int targetY = random.nextInt();
 				redireccionar(new PVector(targetX, targetY));
+				calcularImg(new PVector(targetX, targetY));
 			}
 
 			this.x += pos.x;
@@ -118,8 +151,24 @@ public class MurHerbivoro extends EspecieAbstracta implements IHerbivoro {
 			this.pos.x *= -1;
 		}
 
+		if (this.x > Mundo.ObtenerInstancia().getApp().width) {
+			direccion = 1;
+		}
+
+		if (this.x < 0) {
+			direccion = 3;
+		}
+
 		if (this.y > Mundo.ObtenerInstancia().getApp().height || this.y < 0) {
 			this.pos.y *= -1;
+		}
+
+		if (this.y > Mundo.ObtenerInstancia().getApp().height) {
+			direccion = 0;
+		}
+
+		if (this.y < 0) {
+			direccion = 2;
 		}
 
 		if (energia < 0) {
@@ -130,12 +179,11 @@ public class MurHerbivoro extends EspecieAbstracta implements IHerbivoro {
 			estado = MUERTO;
 		}
 
-		PApplet app = Mundo.ObtenerInstancia().getApp();
 		if (ciclo % 300 == 0) {
 			puedeComer = true;
 		}
 
-		if (ciclo % 420 == 0) {
+		if (ciclo % 1800 == 0) {
 			puedeSembrar = true;
 		}
 
@@ -148,16 +196,18 @@ public class MurHerbivoro extends EspecieAbstracta implements IHerbivoro {
 	private void buscarPlanta() {
 		List<PlantaAbstracta> all = Mundo.ObtenerInstancia().getPlantas();
 		ListIterator<PlantaAbstracta> iterador = all.listIterator();
-		boolean encontro = false;
 		while (!encontro && iterador.hasNext()) {
 			PlantaAbstracta p = iterador.next();
 			float d = PApplet.dist(x, y, p.getX(), p.getY());
-			if (d < energia * 2 && puedeComer) {
-				encontro = true;
+			if (d < energia && puedeComer && p.recibirDano(this)) {
 				plantaCerca = p;
-				redireccionar(new PVector(plantaCerca.getX(), plantaCerca.getY()));
-				puedeComer = false;
+				encontro = true;
 			}
+		}
+
+		if (encontro) {
+			redireccionar(new PVector(plantaCerca.getX(), plantaCerca.getY()));
+			calcularImg(new PVector(plantaCerca.getX(), plantaCerca.getY()));
 		}
 
 		if (!encontro) {
@@ -165,32 +215,49 @@ public class MurHerbivoro extends EspecieAbstracta implements IHerbivoro {
 		}
 	}
 
+	@Override
+	public void comerPlanta(PlantaAbstracta victima) {
+		if (victima != null && puedeComer) {
+			float d = PApplet.dist(x, y, victima.getX(), victima.getY());
+			if (d < 15) {
+				if ((victima instanceof Venenosa) && estadoVeneno == 0) {
+					estado = ENVENENADO;
+					estadoVeneno = 1;
+					energia += 10;
+					vida -= 5;
+					enfermo = true;
+				} else if ((victima instanceof Hojas)) {
+					estado = EXTASIS;
+					energia += 20;
+					estadoVeneno = 0;
+					enfermo = false;
+				}
+				victima.recibirDano(this);
+				yaComi = true;
+				puedeComer = false;
+				encontro = false;
+			}
+		}
+
+	}
+
 	/**
 	 * Metodo para demostrar tanto visualmente como en datos, el estado de
 	 * Veneno de el personaje
 	 */
 	private void veneno() {
-		PApplet app = Mundo.ObtenerInstancia().getApp();
-		app.fill(0, 255, 0);
-		app.noStroke();
 		switch (estadoVeneno) {
 		case 1:
-			app.ellipse(x - 30, y - 50, 20, 20);
 			if (tiempoEnvenenado % 60 == 0 && vida > 0) {
 				vida--;
 			}
 			break;
 		case 2:
-			app.ellipse(x - 30, y - 50, 20, 20);
-			app.ellipse(x, y - 50, 20, 20);
 			if (tiempoEnvenenado % 60 == 0 && vida > 0) {
 				vida -= 2;
 			}
 			break;
 		case 3:
-			for (int i = -30; i <= 30; i += 30) {
-				app.ellipse(x + i, y - 50, 20, 20);
-			}
 			if (tiempoEnvenenado % 60 == 0 && vida > 0) {
 				vida -= 3;
 			}
@@ -216,6 +283,8 @@ public class MurHerbivoro extends EspecieAbstracta implements IHerbivoro {
 
 		PlantaAbstracta p = plantas[r];
 		ecosistema.agregarPlanta(p);
+
+		yaComi = false;
 	}
 
 	/**
@@ -230,10 +299,157 @@ public class MurHerbivoro extends EspecieAbstracta implements IHerbivoro {
 		pos.mult(vel);
 	}
 
+	private void sumarFrames() {
+		if (ciclo % cambio == 0) {
+			frame++;
+			if (frame > 29 - 1) {
+				frame = 0;
+			}
+		}
+	}
+
+	private void frameEnfermeda() {
+		if (ciclo % cambio == 0) {
+			frameEnfermo += sumaEnfermo;
+			if (frameEnfermo >= estadoVeneno) {
+				sumaEnfermo = -sumaEnfermo;
+			} else if (frameEnfermo == 0) {
+				sumaEnfermo = -sumaEnfermo;
+			}
+		}
+
+	}
+
+	private void frameMuerte() {
+		if (vida <= 0) {
+			if (ciclo % cambio == 0) {
+				frameMuerte++;
+				if (frameMuerte >= muerte.length) {
+					frameMuerte = muerte.length - 1;
+					muerto = true;
+				}
+			}
+		}
+
+	}
+
+	private void vuelo() {
+		this.incremento += 0.045;
+		this.amplitud = 15;
+		this.seno = (PApplet.sin(incremento) * amplitud) * -1;
+	}
+
+	private void pintarSombra() {
+		PApplet app = Mundo.ObtenerInstancia().getApp();
+		app.fill(0, 50);
+		app.noStroke();
+		app.ellipse(x, y + 70, 40 + seno, 10);
+
+	}
+
+	private void calcularImg(PVector target) {
+
+		PVector location = new PVector(x, y);
+		float disX = target.x - location.x;
+		float disY = target.y - location.y;
+
+		float teta = PApplet.atan2(disY, disX);
+
+		teta *= 180 / PApplet.PI;
+
+		if (teta < 0)
+			teta = 360 + teta;
+
+		int d = (int) teta;
+
+		if (d <= 45 && d >= 0 && d <= 360 && d >= 315) {
+			direccion = 3; // Derecha
+		}
+
+		if (d <= 315 && d > 225) {
+			direccion = 0; // Frontal
+		}
+
+		if (d <= 225 && d > 135) {
+			direccion = 1; // Izquierda
+		}
+
+		if (d <= 135 && d > 45) {
+			direccion = 2; // Posterior
+		}
+	}
+
+	private void cargarGrafica() {
+
+		vistas = new String[4];
+		estados = new String[3];
+
+		vistas[0] = "posterior";
+		vistas[1] = "izquierda";
+		vistas[2] = "frontal";
+		vistas[3] = "derecha";
+
+		estados[0] = "normal";
+		estados[1] = "herido";
+		estados[2] = "enfermo";
+
+		this.vuelo = new PImage[vistas.length][30];
+		this.mascarasNormales = new PImage[vistas.length];
+		this.mascarasHeridas = new PImage[vistas.length][3];
+		this.enfermedad = new PImage[30];
+		this.muerte = new PImage[12];
+		this.cambio = 5;
+		this.enfermo = false;
+		this.herido = false;
+		this.muerto = false;
+		this.estadoHerido = 2;
+		this.estadoVeneno = 29;
+		this.frameEnfermo = 0;
+		this.sumaEnfermo = 1;
+		this.direccion = 2;
+
+		PApplet app = Mundo.ObtenerInstancia().getApp();
+
+		for (int j = 0; j < vuelo.length; j++) {
+			for (int k = 0; k < vuelo[j].length; k++) {
+				String especie = "herbivoro";
+				String vista = vistas[j];
+				vuelo[j][k] = app.loadImage("propheticData/" + especie + "/" + especie + "_" + vista + "/" + especie
+						+ "_" + vista + "_" + k + ".png");
+			}
+		}
+
+		for (int j = 0; j < mascarasHeridas.length; j++) {
+			for (int k = 0; k < mascarasHeridas[j].length; k++) {
+				String especie = "herbivoro";
+				String vista = vistas[j];
+				mascarasHeridas[j][k] = app
+						.loadImage("propheticData/" + especie + "/mascaras/mascara_" + vista + "_herido_" + k + ".png");
+			}
+		}
+
+		for (int i = 0; i < mascarasNormales.length; i++) {
+			String especie = "herbivoro";
+			String vista = vistas[i];
+			mascarasNormales[i] = app
+					.loadImage("propheticData/" + especie + "/mascaras/mascara_" + vista + "_normal.png");
+		}
+
+		for (int i = 0; i < enfermedad.length; i++) {
+			if (i < muerte.length) {
+				muerte[i] = app.loadImage("propheticData/muerte/muerte_" + i + ".png");
+			}
+			enfermedad[i] = app.loadImage("propheticData/enfermedad/enfermedad_" + i + ".png");
+		}
+	}
+
 	@Override
 	public boolean recibirDano(EspecieAbstracta lastimador) {
 		if (vida > 0) {
 			vida -= 5;
+			if (vida < 40) {
+				herido = true;
+			}
 			return true;
 		}
 		return false;

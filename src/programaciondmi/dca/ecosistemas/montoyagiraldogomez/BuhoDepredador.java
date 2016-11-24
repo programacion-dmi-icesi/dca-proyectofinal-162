@@ -25,6 +25,19 @@ public class BuhoDepredador extends EspecieAbstracta implements ICarnivoro {
 	private int estadoVeneno, tiempoEnvenenado;
 	private boolean comerPlanta, puedeAtacar;
 
+	private PImage[][] vuelo;
+	private PImage[][] mascarasHeridas;
+	private PImage[] mascarasNormales;
+	private PImage[] enfermedad;
+	private PImage[] muerte;
+	private int frame, frameEnfermo, frameMuerte, sumaEnfermo, direccion, estadoHerido, estadoVenenoso,
+			resistenciaAtaques, resistenciaVeneno;
+	private float incremento, amplitud, seno, cambio;
+	private boolean enfermo, herido, muerto;
+
+	private String[] vistas;
+	private String[] estados;
+
 	private final int LIMITE_COMER = 100;
 	private Random random;
 
@@ -35,7 +48,7 @@ public class BuhoDepredador extends EspecieAbstracta implements ICarnivoro {
 		this.y = random.nextInt(Mundo.ObtenerInstancia().getApp().height);
 		this.vida = 70;
 		this.energia = 200;
-		this.vel = (float) 3.5;
+		this.vel = (float) 1.8;
 
 		ciclo = 0;
 
@@ -43,8 +56,7 @@ public class BuhoDepredador extends EspecieAbstracta implements ICarnivoro {
 		int targetY = random.nextInt();
 		redireccionar(new PVector(targetX, targetY));
 
-		PApplet app = Mundo.ObtenerInstancia().getApp();
-		this.bird = app.loadImage("Depredador.png");
+		cargarGrafica();
 
 		Thread nt = new Thread(this);
 		nt.start();
@@ -53,9 +65,14 @@ public class BuhoDepredador extends EspecieAbstracta implements ICarnivoro {
 	@Override
 	public void run() {
 		while (vida > 0) {
+			sumarFrames();
+			frameEnfermeda();
+			frameMuerte();
+			vuelo();
 			mover();
+			veneno();
 			try {
-				Thread.sleep(33);
+				Thread.sleep(10);
 				ciclo++;
 			} catch (Exception e) {
 				// TODO: handle exception
@@ -69,7 +86,9 @@ public class BuhoDepredador extends EspecieAbstracta implements ICarnivoro {
 		if (!victima.getClass().toString().equals(this.getClass().toString())) {
 			if (victima.recibirDano(this)) {
 				energia += 10;
+				victima.recibirDano(this);
 				System.out.println("ME COMI UNA SALCHIPAPA");
+				puedeAtacar = false;
 			}
 		}
 	}
@@ -78,7 +97,30 @@ public class BuhoDepredador extends EspecieAbstracta implements ICarnivoro {
 	public void dibujar() {
 		PApplet app = Mundo.ObtenerInstancia().getApp();
 		app.imageMode(3);
-		app.image(bird, x, y);
+		pintarSombra();
+		if (frameMuerte < 5) {
+			if (direccion == 0) {
+				if (herido) {
+					app.image(mascarasHeridas[direccion][estadoHerido], x, y + seno);
+				} else {
+					app.image(mascarasNormales[direccion], x, y + seno);
+				}
+			}
+			app.image(vuelo[direccion][frame], x, y + seno);
+
+			if (enfermo) {
+				app.image(enfermedad[frameEnfermo], x, y + seno);
+			}
+			if (direccion != 0) {
+
+				if (herido) {
+					app.image(mascarasHeridas[direccion][estadoHerido], x, y + seno);
+				} else {
+					app.image(mascarasNormales[direccion], x, y + seno);
+				}
+			}
+		}
+		app.image(muerte[frameMuerte], x, y + seno);
 	}
 
 	@Override
@@ -94,7 +136,7 @@ public class BuhoDepredador extends EspecieAbstracta implements ICarnivoro {
 				if (plantaCerca != null) {
 					alimentar(plantaCerca);
 				}
-				if (ciclo % 30 == 0) {
+				if (ciclo % 90 == 0) {
 					int targetX = random.nextInt();
 					int targetY = random.nextInt();
 					redireccionar(new PVector(targetX, targetY));
@@ -129,7 +171,8 @@ public class BuhoDepredador extends EspecieAbstracta implements ICarnivoro {
 	}
 
 	/**
-	 * Metodo para buscar un organismo distinto al de los de su ecosistema para ser comido
+	 * Metodo para buscar un organismo distinto al de los de su ecosistema para
+	 * ser comido
 	 */
 	private void buscarComida() {
 		List<EspecieAbstracta> all = Mundo.ObtenerInstancia().getEspecies();
@@ -144,7 +187,6 @@ public class BuhoDepredador extends EspecieAbstracta implements ICarnivoro {
 						encontro = true;
 						comestible = com;
 						redireccionar(new PVector(comestible.getX(), comestible.getY()));
-						puedeAtacar = false;
 					}
 				}
 			}
@@ -209,27 +251,18 @@ public class BuhoDepredador extends EspecieAbstracta implements ICarnivoro {
 	 * Veneno de el personaje
 	 */
 	private void veneno() {
-		PApplet app = Mundo.ObtenerInstancia().getApp();
-		app.fill(0, 255, 0);
-		app.noStroke();
 		switch (estadoVeneno) {
 		case 1:
-			app.ellipse(x - 30, y - 50, 20, 20);
 			if (tiempoEnvenenado % 60 == 0 && vida > 0) {
 				vida--;
 			}
 			break;
 		case 2:
-			app.ellipse(x - 30, y - 50, 20, 20);
-			app.ellipse(x, y - 50, 20, 20);
 			if (tiempoEnvenenado % 60 == 0 && vida > 0) {
 				vida -= 2;
 			}
 			break;
 		case 3:
-			for (int i = -30; i <= 30; i += 30) {
-				app.ellipse(x + i, y - 50, 20, 20);
-			}
 			if (tiempoEnvenenado % 60 == 0 && vida > 0) {
 				vida -= 3;
 			}
@@ -243,6 +276,118 @@ public class BuhoDepredador extends EspecieAbstracta implements ICarnivoro {
 				tiempoEnvenenado = 0;
 			}
 		}
+	}
+
+	private void cargarGrafica() {
+
+		vistas = new String[4];
+		estados = new String[3];
+
+		vistas[0] = "posterior";
+		vistas[1] = "izquierda";
+		vistas[2] = "frontal";
+		vistas[3] = "derecha";
+
+		estados[0] = "normal";
+		estados[1] = "herido";
+		estados[2] = "enfermo";
+
+		this.vuelo = new PImage[vistas.length][30];
+		this.mascarasNormales = new PImage[vistas.length];
+		this.mascarasHeridas = new PImage[vistas.length][3];
+		this.enfermedad = new PImage[30];
+		this.muerte = new PImage[12];
+		this.cambio = 5;
+		this.enfermo = false;
+		this.herido = false;
+		this.muerto = false;
+		this.estadoHerido = 2;
+		this.estadoVeneno = 29;
+		this.frameEnfermo = 0;
+		this.sumaEnfermo = 1;
+		this.direccion = 2;
+
+		PApplet app = Mundo.ObtenerInstancia().getApp();
+
+		for (int j = 0; j < vuelo.length; j++) {
+			for (int k = 0; k < vuelo[j].length; k++) {
+				String especie = "depredador";
+				String vista = vistas[j];
+				vuelo[j][k] = app.loadImage("propheticData/" + especie + "/" + especie + "_" + vista + "/" + especie
+						+ "_" + vista + "_" + k + ".png");
+			}
+		}
+
+		for (int j = 0; j < mascarasHeridas.length; j++) {
+			for (int k = 0; k < mascarasHeridas[j].length; k++) {
+				String especie = "depredador";
+				String vista = vistas[j];
+				mascarasHeridas[j][k] = app
+						.loadImage("propheticData/" + especie + "/mascaras/mascara_" + vista + "_herido_" + k + ".png");
+			}
+		}
+
+		for (int i = 0; i < mascarasNormales.length; i++) {
+			String especie = "depredador";
+			String vista = vistas[i];
+			mascarasNormales[i] = app
+					.loadImage("propheticData/" + especie + "/mascaras/mascara_" + vista + "_normal.png");
+		}
+
+		for (int i = 0; i < enfermedad.length; i++) {
+			if (i < muerte.length) {
+				muerte[i] = app.loadImage("propheticData/muerte/muerte_" + i + ".png");
+			}
+			enfermedad[i] = app.loadImage("propheticData/enfermedad/enfermedad_" + i + ".png");
+		}
+	}
+
+	private void sumarFrames() {
+		if (ciclo % cambio == 0) {
+			frame++;
+			if (frame > 29 - 1) {
+				frame = 0;
+			}
+		}
+	}
+
+	private void frameEnfermeda() {
+		if (ciclo % cambio == 0) {
+			frameEnfermo += sumaEnfermo;
+			if (frameEnfermo >= estadoVeneno) {
+				sumaEnfermo = -sumaEnfermo;
+			} else if (frameEnfermo == 0) {
+				sumaEnfermo = -sumaEnfermo;
+			}
+		}
+
+	}
+
+	private void frameMuerte() {
+		if (vida <= 0) {
+			if (ciclo % cambio == 0) {
+				frameMuerte++;
+				if (frameMuerte >= muerte.length) {
+					frameMuerte = muerte.length - 1;
+					muerto = true;
+				}
+			}
+		}
+
+	}
+
+	private void vuelo() {
+		this.incremento += 0.045;
+		this.amplitud = 15;
+		this.seno = (PApplet.sin(incremento) * amplitud) * -1;
+	}
+
+	private void pintarSombra() {
+		PApplet app = Mundo.ObtenerInstancia().getApp();
+		app.fill(0, 50);
+		app.noStroke();
+		app.ellipse(x, y + 70, 40 + seno, 10);
+
 	}
 
 	/**
