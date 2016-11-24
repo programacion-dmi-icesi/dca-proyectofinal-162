@@ -55,7 +55,6 @@ public class EspecieBlanca extends EspecieAbstracta implements IApareable, ICarn
 
 	@Override
 	public void comer(EspecieAbstracta victima) {
-		// TODO Auto-generated method stub
 		if (!victima.getClass().toString().equals(this.getClass().toString())) {
 			if(victima.recibirDano(this)){
 				energia+=5;
@@ -98,7 +97,7 @@ public class EspecieBlanca extends EspecieAbstracta implements IApareable, ICarn
 					int targetX = random.nextInt();
 					int targetY = random.nextInt();
 					cambiarDireccion(new PVector(targetX, targetY));
-					System.out.println("CAMBIO DIRECCION!");
+//					System.out.println("CAMBIO DIRECCION!");
 					}
 				}
 				

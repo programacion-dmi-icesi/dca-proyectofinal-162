@@ -2,13 +2,17 @@ package programaciondmi.dca.ecosistemas.lopezmoralesurango;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+
+import processing.core.PApplet;
 import programaciondmi.dca.core.EcosistemaAbstracto;
 import programaciondmi.dca.core.EspecieAbstracta;
 import programaciondmi.dca.core.PlantaAbstracta;
+import programaciondmi.dca.ejecucion.Mundo;
 public class Ecosistema extends EcosistemaAbstracto{
 	
 	public Ecosistema() {
 		super();
+		PApplet app= Mundo.ObtenerInstancia().getApp();
 	}
 
 	public void dibujar() {
@@ -25,6 +29,7 @@ public class Ecosistema extends EcosistemaAbstracto{
 			while(iteradorPlantas.hasNext()){
 				PlantaAbstracta actualp = iteradorPlantas.next();
 				actualp.dibujar();
+				
 			}
 		}
 	}
@@ -53,14 +58,14 @@ public class Ecosistema extends EcosistemaAbstracto{
 
 	@Override
 	protected LinkedList<PlantaAbstracta> poblarPlantas() {
+		PApplet app= Mundo.ObtenerInstancia().getApp();
 		LinkedList<PlantaAbstracta> plantas = new LinkedList<PlantaAbstracta>();
 		
-		PlantaBuena plantbuen = new PlantaBuena();
-		plantas.add(plantbuen);
-		
-		PlantaMala plantmala = new PlantaMala();
-		plantas.add(plantmala);
-		// TODO LLenar las lista de plantas iniciales
+		for (int i = 0; i < 35; i++) {
+			plantas.add(new PlantaBuena((int) app.random(-1000,1000), (int) app.random(-500,2000)));
+			plantas.add(new PlantaMala((int) app.random(-1000,1000), (int) app.random(-500,2000)));
+
+		}
 		return plantas;
 	}
 
@@ -84,10 +89,11 @@ public class Ecosistema extends EcosistemaAbstracto{
 
 	@Override
 	protected List<PlantaAbstracta> generarPlantas() {
-		PlantaBuena plantbuen = new PlantaBuena();
+		LinkedList<PlantaAbstracta> plantas = new LinkedList<PlantaAbstracta>();
+		PlantaBuena plantbuen = new PlantaBuena(50,90);
 		plantas.add(plantbuen);
 		
-		PlantaMala plantmala = new PlantaMala();
+		PlantaMala plantmala = new PlantaMala(80,60);
 		plantas.add(plantmala);
 		// TODO Auto-generated method stub
 		return null;

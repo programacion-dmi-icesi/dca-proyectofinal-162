@@ -8,11 +8,15 @@ import programaciondmi.dca.ejecucion.Mundo;
 
 public class PlantaMala extends PlantaAbstracta{
 	private PImage PlantaM;
+	private boolean mostrar=true;
+	private int vida;
 	
-	public PlantaMala() {
+	public PlantaMala(int x,int y) {
+		super(x,y);
 		PApplet app = Mundo.ObtenerInstancia().getApp();
 		PlantaM=app.loadImage("planttwo.png");
-		// TODO Auto-generated constructor stub
+		
+		vida = 4;
 		
 	}
 	
@@ -24,14 +28,37 @@ public class PlantaMala extends PlantaAbstracta{
 
 	@Override
 	public void dibujar() {
+		if(mostrar == true){
 		PApplet app = Mundo.ObtenerInstancia().getApp();
-		app.image(PlantaM, x-100, y+50);
+		app.image(PlantaM, x, y);
+		}
 	}
 
 	@Override
 	public boolean recibirDano(EspecieAbstracta lastimador) {
-		// TODO Auto-generated method stub
-		return false;
+		if(vida > 0 ){
+			
+			mostrar = true;
+		}
+		return true;
 	}
 
+	public boolean isMostrar() {
+		return mostrar;
+	}
+
+	public void setMostrar(boolean mostrar) {
+		this.mostrar = mostrar;
+	}
+
+	public int getVida() {
+		return vida;
+	}
+
+	public void setVida(int vida) {
+		this.vida = vida;
+	}
+	
+	
+	
 }

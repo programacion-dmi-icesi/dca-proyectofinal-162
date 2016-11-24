@@ -68,6 +68,9 @@ public class EspecieAzul extends EspecieAbstracta implements IHerbivoro {
 		y+=dir.y;
 
 	}
+	
+	
+	
 
 	@Override
 	public boolean recibirDano(EspecieAbstracta lastimador) {

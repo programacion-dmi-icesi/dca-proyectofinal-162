@@ -30,10 +30,18 @@ public abstract class EspecieAbstracta implements Runnable{
 		this.estado = NORMAL;
 	}
 	
+
+	
+	
+	
 	public int getEstado() {
 		return estado;
 	}
-	
+
+
+
+
+
 	/**
 	 * 
 	 * Metodo encargado de determinar el estado de una especie concreta, los estados posibles son:
