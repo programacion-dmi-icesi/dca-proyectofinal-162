@@ -119,10 +119,10 @@ public class EcosistemaTikiBots extends EcosistemaAbstracto {
 		SaberBot nueva = new SaberBot(this);
 		agregarEspecie(nueva);	
 		
-		/*
+		
 		Magusbot mago = new Magusbot(this);
-		especies.add(mago);
-		*/
+		agregarEspecie(mago);
+		
 		
 		Cannibalbot cani = new Cannibalbot(this);
 		agregarEspecie(cani);

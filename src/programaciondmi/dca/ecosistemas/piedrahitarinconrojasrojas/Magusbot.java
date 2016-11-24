@@ -2,7 +2,6 @@ package programaciondmi.dca.ecosistemas.piedrahitarinconrojasrojas;
 
 import java.util.List;
 import java.util.Random;
-
 import processing.core.PApplet;
 import processing.core.PImage;
 import processing.core.PVector;
@@ -13,7 +12,8 @@ import programaciondmi.dca.core.interfaces.IOmnivoro;
 import programaciondmi.dca.ejecucion.Mundo;
 
 public class Magusbot extends EspecieAbstracta implements IOmnivoro {
-
+	
+	PApplet app = Mundo.ObtenerInstancia().getApp();
 	private int vida;
 	private float fuerza;
 	private int velocidad;
@@ -96,15 +96,15 @@ public class Magusbot extends EspecieAbstracta implements IOmnivoro {
 			//buscarComida();
 
 			if (ciclo % 30 == 0) {
+				
 				// Definir una direccion aleatoria cada 5 segundos
 				// Siguiente posici�n en x
 				int targetX = random.nextInt();
 				// Siguiente posici�n en y
 				int targetY = random.nextInt();
 				cambiarDireccion(new PVector(targetX, targetY));
-				//System.out.println(x+" "+y);
-				//System.out.println("CAMBIO DIRECCION!");
-				/*if (targetX > this.x && targetY > this.y) {// derechaarriba
+
+				if (targetX > this.x && targetY > this.y) {// derechaarriba
 					vista = 1;
 					contador = (vista - 1) * 5;
 				} else if (targetX < this.x && targetY < this.y) {// izquierdaAbajo
@@ -116,7 +116,7 @@ public class Magusbot extends EspecieAbstracta implements IOmnivoro {
 				} else if (targetX > this.x && targetY < this.y) {// derechaAbajo
 					vista = 4;
 					contador = (vista - 1) * 5;
-				}*/
+				}
 			}
 
 			// moverse en la direcciÃ³n asignada actualmente
@@ -155,23 +155,10 @@ public class Magusbot extends EspecieAbstracta implements IOmnivoro {
 
 	@Override
 	public void dibujar() {// pintar
-	
-		PApplet app = Mundo.ObtenerInstancia().getApp();
-		app.background(255);
-		// Image Personaje
 
-		/*if (contador == 5 * vista) {
-			contador = (vista - 1) * 5;
-		}*/
-		//System.out.println(magobot[contador]);
-		
 		app.image(magobot[contador], x, y, 100, 100);
 		app.fill(255, 0, 0);
-		/*if (app.frameCount % 10 == 0) {
-			contador++;
-		}*/
-		
-		
+
 		app.noStroke();
 		switch (vida) {
 		
