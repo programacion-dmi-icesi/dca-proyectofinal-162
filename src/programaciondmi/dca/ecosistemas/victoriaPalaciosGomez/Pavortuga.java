@@ -43,12 +43,11 @@ public class Pavortuga extends EspecieAbstracta implements IHerbivoro {
 		nt.start();
 
 	}
-<<<<<<< HEAD
+
 	public int getEstado() {
 		return estado;
 	}
-=======
->>>>>>> dbdc6874e59b63a5d6ea3dad498eb18691dc6d4b
+
 
 	@Override
 	public void run() {

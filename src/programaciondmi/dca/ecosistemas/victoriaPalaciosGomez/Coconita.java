@@ -18,7 +18,7 @@ public class Coconita extends EspecieAbstracta implements ICarnivoro {
 	private int ciclo;
 	private PImage[] coconitaF;
 	private int index = 0;
-<<<<<<< HEAD
+
 	public static final int NORMAL = 0;
 	public static final int ENVENENADO = 1;
 	public static final int ENFERMO = 2;
@@ -30,12 +30,7 @@ public class Coconita extends EspecieAbstracta implements ICarnivoro {
 		super(ecosistema);
 		this.estado = NORMAL;
 		//SIEMPRE HAGAN ESTO CON EL APP
-=======
 
-	public Coconita(EcosistemaAbstracto ecosistema) {
-		super(ecosistema);
-		// SIEMPRE HAGAN ESTO CON EL APP
->>>>>>> dbdc6874e59b63a5d6ea3dad498eb18691dc6d4b
 		this.app = Mundo.ObtenerInstancia().getApp();
 		coconitaF = new PImage[7];
 		imagenes();
