@@ -11,8 +11,13 @@ public class Hijo extends EspecieAbstracta {
 	private int velocidad;
 	private PVector dir;
 	private int ciclo;
+
 	private int ballXDirection = 1, ballYDirection = -1;
 
+
+	
+	private int direccion;
+	
 	public Hijo(EcosistemaAbstracto ecosistema) {
 		super(ecosistema);
 	}
@@ -32,12 +37,20 @@ public class Hijo extends EspecieAbstracta {
 
 	@Override
 	public void dibujar() {
+		
+		
 		PApplet app = Mundo.ObtenerInstancia().getApp();
 		hijo[0] = app.loadImage("../data/vistas/hijo_aba.png");
-		hijo[0] = app.loadImage("../data/vistas/hijo_arri.png");
-		hijo[0] = app.loadImage("../data/vistas/hijo_izq.png");
-		hijo[0] = app.loadImage("../data/vistas/hijo_der.png");
+		hijo[1] = app.loadImage("../data/vistas/hijo_arri.png");
+		hijo[2] = app.loadImage("../data/vistas/hijo_izq.png");
+		hijo[3] = app.loadImage("../data/vistas/hijo_der.png");
+		
+		
+		
 		app.image(hijo[0], x, y);
+		
+		
+		
 	}
 
 	@Override

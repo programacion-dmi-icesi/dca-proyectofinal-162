@@ -19,6 +19,8 @@ public class Canibal extends EspecieAbstracta implements ICanibal {
 	private int energia;
 	private int ciclo;
 
+	private int direccion;
+
 	public Canibal(EcosistemaAbstracto ecosistema) {
 		super(ecosistema);
 		this.vida = 20;
@@ -40,20 +42,21 @@ public class Canibal extends EspecieAbstracta implements ICanibal {
 				synchronized (ecosistema.getEspecies()) {
 					for (EspecieAbstracta especie : ecosistema.getEspecies()) {
 						if (especie != this) {
-							if (especie instanceof Carnivoro || especie instanceof Herbivoro
-									 || especie instanceof Hijo || especie instanceof Omnivoro) {
+							if (especie instanceof Carnivoro || especie instanceof Herbivoro || especie instanceof Hijo
+									|| especie instanceof Omnivoro) {
 								float d = PApplet.dist(especie.getX(), especie.getY(), this.x, this.y);
-							
+
+								// if (!esperar) {
 								if (d < 10) {
+
 									comer(especie);
 									especie.setEstado(ENFERMO);
 
-									//System.out.println("canibal mata!");
+									// System.out.println("canibal mata!");
 									ecosistema.getEspecies().remove(especie);
 
 									break;
 								}
-								
 
 							}
 
@@ -77,9 +80,7 @@ public class Canibal extends EspecieAbstracta implements ICanibal {
 		cani[2] = app.loadImage("../data/vistas/cani_izq.png");
 		cani[3] = app.loadImage("../data/vistas/cani_der.png");
 
-		// app.fill(255,255,0);
 		app.image(cani[0], x, y);
-		// app.ellipse(x, y, 100, 100);
 
 	}
 

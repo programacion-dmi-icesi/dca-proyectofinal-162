@@ -16,6 +16,8 @@ public class Omnivoro extends EspecieAbstracta implements IOmnivoro{
 	private float ballX = 50, ballY = 50;
 	private int ballXDirection = 1, ballYDirection = -1;
 	
+	private int direccion;
+	
 	private PImage omni [] = new PImage [4];
 
 	private int xP, yP, vX, vY, vXD = 50, vYD = 50;
@@ -75,11 +77,30 @@ public class Omnivoro extends EspecieAbstracta implements IOmnivoro{
 		PApplet app = Mundo.ObtenerInstancia().getApp();
 	
 		omni[0]= app.loadImage("../data/vistas/omni_aba.png");
-		omni[0]= app.loadImage("../data/vistas/omni_aba.png");
-		omni[0]= app.loadImage("../data/vistas/omni_aba.png");
-		omni[0]= app.loadImage("../data/vistas/omni_aba.png");
+		omni[1]= app.loadImage("../data/vistas/omni_arri.png");
+		omni[2]= app.loadImage("../data/vistas/omni_izq.png");
+		omni[3]= app.loadImage("../data/vistas/omni_der.png");
 		
-		app.image(omni[0], ballX, ballY);
+		app.image(omni[direccion], ballX, ballY);
+		
+		if (ballXDirection >= 0) {
+			direccion=3;
+
+		}
+
+		if (ballXDirection <= 0) {
+			direccion=2;
+
+		}else
+
+		if (ballYDirection >= 0) {
+			direccion=0;
+
+		}
+
+		if (ballYDirection <=0) {
+			direccion=1;
+		}
 	}
 	
 	@Override
