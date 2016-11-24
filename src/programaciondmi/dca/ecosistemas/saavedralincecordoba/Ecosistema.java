@@ -16,7 +16,7 @@ public class Ecosistema extends EcosistemaAbstracto {
 	PApplet app= Mundo.ObtenerInstancia().getApp();
 	private int x= (int)app.random(0,1000);
 	private int y= (int)app.random(0,500);
-
+private boolean colocar, validarC;
 	public Ecosistema() {
 		super();
 
@@ -71,7 +71,7 @@ public class Ecosistema extends EcosistemaAbstracto {
 		plantas.add(pb);
 		System.out.println(plantas);
 		// SE AGREGA LA MALA
-		PlantaMala pm = new PlantaMala(100, 100);
+		PlantaMala pm = new PlantaMala(x, y);
 		plantas.add(pm);
 
 		return plantas;
@@ -111,7 +111,7 @@ public class Ecosistema extends EcosistemaAbstracto {
 		System.out.println(plantas);
 		agregarPlanta(pb);
 		// SE AGREGA LA MALA
-		PlantaMala pm = new PlantaMala(100, 100);
+		PlantaMala pm = new PlantaMala(x, y);
 		plantas.add(pm);
 		agregarPlanta(pm);
 

@@ -13,6 +13,8 @@ public class PlantaMala extends PlantaAbstracta {
 	private PImage[] plantaM = new PImage[3];
 	private int vida = 100;
 	private int contador = 0;
+	private int x;
+	private int y;
 
 	public PlantaMala() {
 		// TODO Auto-generated constructor stub
@@ -37,7 +39,7 @@ public class PlantaMala extends PlantaAbstracta {
 	public void dibujar() {
 		PApplet app = Mundo.ObtenerInstancia().getApp();
 		if (mostrar) {
-			app.image(plantaM[contador],x,y);
+			app.image(plantaM[contador], x, y);
 		}
 
 	}
@@ -45,32 +47,47 @@ public class PlantaMala extends PlantaAbstracta {
 	@Override
 	public boolean recibirDano(EspecieAbstracta lastimador) {
 
-		if(contador<2){
-			vida -=20;
-			contador+=1;
-		}else{
-			if(vida!=0){
-				vida -=20;
-				contador=0;
-			}else{
+		if (contador < 2) {
+			vida -= 20;
+			contador += 1;
+		} else {
+			if (vida != 0) {
+				vida -= 20;
+				contador = 0;
+			} else {
 				return true;
 			}
 		}
-	return false;
+		return false;
 	}
-
 
 	public void setMostrar(boolean mostrar) {
 		this.mostrar = mostrar;
 	}
+
 	private void ocultarPlanta() {
 		// TODO Auto-generated method stub
-		if(vida==0){
+		if (vida == 0) {
 			contador++;
-			if(contador%300 == 0){
+			if (contador % 300 == 0) {
 				setMostrar(false);
 			}
 		}
 	}
 
+	public float getX() {
+		return x;
+	}
+
+	public void setX(int x) {
+		this.x = x;
+	}
+
+	public float getY() {
+		return y;
+	}
+
+	public void setY(int y) {
+		this.y = y;
+	}
 }
