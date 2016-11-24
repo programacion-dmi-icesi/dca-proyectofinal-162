@@ -95,13 +95,14 @@ public class EcosistemaTikiBots extends EcosistemaAbstracto {
 		especies.add(mago);
 		
 		mago = new Magusbot(this);
-		especies.add(mago);
+		especies.add(mago);*/
+		
 		
 		Cannibalbot cani = new Cannibalbot(this);
 		especies.add(cani);
 		
 		cani = new Cannibalbot(this);
-		especies.add(cani);*/
+		especies.add(cani);
 		
 		if(cont == 0){
 			Birdbot ave = new Birdbot(this);
@@ -150,8 +151,8 @@ public class EcosistemaTikiBots extends EcosistemaAbstracto {
 		especies.add(mago);
 		}*/
 		
-		/*Cannibalbot cani = new Cannibalbot(this);
-		especies.add(cani);*/
+	Cannibalbot cani = new Cannibalbot(this);
+		especies.add(cani);
 		
 		//if(cont == 0){
 			Birdbot ave = new Birdbot(this);
