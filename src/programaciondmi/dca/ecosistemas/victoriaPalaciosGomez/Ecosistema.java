@@ -47,6 +47,9 @@ private ArrayList<PlantaBuena>buenas;
 		//Begonia
 		Begonia bego = new Begonia(this);
 		especies.add(bego);
+		//Shafox
+		Shafox shafox = new Shafox(this);
+		especies.add(shafox);
 		return especies;
 	}
 
@@ -67,6 +70,8 @@ private ArrayList<PlantaBuena>buenas;
 		especies.add(coco);	
 		Begonia bego = new Begonia(this);
 		especies.add(bego);
+		Shafox shafox = new Shafox(this);
+		especies.add(shafox);
 		return especies;
 	}
 	
