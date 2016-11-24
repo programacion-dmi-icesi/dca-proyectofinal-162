@@ -185,12 +185,12 @@ public class Birdbot extends EspecieAbstracta implements IApareable, IHerbivoro 
 		if(getEstado() == MUERTO){
 			app.image(poison, x+25, y-60, 50,50);
 			app.tint(63,63,63);
-			/*Mundo.ObtenerInstancia().getEspecies().remove(this);
-			this.ecosistema.getEspecies().remove(this);*/
+		
 		}
 		
 		app.image(pjBirdbot[contador], x, y, 100,100);
 		app.tint(255,255,255);	
+		
 		
 		
 	}
@@ -398,6 +398,8 @@ public class Birdbot extends EspecieAbstracta implements IApareable, IHerbivoro 
 							break;
 						case 40:
 							setEstado(MUERTO);
+							animonbuena=false;
+							animonmala=false;
 							break;
 					}
 				}
