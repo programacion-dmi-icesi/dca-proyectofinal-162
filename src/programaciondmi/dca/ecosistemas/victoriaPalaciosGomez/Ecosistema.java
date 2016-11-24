@@ -18,7 +18,7 @@ private ArrayList<PlantaBuena>buenas;
 		super();
 		
 		Mundo ref = Mundo.ObtenerInstancia();
-		LogoEjemplo boton= new LogoEjemplo("../data/boton.svg", this);
+		Logo boton= new Logo("../data/boton.svg", this);
 		System.out.println("elbot:"+boton);
 		ref.agregarBoton(boton);
 	}
