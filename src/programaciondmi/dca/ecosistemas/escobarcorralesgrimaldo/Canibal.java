@@ -18,6 +18,8 @@ public class Canibal extends EspecieAbstracta implements ICanibal {
 	private PVector dir;
 	private int energia;
 	private int ciclo;
+	
+	private int direccion;
 
 	public Canibal(EcosistemaAbstracto ecosistema) {
 		super(ecosistema);
@@ -44,7 +46,7 @@ public class Canibal extends EspecieAbstracta implements ICanibal {
 									 || especie instanceof Hijo || especie instanceof Omnivoro) {
 								float d = PApplet.dist(especie.getX(), especie.getY(), this.x, this.y);
 								// if (!esperar) {
-								if (d < 70) {
+								if (d <10) {
 									comer(especie);
 									especie.setEstado(MUERTO);
 
@@ -80,6 +82,8 @@ public class Canibal extends EspecieAbstracta implements ICanibal {
 		
 		app.image(cani[0], x, y);
 
+		
+		
 	}
 
 	@Override

@@ -18,6 +18,8 @@ public class Herbivoro extends EspecieAbstracta implements IHerbivoro, IApareabl
 	private PVector dir;
 	private PImage[] herbi = new PImage[5];
 	private PImage[] herbiVistas = new PImage[4];
+	
+	private int direccion ;
 
 	/*
 	 * Se utiliza para definfir cuando el individuo puede realizar acciones:
@@ -112,12 +114,28 @@ public class Herbivoro extends EspecieAbstracta implements IHerbivoro, IApareabl
 		herbi[3] = app.loadImage("../data/HerbivoroCuatro.png");
 		herbi[4] = app.loadImage("../data/HerbivoroCinco.png");
 
-		if (vida <= 20) {
-	//		app.tint(10, 100, 10, 80);
+		
+			app.image(herbi[direccion], ballX, ballY);
 
-		}
+			if (ballXDirection >= 0) {
+				direccion=3;
 
-		app.image(herbi[0], ballX, ballY);
+			}
+
+			if (ballXDirection <= 0) {
+				direccion=2;
+
+			}else
+
+			if (ballYDirection >= 0) {
+				direccion=0;
+
+			}
+
+			if (ballYDirection <=0) {
+				direccion=1;
+			}
+
 
 		if (app.mousePressed == true) {
 			System.out.println(app.mouseX);
