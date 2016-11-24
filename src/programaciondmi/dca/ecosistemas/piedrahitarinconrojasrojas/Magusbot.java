@@ -3,7 +3,6 @@ package programaciondmi.dca.ecosistemas.piedrahitarinconrojasrojas;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Random;
-
 import processing.core.PApplet;
 import processing.core.PImage;
 import processing.core.PVector;
@@ -14,13 +13,13 @@ import programaciondmi.dca.core.interfaces.IOmnivoro;
 import programaciondmi.dca.ejecucion.Mundo;
 
 public class Magusbot extends EspecieAbstracta implements IOmnivoro {
-
+	
+	PApplet app = Mundo.ObtenerInstancia().getApp();
 	private int vida;
 	private float fuerza, defensa;
 	private int velocidad;
 	private float energia;
 	private int ciclo;
-	PApplet app = Mundo.ObtenerInstancia().getApp();
 	private PVector dir;
 	PImage[] magobot = new PImage[20];
 	PImage mDefensa, mEnergia, mFuerza, mVelocidad, mPocion;
@@ -244,23 +243,18 @@ public class Magusbot extends EspecieAbstracta implements IOmnivoro {
 		// TODO Auto-generated method stub
 		if (energia > 0) {
 
-			// buscarComida();
-		} else {
 			buscarComida();
 
-			if (plantaCerca != null) {
-				comerPlanta(plantaCerca);
-			}
-
-			if (ciclo % 30 == 0 && plantaCerca == null) {
+			if (ciclo % 30 == 0) {
+				
 				// Definir una direccion aleatoria cada 3 segundos
 				// Siguiente posici�n en x
 				int targetX = random.nextInt();
 				// Siguiente posici�n en y
 				int targetY = random.nextInt();
 				cambiarDireccion(new PVector(targetX, targetY));
-				// System.out.println(x+" "+y);
-				if (targetX > this.x && targetY > this.y) {// derechaArriba
+
+				if (targetX > this.x && targetY > this.y) {// derechaarriba
 					vista = 1;
 					contador = (vista - 1) * 5;
 				} else if (targetX < this.x && targetY < this.y) {// izquierdaAbajo
@@ -280,6 +274,7 @@ public class Magusbot extends EspecieAbstracta implements IOmnivoro {
 			this.y += dir.y;
 			energia -= 0.01;
 		}
+			
 
 	}
 
@@ -328,10 +323,6 @@ public class Magusbot extends EspecieAbstracta implements IOmnivoro {
 			if (!encontro) {
 				plantaCerca = null;
 			}
-		}
-		List<EspecieAbstracta> todas = Mundo.ObtenerInstancia().getEspecies();
-		for (int i = 0; i < todas.size(); i++) {
-			comer(todas.get(i));
 		}
 	}
 

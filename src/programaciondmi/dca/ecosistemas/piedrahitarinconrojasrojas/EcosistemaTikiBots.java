@@ -50,7 +50,8 @@ public class EcosistemaTikiBots extends EcosistemaAbstracto {
 
 		int camX = Mundo.ObtenerInstancia().getCamX();
 		int camY = Mundo.ObtenerInstancia().getCamY();
-//condicion para poner plantas
+		
+		//condicion para poner plantas
 		if (puedeColocar) {
 
 			if (app.mousePressed == true) {
@@ -79,25 +80,18 @@ public class EcosistemaTikiBots extends EcosistemaAbstracto {
 	protected LinkedList<EspecieAbstracta> poblarEspecies() {
 		LinkedList<EspecieAbstracta> especies = new LinkedList<EspecieAbstracta>();
 
-		/*
-		 * SaberBot nueva = new SaberBot(this); especies.add(nueva);
-		 * 
-		 * nueva = new SaberBot(this); especies.add(nueva);
-		 * 
-		 */
-		// >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 		Magusbot mago = new Magusbot(this);
 		especies.add(mago);
-	
-	    mago = new Magusbot(this);
-  		especies.add(mago);
-		// >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+
+		
+		SaberBot nueva = new SaberBot(this);
+		especies.add(nueva);
+		
 
 		Cannibalbot cani = new Cannibalbot(this);
 		especies.add(cani);
 
-		cani = new Cannibalbot(this);
-		especies.add(cani);
 
 		if (cont == 0) {
 			Birdbot ave = new Birdbot(this);
@@ -118,18 +112,12 @@ public class EcosistemaTikiBots extends EcosistemaAbstracto {
 	@Override
 	protected List<EspecieAbstracta> generarIndividuos() {
 
-		// TODO Auto-generated method stub
-
-		/*
-		 * SaberBot nueva = new SaberBot(this); especies.add(nueva);
-		 */
-
-		// >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-		// if (cont == 0) {
+		SaberBot nueva = new SaberBot(this);
+		agregarEspecie(nueva);	
+		
 		Magusbot mago = new Magusbot(this);
-		especies.add(mago);
-		// }
-		// >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>.
+		agregarEspecie(mago);
+		
 		Cannibalbot cani = new Cannibalbot(this);
 		agregarEspecie(cani);
 
@@ -141,12 +129,7 @@ public class EcosistemaTikiBots extends EcosistemaAbstracto {
 
 	@Override
 	protected List<PlantaAbstracta> generarPlantas() {
-		// System.out.println("generar plantas");
 
-		/*
-		 * PlantaMala mala = new PlantaMala(this); plantas.add(mala);
-		 * agregarPlanta(mala);
-		 */
 
 		return plantas;
 	}
