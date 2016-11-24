@@ -62,12 +62,7 @@ public class EspecieGomiCanibal extends GomiCabra implements ICanibal {
 
 	@Override
 	public void comer(EspecieAbstracta victima) {
-		// TODO Auto-generated method stub
-		if (!victima.getClass().toString().equals(this.getClass().toString())) {
-			if (victima.recibirDano(this)) {
-				energia += 5;
-			}
-		}
+
 	}
 
 	@Override
@@ -75,12 +70,25 @@ public class EspecieGomiCanibal extends GomiCabra implements ICanibal {
 		while (vida > 0) {
 			mover();
 			try {
-				
-				
-			
-				
+
+				// para a cualquier objeto gomicabra que se encuentre cerca.
+				synchronized (ecosistema.getEspecies()) {
+					for (EspecieAbstracta especie : ecosistema.getEspecies()) {
+						if (especie != this && especie instanceof GomiCabra) {
+
+							float d = PApplet.dist(especie.getX(), especie.getY(), this.x, this.y);
+
+							if (d < 100) {
+								ecosistema.getEspecies().remove(especie);
+								break;
+							}
+
+						}
+					}
+				}
+
 				Thread.sleep(33);
-				
+
 				vista++;
 				if (vista == 3) {
 					vista = 0;
