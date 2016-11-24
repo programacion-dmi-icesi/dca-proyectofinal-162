@@ -1,6 +1,7 @@
 package programaciondmi.dca.core.interfaces;
 
 import programaciondmi.dca.core.EspecieAbstracta;
+import programaciondmi.dca.core.PlantaAbstracta;
 
 /**
  *  Interfaz que define los elementos canibales
@@ -13,5 +14,9 @@ public interface ICanibal {
 	 * @param victima la especie que será comida (misma especie)
 	 */
 	public void comer(EspecieAbstracta victima);
+
+	void comerPlanta(PlantaAbstracta victima);
+
+	
 
 }

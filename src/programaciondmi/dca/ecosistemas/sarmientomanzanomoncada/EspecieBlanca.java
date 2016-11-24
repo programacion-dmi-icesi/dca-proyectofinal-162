@@ -9,6 +9,7 @@ import processing.core.PApplet;
 import processing.core.PVector;
 import programaciondmi.dca.core.EcosistemaAbstracto;
 import programaciondmi.dca.core.EspecieAbstracta;
+import programaciondmi.dca.core.PlantaAbstracta;
 import programaciondmi.dca.core.interfaces.IApareable;
 import programaciondmi.dca.core.interfaces.ICarnivoro;
 import programaciondmi.dca.ejecucion.Mundo;
@@ -93,6 +94,7 @@ public class EspecieBlanca extends EspecieAbstracta implements IApareable, ICarn
 					}
 				} else {
 					buscarComida();
+					
 					if (ciclo % 30 == 0) {
 					// Definir una direccion aleatoria cada 3 segundos
 					int targetX = random.nextInt();
@@ -214,6 +216,12 @@ public class EspecieBlanca extends EspecieAbstracta implements IApareable, ICarn
 	public boolean recibirDano(EspecieAbstracta lastimador) {
 		// TODO implementar metodo
 		return false;
+	}
+
+	@Override
+	public void comerPlanta(PlantaAbstracta victima) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
