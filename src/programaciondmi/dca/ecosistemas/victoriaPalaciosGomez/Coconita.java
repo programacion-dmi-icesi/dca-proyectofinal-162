@@ -25,11 +25,11 @@ public class Coconita extends EspecieAbstracta implements ICarnivoro {
 	public static final int EXTASIS = 3;
 	public static final int MUERTO = 4;
 	protected int estado;
-	
+
 	public Coconita(EcosistemaAbstracto ecosistema) {
 		super(ecosistema);
 		this.estado = NORMAL;
-		//SIEMPRE HAGAN ESTO CON EL APP
+		// SIEMPRE HAGAN ESTO CON EL APP
 
 		this.app = Mundo.ObtenerInstancia().getApp();
 		coconitaF = new PImage[7];
@@ -49,6 +49,7 @@ public class Coconita extends EspecieAbstracta implements ICarnivoro {
 	public int getEstado() {
 		return estado;
 	}
+
 	@Override
 	public void run() {
 		while (vida > 0) {
@@ -76,7 +77,7 @@ public class Coconita extends EspecieAbstracta implements ICarnivoro {
 				PlantaBuena plantaTemp = (PlantaBuena) victima;
 				if (PApplet.dist(x, y, plantaTemp.getX(), plantaTemp.getY()) <= 50) {
 					plantaTemp.recibirDano(this);
-					if (plantaTemp.getIndex() == 4) {
+					if (plantaTemp.getIndex() > 3) {
 						Mundo.ObtenerInstancia().getPlantas().remove(victima);
 						this.ecosistema.getPlantas().remove(victima);
 					}
@@ -91,7 +92,7 @@ public class Coconita extends EspecieAbstracta implements ICarnivoro {
 				PlantaMala plantaTemp = (PlantaMala) victima;
 				if (PApplet.dist(x, y, plantaTemp.getX(), plantaTemp.getY()) <= 50) {
 					plantaTemp.recibirDano(this);
-					if (plantaTemp.getIndex() == 4) {
+					if (plantaTemp.getIndex() > 3) {
 						Mundo.ObtenerInstancia().getPlantas().remove(victima);
 						this.ecosistema.getPlantas().remove(victima);
 					}
