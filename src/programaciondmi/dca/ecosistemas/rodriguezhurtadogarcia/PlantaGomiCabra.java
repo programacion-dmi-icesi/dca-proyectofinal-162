@@ -16,10 +16,10 @@ public class PlantaGomiCabra extends PlantaAbstracta {
 	private PImage[] plantaMala = new PImage[4];
 	private PApplet app;
 	private int id; // esta variable dice si es mala o buena
-
 	private int estado = 0;
 	private boolean muerto = false;
 
+	// ===============================================================================================
 	public PlantaGomiCabra(EcosistemaGomiCabra ecosistema, int id) {
 		super();
 
@@ -37,15 +37,16 @@ public class PlantaGomiCabra extends PlantaAbstracta {
 		plantaMala[2] = app.loadImage("../dataGomiCabra/plantaMala/plantaMala3.png");
 		plantaMala[3] = app.loadImage("../dataGomiCabra/plantaMala/plantaMala4.png");
 		this.id = id;
-
 	}
 
+	// ===============================================================================================
 	@Override
 	public void run() {
 		// TODO Auto-generated method stub
 
 	}
 
+	// ===============================================================================================
 	@Override
 	public void dibujar() {
 		// TODO Auto-generated method stub
@@ -60,6 +61,7 @@ public class PlantaGomiCabra extends PlantaAbstracta {
 		}
 	}
 
+	// ===============================================================================================
 	public void setX(int x) {
 		this.x = x;
 	}
@@ -80,12 +82,14 @@ public class PlantaGomiCabra extends PlantaAbstracta {
 		return id;
 	}
 
+	// ===============================================================================================
 	@Override
 	public boolean recibirDano(EspecieAbstracta lastimador) {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
+	// ===============================================================================================
 	public void mordisco() {
 		estado++;
 
@@ -94,10 +98,12 @@ public class PlantaGomiCabra extends PlantaAbstracta {
 		}
 	}
 
+	// ===============================================================================================
 	public boolean isMuerto() {
 		return muerto;
 	}
 
+	// ===============================================================================================
 	public void setMuerto(boolean muerto) {
 		this.muerto = muerto;
 	}

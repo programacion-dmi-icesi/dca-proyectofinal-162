@@ -25,14 +25,25 @@ public class EcosistemaGomiCabra extends EcosistemaAbstracto {
 	private PApplet app = Mundo.ObtenerInstancia().getApp();
 	private LogoGomiCabra boton;
 
+	// ===============================================================================================
+	/**
+	 * CONSTRUCTOR DE LA CLASE
+	 */
+
 	public EcosistemaGomiCabra() {
 		super();
-
 		Mundo logoGomi = Mundo.ObtenerInstancia();
-		boton = new LogoGomiCabra("./dataGomiCabra/icono.svg", this);
+		boton = new LogoGomiCabra("./dataGomiCabra/icono.svg", this);// se
+																		// agrego
+																		// el
+																		// logo
 		logoGomi.agregarBoton(boton);
 	}
 
+	// ===============================================================================================
+	/**
+	 * PINTA LAS PLANTAS Y LAS GOMICABRAS
+	 */
 	@Override
 	public void dibujar() {
 
@@ -45,17 +56,21 @@ public class EcosistemaGomiCabra extends EcosistemaAbstracto {
 			}
 
 			synchronized (plantas) {
-
+				// CONDICIONES PARA PONER LAS PLANTAS CON EL CLICK
 				if (app.dist(boton.getX(), boton.getY(), app.mouseX, app.mouseY) <= 30) {
 					if (Mundo.ObtenerInstancia().getApp().mousePressed == true) {
 						if (app.mouseButton == app.LEFT) {
-							plantas.add(new PlantaGomiCabra(this, 0));
+							plantas.add(new PlantaGomiCabra(this, 0)); // BUENA
 						} else if (app.mouseButton == app.RIGHT) {
-							plantas.add(new PlantaGomiCabra(this, 1));
+							plantas.add(new PlantaGomiCabra(this, 1)); // MALA
 						}
 					}
 				}
 
+				/**
+				 * EN ESTA PARTE DEL CODIGO SE RECORRE EL ARREGLO DE PLANTAS Y
+				 * LAS PINTA
+				 */
 				Iterator<PlantaAbstracta> iteradorPlantas = plantas.iterator();
 				while (iteradorPlantas.hasNext()) {
 					actualPlanta = iteradorPlantas.next();
@@ -63,6 +78,10 @@ public class EcosistemaGomiCabra extends EcosistemaAbstracto {
 				}
 			}
 
+			/**
+			 * RECORRE LA LIST DE PLANTAS Y DE ESPECIES Y PRGUNTA QUE SI LA
+			 * ESPECIE ES DE TIPO HERBIVORO, PARA PODER COMER LA PLANTA
+			 */
 			for (EspecieAbstracta es : especies) {
 				for (PlantaAbstracta planta : plantas) {
 
@@ -74,18 +93,27 @@ public class EcosistemaGomiCabra extends EcosistemaAbstracto {
 
 							PlantaGomiCabra p = (PlantaGomiCabra) planta;
 							GomiCabra gomi = (GomiCabra) es;
+							/**
+							 * AQUI PREGUNTA QUE SI LA PLANTA YA SE LA COMIERON
+							 * COMPLETAMENTE PARA QUE SE MUERA
+							 */
 							if (p.isMuerto())
 								plantas.remove(planta);
 							GomiCabra esp = (GomiCabra) es;
-
-							// Aqui se aumenta la velocidad
+							/**
+							 * AQUI SE LE DA EL PODER CUANDO SE COMA LA PLANTA
+							 * BUENA
+							 */
 							if (p.getId() == 0) {
 								if (velPoder <= 5) {
 									velPoder++;
 								}
 								gomi.setVelPoder(velPoder);
 							}
-
+							/**
+							 * AQUI PREGUNTA QUE SI EL ESTADO DEL HERBIVORO ES
+							 * MUERTO PARA REMOVERLO
+							 */
 							if (esp.isMuerto())
 								especies.remove(esp);
 							break;
@@ -114,12 +142,14 @@ public class EcosistemaGomiCabra extends EcosistemaAbstracto {
 
 		return especies;
 	}
+	// ===============================================================================================
 
 	@Override
 	protected LinkedList<PlantaAbstracta> poblarPlantas() {
 		LinkedList<PlantaAbstracta> plantas = new LinkedList<PlantaAbstracta>();
 		return plantas;
 	}
+	// ===============================================================================================
 
 	@Override
 	protected List<EspecieAbstracta> generarIndividuos() {
@@ -136,6 +166,7 @@ public class EcosistemaGomiCabra extends EcosistemaAbstracto {
 
 		return especies;
 	}
+	// ===============================================================================================
 
 	@Override
 	protected List<PlantaAbstracta> generarPlantas() {

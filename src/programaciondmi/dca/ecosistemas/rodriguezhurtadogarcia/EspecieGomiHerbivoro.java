@@ -63,6 +63,7 @@ public class EspecieGomiHerbivoro extends GomiCabra implements IApareable, IHerb
 		nt.start();
 	}
 
+	// ===============================================================================================
 	@Override
 	public EspecieAbstracta aparear(IApareable apareable) {
 		h = new HijoGomiCabra(ecosistema);
@@ -71,6 +72,7 @@ public class EspecieGomiHerbivoro extends GomiCabra implements IApareable, IHerb
 		return h;
 	}
 
+	// ===============================================================================================
 	@Override
 	public void run() {
 		while (vida > 0) {
@@ -92,11 +94,8 @@ public class EspecieGomiHerbivoro extends GomiCabra implements IApareable, IHerb
 							if (d < 100) {
 								EspecieAbstracta hijo = aparear(apareable);
 								ecosistema.getEspecies().add(hijo);
-
 							}
-
 						}
-
 					}
 				}
 
@@ -114,19 +113,20 @@ public class EspecieGomiHerbivoro extends GomiCabra implements IApareable, IHerb
 						t = 0;
 					}
 				}
-
 			} catch (Exception e) {
 				// TODO: handle exception
 			}
 		}
 	}
 
+	// ===============================================================================================
 	@Override
 	public boolean recibirDano(EspecieAbstracta lastimador) {
 		// TODO implementar metodo
 		return false;
 	}
 
+	// ===============================================================================================
 	@Override
 	public void comerPlanta(PlantaAbstracta victima) {
 
@@ -149,15 +149,15 @@ public class EspecieGomiHerbivoro extends GomiCabra implements IApareable, IHerb
 			}
 			p.mordisco();
 			puedeComer = false;
-
 		}
-
 	}
 
+	// ===============================================================================================
 	public boolean isProcrear() {
 		return procrear;
 	}
 
+	// ===============================================================================================
 	public void setProcrear(boolean procrear) {
 		this.procrear = procrear;
 	}

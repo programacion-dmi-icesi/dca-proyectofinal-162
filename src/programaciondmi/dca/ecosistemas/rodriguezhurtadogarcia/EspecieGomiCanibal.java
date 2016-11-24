@@ -57,13 +57,14 @@ public class EspecieGomiCanibal extends GomiCabra implements ICanibal {
 
 		Thread nt = new Thread(this);
 		nt.start();
-
+		// ===============================================================================================
 	}
 
 	@Override
 	public void comer(EspecieAbstracta victima) {
 
 	}
+	// ===============================================================================================
 
 	@Override
 	public void run() {
@@ -82,7 +83,6 @@ public class EspecieGomiCanibal extends GomiCabra implements ICanibal {
 								ecosistema.getEspecies().remove(especie);
 								break;
 							}
-
 						}
 					}
 				}
@@ -101,6 +101,7 @@ public class EspecieGomiCanibal extends GomiCabra implements ICanibal {
 		}
 	}
 
+	// ===============================================================================================
 	private void buscarComida() {
 		List<EspecieAbstracta> todas = Mundo.ObtenerInstancia().getEspecies();
 		for (int i = 0; i < todas.size(); i++) {
@@ -108,6 +109,7 @@ public class EspecieGomiCanibal extends GomiCabra implements ICanibal {
 		}
 	}
 
+	// ===============================================================================================
 	@Override
 	public boolean recibirDano(EspecieAbstracta lastimador) {
 		// TODO implementar metodo

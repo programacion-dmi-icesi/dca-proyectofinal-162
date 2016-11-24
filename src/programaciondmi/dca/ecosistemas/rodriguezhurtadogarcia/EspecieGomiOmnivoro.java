@@ -67,6 +67,7 @@ public class EspecieGomiOmnivoro extends GomiCabra implements IOmnivoro {
 		nt.start();
 	}
 
+	// ===============================================================================================
 	@Override
 	public void comer(EspecieAbstracta victima) {
 		if (!victima.getClass().toString().equals(this.getClass().toString())) {
@@ -76,6 +77,7 @@ public class EspecieGomiOmnivoro extends GomiCabra implements IOmnivoro {
 		}
 	}
 
+	// ===============================================================================================
 	@Override
 	public void run() {
 		while (vida > 0) {
@@ -94,6 +96,7 @@ public class EspecieGomiOmnivoro extends GomiCabra implements IOmnivoro {
 		}
 	}
 
+	// ===============================================================================================
 	private void buscarParejaCercana() {
 
 		List<EspecieAbstracta> todas = Mundo.ObtenerInstancia().getEspecies();
@@ -113,13 +116,14 @@ public class EspecieGomiOmnivoro extends GomiCabra implements IOmnivoro {
 		if (!encontro) {
 			parejaCercana = null;
 		}
-
 	}
 
+	// ===============================================================================================
 	private void intentarAparear() {
 
 	}
 
+	// ===============================================================================================
 	private void buscarComida() {
 		List<EspecieAbstracta> todas = Mundo.ObtenerInstancia().getEspecies();
 		for (int i = 0; i < todas.size(); i++) {
@@ -127,12 +131,14 @@ public class EspecieGomiOmnivoro extends GomiCabra implements IOmnivoro {
 		}
 	}
 
+	// ===============================================================================================
 	@Override
 	public boolean recibirDano(EspecieAbstracta lastimador) {
 		// TODO implementar metodo
 		return false;
 	}
 
+	// ===============================================================================================
 	@Override
 	public void comerPlanta(PlantaAbstracta victima) {
 

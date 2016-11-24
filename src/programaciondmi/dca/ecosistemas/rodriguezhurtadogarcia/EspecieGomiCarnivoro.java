@@ -60,52 +60,30 @@ public class EspecieGomiCarnivoro extends GomiCabra implements ICarnivoro {
 		nt.start();
 	}
 
+	// ===============================================================================================
 	@Override
 	public void comer(EspecieAbstracta victima) {
 		// TODO Auto-generated method stub
-		
 	}
 
+	// ===============================================================================================
 	@Override
 	public void run() {
 		while (vida > 0) {
 			mover();
 			try {
-				
-				// para a cualquier objeto gomicabra que se encuentre cerca.
-				/*synchronized (ecosistema.getEspecies()) {
-					for (EspecieAbstracta especie : ecosistema.getEspecies()) {
-						if (especie != this && especie instanceof EspecieAbstracta) {
-
-							float d = PApplet.dist(especie.getX(), especie.getY(), this.x, this.y);
-
-							if (d < 100) {
-								ecosistema.getEspecies().remove(especie);
-								break;
-							}
-
-						}
-					}
-				}*/
-				
-				
-				
 				Thread.sleep(33);
-
 				vista++;
-
 				if (vista == 3) {
 					vista = 0;
 				}
-
 			} catch (Exception e) {
 				// TODO: handle exception
 			}
 		}
 	}
 
-
-
+	// ===============================================================================================
 	private void buscarComida() {
 		List<EspecieAbstracta> todas = Mundo.ObtenerInstancia().getEspecies();
 		for (int i = 0; i < todas.size(); i++) {
@@ -113,6 +91,7 @@ public class EspecieGomiCarnivoro extends GomiCabra implements ICarnivoro {
 		}
 	}
 
+	// ===============================================================================================
 	@Override
 	public boolean recibirDano(EspecieAbstracta lastimador) {
 		// TODO implementar metodo

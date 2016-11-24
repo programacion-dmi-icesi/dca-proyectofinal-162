@@ -32,6 +32,7 @@ public abstract class GomiCabra extends EspecieAbstracta {
 	protected int salud = maxSalud;
 	protected Random random;
 
+	// ===============================================================================================
 	public GomiCabra(EcosistemaAbstracto ecosistema) {
 		super(ecosistema);
 		this.random = new Random();
@@ -40,6 +41,7 @@ public abstract class GomiCabra extends EspecieAbstracta {
 		this.y = (int) app.random(-app.height - 2000, app.height + 2000);
 	}
 
+	// ===============================================================================================
 	@Override
 	public void dibujar() {
 
@@ -61,6 +63,7 @@ public abstract class GomiCabra extends EspecieAbstracta {
 		app.noTint();
 	}
 
+	// ===============================================================================================
 	@Override
 	public void mover() {
 		// causa el movimiento
@@ -68,7 +71,6 @@ public abstract class GomiCabra extends EspecieAbstracta {
 		if (app.frameCount % (int) (app.random(60, 100)) == 0) {
 			mover = (int) app.random(0, 4);
 		}
-
 		if (energia > 0) {
 			switch (mover) {
 			case 0:
@@ -107,25 +109,30 @@ public abstract class GomiCabra extends EspecieAbstracta {
 			muerto = true;
 	}
 
+	// ===============================================================================================
 	@Override
 	public String toString() {
 		return "EspecieBlanca [id=" + id + ", vida=" + vida + ", fuerza=" + fuerza + ", parejaCercana=" + parejaCercana
 				+ ", dir=" + dir + ", x=" + x + ", y=" + y + ", estado=" + estado + "]";
 	}
 
+	// ===============================================================================================
 	@Override
 	public boolean recibirDano(EspecieAbstracta lastimador) {
 		return false;
 	}
 
+	// ===============================================================================================
 	public boolean isMuerto() {
 		return muerto;
 	}
 
+	// ===============================================================================================
 	public void setMuerto(boolean muerto) {
 		this.muerto = muerto;
 	}
 
+	// ===============================================================================================
 	public void setVelPoder(int velPoder) {
 		this.velPoder = velPoder;
 	}
