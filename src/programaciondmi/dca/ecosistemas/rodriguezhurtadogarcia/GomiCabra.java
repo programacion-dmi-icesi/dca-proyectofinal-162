@@ -13,9 +13,9 @@ public abstract class GomiCabra extends EspecieAbstracta {
 	protected int t;
 	protected int vida;
 	protected int maxVida;
-	protected boolean puedeComer = true;
+	protected boolean esperar = false;
 	protected float fuerza;
-	protected int velocidad, velPoder = 1, vista, mover, direccion = 2;
+	protected int velocidad, vista, mover, direccion = 2;
 	protected PImage[] frente = new PImage[4];
 	protected PImage[] atras = new PImage[4];
 	protected PImage[] izquierda = new PImage[4];
@@ -31,24 +31,28 @@ public abstract class GomiCabra extends EspecieAbstracta {
 	protected int maxSalud = 5;
 	protected int salud = maxSalud;
 	protected Random random;
+	protected boolean vivo = true;
 
-	// ===============================================================================================
 	public GomiCabra(EcosistemaAbstracto ecosistema) {
 		super(ecosistema);
 		this.random = new Random();
 		app = Mundo.ObtenerInstancia().getApp();
-		this.x = (int) app.random(-app.width - 2000, app.width + 2000);
-		this.y = (int) app.random(-app.height - 2000, app.height + 2000);
+
+		this.x = (int) app.random(-1071.387f, 1071.387f);
+		this.y = (int) app.random(-1840.438f, 1840.438f);
+
 	}
 
-	// ===============================================================================================
 	@Override
 	public void dibujar() {
-
 		PApplet app = Mundo.ObtenerInstancia().getApp();
 		float dolor = app.map(vida, 0, maxVida, 0, 255);
 		app.tint(dolor, 255, dolor);
-		// app.rect( x + moverX, y + moverY,100,100);
+
+		app.imageMode(app.CENTER);
+		/**
+		 * para cambiar las posiciones.
+		 */
 		if (direccion == 3) {
 			app.image(izquierda[vista], x, y);
 		} else if (direccion == 4) {
@@ -59,34 +63,63 @@ public abstract class GomiCabra extends EspecieAbstracta {
 			app.image(atras[vista], x, y);
 		}
 
+		app.imageMode(app.CORNER);
 		app.colorMode(app.RGB);
 		app.noTint();
+
 	}
 
-	// ===============================================================================================
 	@Override
 	public void mover() {
-		// causa el movimiento
+
+		// condición para realizar acciones cada cierto tiempo
+		if (esperar) {
+			t++;
+			if (t > 300) {
+				esperar = false;
+				t = 0;
+			}
+		}
+
+		// la vida indica el estado de la especie, si este se enferma, se pondrá
+		// verde y cambiará su estado
+
+		if (vida > 50) {
+			estado = NORMAL;
+		} else {
+			estado = ENFERMO;
+		}
+
+		// cambia la imagen cada 5 frames
+		if (app.frameCount % 5 == 0)
+			vista += 1;
+		// reinicia todo.
+		if (vista > 2) {
+			vista = 0;
+		}
+		// para cambiar de dirección
 
 		if (app.frameCount % (int) (app.random(60, 100)) == 0) {
 			mover = (int) app.random(0, 4);
 		}
+
+		// condiciones para mover.
 		if (energia > 0) {
 			switch (mover) {
 			case 0:
-				x += velPoder;
+				x++;
 				direccion = 4;
 				break;
 			case 1:
-				x -= velPoder;
+				x--;
 				direccion = 3;
 				break;
 			case 2:
-				y += velPoder;
+				y++;
 				direccion = 1;
 				break;
 			case 3:
-				y -= velPoder;
+				y--;
 				direccion = 2;
 			}// termina switch mover
 			if (x >= 500) {
@@ -105,36 +138,41 @@ public abstract class GomiCabra extends EspecieAbstracta {
 			}
 		}
 
-		if (vida < 0)
+		if (estado == MUERTO) {
 			muerto = true;
+			vivo = false;
+		}
+		if (vida < 0) {
+			estado = MUERTO;
+		}
+
 	}
 
-	// ===============================================================================================
 	@Override
 	public String toString() {
 		return "EspecieBlanca [id=" + id + ", vida=" + vida + ", fuerza=" + fuerza + ", parejaCercana=" + parejaCercana
 				+ ", dir=" + dir + ", x=" + x + ", y=" + y + ", estado=" + estado + "]";
 	}
 
-	// ===============================================================================================
 	@Override
 	public boolean recibirDano(EspecieAbstracta lastimador) {
 		return false;
 	}
 
-	// ===============================================================================================
 	public boolean isMuerto() {
 		return muerto;
 	}
 
-	// ===============================================================================================
 	public void setMuerto(boolean muerto) {
 		this.muerto = muerto;
 	}
 
-	// ===============================================================================================
-	public void setVelPoder(int velPoder) {
-		this.velPoder = velPoder;
+	public boolean isVivo() {
+		return vivo;
+	}
+
+	public void setVivo(boolean vivo) {
+		this.vivo = vivo;
 	}
 
 }

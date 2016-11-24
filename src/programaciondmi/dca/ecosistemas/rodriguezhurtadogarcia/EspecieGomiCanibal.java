@@ -17,7 +17,7 @@ import programaciondmi.dca.ejecucion.Mundo;
 
 public class EspecieGomiCanibal extends GomiCabra implements ICanibal {
 
-	public EspecieGomiCanibal(EcosistemaGomiCabra ecosistema, int vista) {
+	public EspecieGomiCanibal(EcosistemaGomiCabra ecosistema) {
 		super(ecosistema);
 		app = Mundo.ObtenerInstancia().getApp();
 		this.x = (int) app.random(-app.width, app.width);
@@ -26,7 +26,6 @@ public class EspecieGomiCanibal extends GomiCabra implements ICanibal {
 		this.fuerza = 100;
 		this.energia = 250;
 		this.velocidad = 2;
-		this.vista = vista;
 
 		app = Mundo.ObtenerInstancia().getApp();
 
@@ -57,62 +56,63 @@ public class EspecieGomiCanibal extends GomiCabra implements ICanibal {
 
 		Thread nt = new Thread(this);
 		nt.start();
-		// ===============================================================================================
+
 	}
 
 	@Override
 	public void comer(EspecieAbstracta victima) {
+		try {
+			victima.setEstado(MUERTO);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 	}
-	// ===============================================================================================
 
 	@Override
 	public void run() {
-		while (vida > 0) {
+		while (vivo) {
 			mover();
 			try {
 
 				// para a cualquier objeto gomicabra que se encuentre cerca.
 				synchronized (ecosistema.getEspecies()) {
 					for (EspecieAbstracta especie : ecosistema.getEspecies()) {
-						if (especie != this && especie instanceof GomiCabra) {
+						if (especie != this) {
+							if (especie instanceof GomiCabra) {
+								float d = PApplet.dist(especie.getX(), especie.getY(), this.x, this.y);
+								if (!esperar) {
+									if (d < 100) {
+										comer(especie);
+										especie.setEstado(MUERTO);
+										((GomiCabra) especie).setVivo(false);
 
-							float d = PApplet.dist(especie.getX(), especie.getY(), this.x, this.y);
+										System.out.println("canibal mata!");
+										ecosistema.getEspecies().remove(especie);
 
-							if (d < 100) {
-								ecosistema.getEspecies().remove(especie);
-								break;
+										break;
+									}
+								}
+
 							}
+
 						}
 					}
 				}
 
 				Thread.sleep(33);
-
-				vista++;
-				if (vista == 3) {
-					vista = 0;
-				}
-
 			} catch (Exception e) {
-
+				e.printStackTrace();
 				System.err.println("se ha muerto!");
 			}
+
 		}
 	}
 
-	// ===============================================================================================
-	private void buscarComida() {
-		List<EspecieAbstracta> todas = Mundo.ObtenerInstancia().getEspecies();
-		for (int i = 0; i < todas.size(); i++) {
-			comer(todas.get(i));
-		}
-	}
-
-	// ===============================================================================================
 	@Override
 	public boolean recibirDano(EspecieAbstracta lastimador) {
-		// TODO implementar metodo
+
 		return false;
 	}
 

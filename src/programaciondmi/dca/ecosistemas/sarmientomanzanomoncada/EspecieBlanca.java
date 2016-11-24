@@ -95,7 +95,7 @@ public class EspecieBlanca extends EspecieAbstracta implements IApareable, ICarn
 					int targetX = random.nextInt();
 					int targetY = random.nextInt();
 					cambiarDireccion(new PVector(targetX, targetY));
-					System.out.println("CAMBIO DIRECCION!");
+					// System.out.println("CAMBIO DIRECCION!");
 				}
 			}
 

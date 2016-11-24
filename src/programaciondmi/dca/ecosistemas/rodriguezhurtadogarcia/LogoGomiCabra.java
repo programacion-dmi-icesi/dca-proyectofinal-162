@@ -10,14 +10,12 @@ public class LogoGomiCabra extends LogoAbstracto {
 	private boolean crearB, crearM;
 	private PApplet app;
 
-	// ===============================================================================================
 	public LogoGomiCabra(String rutaLogo, EcosistemaAbstracto ecosistema) {
 		super(rutaLogo, ecosistema);
 		// TODO Auto-generated constructor stub
 		app = Mundo.ObtenerInstancia().getApp();
 	}
 
-	// ===============================================================================================
 	@Override
 	public void click() {
 		// TODO Auto-generated method stub
@@ -28,18 +26,18 @@ public class LogoGomiCabra extends LogoAbstracto {
 			crearM = true;
 			crearB = false;
 		}
+
 		if (app.mouseButton == app.RIGHT) {
 			crearB = true;
 			crearM = false;
 		}
+
 	}
 
-	// ===============================================================================================
 	public boolean getCrearB() {
 		return crearB;
 	}
 
-	// ===============================================================================================
 	public boolean getCrearM() {
 		return crearM;
 	}

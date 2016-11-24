@@ -20,10 +20,10 @@ public class EspecieAzul extends EspecieAbstracta implements IHerbivoro {
 		this.vida = 20;
 		this.velocidad = 5;
 
-		int targetX = (int) (Math.random()*500);
-		int targetY = (int) (Math.random()*500);
+		int targetX = (int) (Math.random() * 500);
+		int targetY = (int) (Math.random() * 500);
 		cambiarDireccion(new PVector(targetX, targetY));
-		
+
 		Thread nt = new Thread(this);
 		nt.start();
 	}
@@ -49,7 +49,7 @@ public class EspecieAzul extends EspecieAbstracta implements IHerbivoro {
 	@Override
 	public void dibujar() {
 		PApplet app = Mundo.ObtenerInstancia().getApp();
-		app.fill(0,0,255);
+		app.fill(0, 0, 255);
 		app.ellipse(x, y, vida, vida);
 
 	}
@@ -61,17 +61,17 @@ public class EspecieAzul extends EspecieAbstracta implements IHerbivoro {
 			int targetX = (int) (Math.random() * 500);
 			int targetY = (int) (Math.random() * 500);
 			cambiarDireccion(new PVector(targetX, targetY));
-			//System.out.println("CAMBIO DIRECCION!");
+			// System.out.println("CAMBIO DIRECCION!");
 		}
-		
-		x+=dir.x;
-		y+=dir.y;
+
+		x += dir.x;
+		y += dir.y;
 
 	}
 
 	@Override
 	public boolean recibirDano(EspecieAbstracta lastimador) {
-		if(PApplet.dist(x, y, lastimador.getX(), lastimador.getY()) <= (vida/2)){
+		if (PApplet.dist(x, y, lastimador.getX(), lastimador.getY()) <= (vida / 2)) {
 			vida -= 5;
 			try {
 				lastimador.setEstado(EXTASIS);
@@ -80,7 +80,7 @@ public class EspecieAzul extends EspecieAbstracta implements IHerbivoro {
 			}
 			return true;
 		}
-		
+
 		return false;
 	}
 
@@ -89,8 +89,7 @@ public class EspecieAzul extends EspecieAbstracta implements IHerbivoro {
 		dir = PVector.sub(target, location);
 		dir.normalize();
 		dir.mult(velocidad);
-		//System.out.println("[id=" + id + ", direcion=" + dir + "]");
+		// System.out.println("[id=" + id + ", direcion=" + dir + "]");
 	}
-	
-	
+
 }

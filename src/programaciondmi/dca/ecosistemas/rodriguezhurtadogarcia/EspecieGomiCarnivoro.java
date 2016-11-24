@@ -60,41 +60,64 @@ public class EspecieGomiCarnivoro extends GomiCabra implements ICarnivoro {
 		nt.start();
 	}
 
-	// ===============================================================================================
 	@Override
 	public void comer(EspecieAbstracta victima) {
-		// TODO Auto-generated method stub
+		try {
+			// la vida indica el estado de la especie, si este se enferma, se
+			// pondrá verde y cambiará su estado
+			if (victima.getEstado() == ENFERMO) {
+				vida = 49;
+			} else {
+				vida = 100;
+			}
+
+			victima.setEstado(MUERTO);
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
-	// ===============================================================================================
 	@Override
 	public void run() {
-		while (vida > 0) {
+		while (vivo) {
 			mover();
 			try {
-				Thread.sleep(33);
-				vista++;
-				if (vista == 3) {
-					vista = 0;
+
+				/*
+				 * metodo que inidica que debe comerse a cualquier especie cuya
+				 * distancia a él sea menor a 100
+				 */
+				synchronized (ecosistema.getEspecies()) {
+					for (EspecieAbstracta especie : ecosistema.getEspecies()) {
+						if (especie != this) {
+
+							float d = PApplet.dist(especie.getX(), especie.getY(), this.x, this.y);
+
+							if (!esperar) {
+								if (d < 100) {
+									comer(especie);
+									((GomiCabra) especie).setVivo(false);
+									ecosistema.getEspecies().remove(especie);
+									break;
+								}
+							}
+
+						}
+
+					}
 				}
+
+				Thread.sleep(33);
 			} catch (Exception e) {
 				// TODO: handle exception
 			}
 		}
 	}
 
-	// ===============================================================================================
-	private void buscarComida() {
-		List<EspecieAbstracta> todas = Mundo.ObtenerInstancia().getEspecies();
-		for (int i = 0; i < todas.size(); i++) {
-			comer(todas.get(i));
-		}
-	}
-
-	// ===============================================================================================
 	@Override
 	public boolean recibirDano(EspecieAbstracta lastimador) {
-		// TODO implementar metodo
 		return false;
 	}
 

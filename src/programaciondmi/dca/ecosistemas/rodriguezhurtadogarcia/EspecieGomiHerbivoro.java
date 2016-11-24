@@ -17,10 +17,9 @@ import programaciondmi.dca.ejecucion.Mundo;
 
 public class EspecieGomiHerbivoro extends GomiCabra implements IApareable, IHerbivoro {
 
-	private boolean procrear = false;
 	private HijoGomiCabra h;
 
-	public EspecieGomiHerbivoro(EcosistemaAbstracto ecosistema, int vista) {
+	public EspecieGomiHerbivoro(EcosistemaAbstracto ecosistema) {
 		super(ecosistema);
 		app = Mundo.ObtenerInstancia().getApp();
 		this.x = (int) app.random(-app.width, app.width);
@@ -29,7 +28,7 @@ public class EspecieGomiHerbivoro extends GomiCabra implements IApareable, IHerb
 		this.fuerza = 100;
 		this.energia = 250;
 		this.velocidad = 2;
-		this.vista = vista;
+		this.vista = (int) app.random(4);
 
 		ciclo = 0;
 
@@ -63,23 +62,42 @@ public class EspecieGomiHerbivoro extends GomiCabra implements IApareable, IHerb
 		nt.start();
 	}
 
-	// ===============================================================================================
 	@Override
 	public EspecieAbstracta aparear(IApareable apareable) {
-		h = new HijoGomiCabra(ecosistema);
-		h.setX(this.x);
-		h.setY(this.y);
+		h = new HijoGomiCabra(ecosistema, this.x, this.y);
+		esperar = true;
 		return h;
 	}
 
-	// ===============================================================================================
 	@Override
 	public void run() {
-		while (vida > 0) {
+		while (vivo) {
 			mover();
-			try {
 
-				// AQUI TIENE EL BEBE
+			try {
+				/*
+				 * por cada acción que se realice, se deberá esperar cierto
+				 * tiempo para ejecutar la siguiente acción,porque en caso
+				 * contrario, se ejecutará repetitivamente la acción mientras
+				 * las condiciones se cumplan.
+				 */
+
+				/*
+				 * Aqui se recorren las plantas y si, esta esta cerca de esta
+				 * clase, se llamará el metodo comerPlanta.
+				 */
+				synchronized (ecosistema.getPlantas()) {
+					// List<PlantaAbstracta> plantas = ecosistema.getPlantas();
+					for (PlantaAbstracta planta : ecosistema.getPlantas()) {
+						float d = app.dist(planta.getX(), planta.getY(), this.x, this.y);
+
+						if (d < 100) {
+							if (!esperar) {
+								comerPlanta(planta);
+							}
+						}
+					}
+				}
 
 				/*
 				 * aqui se recorren las especies, y si el otro es apareable,
@@ -91,75 +109,66 @@ public class EspecieGomiHerbivoro extends GomiCabra implements IApareable, IHerb
 						if (especie != this && especie instanceof IApareable) {
 							IApareable apareable = (IApareable) especie;
 							float d = app.dist(especie.getX(), especie.getY(), this.x, this.y);
-							if (d < 100) {
-								EspecieAbstracta hijo = aparear(apareable);
-								ecosistema.getEspecies().add(hijo);
+
+							if (!esperar) {
+								if (d < 100) {
+									EspecieAbstracta hijo = aparear(apareable);
+									ecosistema.getEspecies().add(hijo);
+
+								}
+
 							}
 						}
+
 					}
 				}
 
 				Thread.sleep(33);
-				vista++;
-
-				if (vista == 3) {
-					vista = 0;
-				}
-				// condición para que coma una planta cada cierto tiempo t
-				if (!puedeComer) {
-					t++;
-					if (t > 500) {
-						puedeComer = true;
-						t = 0;
-					}
-				}
 			} catch (Exception e) {
 				// TODO: handle exception
 			}
+
 		}
+
 	}
 
-	// ===============================================================================================
 	@Override
 	public boolean recibirDano(EspecieAbstracta lastimador) {
-		// TODO implementar metodo
 		return false;
 	}
 
-	// ===============================================================================================
 	@Override
 	public void comerPlanta(PlantaAbstracta victima) {
-
-		if (puedeComer && victima instanceof PlantaGomiCabra) {
+		if (victima instanceof PlantaGomiCabra) {
+			System.out.println("se come una planta ");
 			PlantaGomiCabra p = (PlantaGomiCabra) victima;
-
 			switch (p.getId()) {
 			case 0:
 				vida += 15;
+
+				if (vida < 50) {
+					estado = NORMAL;
+				}
+
 				if (vida > maxVida)
 					vida = maxVida;
 				break;
 			case 1:
 				vida -= 15;
-				if (vida < 0) {
+				if (vida < 50) {
+					estado = ENFERMO;
+				}
 
+				if (vida < 0) {
 					// condición de morir
 				}
 				break;
 			}
 			p.mordisco();
-			puedeComer = false;
+			esperar = true;
+			System.out.println("esperando siguiente acción");
+
 		}
-	}
-
-	// ===============================================================================================
-	public boolean isProcrear() {
-		return procrear;
-	}
-
-	// ===============================================================================================
-	public void setProcrear(boolean procrear) {
-		this.procrear = procrear;
 	}
 
 }
