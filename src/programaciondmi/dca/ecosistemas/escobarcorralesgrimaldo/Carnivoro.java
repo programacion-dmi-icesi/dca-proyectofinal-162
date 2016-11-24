@@ -45,6 +45,31 @@ public class Carnivoro extends EspecieAbstracta implements ICarnivoro {
 		while (vida > 0) {
 			mover();
 			try {
+				
+				synchronized (ecosistema.getEspecies()) {
+					for (EspecieAbstracta especie : ecosistema.getEspecies()) {
+						if (especie != this) {
+							if (especie instanceof EspecieAbstracta) {
+								
+								float d = PApplet.dist(especie.getX(), especie.getY(), this.ballX, this.ballY);
+
+								// if (!esperar) {
+								if (d < 10) {
+
+									comer(especie);
+									especie.setEstado(MUERTO);
+
+									// System.out.println("canibal mata!");
+									ecosistema.getEspecies().remove(especie);
+
+									break;
+								}
+
+							}
+
+						}
+					}
+				}
 				Thread.sleep(1);
 				ciclo++;
 			} catch (Exception e) {

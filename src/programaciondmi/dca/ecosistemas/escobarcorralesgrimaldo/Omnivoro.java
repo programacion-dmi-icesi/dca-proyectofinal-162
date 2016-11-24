@@ -42,15 +42,14 @@ public class Omnivoro extends EspecieAbstracta implements IOmnivoro{
 				synchronized (ecosistema.getEspecies()) {
 					for (EspecieAbstracta especie : ecosistema.getEspecies()) {
 						if (especie != this) {
-							if (especie instanceof Carnivoro || especie instanceof Herbivoro
-									 || especie instanceof Hijo || especie instanceof Canibal) {
+							if (especie instanceof EspecieAbstracta) {
 								float d = PApplet.dist(especie.getX(), especie.getY(), this.ballX, this.ballY);
 								// if (!esperar) {
-								if (d < 70) {
+								if (d < 100) {
 									comer(especie);
 									
 									
-									especie.setEstado(ENFERMO);
+									especie.setEstado(MUERTO);
 
 									System.out.println("omnivoro mata!");
 									ecosistema.getEspecies().remove(especie);
@@ -105,7 +104,7 @@ public class Omnivoro extends EspecieAbstracta implements IOmnivoro{
 	
 	@Override
 	public void mover() {
-		if (ciclo % 60 == 0) {
+		if (ciclo % 5 == 0) {
 			PApplet app = Mundo.ObtenerInstancia().getApp();
 
 			ballX = (float) (ballX + 10.8 * ballXDirection);
@@ -129,14 +128,64 @@ public class Omnivoro extends EspecieAbstracta implements IOmnivoro{
 
 	@Override
 	public void comer(EspecieAbstracta victima) {
-		// TODO Auto-generated method stub
-		
+		try {
+			victima.setEstado(MUERTO);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	@Override
 	public void comerPlanta(PlantaAbstracta victima) {
-		// TODO Auto-generated method stub
-		
+		if (victima instanceof Planta) {
+
+			Planta p = (Planta) victima;
+			switch (p.getClasePlanta()) {
+			case 0:
+				// Buena
+				vida += 5;
+
+				if (vida >= 20) {
+					estado = NORMAL;
+				}
+
+				if (vida > 20)
+					vida = 20;
+				break;
+			case 1:
+				// Mala
+				vida -= 5;
+				if (vida < 20) {
+					estado = ENFERMO;
+				}
+
+				if (vida <= 0) {
+					ecosistema.getPlantas().remove(p);
+				}
+				break;
+
+			}
+			p.ataque();
+		}
 	}
+
+	public float getBallX() {
+		return ballX;
+	}
+
+	public void setBallX(float ballX) {
+		this.ballX = ballX;
+	}
+
+	public float getBallY() {
+		return ballY;
+	}
+
+	public void setBallY(float ballY) {
+		this.ballY = ballY;
+	}
+	
+	
 
 }

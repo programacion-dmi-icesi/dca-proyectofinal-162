@@ -41,7 +41,7 @@ public class Herbivoro extends EspecieAbstracta implements IHerbivoro, IApareabl
 	public Herbivoro(EcosistemaAbstracto ecosistema) {
 		super(ecosistema);
 
-		this.vida = 20;
+		this.vida = 15;
 		this.velocidad = 2;
 		this.fuerza = 100;
 		this.energia = 250;
@@ -110,12 +110,13 @@ public class Herbivoro extends EspecieAbstracta implements IHerbivoro, IApareabl
 					estado = ENFERMO;
 				}
 
-				if (vida < 0) {
-					ecosistema.getPlantas().remove(victima);
+				if (vida <= 0) {
+					ecosistema.getPlantas().remove(p);
 				}
 				break;
 
 			}
+			p.ataque();
 		}
 	}
 
@@ -157,7 +158,7 @@ public class Herbivoro extends EspecieAbstracta implements IHerbivoro, IApareabl
 			System.out.println(app.mouseX);
 			System.out.println(app.mouseY);
 
-		if (vida == 20) {
+		if (vida >= 20) {
 			app.image(herbi[0], ballX, ballY);
 		}
 		if (vida == 15) {
@@ -167,7 +168,7 @@ public class Herbivoro extends EspecieAbstracta implements IHerbivoro, IApareabl
 		if (vida == 10) {
 			app.image(herbi[2], ballX, ballY);
 		}
-		if (vida == 5) {
+		if (vida <= 5) {
 			app.image(herbi[3], ballX, ballY);
 		}
 		}
@@ -255,7 +256,7 @@ public class Herbivoro extends EspecieAbstracta implements IHerbivoro, IApareabl
 					float d = app.dist(especie.getX(), especie.getY(), this.ballX, this.ballY);
 
 					// if (app.frameCount%60==0) {
-					if (d < 100) {
+					if (d < 150) {
 						EspecieAbstracta hijo = aparear(apareable);
 						ecosistema.getEspecies().add(hijo);
 
@@ -280,4 +281,21 @@ public class Herbivoro extends EspecieAbstracta implements IHerbivoro, IApareabl
 
 		}
 	}
+
+	public float getBallX() {
+		return ballX;
+	}
+
+	public void setBallX(float ballX) {
+		this.ballX = ballX;
+	}
+
+	public float getBallY() {
+		return ballY;
+	}
+
+	public void setBallY(float ballY) {
+		this.ballY = ballY;
+	}
+	
 }

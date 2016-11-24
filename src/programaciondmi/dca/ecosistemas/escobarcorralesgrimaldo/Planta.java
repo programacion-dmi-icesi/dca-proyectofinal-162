@@ -59,12 +59,12 @@ public class Planta extends PlantaAbstracta {
 
 		case 0:
 
-			app.image(plantaB[viva], x, y);
+			app.image(plantaB[viva], x, y,50,50);
 			break;
 
 		case 1:
 
-			app.image(plantaM[viva], x, y);
+			app.image(plantaM[viva], x, y,50,50);
 			break;
 		}
 	}

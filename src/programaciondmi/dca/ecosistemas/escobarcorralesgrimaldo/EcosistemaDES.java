@@ -110,11 +110,11 @@ public class EcosistemaDES extends EcosistemaAbstracto {
 			for (EspecieAbstracta herbi : especies) {
 				for (PlantaAbstracta planti : plantas) {
 
-					if (herbi instanceof IHerbivoro) {
-						float d = app.dist(((Planta) planti).getX(), ((Planta) planti).getY(), herbi.getX(),
-								herbi.getY());
+					if (herbi instanceof Herbivoro) {
+						float d = app.dist(((Planta) planti).getX(), ((Planta) planti).getY(), ((Herbivoro) herbi).getBallX(),
+								((Herbivoro) herbi).getBallY());
 
-						if (d < 100) {
+						if (d < 80) {
 
 							planta = (Planta) planti;
 
@@ -124,6 +124,26 @@ public class EcosistemaDES extends EcosistemaAbstracto {
 
 							planta.setViva(vista);
 
+							especies.remove(planti);
+							
+						}
+					}
+					
+					if (herbi instanceof Omnivoro) {
+						float d = app.dist(((Planta) planti).getX(), ((Planta) planti).getY(), ((Omnivoro) herbi).getBallX(),
+								((Omnivoro) herbi).getBallY());
+
+						if (d < 80) {
+
+							planta = (Planta) planti;
+
+							if (vista <= 1) {
+								vista++;
+							}
+
+							planta.setViva(vista);
+							especies.remove(planti);
+							
 						}
 					}
 				}

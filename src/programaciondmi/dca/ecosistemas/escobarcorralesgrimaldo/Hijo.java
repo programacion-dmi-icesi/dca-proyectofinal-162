@@ -47,7 +47,7 @@ public class Hijo extends EspecieAbstracta {
 		
 		
 		
-		app.image(hijo[0], x, y);
+		app.image(hijo[0], x, y,50,50);
 		
 		
 		
