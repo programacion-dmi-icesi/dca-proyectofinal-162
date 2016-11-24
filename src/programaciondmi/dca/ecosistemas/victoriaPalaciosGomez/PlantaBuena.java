@@ -23,19 +23,26 @@ public class PlantaBuena extends PlantaAbstracta{
 		this.app = Mundo.ObtenerInstancia().getApp();
 		this.x= x;
 		this.y= y;
+		index = 0;
 		images();
 		
 	}
 	
 	public void dibujar(){
-		app.image(plantaB[index], x, y);	
+		app.image(plantaB[index], x, y);
 	}
 	
 	private void images(){
-		plantaB[0] = app.loadImage("../data/pBuena-01.png");
-		plantaB[1] = app.loadImage("../data/pBuena-02.png");
-		plantaB[2] = app.loadImage("../data/pBuena-03.png");
-		plantaB[3] = app.loadImage("../data/pBuena-04.png");
+		plantaB[0] = app.loadImage("../data/pngs/plantas/buena/pBuena-01.png");
+		plantaB[1] = app.loadImage("../data/pngs/plantas/buena/pBuena-02.png");
+		plantaB[2] = app.loadImage("../data/pngs/plantas/buena/pBuena-03.png");
+		plantaB[3] = app.loadImage("../data/pngs/plantas/buena/pBuena-04.png");
+		
+		for (int i = 0; i < plantaB.length; i++) {
+			if(plantaB[i] != null){
+				plantaB[i].resize(108, 108);
+			}
+		}
 	}
 
 	public float getX() {

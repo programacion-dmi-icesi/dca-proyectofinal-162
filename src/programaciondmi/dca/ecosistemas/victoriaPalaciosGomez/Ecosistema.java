@@ -15,6 +15,7 @@ import programaciondmi.dca.ejecucion.Mundo;
 
 public class Ecosistema extends EcosistemaAbstracto {
 private ArrayList<PlantaBuena>buenas;
+private static PApplet app;
 	public Ecosistema() {
 		super();
 		
@@ -22,6 +23,7 @@ private ArrayList<PlantaBuena>buenas;
 		LogoEjemplo boton= new LogoEjemplo("../data/boton.svg", this);
 		System.out.println("elbot:"+boton);
 		ref.agregarBoton(boton);
+		app = Mundo.ObtenerInstancia().getApp();
 	}
 
 
@@ -31,6 +33,13 @@ private ArrayList<PlantaBuena>buenas;
 			Iterator<EspecieAbstracta> iteradorEspecies = especies.iterator();
 			while(iteradorEspecies.hasNext()){
 				EspecieAbstracta actual = iteradorEspecies.next();
+				actual.dibujar();
+			}
+		}
+		synchronized (plantas) {
+			Iterator<PlantaAbstracta> iteradorEspecies = plantas.iterator();
+			while(iteradorEspecies.hasNext()){
+				PlantaAbstracta actual = iteradorEspecies.next();
 				actual.dibujar();
 			}
 		}
@@ -56,6 +65,9 @@ private ArrayList<PlantaBuena>buenas;
 	protected LinkedList<PlantaAbstracta> poblarPlantas() {
 		LinkedList<PlantaAbstracta> plantas = new LinkedList<PlantaAbstracta>();
 		// TODO LLenar las lista de plantas iniciales
+		PlantaBuena plantaTemp = new PlantaBuena(app, 200, 200);
+		plantas.add(plantaTemp);
+		plantaTemp = new PlantaBuena(app, 400, 400);
 		return plantas;
 	}
 
