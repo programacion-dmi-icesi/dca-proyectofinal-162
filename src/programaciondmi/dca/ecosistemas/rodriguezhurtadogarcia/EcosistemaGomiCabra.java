@@ -38,11 +38,13 @@ public class EcosistemaGomiCabra extends EcosistemaAbstracto {
 	public void dibujar() {
 
 		synchronized (plantas) {
-			if (Mundo.ObtenerInstancia().getApp().mousePressed == true) {
-				if (app.mouseButton == app.LEFT) {
-					plantas.add(new PlantaGomiCabra(this, 0));
-				} else if (app.mouseButton == app.RIGHT) {
-					plantas.add(new PlantaGomiCabra(this, 1));
+			if (app.dist(boton.getX(), boton.getY(), app.mouseX, app.mouseY) <= 30) {
+				if (Mundo.ObtenerInstancia().getApp().mousePressed == true) {
+					if (app.mouseButton == app.LEFT) {
+						plantas.add(new PlantaGomiCabra(this, 0));
+					} else if (app.mouseButton == app.RIGHT) {
+						plantas.add(new PlantaGomiCabra(this, 1));
+					}
 				}
 			}
 			Iterator<PlantaAbstracta> iteradorPlantas = plantas.iterator();
