@@ -46,7 +46,9 @@ public class Omnivoro extends EspecieAbstracta implements IOmnivoro{
 								// if (!esperar) {
 								if (d < 70) {
 									comer(especie);
-									especie.setEstado(MUERTO);
+									
+									
+									especie.setEstado(ENFERMO);
 
 									System.out.println("omnivoro mata!");
 									ecosistema.getEspecies().remove(especie);

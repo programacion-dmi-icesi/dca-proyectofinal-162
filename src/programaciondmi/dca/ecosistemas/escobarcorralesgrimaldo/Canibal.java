@@ -43,17 +43,17 @@ public class Canibal extends EspecieAbstracta implements ICanibal {
 							if (especie instanceof Carnivoro || especie instanceof Herbivoro
 									 || especie instanceof Hijo || especie instanceof Omnivoro) {
 								float d = PApplet.dist(especie.getX(), especie.getY(), this.x, this.y);
-								// if (!esperar) {
-								if (d < 70) {
+							
+								if (d < 10) {
 									comer(especie);
-									especie.setEstado(MUERTO);
+									especie.setEstado(ENFERMO);
 
 									//System.out.println("canibal mata!");
 									ecosistema.getEspecies().remove(especie);
 
 									break;
 								}
-								// }
+								
 
 							}
 
