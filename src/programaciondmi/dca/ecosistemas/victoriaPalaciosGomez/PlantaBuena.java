@@ -14,18 +14,16 @@ public class PlantaBuena extends PlantaAbstracta{
 	private float x, y; 
 	private int index;
 	protected PApplet app;
-	protected PImage[] plantaB = new PImage [4];
-	protected ArrayList<PlantaBuena>buenas;
-	
-	
-	public PlantaBuena(PApplet ecosistema, float x, float y){
+	protected PImage[] plantaB = new PImage[4];
+	protected ArrayList<PlantaBuena> buenas;
+
+	public PlantaBuena(PApplet ecosistema, float x, float y) {
 		super(ecosistema);
 		this.app = Mundo.ObtenerInstancia().getApp();
 		this.x= x;
 		this.y= y;
 		index = 0;
 		images();
-		
 	}
 	
 	public void dibujar(){
@@ -60,18 +58,22 @@ public class PlantaBuena extends PlantaAbstracta{
 	public void setY(float y) {
 		this.y = y;
 	}
+	
+	public int getIndex(){
+		return this.index;
+	}
 
 	@Override
 	public void run() {
 		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public boolean recibirDano(EspecieAbstracta lastimador) {
-		// TODO Auto-generated method stub
+		index++;
+		if (index > 3) {
+			index = 0;
+		}
 		return false;
 	}
-  
-	
 }
