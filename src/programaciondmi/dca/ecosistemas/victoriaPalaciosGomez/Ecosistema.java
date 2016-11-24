@@ -34,6 +34,13 @@ public class Ecosistema extends EcosistemaAbstracto {
 				actual.dibujar();
 			}
 		}
+		synchronized (plantas) {
+			Iterator<PlantaAbstracta> iteratorPlantas = plantas.iterator();
+			while (iteratorPlantas.hasNext()) {
+				PlantaAbstracta plantaAbstracta = iteratorPlantas.next();
+				plantaAbstracta.dibujar();
+			}
+		}
 	}
 
 	@Override
