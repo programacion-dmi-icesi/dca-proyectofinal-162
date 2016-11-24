@@ -19,8 +19,6 @@ public class EcosistemaProphetics extends EcosistemaAbstracto {
 	private int time;
 	private boolean colocar, puedeColocar;
 
-	private PImage dep;
-
 	public EcosistemaProphetics() {
 		super();
 
@@ -33,18 +31,18 @@ public class EcosistemaProphetics extends EcosistemaAbstracto {
 	@Override
 	protected LinkedList<EspecieAbstracta> poblarEspecies() {
 		LinkedList<EspecieAbstracta> especies = new LinkedList<EspecieAbstracta>();
-		//
-		// BuhoApareable apareable = new BuhoApareable(this);
-		// especies.add(apareable);
+		
+		 BuhoApareable apareable = new BuhoApareable(this);
+		 especies.add(apareable);
 
-		// BuhoCanibal canibal = new BuhoCanibal(this);
-		// especies.add(canibal);
+		 BuhoCanibal canibal = new BuhoCanibal(this);
+		 especies.add(canibal);
 
 		MurHerbivoro murcielago = new MurHerbivoro(this);
 		especies.add(murcielago);
 
-		// BuhoDepredador depredador = new BuhoDepredador(this);
-		// especies.add(depredador);
+		 BuhoDepredador depredador = new BuhoDepredador(this);
+		 especies.add(depredador);
 
 		return especies;
 	}
@@ -54,11 +52,14 @@ public class EcosistemaProphetics extends EcosistemaAbstracto {
 
 		LinkedList<PlantaAbstracta> plantas = new LinkedList<PlantaAbstracta>();
 
-		// PApplet app = Mundo.ObtenerInstancia().getApp();
-		//
-		// Venenosa veneno = new Venenosa((int) app.random(20, app.width - 20),
-		// (int) app.random(20, app.height - 20));
-		// plantas.add(veneno);
+//		 PApplet app = Mundo.ObtenerInstancia().getApp();
+//		
+//		 Venenosa veneno = new Venenosa((int) app.random(20, app.width - 20),
+//		 (int) app.random(20, app.height - 20));
+//		 plantas.add(veneno);
+//		 
+//		 veneno = new Venenosa((int) app.random(20, app.width - 20),
+//				 (int) app.random(20, app.height - 20));
 		//
 		// Hojas buena = new Hojas((int) app.random(20, app.width - 20), (int)
 		// app.random(20, app.height - 20));
@@ -70,17 +71,17 @@ public class EcosistemaProphetics extends EcosistemaAbstracto {
 	@Override
 	protected List<EspecieAbstracta> generarIndividuos() {
 
-		// BuhoCanibal canibal = new BuhoCanibal(this);
-		// especies.add(canibal);
-		//
-		// BuhoApareable apareable = new BuhoApareable(this);
-		// especies.add(apareable);
+		 BuhoCanibal canibal = new BuhoCanibal(this);
+		 especies.add(canibal);
+		
+		 BuhoApareable apareable = new BuhoApareable(this);
+		 especies.add(apareable);
 
 		MurHerbivoro murcielago = new MurHerbivoro(this);
 		especies.add(murcielago);
 
-		// BuhoDepredador depredador = new BuhoDepredador(this);
-		// especies.add(depredador);
+		 BuhoDepredador depredador = new BuhoDepredador(this);
+		 especies.add(depredador);
 
 		return null;
 	}

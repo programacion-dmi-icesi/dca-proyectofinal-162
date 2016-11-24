@@ -25,7 +25,7 @@ public class BuhoApareable extends EspecieAbstracta implements IApareable {
 	private int ciclo;
 	private int estadoVeneno, tiempoEnvenenado;
 	private boolean tenerHijo, comerPlanta;
-	private boolean encontro;
+	private boolean encontro, encontroPlanta;
 
 	private PImage[][] vuelo;
 	private PImage[][] mascarasHeridas;
@@ -53,8 +53,8 @@ public class BuhoApareable extends EspecieAbstracta implements IApareable {
 		this.vel = 1;
 
 		ciclo = 0;
+
 		PApplet app = Mundo.ObtenerInstancia().getApp();
-		this.bird = app.loadImage("propheticData/Herb.png");
 		this.nino = app.loadImage("propheticData/Hijo.png");
 
 		int targetX = random.nextInt();
@@ -72,13 +72,17 @@ public class BuhoApareable extends EspecieAbstracta implements IApareable {
 
 	@Override
 	public void run() {
-		while (vida > 0) {
+		while (true) {
 			sumarFrames();
 			frameEnfermeda();
 			frameMuerte();
 			vuelo();
 			mover();
 			veneno();
+			if (frameMuerte >= 11) {
+				Mundo.ObtenerInstancia().getEspecies().remove(this);
+				this.ecosistema.getEspecies().remove(this);
+			}
 			try {
 				Thread.sleep(10);
 				ciclo++;
@@ -90,7 +94,7 @@ public class BuhoApareable extends EspecieAbstracta implements IApareable {
 
 	@Override
 	public EspecieAbstracta aparear(IApareable apareable) {
-		BuhoHijo kid = new BuhoHijo(ecosistema, nino);
+		BuhoHijo kid = new BuhoHijo(ecosistema);
 		kid.setX(this.x);
 		kid.setY(this.y);
 		ecosistema.agregarEspecie(kid);
@@ -102,7 +106,7 @@ public class BuhoApareable extends EspecieAbstracta implements IApareable {
 		PApplet app = Mundo.ObtenerInstancia().getApp();
 		app.imageMode(3);
 		pintarSombra();
-		if (frameMuerte < 5) {
+		if (frameMuerte < 5 && vida > 0) {
 			if (direccion == 0) {
 				if (herido) {
 					app.image(mascarasHeridas[direccion][estadoHerido], x, y + seno);
@@ -125,26 +129,42 @@ public class BuhoApareable extends EspecieAbstracta implements IApareable {
 			}
 		}
 		app.image(muerte[frameMuerte], x, y + seno);
+
+		app.fill(0, 0, 255);
+		app.rectMode(3);
+		app.rect(x, y - 40, vida, 10);
 	}
 
 	@Override
 	public void mover() {
-		if (energia > 0) {
-			if (energia > LIMITE_APAREO && tenerHijo) {
+		if (energia > 0 && vida > 0) {
+			if (energia > LIMITE_APAREO) {
 				buscarPareja();
 				if (parejaCerca != null) {
 					intentarAparear();
 				}
+
+				if (!encontro) {
+					if (ciclo % 90 == 0) {
+						int targetX = random.nextInt();
+						int targetY = random.nextInt();
+						redireccionar(new PVector(targetX, targetY));
+						calcularImg(new PVector(targetX, targetY));
+					}
+				}
+
 			} else {
 				buscarPlanta();
 				if (plantaCerca != null) {
 					alimentar(plantaCerca);
 				}
-				if (ciclo % 90 == 0) {
-					int targetX = random.nextInt();
-					int targetY = random.nextInt();
-					redireccionar(new PVector(targetX, targetY));
-					calcularImg(new PVector(targetX, targetY));
+				if (!encontroPlanta) {
+					if (ciclo % 90 == 0) {
+						int targetX = random.nextInt();
+						int targetY = random.nextInt();
+						redireccionar(new PVector(targetX, targetY));
+						calcularImg(new PVector(targetX, targetY));
+					}
 				}
 			}
 			this.x += pos.x;
@@ -160,6 +180,22 @@ public class BuhoApareable extends EspecieAbstracta implements IApareable {
 			this.pos.y *= -1;
 		}
 
+		if (this.y > Mundo.ObtenerInstancia().getApp().height) {
+			direccion = 0;
+		}
+
+		if (this.y < 0) {
+			direccion = 2;
+		}
+
+		if (this.x > Mundo.ObtenerInstancia().getApp().width) {
+			direccion = 1;
+		}
+
+		if (this.x < 0) {
+			direccion = 3;
+		}
+
 		if (energia < 0) {
 			vida -= 5;
 		}
@@ -168,10 +204,12 @@ public class BuhoApareable extends EspecieAbstracta implements IApareable {
 			estado = MUERTO;
 		}
 
-		PApplet app = Mundo.ObtenerInstancia().getApp();
 		if (ciclo % 600 == 0) {
-			tenerHijo = true;
 			comerPlanta = true;
+		}
+
+		if (ciclo % 900 == 0) {
+			tenerHijo = true;
 		}
 
 	}
@@ -219,7 +257,7 @@ public class BuhoApareable extends EspecieAbstracta implements IApareable {
 			EspecieAbstracta cerca = iterador.next();
 			if ((cerca instanceof IApareable) && !cerca.equals(this)) {
 				float d = PApplet.dist(x, y, cerca.getX(), cerca.getY());
-				if (d < energia * 1.5 && cerca.getEstado() != cerca.MUERTO) {
+				if (d < energia * 1.5) {
 					parejaCerca = cerca;
 					encontro = true;
 				}
@@ -240,14 +278,15 @@ public class BuhoApareable extends EspecieAbstracta implements IApareable {
 	 * a su vida actual
 	 */
 	private void intentarAparear() {
-		float d = PApplet.dist(x, y, parejaCerca.getX(), parejaCerca.getY());
-		if ((d < vida) && energia > 0) {
-			IApareable a = (IApareable) parejaCerca;
-			ecosistema.agregarEspecie(aparear(a));
-			energia -= 50;
-			tenerHijo = false;
-			encontro = false;
-
+		if (tenerHijo) {
+			float d = PApplet.dist(x, y, parejaCerca.getX(), parejaCerca.getY());
+			if ((d < 15) && energia > 0) {
+				IApareable a = (IApareable) parejaCerca;
+				ecosistema.agregarEspecie(aparear(a));
+				energia -= 50;
+				tenerHijo = false;
+				encontro = false;
+			}
 		}
 	}
 
@@ -257,23 +296,32 @@ public class BuhoApareable extends EspecieAbstracta implements IApareable {
 	 * @param planta
 	 */
 	private void alimentar(PlantaAbstracta planta) {
-		if (planta != null) {
+		if (planta != null && comerPlanta) {
 			float d = PApplet.dist(x, y, planta.getX(), planta.getY());
-			if (d < 80 && comerPlanta) {
+			if (d < 15) {
 				if ((planta instanceof Venenosa) && estadoVeneno == 0) {
 					estado = ENVENENADO;
 					estadoVeneno = 1;
+					energia += 10;
+					vida -= 5;
+					vel -= 0.01;
+					enfermo = true;
 				} else if ((planta instanceof Hojas)) {
-					energia += 20;
 					estado = EXTASIS;
-					estadoVeneno = 0;
-					comerPlanta = false;
-				} else {
 					energia += 20;
-					comerPlanta = false;
+					vel += 0.02;
+					vida += 2;
+					estadoVeneno = 0;
+					enfermo = false;
 				}
-				planta.recibirDano(this);
+				if (planta.recibirDano(this)) {
+					planta.recibirDano(this);
+				} else {
+					Mundo.ObtenerInstancia().getPlantas().remove(planta);
+					this.ecosistema.getPlantas().remove(planta);
+				}
 				comerPlanta = false;
+				encontroPlanta = false;
 			}
 		}
 	}
@@ -284,20 +332,21 @@ public class BuhoApareable extends EspecieAbstracta implements IApareable {
 	private void buscarPlanta() {
 		List<PlantaAbstracta> all = Mundo.ObtenerInstancia().getPlantas();
 		ListIterator<PlantaAbstracta> iterador = all.listIterator();
-		boolean encontro = false;
-		while (!encontro && iterador.hasNext()) {
+		while (!encontroPlanta && iterador.hasNext()) {
 			PlantaAbstracta p = iterador.next();
 			float d = PApplet.dist(x, y, p.getX(), p.getY());
-			if (d < energia * 2 && comerPlanta) {
-				encontro = true;
+			if (d < energia * 2 && comerPlanta && p.recibirDano(this)) {
 				plantaCerca = p;
-				redireccionar(new PVector(plantaCerca.getX(), plantaCerca.getY()));
-				calcularImg(new PVector(plantaCerca.getX(), plantaCerca.getY()));
-				comerPlanta = false;
+				encontroPlanta = true;
 			}
 		}
 
-		if (!encontro) {
+		if (encontroPlanta) {
+			redireccionar(new PVector(plantaCerca.getX(), plantaCerca.getY()));
+			calcularImg(new PVector(plantaCerca.getX(), plantaCerca.getY()));
+		}
+
+		if (!encontroPlanta) {
 			plantaCerca = null;
 		}
 	}

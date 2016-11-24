@@ -15,7 +15,6 @@ import programaciondmi.dca.ejecucion.Mundo;
 
 public class BuhoDepredador extends EspecieAbstracta implements ICarnivoro {
 
-	private PImage bird;
 	private int vida;
 	private float energia, vel;
 	private PlantaAbstracta plantaCerca;
@@ -24,6 +23,7 @@ public class BuhoDepredador extends EspecieAbstracta implements ICarnivoro {
 	private int ciclo;
 	private int estadoVeneno, tiempoEnvenenado;
 	private boolean comerPlanta, puedeAtacar;
+	private boolean encontro, encontroPlanta;
 
 	private PImage[][] vuelo;
 	private PImage[][] mascarasHeridas;
@@ -64,13 +64,17 @@ public class BuhoDepredador extends EspecieAbstracta implements ICarnivoro {
 
 	@Override
 	public void run() {
-		while (vida > 0) {
+		while (true) {
 			sumarFrames();
 			frameEnfermeda();
 			frameMuerte();
 			vuelo();
 			mover();
 			veneno();
+			if (frameMuerte >= 11) {
+				Mundo.ObtenerInstancia().getEspecies().remove(this);
+				this.ecosistema.getEspecies().remove(this);
+			}
 			try {
 				Thread.sleep(10);
 				ciclo++;
@@ -84,11 +88,12 @@ public class BuhoDepredador extends EspecieAbstracta implements ICarnivoro {
 	@Override
 	public void comer(EspecieAbstracta victima) {
 		if (!victima.getClass().toString().equals(this.getClass().toString())) {
-			if (victima.recibirDano(this)) {
+			float d = PApplet.dist(x, y, victima.getX(), victima.getY());
+			if (d < 15 && puedeAtacar) {
 				energia += 10;
 				victima.recibirDano(this);
-				System.out.println("ME COMI UNA SALCHIPAPA");
 				puedeAtacar = false;
+				encontro = false;
 			}
 		}
 	}
@@ -98,7 +103,7 @@ public class BuhoDepredador extends EspecieAbstracta implements ICarnivoro {
 		PApplet app = Mundo.ObtenerInstancia().getApp();
 		app.imageMode(3);
 		pintarSombra();
-		if (frameMuerte < 5) {
+		if (frameMuerte < 5 && vida > 0) {
 			if (direccion == 0) {
 				if (herido) {
 					app.image(mascarasHeridas[direccion][estadoHerido], x, y + seno);
@@ -121,25 +126,42 @@ public class BuhoDepredador extends EspecieAbstracta implements ICarnivoro {
 			}
 		}
 		app.image(muerte[frameMuerte], x, y + seno);
+
+		app.fill(150, 150, 0);
+		app.rectMode(3);
+		app.rect(x, y - 40, vida, 10);
 	}
 
 	@Override
 	public void mover() {
-		if (energia > 0) {
+		if (energia > 0 && vida > 0) {
 			if (energia > LIMITE_COMER) {
 				buscarComida();
 				if (comestible != null) {
 					comer(comestible);
 				}
+
+				if (!encontro) {
+					if (ciclo % 90 == 0) {
+						int targetX = random.nextInt();
+						int targetY = random.nextInt();
+						redireccionar(new PVector(targetX, targetY));
+						calcularImg(new PVector(targetX, targetY));
+					}
+				}
+
 			} else {
 				buscarPlanta();
 				if (plantaCerca != null) {
 					alimentar(plantaCerca);
 				}
-				if (ciclo % 90 == 0) {
-					int targetX = random.nextInt();
-					int targetY = random.nextInt();
-					redireccionar(new PVector(targetX, targetY));
+				if (!encontroPlanta) {
+					if (ciclo % 90 == 0) {
+						int targetX = random.nextInt();
+						int targetY = random.nextInt();
+						redireccionar(new PVector(targetX, targetY));
+						calcularImg(new PVector(targetX, targetY));
+					}
 				}
 			}
 			this.x += pos.x;
@@ -155,6 +177,22 @@ public class BuhoDepredador extends EspecieAbstracta implements ICarnivoro {
 			this.pos.y *= -1;
 		}
 
+		if (this.x > Mundo.ObtenerInstancia().getApp().width) {
+			direccion = 1;
+		}
+
+		if (this.x < 0) {
+			direccion = 3;
+		}
+
+		if (this.y > Mundo.ObtenerInstancia().getApp().height) {
+			direccion = 0;
+		}
+
+		if (this.y < 0) {
+			direccion = 2;
+		}
+
 		if (energia <= 0) {
 			vida -= 5;
 		}
@@ -163,7 +201,6 @@ public class BuhoDepredador extends EspecieAbstracta implements ICarnivoro {
 			estado = MUERTO;
 		}
 
-		PApplet app = Mundo.ObtenerInstancia().getApp();
 		if (ciclo % 300 == 0) {
 			comerPlanta = true;
 			puedeAtacar = true;
@@ -177,20 +214,24 @@ public class BuhoDepredador extends EspecieAbstracta implements ICarnivoro {
 	private void buscarComida() {
 		List<EspecieAbstracta> all = Mundo.ObtenerInstancia().getEspecies();
 		ListIterator<EspecieAbstracta> iterador = all.listIterator();
-		boolean encontro = false;
 		while (!encontro && iterador.hasNext()) {
 			EspecieAbstracta com = iterador.next();
 			if (!com.equals(this)) {
-				if (!(com instanceof BuhoApareable) && !(com instanceof BuhoCanibal) && !(com instanceof BuhoHijo)) {
+				if (com instanceof BuhoApareable || com instanceof BuhoCanibal || com instanceof BuhoHijo
+						|| com instanceof MurHerbivoro) {
 					float d = PApplet.dist(x, y, com.getX(), com.getY());
-					if (d < energia * 2 && puedeAtacar) {
-						encontro = true;
+					if (d < energia * 2 && puedeAtacar && com.recibirDano(this)) {
 						comestible = com;
-						redireccionar(new PVector(comestible.getX(), comestible.getY()));
+						encontro = true;
 					}
 				}
 			}
 		}
+		if (encontro) {
+			redireccionar(new PVector(comestible.getX(), comestible.getY()));
+			calcularImg(new PVector(comestible.getX(), comestible.getY()));
+		}
+
 		if (!encontro) {
 			comestible = null;
 		}
@@ -203,19 +244,21 @@ public class BuhoDepredador extends EspecieAbstracta implements ICarnivoro {
 	private void buscarPlanta() {
 		List<PlantaAbstracta> all = Mundo.ObtenerInstancia().getPlantas();
 		ListIterator<PlantaAbstracta> iterador = all.listIterator();
-		boolean encontro = false;
-		while (!encontro && iterador.hasNext()) {
+		while (!encontroPlanta && iterador.hasNext()) {
 			PlantaAbstracta p = iterador.next();
 			float d = PApplet.dist(x, y, p.getX(), p.getY());
-			if (d < energia * 2 && comerPlanta) {
-				encontro = true;
+			if (d < energia * 2 && comerPlanta && p.recibirDano(this)) {
 				plantaCerca = p;
-				redireccionar(new PVector(plantaCerca.getX(), plantaCerca.getY()));
-				comerPlanta = false;
+				encontroPlanta = true;
 			}
 		}
 
-		if (!encontro) {
+		if (encontroPlanta) {
+			redireccionar(new PVector(plantaCerca.getX(), plantaCerca.getY()));
+			calcularImg(new PVector(plantaCerca.getX(), plantaCerca.getY()));
+		}
+
+		if (!encontroPlanta) {
 			plantaCerca = null;
 		}
 	}
@@ -226,22 +269,32 @@ public class BuhoDepredador extends EspecieAbstracta implements ICarnivoro {
 	 * @param planta
 	 */
 	private void alimentar(PlantaAbstracta planta) {
-		if (planta != null) {
+		if (planta != null && comerPlanta) {
 			float d = PApplet.dist(x, y, planta.getX(), planta.getY());
-			if (d < 80 && !comerPlanta) {
+			if (d < 15) {
 				if ((planta instanceof Venenosa) && estadoVeneno == 0) {
 					estado = ENVENENADO;
 					estadoVeneno = 1;
+					energia += 10;
+					vida -= 5;
+					vel -= 0.01;
+					enfermo = true;
 				} else if ((planta instanceof Hojas)) {
-					energia += 20;
 					estado = EXTASIS;
-					estadoVeneno = 0;
-					comerPlanta = false;
-				} else {
 					energia += 20;
-					comerPlanta = false;
+					vida += 2;
+					vel += 0.02;
+					estadoVeneno = 0;
+					enfermo = false;
 				}
-				planta.recibirDano((EspecieAbstracta) this);
+				if (planta.recibirDano(this)) {
+					planta.recibirDano(this);
+				} else {
+					Mundo.ObtenerInstancia().getPlantas().remove(planta);
+					this.ecosistema.getPlantas().remove(planta);
+				}
+				comerPlanta = false;
+				encontroPlanta = false;
 			}
 		}
 	}
@@ -388,6 +441,38 @@ public class BuhoDepredador extends EspecieAbstracta implements ICarnivoro {
 		app.noStroke();
 		app.ellipse(x, y + 70, 40 + seno, 10);
 
+	}
+
+	private void calcularImg(PVector target) {
+
+		PVector location = new PVector(x, y);
+		float disX = target.x - location.x;
+		float disY = target.y - location.y;
+
+		float teta = PApplet.atan2(disY, disX);
+
+		teta *= 180 / PApplet.PI;
+
+		if (teta < 0)
+			teta = 360 + teta;
+
+		int d = (int) teta;
+
+		if (d <= 45 && d >= 0 && d <= 360 && d >= 315) {
+			direccion = 3; // Derecha
+		}
+
+		if (d <= 315 && d > 225) {
+			direccion = 0; // Frontal
+		}
+
+		if (d <= 225 && d > 135) {
+			direccion = 1; // Izquierda
+		}
+
+		if (d <= 135 && d > 45) {
+			direccion = 2; // Posterior
+		}
 	}
 
 	/**

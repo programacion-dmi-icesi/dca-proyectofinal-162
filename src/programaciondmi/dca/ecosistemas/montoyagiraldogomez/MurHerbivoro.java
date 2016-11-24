@@ -94,10 +94,6 @@ public class MurHerbivoro extends EspecieAbstracta implements IHerbivoro {
 		PApplet app = Mundo.ObtenerInstancia().getApp();
 		app.imageMode(3);
 		pintarSombra();
-		app.noStroke();
-		app.fill(255, 100);
-		app.ellipse(x, y, energia * 2, energia * 2);
-		System.out.println(frameMuerte);
 		if (frameMuerte < 5 && vida > 0) {
 			if (direccion == 0) {
 				if (herido) {
@@ -122,7 +118,7 @@ public class MurHerbivoro extends EspecieAbstracta implements IHerbivoro {
 		}
 		app.image(muerte[frameMuerte], x, y + seno);
 
-		app.fill(255, 0, 0);
+		app.fill(0, 255, 0);
 		app.rectMode(3);
 		app.rect(x, y - 40, vida, 10);
 	}
@@ -139,11 +135,13 @@ public class MurHerbivoro extends EspecieAbstracta implements IHerbivoro {
 				sembrar();
 			}
 
-			if (ciclo % 90 == 0) {
-				int targetX = random.nextInt();
-				int targetY = random.nextInt();
-				redireccionar(new PVector(targetX, targetY));
-				calcularImg(new PVector(targetX, targetY));
+			if (!encontro) {
+				if (ciclo % 90 == 0) {
+					int targetX = random.nextInt();
+					int targetY = random.nextInt();
+					redireccionar(new PVector(targetX, targetY));
+					calcularImg(new PVector(targetX, targetY));
+				}
 			}
 
 			this.x += pos.x;
@@ -236,6 +234,7 @@ public class MurHerbivoro extends EspecieAbstracta implements IHerbivoro {
 					estado = EXTASIS;
 					energia += 20;
 					vel += 0.02;
+					vida += 2;
 					estadoVeneno = 0;
 					enfermo = false;
 				}
