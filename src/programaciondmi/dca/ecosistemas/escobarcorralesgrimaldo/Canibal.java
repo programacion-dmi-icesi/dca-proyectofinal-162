@@ -18,8 +18,6 @@ public class Canibal extends EspecieAbstracta implements ICanibal {
 	private PVector dir;
 	private int energia;
 	private int ciclo;
-	
-	
 
 	public Canibal(EcosistemaAbstracto ecosistema) {
 		super(ecosistema);
@@ -55,10 +53,9 @@ public class Canibal extends EspecieAbstracta implements ICanibal {
 		cani[1] = app.loadImage("../data/vistas/cani_arri.png");
 		cani[2] = app.loadImage("../data/vistas/cani_izq.png");
 		cani[3] = app.loadImage("../data/vistas/cani_der.png");
-
-		// app.fill(255,255,0);
+		
+		
 		app.image(cani[0], x, y);
-		// app.ellipse(x, y, 100, 100);
 
 	}
 
@@ -100,7 +97,7 @@ public class Canibal extends EspecieAbstracta implements ICanibal {
 
 			} catch (Exception e) {
 				e.printStackTrace();
-				//vida -= 5;
+				// vida -= 5;
 			}
 			return true;
 
