@@ -49,6 +49,7 @@ public class Canibal extends EspecieAbstracta implements ICanibal {
 	public void dibujar() {
 		PApplet app = Mundo.ObtenerInstancia().getApp();
 		cani[0] = app.loadImage("../data/Canibal.png");
+		System.out.println("holi");
 		// app.fill(255,255,0);
 		app.image(cani[0], x, y);
 		// app.ellipse(x, y, 100, 100);
