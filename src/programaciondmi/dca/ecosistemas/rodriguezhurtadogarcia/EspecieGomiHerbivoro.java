@@ -17,6 +17,8 @@ import programaciondmi.dca.ejecucion.Mundo;
 
 public class EspecieGomiHerbivoro extends GomiCabra implements IApareable, IHerbivoro {
 
+	private boolean procrear = false;
+
 	public EspecieGomiHerbivoro(EcosistemaAbstracto ecosistema, int vista) {
 		super(ecosistema);
 		app = Mundo.ObtenerInstancia().getApp();
@@ -62,29 +64,8 @@ public class EspecieGomiHerbivoro extends GomiCabra implements IApareable, IHerb
 
 	@Override
 	public EspecieAbstracta aparear(IApareable apareable) {
-		HijoGomiCabra hijo = new HijoGomiCabra(ecosistema);
-		hijo.setX(this.x);
-		hijo.setY(this.y);
-		List<EspecieAbstracta> todas = Mundo.ObtenerInstancia().getEspecies();
-		ListIterator<EspecieAbstracta> iterador = todas.listIterator();
-		boolean encontro = false;
 
-		while (iterador.hasNext()) {
-			EspecieAbstracta e = iterador.next();
-			if (e instanceof IApareable && !e.equals(this)) {
-				float dist = PApplet.dist(x, y, e.getX(), e.getY());
-				if (dist < 200) {
-					encontro = true;
-					parejaCercana = e;
-					ecosistema.agregarEspecie(hijo);
-				}
-			}
-		}
-		if (!encontro) {
-			parejaCercana = null;
-			// System.out.println("No encontró una pareja cercana");
-		}
-		return hijo;
+		return null;
 	}
 
 	@Override
@@ -92,6 +73,33 @@ public class EspecieGomiHerbivoro extends GomiCabra implements IApareable, IHerb
 		while (vida > 0) {
 			mover();
 			try {
+
+				// AQUI TIENE EL BEBE
+
+				synchronized (ecosistema.getEspecies()) {
+					for (EspecieAbstracta especie : ecosistema.getEspecies()) {
+						if (especie != this && especie instanceof IApareable) {
+
+							float d = PApplet.dist(especie.getX(), especie.getY(), this.x, this.y);
+
+							if (d < 100) {
+								procrear = true;
+							} else {
+								procrear = false;
+							}
+
+						}
+					}
+				}
+
+				/*
+				 * if (procrear == true) { HijoGomiCabra hijo = new
+				 * HijoGomiCabra(ecosistema); hijo.setX(this.x);
+				 * hijo.setY(this.y); ecosistema.getEspecies().add(hijo);
+				 * 
+				 * }
+				 */
+
 				Thread.sleep(33);
 				vista++;
 
@@ -113,27 +121,6 @@ public class EspecieGomiHerbivoro extends GomiCabra implements IApareable, IHerb
 		}
 	}
 
-	private void buscarParejaCercana() {
-		List<EspecieAbstracta> todas = Mundo.ObtenerInstancia().getEspecies();
-		ListIterator<EspecieAbstracta> iterador = todas.listIterator();
-		boolean encontro = false;
-
-		while (!encontro && iterador.hasNext()) {
-			EspecieAbstracta e = iterador.next();
-			if ((e instanceof IApareable) && !e.equals(this)) {
-				float dist = PApplet.dist(x, y, e.getX(), e.getY());
-				if (dist < energia) {
-					encontro = true;
-					parejaCercana = e;
-				}
-			}
-		}
-
-		if (!encontro) {
-			parejaCercana = null;
-		}
-	}
-
 	@Override
 	public boolean recibirDano(EspecieAbstracta lastimador) {
 		// TODO implementar metodo
@@ -143,7 +130,6 @@ public class EspecieGomiHerbivoro extends GomiCabra implements IApareable, IHerb
 	@Override
 	public void comerPlanta(PlantaAbstracta victima) {
 
-		System.out.println("se come una planta ");
 		if (puedeComer && victima instanceof PlantaGomiCabra) {
 			PlantaGomiCabra p = (PlantaGomiCabra) victima;
 
@@ -166,6 +152,14 @@ public class EspecieGomiHerbivoro extends GomiCabra implements IApareable, IHerb
 
 		}
 
+	}
+
+	public boolean isProcrear() {
+		return procrear;
+	}
+
+	public void setProcrear(boolean procrear) {
+		this.procrear = procrear;
 	}
 
 }

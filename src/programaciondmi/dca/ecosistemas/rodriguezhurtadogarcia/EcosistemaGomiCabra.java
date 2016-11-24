@@ -35,7 +35,7 @@ public class EcosistemaGomiCabra extends EcosistemaAbstracto {
 
 	@Override
 	public void dibujar() {
-		//
+
 		synchronized (especies) {
 			Iterator<EspecieAbstracta> iteradorEspecies = especies.iterator();
 			while (iteradorEspecies.hasNext()) {
@@ -99,8 +99,6 @@ public class EcosistemaGomiCabra extends EcosistemaAbstracto {
 	@Override
 	protected LinkedList<EspecieAbstracta> poblarEspecies() {
 		LinkedList<EspecieAbstracta> especies = new LinkedList<EspecieAbstracta>();
-		// EspecieGomiHerbivoro gomiHerbivoro = new EspecieGomiHerbivoro(this,
-		// vista);
 
 		especies.add(new EspecieGomiHerbivoro(this, vista));
 		especies.add(new EspecieGomiHerbivoro(this, vista));
@@ -113,9 +111,6 @@ public class EcosistemaGomiCabra extends EcosistemaAbstracto {
 
 		especies.add(new EspecieGomiOmnivoro(this));
 		especies.add(new EspecieGomiOmnivoro(this));
-
-		especies.add(new HijoGomiCabra(this));
-		especies.add(new HijoGomiCabra(this));
 
 		return especies;
 	}
@@ -131,14 +126,14 @@ public class EcosistemaGomiCabra extends EcosistemaAbstracto {
 		LinkedList<EspecieAbstracta> especies = new LinkedList<EspecieAbstracta>();
 
 		especies.add(new EspecieGomiHerbivoro(this, vista));
-
+		especies.add(new EspecieGomiHerbivoro(this, vista));
 		especies.add(new EspecieGomiCarnivoro(this));
-
+		especies.add(new EspecieGomiCarnivoro(this));
 		especies.add(new EspecieGomiCanibal(this, 1));
-
+		especies.add(new EspecieGomiCanibal(this, 1));
+		especies.add(new EspecieGomiOmnivoro(this));
 		especies.add(new EspecieGomiOmnivoro(this));
 
-		especies.add(new HijoGomiCabra(this));
 		return especies;
 	}
 

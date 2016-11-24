@@ -133,7 +133,6 @@ public class EspecieGomiOmnivoro extends GomiCabra implements IOmnivoro {
 		return false;
 	}
 
-
 	@Override
 	public void comerPlanta(PlantaAbstracta victima) {
 
