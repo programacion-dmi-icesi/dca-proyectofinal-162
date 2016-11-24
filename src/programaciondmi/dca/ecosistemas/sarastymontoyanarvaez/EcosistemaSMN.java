@@ -95,6 +95,16 @@ public class EcosistemaSMN extends EcosistemaAbstracto {
 	}
 
 
+//	@Override
+//	protected List<PlantaAbstracta> generarPlantas() {
+//		LinkedList<PlantaAbstracta> plantas = new LinkedList<PlantaAbstracta>();
+//		PlantaMala plantaVerde = new PlantaMala(this);
+//		plantas.add(plantaVerde);
+//		PlantaBuena plantaRoja = new PlantaBuena(this);
+//		plantas.add(plantaRoja);
+//		return null;
+//	}
+
 	@Override
 	protected List<PlantaAbstracta> generarPlantas() {
 		LinkedList<PlantaAbstracta> plantas = new LinkedList<PlantaAbstracta>();
@@ -102,13 +112,12 @@ public class EcosistemaSMN extends EcosistemaAbstracto {
 		plantas.add(plantaVerde);
 		PlantaBuena plantaRoja = new PlantaBuena(this);
 		plantas.add(plantaRoja);
-		return null;
+		
+		agregarPlanta(plantaVerde);
+		agregarPlanta(plantaRoja);
+		return plantas;
 	}
-
-	@Override
-	public void agregarEspecie(EspecieAbstracta e) {
-		// TODO Auto-generated method stub
-		super.agregarEspecie(e);
-	}
+	
+	
 
 }
