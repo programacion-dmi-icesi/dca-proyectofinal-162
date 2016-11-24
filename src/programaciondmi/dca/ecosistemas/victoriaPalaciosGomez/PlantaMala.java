@@ -42,10 +42,10 @@ public class PlantaMala extends PlantaAbstracta {
 	//public abstract boolean recibirDano(EspecieAbstracta lastimador);
 	
 	private void images(){
-		plantaM[0] = app.loadImage("../data/pMala-01.png");
-		plantaM[1] = app.loadImage("../data/pMala-02.png");
-		plantaM[2] = app.loadImage("../data/pMala-03.png");
-		plantaM[3] = app.loadImage("../data/pMala-04.png");
+		plantaM[0] = app.loadImage("../data/pngs/plantas/Mala/pMala-01.png");
+		plantaM[1] = app.loadImage("../data/pngs/plantas/Mala/pMala-02.png");
+		plantaM[2] = app.loadImage("../data/pngs/plantas/Mala/pMala-03.png");
+		plantaM[3] = app.loadImage("../data/pngs/plantas/Mala/pMala-04.png");
 	}
 	
 	
@@ -70,7 +70,7 @@ public class PlantaMala extends PlantaAbstracta {
 	@Override
 	public boolean recibirDano(EspecieAbstracta lastimador) {
 		index++;
-		if (index > 3) {
+		if (index >= 3) {
 			index = 0;
 		}
 		return false;

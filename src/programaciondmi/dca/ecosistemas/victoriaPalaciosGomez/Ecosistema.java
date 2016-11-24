@@ -10,7 +10,7 @@ import processing.core.PApplet;
 import programaciondmi.dca.core.EcosistemaAbstracto;
 import programaciondmi.dca.core.EspecieAbstracta;
 import programaciondmi.dca.core.PlantaAbstracta;
-import programaciondmi.dca.ecosistemas.sarmientomanzanomoncada.LogoEjemplo;
+
 import programaciondmi.dca.ejecucion.Mundo;
 
 public class Ecosistema extends EcosistemaAbstracto {
@@ -20,7 +20,7 @@ private static PApplet app;
 		super();
 		
 		Mundo ref = Mundo.ObtenerInstancia();
-		LogoEjemplo boton= new LogoEjemplo("../data/boton.svg", this);
+		Logo boton= new Logo("../data/boton.svg", this);
 		System.out.println("elbot:"+boton);
 		ref.agregarBoton(boton);
 		app = Mundo.ObtenerInstancia().getApp();
@@ -86,20 +86,21 @@ private static PApplet app;
 
 	@Override
 	protected List<PlantaAbstracta> generarPlantas() {
-//		if( mousePressed==RIGHT){
-//		for (int i = 0; i < buenas.size(); i++) {
-//			buenas.add(new PlantaBuena(ecosistema));
-////    		if(dist(buenas.get(i).getX(), buenas.get(i).getY(), , y2)){
-////    			
-////    		}
-//		}
-//    		}
-		return plantas;
+		if( app.mouseButton == app.RIGHT){
+			PlantaMala plantaTemp = new PlantaMala(app, app.mouseX, app.mouseY);
+			plantas.add(plantaTemp);
+		}else{
+			PlantaBuena plantaTemp = new PlantaBuena(app, app.mouseX, app.mouseY);
+			plantas.add(plantaTemp);
+		}
+	
+ 		return plantas;
+		
 	}
 	
 	
 	public void presionar(){
-		
+		System.out.println("Clic");
 	}
 	
 }
