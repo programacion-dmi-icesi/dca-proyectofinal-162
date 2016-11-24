@@ -18,18 +18,23 @@ import programaciondmi.dca.core.interfaces.IHerbivoro;
 import programaciondmi.dca.ejecucion.Mundo;
 
 public class Birdbot extends EspecieAbstracta implements IApareable, IHerbivoro {
-	private int vida, velocidad, ciclo, contador;
+	private int vida, ciclo, contador;
+	private float velocidad;
 	private float fuerza, energia, defensa;
 	PApplet app = Mundo.ObtenerInstancia().getApp();
 	private EspecieAbstracta parejaCercana;
 	private PlantaAbstracta plantaCerca;
 	private PVector dir;
 	PImage[] pjBirdbot = new PImage[16];
-	PImage poison;
+	PImage poison, ivel, ienergy, iforce, idefense;
 	// Constantes
 	private final int LIMITE_APAREO = 100;
 	private Random random;
-
+	
+	// animacion
+	
+	private boolean animonbuena =false;
+	private boolean animonmala =false;
 	public Birdbot(EcosistemaAbstracto ecosistema) {
 		super(ecosistema);
 		this.random = new Random();
@@ -71,6 +76,10 @@ public class Birdbot extends EspecieAbstracta implements IApareable, IHerbivoro 
 	
 		
 		poison = app.loadImage("DataTikiBots/iconos/envenenado.png");
+		ivel = app.loadImage("DataTikiBots/iconos/iconoVelocidad.png");
+		ienergy = app.loadImage("DataTikiBots/iconos/iconoEnergia.png");
+		iforce = app.loadImage("DataTikiBots/iconos/iconoFuerza.png");
+		idefense = app.loadImage("DataTikiBots/iconos/iconoDefensa.png");
 		
 		Thread nt = new Thread(this);
 		nt.start();
@@ -91,6 +100,30 @@ public class Birdbot extends EspecieAbstracta implements IApareable, IHerbivoro 
 	public void dibujar() {
 		// TODO Auto-generated method stub
 			
+		// animaciones encima de la barra superior (iconos)
+		
+		if (animonbuena==true) {
+			app.fill(0);
+			app.text("+20", x,y-70);
+			app.text("+20", x+30,y-70);
+			app.text("+0.05", x+60,y-70);
+			app.image(iforce, x, y-60, 30,30);
+			app.image(idefense, x+30, y-60, 30,30);
+			app.image(ivel, x+60, y-60, 30,30);
+		
+		}
+		if (animonmala==true) {
+			app.fill(0);
+			app.text("-20", x,y-70);
+			app.text("-20", x+30,y-70);
+			app.text("-0.01", x+60,y-70);
+			app.image(iforce, x, y-60, 30,30);
+			app.image(idefense, x+30, y-60, 30,30);
+			app.image(ivel, x+60, y-60, 30,30);
+		
+		}
+		
+		
 		app.noStroke();
 		switch (vida) {
 		
@@ -156,6 +189,8 @@ public class Birdbot extends EspecieAbstracta implements IApareable, IHerbivoro 
 		
 		app.image(pjBirdbot[contador], x, y, 100,100);
 		app.tint(255,255,255);	
+		
+		
 	}
 
 	@Override
@@ -277,6 +312,7 @@ public class Birdbot extends EspecieAbstracta implements IApareable, IHerbivoro 
 	 * </p>
 	 */
 	private void buscarComida() {
+		synchronized (this.ecosistema.getPlantas()) {
 		List<PlantaAbstracta> all = Mundo.ObtenerInstancia().getPlantas();
 		ListIterator<PlantaAbstracta> iterador = all.listIterator();
 		boolean encontro = false;
@@ -306,8 +342,11 @@ public class Birdbot extends EspecieAbstracta implements IApareable, IHerbivoro 
 		
 		}
 		
+		
+		
 		if (!encontro) {
 			plantaCerca = null;
+		}
 		}
 	}
 	
@@ -342,6 +381,10 @@ public class Birdbot extends EspecieAbstracta implements IApareable, IHerbivoro 
 					fuerza -=20;
 					defensa -=20;
 					vida -=20;
+					velocidad -=0.01;
+					
+					animonmala=true;
+					animonbuena=false;
 					
 					switch (vida) {
 						case 100:
@@ -362,9 +405,14 @@ public class Birdbot extends EspecieAbstracta implements IApareable, IHerbivoro 
 				
 				if(victima.getClass() == PlantaBuena.class){
 					PlantaBuena m = (PlantaBuena) victima;
-					setEstado(EXTASIS);
+				
+					
+					animonbuena =true;
+					animonmala=false;
 					fuerza +=20;
 					defensa +=20;
+					velocidad += 0.05;
+					
 					if (vida<=80){
 					vida +=20;
 					}	
@@ -399,6 +447,8 @@ public class Birdbot extends EspecieAbstracta implements IApareable, IHerbivoro 
 		}
 	}
 	
+
+
 	public void estado(){
 		
 	}
