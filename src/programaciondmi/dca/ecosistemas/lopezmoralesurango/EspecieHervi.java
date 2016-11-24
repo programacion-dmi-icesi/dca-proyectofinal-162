@@ -18,14 +18,14 @@ public class EspecieHervi extends EspecieAbstracta implements IHerbivoro {
 	private int vida;
 	private int velocidad;
 	private PVector dir;
-	private PImage Herviboro;
+	private PImage Herviboro, Herviboro1, Herviboro2, Herviboro3, Herviboro4;
 	private Random random;
-	
+
 	private float energia;
 
 	public EspecieHervi(EcosistemaAbstracto ecosistema) {
 		super(ecosistema);
-		this.energia = 250;
+		this.energia = 800;
 		this.vida = 20;
 		this.velocidad = 3;
 		this.random = new Random();
@@ -33,7 +33,12 @@ public class EspecieHervi extends EspecieAbstracta implements IHerbivoro {
 		this.y = random.nextInt(Mundo.ObtenerInstancia().getApp().height);
 
 		PApplet app = Mundo.ObtenerInstancia().getApp();
-		Herviboro = app.loadImage("hervi.png");
+		// se cargan las imagenes del herbivoro sus estados
+		Herviboro = app.loadImage("hervi0.png");
+		Herviboro1 = app.loadImage("hervi1.png");
+		Herviboro2 = app.loadImage("hervi2.png");
+		Herviboro3 = app.loadImage("hervi3.png");
+		Herviboro4 = app.loadImage("hervi4.png");
 
 		int targetX = (int) (Math.random() * 500);
 		int targetY = (int) (Math.random() * 500);
@@ -43,7 +48,6 @@ public class EspecieHervi extends EspecieAbstracta implements IHerbivoro {
 		hb.start();
 	}
 
-	
 	@Override
 	public void comerPlanta(PlantaAbstracta victima) {
 		if (!victima.getClass().toString().equals(this.getClass().toString())) {
@@ -55,10 +59,13 @@ public class EspecieHervi extends EspecieAbstracta implements IHerbivoro {
 					try {
 						if (victima.getClass() == PlantaBuena.class) {
 							PlantaBuena buena = (PlantaBuena) victima;
-							setEstado(EXTASIS);
 							velocidad = 10;
-							energia = +10;
+							energia = 1000;
 							buena.setMostrar(false);
+							
+							if(energia <=1000 && energia>=800){
+								setEstado(EXTASIS);
+							}
 							//Mundo.ObtenerInstancia().getPlantas().remove(victima);
 							System.out.println("ME COMI UNA SUPER PLANTAAAAAAAAAAAAAAAAAAA");
 							//System.out.println(Mundo.ObtenerInstancia().getPlantas().remove(victima));
@@ -69,12 +76,25 @@ public class EspecieHervi extends EspecieAbstracta implements IHerbivoro {
 							if (victima.getClass() == PlantaMala.class) {
 								System.out.println("ME COMI UNA MALAAAAAAAAAAAAA");
 								PlantaMala malita = (PlantaMala) victima;
-								//setEstado(ENFERMO);
 								velocidad = 1;
-								energia = 2;
+								energia -= 5;
 								malita.setMostrar(false);
+								if(energia <=600 && energia >= 450){
+									setEstado(ENVENENADO);
+								}else{
+									if(energia <=450 && energia >= 200){
+										setEstado(ENFERMO);
+									}
+								}
+										if(energia <=200 && energia >= 0){
+											
+										}
+							
+								}
 								//Mundo.ObtenerInstancia().getPlantas().remove(victima);
-							}
+								System.out.println(energia +"ENERGIAAAAAAAAAAAA");
+								
+							//}
 						//}
 					} catch (Exception e) {
 						// TODO: handle exception
@@ -82,16 +102,40 @@ public class EspecieHervi extends EspecieAbstracta implements IHerbivoro {
 
 				}
 			}
-		}
+
+	}
 	}
 
 	@Override
 	public void dibujar() {
 		// TODO Auto-generated method stub
 		PApplet app = Mundo.ObtenerInstancia().getApp();
-		app.image(Herviboro, x, y);
+		switch (estado) {
+
+		case (NORMAL):
+			app.image(Herviboro1, x, y);
+			break;
+
+		case (ENVENENADO):
+			app.image(Herviboro2, x, y);
+			break;
+
+		case (ENFERMO):
+			app.image(Herviboro3, x, y);
+			break;
+
+		case (EXTASIS):
+			app.image(Herviboro, x, y);
+			break;
+
+		case (MUERTO):
+			//app.image(Herviboro3, x, y);
+			
+			break;
+
 		// System.out.println(dir.x);
 		// System.out.println(energia + "ENERGIAAAAAAAAAAAAAAA");
+		}
 	}
 
 	@Override
@@ -133,7 +177,6 @@ public class EspecieHervi extends EspecieAbstracta implements IHerbivoro {
 		}
 	}
 
-	
 	public void buscarPlanta() {
 		List<PlantaAbstracta> todas = Mundo.ObtenerInstancia().getPlantas();
 		for (int i = 0; i < todas.size(); i++) {
@@ -150,7 +193,6 @@ public class EspecieHervi extends EspecieAbstracta implements IHerbivoro {
 		// System.out.println("[id=" + id + ", direcion=" + dir + "]");
 	}
 
-	
 	@Override
 	public boolean recibirDano(EspecieAbstracta lastimador) {
 		if (PApplet.dist(x, y, lastimador.getX(), lastimador.getY()) <= (vida / 2)) {

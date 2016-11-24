@@ -10,6 +10,7 @@ public class PlantaBuena extends PlantaAbstracta {
 	private PImage PlantaB;
 	private int vida;
 	private boolean mostrar = true;
+	
 
 	public PlantaBuena(int x, int y) {
 		super(x,y);
