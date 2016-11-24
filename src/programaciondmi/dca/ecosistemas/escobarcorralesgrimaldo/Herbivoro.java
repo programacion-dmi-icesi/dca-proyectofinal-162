@@ -121,6 +121,7 @@ public class Herbivoro extends EspecieAbstracta implements IHerbivoro, IApareabl
 		int vel = 5;
 		if (ciclo % vel == 0) {
 			PApplet app = Mundo.ObtenerInstancia().getApp();
+			System.out.println("correcion_vistas");
 			
 			herbiVistas[0]= app.loadImage("../data/vistas/Herbi_aba.png");
 			herbiVistas[1]= app.loadImage("../data/vistas/Herbi_arri.png");
