@@ -272,78 +272,10 @@ public class Magusbot extends EspecieAbstracta implements IOmnivoro {
 		return false;
 	}
 
+	@Override
 	public void comerPlanta(PlantaAbstracta victima) {
 		// TODO Auto-generated method stub
-		if (victima.recibirDano(this)) {
-			try {
-				if (victima.getClass() == PlantaMala.class) {
-					PlantaMala m = (PlantaMala) victima;
-					fuerza -= 20;
-					defensa -= 20;
-					vida -= 20;
-					velocidad -= 0.01;
-
-					animonmala = true;
-					animonbuena = false;
-
-					switch (vida) {
-					case 100:
-						setEstado(NORMAL);
-
-						break;
-					case 80:
-						setEstado(ENFERMO);
-						break;
-					case 60:
-						setEstado(EXTASIS);// antes de morir
-						break;
-					case 40:
-						setEstado(MUERTO);
-						animonbuena = false;
-						animonmala = false;
-						break;
-					}
-				}
-
-				if (victima.getClass() == PlantaBuena.class) {
-					PlantaBuena m = (PlantaBuena) victima;
-
-					animonbuena = true;
-					animonmala = false;
-					fuerza += 20;
-					defensa += 20;
-					velocidad += 0.05;
-
-					if (vida <= 80) {
-						vida += 20;
-					}
-
-					switch (vida) {
-					case 100:
-						setEstado(NORMAL);
-
-						break;
-					case 80:
-						setEstado(ENFERMO);
-						break;
-					case 60:
-						setEstado(EXTASIS);
-						break;
-					case 40:
-						setEstado(MUERTO);
-						break;
-					}
-				}
-
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-
-			Mundo.ObtenerInstancia().getPlantas().remove(victima);
-			this.ecosistema.getPlantas().remove(victima);
-			energia += 5;
-		}
+		
 	}
 
 }
