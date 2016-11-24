@@ -33,8 +33,8 @@ public class Birdbot extends EspecieAbstracta implements IApareable, IHerbivoro 
 	public Birdbot(EcosistemaAbstracto ecosistema) {
 		super(ecosistema);
 		this.random = new Random();
-		this.x = 500;//random.nextInt(Mundo.ObtenerInstancia().getApp().width);
-		this.y = 500;//random.nextInt(Mundo.ObtenerInstancia().getApp().height);
+		this.x = random.nextInt(Mundo.ObtenerInstancia().getApp().width);
+		this.y = random.nextInt(Mundo.ObtenerInstancia().getApp().height);
 		this.vida = 100;
 		this.fuerza = 100;
 		this.energia = 250;
@@ -95,6 +95,7 @@ public class Birdbot extends EspecieAbstracta implements IApareable, IHerbivoro 
 		switch (vida) {
 		
 		case 100:
+		
 			app.fill(0,255,0);
 			app.rect(x+05, y-20, 20, 10);
 			app.rect(x+25, y-20, 20, 10);
@@ -129,6 +130,11 @@ public class Birdbot extends EspecieAbstracta implements IApareable, IHerbivoro 
 			break;
 		}
 		
+		
+		if (getEstado() == NORMAL){
+			
+			app.noTint();
+		}
 		if(getEstado() == ENFERMO){
 			
 			app.tint(0,255,0);
@@ -340,6 +346,7 @@ public class Birdbot extends EspecieAbstracta implements IApareable, IHerbivoro 
 					switch (vida) {
 						case 100:
 							setEstado(NORMAL);
+							
 							break;
 						case 80:
 							setEstado(ENFERMO);
@@ -353,13 +360,33 @@ public class Birdbot extends EspecieAbstracta implements IApareable, IHerbivoro 
 					}
 				}
 				
-				/*if(victima.getClass() == PlantaBuena.class){
+				if(victima.getClass() == PlantaBuena.class){
 					PlantaBuena m = (PlantaBuena) victima;
 					setEstado(EXTASIS);
-					fuerza +=5;
-					defensa +=5;
-					vida +=5;
-				}*/
+					fuerza +=20;
+					defensa +=20;
+					if (vida<=80){
+					vida +=20;
+					}	
+					
+					switch (vida) {
+					case 100:
+						setEstado(NORMAL);
+						
+						break;
+					case 80:
+						setEstado(ENFERMO);
+						break;
+					case 60:
+						setEstado(EXTASIS);
+						break;
+					case 40:
+						setEstado(MUERTO);
+						break;
+				}
+				}
+				
+				
 				
 			} catch (Exception e) {
 				// TODO Auto-generated catch block

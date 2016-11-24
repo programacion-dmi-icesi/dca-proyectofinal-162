@@ -45,20 +45,6 @@ public class EcosistemaTikiBots extends EcosistemaAbstracto {
 			}
 		}
 		
-		/*if (app.mousePressed == true){
-			if (app.mouseButton==app.LEFT){
-				// clic derecho agrega plantas buenas
-				tipoPlanta = 1;
-				poblarPlantas();
-				
-			}
-			
-			if(app.mouseButton==app.RIGHT){
-				// clic derecho agrega plantas malas
-				tipoPlanta = 2;
-				poblarPlantas();
-			}
-		}*/
 		
 		if(app.frameCount%30==0){
 			puedeColocar=true;
@@ -75,9 +61,9 @@ public class EcosistemaTikiBots extends EcosistemaAbstracto {
 					
 					System.out.println("coloca planta buena");
 					
-					PlantaMala mala = new PlantaMala(app.mouseX - ((app.width) - camX), (int) (app.mouseY - ((app.height) - camY)));
-					//plantas.add(mala);
-					agregarPlanta(mala);
+					PlantaBuena buena = new PlantaBuena(app.mouseX - ((app.width) - camX), (int) (app.mouseY - ((app.height) - camY)));
+					//plantas.add(buena);
+					agregarPlanta(buena);
 					puedeColocar=false;
 					
 				} else if (app.mouseButton == app.RIGHT) {
@@ -99,7 +85,7 @@ public class EcosistemaTikiBots extends EcosistemaAbstracto {
 	protected LinkedList<EspecieAbstracta> poblarEspecies() {
 		LinkedList<EspecieAbstracta> especies = new LinkedList<EspecieAbstracta>();
 		
-		SaberBot nueva = new SaberBot(this);
+		/*SaberBot nueva = new SaberBot(this);
 		especies.add(nueva);
 		
 		nueva = new SaberBot(this);
@@ -115,7 +101,7 @@ public class EcosistemaTikiBots extends EcosistemaAbstracto {
 		especies.add(cani);
 		
 		cani = new Cannibalbot(this);
-		especies.add(cani);
+		especies.add(cani);*/
 		
 		if(cont == 0){
 			Birdbot ave = new Birdbot(this);
@@ -156,16 +142,16 @@ public class EcosistemaTikiBots extends EcosistemaAbstracto {
 		
 		// TODO Auto-generated method stub
 		
-		SaberBot nueva = new SaberBot(this);
-		especies.add(nueva);	
+		/*SaberBot nueva = new SaberBot(this);
+		especies.add(nueva);*/	
 		
-		if(cont == 0){
+		/*if(cont == 0){
 		Magusbot mago = new Magusbot(this);
 		especies.add(mago);
-		}
+		}*/
 		
-		Cannibalbot cani = new Cannibalbot(this);
-		especies.add(cani);
+		/*Cannibalbot cani = new Cannibalbot(this);
+		especies.add(cani);*/
 		
 		//if(cont == 0){
 			Birdbot ave = new Birdbot(this);
