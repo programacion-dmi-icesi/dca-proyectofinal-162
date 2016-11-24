@@ -23,10 +23,17 @@ public class Omnivoro extends EspecieAbstracta implements IApareable, IOmnivoro 
 	private PVector dir;
 	private int ciclo;
 	private boolean mostrar = true;
-	private boolean destruir = false;
-	private int allUCanEat;
-	private int temporadaApareo;
-	private int tiempoInmune;
+	private boolean destruir = false;// booleano para controlar si muere o no el
+										// personaje
+	private int allUCanEat;// variable usada para controlar un tiempo para poder
+							// comer o esperar
+	private int temporadaApareo;// variable encargda de controlar el tiempo para
+								// aparearse
+	private int tiempoInmune;// variable para controlar el tiempo de
+								// inmunidad
+								// inicial en el programa (se evita que se
+								// eliminen todos los objetos al iniciar el
+								// programa)
 	PImage personaje, envenenado, muerto;
 	PApplet app = Mundo.ObtenerInstancia().getApp();
 
@@ -41,6 +48,7 @@ public class Omnivoro extends EspecieAbstracta implements IApareable, IOmnivoro 
 		int targetY = (int) (Math.random() * 500);
 		cambiarDireccion(new PVector(targetX, targetY));
 
+		// inicio el hilo
 		Thread nt = new Thread(this);
 		nt.start();
 	}
@@ -52,8 +60,17 @@ public class Omnivoro extends EspecieAbstracta implements IApareable, IOmnivoro 
 			try {
 				Thread.sleep(33);
 				ciclo++;
+				// se decrementa la variable para volver a poderse lastimar
 				tiempoInmune--;
-				// System.out.println(estado);
+
+				/*
+				 * Instruccion que se ejecuta una vez el objeto esta en estado
+				 * MUERTO
+				 * 
+				 */
+
+				// si destruir es igual a true, se envia la vida a cero para
+				// cerrar el hilo
 				if (destruir == true) {
 					// mostrar=false;
 					vida = 0;
@@ -74,12 +91,10 @@ public class Omnivoro extends EspecieAbstracta implements IApareable, IOmnivoro 
 
 	}
 
-	@Override
-	public EspecieAbstracta aparear(IApareable apareable) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
+	/*
+	 * Metodo encargado de pintar varias imagenes del personaje dependiendo de
+	 * su estado
+	 */
 	@Override
 	public void dibujar() {
 		personaje = app.loadImage("../img/rep.png");
@@ -88,34 +103,38 @@ public class Omnivoro extends EspecieAbstracta implements IApareable, IOmnivoro 
 
 		if (mostrar) {
 			if (estado == NORMAL) {
-				//app.fill(255, 0, 0);
-				//app.text(vida, x + 17, y + 5);
+				// app.fill(255, 0, 0);
+				// app.text(vida, x + 17, y + 5);
 				app.image(personaje, x, y);
 			}
 
 			if (estado == EXTASIS) {
-				//app.fill(255, 0, 0);
-				//app.text(vida, x + 17, y + 5);
+				// app.fill(255, 0, 0);
+				// app.text(vida, x + 17, y + 5);
 				app.image(personaje, x, y, 70, 70);
 			}
 
 			if (estado == ENVENENADO) {
-				//app.fill(255, 0, 0);
-				//app.text(vida, x + 17, y + 5);
+				// app.fill(255, 0, 0);
+				// app.text(vida, x + 17, y + 5);
 				app.image(envenenado, x, y);
 			}
 
 			if (estado == MUERTO) {
-				//app.fill(255, 0, 0);
-				//app.text(vida, x + 17, y + 5);
+				// app.fill(255, 0, 0);
+				// app.text(vida, x + 17, y + 5);
 				app.image(muerto, x, y);
 			}
 		}
 	}
 
+	/*
+	 * Metodo encargado de mover el personaje por la pantalla
+	 */
 	@Override
 	public void mover() {
 
+		// si el tiempo para aparearse es mayor a cero
 		if (temporadaApareo > 0) {
 			if (ciclo % 70 == 0) {
 				// Definir una direccion aleatoria cada 3 segundos
@@ -127,25 +146,34 @@ public class Omnivoro extends EspecieAbstracta implements IApareable, IOmnivoro 
 			x += dir.x;
 			y += dir.y;
 
+			// busco plantas y especies para comer
 			buscarPlantas();
 			buscarComida();
 		} else {
+			// si es menor a cero busco pareja para aparearse
 			buscarPareja();
 		}
 
+		// decremento la variable para poder volver a comer
 		allUCanEat--;
 
+		// si la variable allUCanEat es menor o igual a cero
+		// envio mi estado a NORMAL y busco comida
+		// tambien empiezo a restar en la varaiable de temporada de apareo
 		if (allUCanEat <= 0) {
 			estado = NORMAL;
 			temporadaApareo--;
 		}
 
+		// si el estado del personaje es "MUERTO" se envia una variable a true
+		// para eliminarlo
 		if (estado == MUERTO) {
 			destruir = true;
 		}
 
 	}
 
+	// metodo encargado de buscar plantas para comer
 	private void buscarPlantas() {
 		List<PlantaAbstracta> todas = Mundo.ObtenerInstancia().getPlantas();
 		for (int i = 0; i < todas.size(); i++) {
@@ -153,10 +181,13 @@ public class Omnivoro extends EspecieAbstracta implements IApareable, IOmnivoro 
 		}
 	}
 
+	// metodo apra buscar parejas para aparearse
 	public void buscarPareja() {
 		List<EspecieAbstracta> todas = Mundo.ObtenerInstancia().getEspecies();
 		for (int i = 0; i < todas.size(); i++) {
+			// si la distancia a la pareja es menor a 500
 			if (PApplet.dist(x, y, todas.get(i).getX(), todas.get(i).getY()) < 500) {
+				// me acerco
 				if (todas.get(i).getClass().toString().equals(this.getClass().toString())) {
 					if (x < todas.get(i).getX()) {
 						x += 5;
@@ -174,13 +205,16 @@ public class Omnivoro extends EspecieAbstracta implements IApareable, IOmnivoro 
 						y -= 5;
 					}
 
+					// si la distancia es menor a 5
 					if (PApplet.dist(x, y, todas.get(i).getX(), todas.get(i).getY()) < 5) {
+						// deposito hijos
 						Hijos hijo = new Hijos(ecosistema);
 						Hijos hijo2 = new Hijos(ecosistema);
 						hijo.setX(x);
 						hijo.setY(y);
 						hijo2.setX(x + 18);
 						hijo2.setY(y + 5);
+						// se agregan al ecosistema
 						ecosistema.agregarEspecie(hijo);
 						ecosistema.agregarEspecie(hijo2);
 						temporadaApareo = 1000;
@@ -193,6 +227,13 @@ public class Omnivoro extends EspecieAbstracta implements IApareable, IOmnivoro 
 		}
 	}
 
+	/*
+	 * MEtodo encargado de recibir daño si la distancia es menor a 30 y el
+	 * tiempoInmune es menor o igual a cero si mi estado es diferente de muerto
+	 * resto 5 en la variable vida Si mi estado es NORMAL cambio el estado del
+	 * lastimador a EXTASIS Si mi estado es ENVENENADO envio el estado del
+	 * lastionmador a ENVENENADO
+	 */
 	@Override
 	public boolean recibirDano(EspecieAbstracta lastimador) {
 		if (PApplet.dist(x, y, lastimador.getX(), lastimador.getY()) <= 30 && tiempoInmune <= 0) {
@@ -216,6 +257,7 @@ public class Omnivoro extends EspecieAbstracta implements IApareable, IOmnivoro 
 		return false;
 	}
 
+	// metodo encargado del cambio de direccion del personaje al moverse
 	private void cambiarDireccion(PVector target) {
 		PVector location = new PVector(x, y);
 		dir = PVector.sub(target, location);
@@ -223,6 +265,11 @@ public class Omnivoro extends EspecieAbstracta implements IApareable, IOmnivoro 
 		dir.mult(velocidad);
 	}
 
+	/*
+	 * instrucciones para comer individuos dependiendo de sus interfaces se
+	 * envenena si la victima esta enferma y si no esta enferma lo envia a
+	 * estado EXTASIS
+	 */
 	@Override
 	public void comer(EspecieAbstracta victima) {
 		if (!victima.getClass().toString().equals(this.getClass().toString())) {
@@ -282,6 +329,7 @@ public class Omnivoro extends EspecieAbstracta implements IApareable, IOmnivoro 
 		}
 	}
 
+	// metodo para buscar especies para comer
 	public void buscarComida() {
 		List<EspecieAbstracta> todas = Mundo.ObtenerInstancia().getEspecies();
 		for (int i = 0; i < todas.size(); i++) {
@@ -289,19 +337,27 @@ public class Omnivoro extends EspecieAbstracta implements IApareable, IOmnivoro 
 		}
 	}
 
+	public EspecieAbstracta aparear(IApareable apareable) {
+		return null;
+	}
+
+	// Metodo encargado de comer las plantas
+	// Si la clase de la victima es diferente a la mia
+	// Si la planta es mala paso a estado ENVENENADO y mi velocidad se reduce a
+	// 2
+	// si la plana es buena paso a estado EXTASIS y aumenta mi velocidad a 5
 	@Override
 	public void comerPlanta(PlantaAbstracta victima) {
 		if (!victima.getClass().toString().equals(this.getClass().toString())) {
 			if (victima.recibirDano(this)) {
-				Mundo.ObtenerInstancia().getPlantas().remove(victima);
 				try {
 					if (victima.getClass() == PlantaMala.class) {
-						setEstado(ENVENENADO);
+						estado = ENVENENADO;
 						velocidad = 2;
-						vida -= 10;
+						// vida -= 5;
 					}
 					if (victima.getClass() == PlantaBuena.class) {
-						setEstado(EXTASIS);
+						estado = EXTASIS;
 						velocidad = 8;
 					}
 				} catch (Exception e) {

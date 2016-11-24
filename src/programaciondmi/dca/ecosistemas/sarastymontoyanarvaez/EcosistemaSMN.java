@@ -15,14 +15,15 @@ import programaciondmi.dca.ejecucion.Mundo;
 
 public class EcosistemaSMN extends EcosistemaAbstracto {
 	PApplet app = Mundo.ObtenerInstancia().getApp();
-	ArrayList<Animaciones> anim;
+	private ArrayList<Animaciones> anim;
 
 	public EcosistemaSMN() {
 		super();
 
-		/* Instrucciones para agregar el boton del logo
-		 * */
-		
+		/*
+		 * Instrucciones para agregar el boton del logo
+		 */
+
 		Mundo ref = Mundo.ObtenerInstancia();
 		LogoSMN bot = new LogoSMN("img/Logo-01.svg", this);
 		ref.agregarBoton(bot);
@@ -38,37 +39,43 @@ public class EcosistemaSMN extends EcosistemaAbstracto {
 				EspecieAbstracta actual = iteradorEspecies.next();
 				actual.dibujar();
 			}
-			
-			/*Metodo para remover los objetos que ya estan inactivos
-			 * Agrego un objeto de tipo animacion 
+
+			/*
+			 * Metodo para remover los objetos que ya estan inactivos Agrego un
+			 * objeto de tipo animacion
 			 */
 
 			for (int i = 0; i < especies.size(); i++) {
+				
+				//si el estado del objeto es igual a 4 (MUERTO)
 				if (especies.get(i).getEstado() == 4) {
-					// System.out.println(especies.size());
 					// System.out.println(especies.get(i).getClass().toString());
-					if (especies.get(i).getClass().toString().equals("class programaciondmi.dca.ecosistemas.sarastymontoyanarvaez.Herviboro")) {
-						System.out.println("imprime");
+					
+					/**
+					 * Si el objeto de tipo especie pertenece a la clase Herviboro
+					 * Agrego un objeto Animacion en las posiciones X y Y del personaje
+					 */
+					if (especies.get(i).getClass().toString()
+							.equals("class programaciondmi.dca.ecosistemas.sarastymontoyanarvaez.Herviboro")) {
 						anim.add(new Animaciones(app, especies.get(i).getX(), especies.get(i).getY(), 1));
 					}
 
 					if (especies.get(i).getClass().toString()
 							.equals("class programaciondmi.dca.ecosistemas.sarastymontoyanarvaez.Carnivoro")) {
-						System.out.println("imprime");
 						anim.add(new Animaciones(app, especies.get(i).getX(), especies.get(i).getY(), 2));
 					}
+
 					if (especies.get(i).getClass().toString()
 							.equals("class programaciondmi.dca.ecosistemas.sarastymontoyanarvaez.Omnivoro")) {
-						System.out.println("imprime");
 						anim.add(new Animaciones(app, especies.get(i).getX(), especies.get(i).getY(), 3));
 					}
 
 					if (especies.get(i).getClass().toString()
 							.equals("class programaciondmi.dca.ecosistemas.sarastymontoyanarvaez.Canibal")) {
-						System.out.println("imprime");
 						anim.add(new Animaciones(app, especies.get(i).getX(), especies.get(i).getY(), 4));
 					}
 					
+					//de esta manera remuevo los objetos de tipo especie que ya estan muertos
 					especies.remove(i);
 				}
 			}
@@ -80,24 +87,16 @@ public class EcosistemaSMN extends EcosistemaAbstracto {
 				PlantaAbstracta actual = iteradorPlantas.next();
 				actual.dibujar();
 			}
-
-			for (int i = 0; i < plantas.size(); i++) {
-				// System.out.println(plantas.size());
-				/*
-				 * PlantaBuena plantaVerde = new PlantaBuena(this);
-				 * if(plantaVerde.getCantidad()<=2){
-				 * plantas.remove(plantaVerde); }
-				 */
-			}
-
 		}
 
-		/*metodos de pintar y mover de los objetos de ArrayList de la animacion
+		/*
+		 * metodos de pintar y mover de los objetos del ArrayList de la
+		 * animacion
 		 * 
 		 */
-		
+
 		for (int i = 0; i < anim.size(); i++) {
-			System.out.println(anim.size());
+			//System.out.println(anim.size());
 			anim.get(i).pintar();
 			anim.get(i).mover();
 
@@ -108,6 +107,10 @@ public class EcosistemaSMN extends EcosistemaAbstracto {
 
 	}
 
+	/**Metodo encargado de agregar las especies iniciales
+	 * 
+	 */
+	
 	@Override
 	protected LinkedList<EspecieAbstracta> poblarEspecies() {
 		LinkedList<EspecieAbstracta> especies = new LinkedList<EspecieAbstracta>();
@@ -118,18 +121,22 @@ public class EcosistemaSMN extends EcosistemaAbstracto {
 
 			Carnivoro carn = new Carnivoro(this);
 			especies.add(carn);
-			
+
 			Canibal come = new Canibal(this);
 			especies.add(come);
 
 			Omnivoro rep = new Omnivoro(this);
 			especies.add(rep);
-			
 		}
 
 		return especies;
 	}
 
+	
+/*
+ * Metodo encargado de agregar las plantas iniciales en el mapa
+ * 
+ */
 	@Override
 	protected LinkedList<PlantaAbstracta> poblarPlantas() {
 		LinkedList<PlantaAbstracta> plantas = new LinkedList<PlantaAbstracta>();
@@ -143,12 +150,13 @@ public class EcosistemaSMN extends EcosistemaAbstracto {
 		return plantas;
 	}
 
-	
-	/*Este metodo es el que sirve para generar nuevos individuos
-	 * (non-Javadoc)
+	/*
+	 * Este metodo es el que sirve para generar nuevos individuos (non-Javadoc)
+	 * Genera nuevos individuos cada cierto tiempo
+	 * 
 	 * @see programaciondmi.dca.core.EcosistemaAbstracto#generarIndividuos()
 	 */
-	
+
 	@Override
 	protected List<EspecieAbstracta> generarIndividuos() {
 		LinkedList<EspecieAbstracta> especies = new LinkedList<EspecieAbstracta>();
@@ -160,14 +168,14 @@ public class EcosistemaSMN extends EcosistemaAbstracto {
 
 		Carnivoro carn = new Carnivoro(this);
 		especies.add(carn);
-		
+
 		Omnivoro rep = new Omnivoro(this);
 		especies.add(rep);
 
 		Canibal come = new Canibal(this);
 		especies.add(come);
 
-
+		//de esta manera logramos hacer que los objetos fueran reconocidos a la hora de interactuar
 		agregarEspecie(herb);
 		agregarEspecie(herb2);
 		agregarEspecie(carn);
@@ -176,15 +184,13 @@ public class EcosistemaSMN extends EcosistemaAbstracto {
 
 		return especies;
 	}
-	
-	/*Metodo para agregar plantas
-	 * Click Derecho apara agregar plantas malas
+
+	/*
+	 * Metodo para agregar plantas 
+	 * Click Derecho para agregar plantas malas
 	 * Click izquierdo para agregar plantas buenas
 	 * 
-	 * (non-Javadoc)
-	 * @see programaciondmi.dca.core.EcosistemaAbstracto#generarPlantas()
 	 */
-
 	@Override
 	protected List<PlantaAbstracta> generarPlantas() {
 		LinkedList<PlantaAbstracta> plantas = new LinkedList<PlantaAbstracta>();

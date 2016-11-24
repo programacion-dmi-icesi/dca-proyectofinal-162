@@ -15,6 +15,8 @@ public class LogoSMN extends LogoAbstracto {
 		// TODO Auto-generated constructor stub
 	}
 
+	// metodo encargado de reconocer el click sobre el logo
+	// al hacer click se activa el metodo generarPlantas del ecosistemaSMN
 	@Override
 	public void click() {
 		// TODO Auto-generated method stub
