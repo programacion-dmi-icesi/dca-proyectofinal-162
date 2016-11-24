@@ -36,17 +36,6 @@ public class Omnivoro extends EspecieAbstracta implements IOmnivoro{
 			try {
 				Thread.sleep(15);
 				ciclo++;
-				PApplet app = Mundo.ObtenerInstancia().getApp();
-
-				ballX = (float) (ballX + 10.8 * ballXDirection);
-				ballY = (float) (ballY + 8.8 * ballYDirection);
-
-				if (ballX > app.width - 25 || ballX < 25) {
-					ballXDirection *= -1;
-				}
-				if (ballY > app.height - 25 || ballY < 25) {
-					ballYDirection *= -1;
-				}
 			} catch (Exception e) {
 
 			}

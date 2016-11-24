@@ -12,6 +12,7 @@ public class Carnivoro extends EspecieAbstracta implements ICarnivoro {
 
 	private int vida, velocidad;
 	private int ciclo;
+	private Mundo m;
 
 	private float ballX = 50, ballY = 50;
 	private int ballXDirection = 1, ballYDirection = -1;
@@ -39,15 +40,6 @@ public class Carnivoro extends EspecieAbstracta implements ICarnivoro {
 			try {
 				Thread.sleep(1);
 				ciclo++;
-				xP += vX;
-				yP += vY;
-
-				if ((xP <= 5) || (xP >= 1000)) {
-					vX *= -1;
-				}
-				if ((yP <= 5) || (yP >= 1000)) {
-					vY *= -1;
-				}
 			} catch (Exception e) {
 
 			}
@@ -71,10 +63,10 @@ public class Carnivoro extends EspecieAbstracta implements ICarnivoro {
 			ballX = (float) (ballX + 10.8 * ballXDirection);
 			ballY = (float) (ballY + 8.8 * ballYDirection);
 
-			if (ballX > app.width - 25 || ballX < 25) {
+			if (ballX > app.width - 25 || ballX < -100) {
 				ballXDirection *= -1;
 			}
-			if (ballY > app.height - 25 || ballY < 25) {
+			if (ballY > app.height - 25 || ballY < -100) {
 				ballYDirection *= -1;
 			}
 
@@ -100,6 +92,7 @@ public class Carnivoro extends EspecieAbstracta implements ICarnivoro {
 				}
 				if (vida == 0) {
 					lastimador.setEstado(MUERTO);
+					
 					//boolean esta = Mundo.ObtenerInstancia().getEspecies().remove(lastimador);
 				}
 
